@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="in.neer24.neer24.Fragments.CheckoutFragment">
+
+<!-- TODO: Update blank fragment layout -->
+<ListView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="none"
+    android:id="@+id/checkoutFragmentListViews">
+</ListView>
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginTop="5dp"
+    android:id="@+id/totalCheckoutFragmentTextView"
+    android:layout_below="@+id/checkoutFragmentListViews"/>
+</RelativeLayout>
+

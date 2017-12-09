@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="in.neer24.neer24.Activities.CheckoutActivity">
+
+<android.support.v7.widget.Toolbar
+    android:id="@+id/checkoutActivityToolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:background="?attr/colorPrimary"
+    android:minHeight="?attr/actionBarSize"
+    android:theme="?attr/actionBarTheme" />
+
+<TextView
+    android:id="@+id/checkoutActivityCartSummaryTextView"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:paddingLeft="8dp"
+    android:text="Cart Summary"
+    android:layout_below="@+id/checkoutActivityToolbar" />
+
+<Button
+    android:layout_width="match_parent"
+    android:layout_alignParentBottom="true"
+    android:text="Proceed To Pay"
+    android:layout_height="40dp" />
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+
+    android:layout_below="@+id/checkoutActivityCartSummaryTextView"
+    android:id="@+id/cartFragmentContainer">
+
+</RelativeLayout>
+
+</RelativeLayout>

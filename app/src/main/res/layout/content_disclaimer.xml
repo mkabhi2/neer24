@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="in.neer24.neer24.Activities.DisclaimerActivity"
+    tools:showIn="@layout/activity_disclaimer">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Neer24 provides delivery of sealed drinking water cans at your doorstep. Neer24 procures these sealed water cans from various suppliers. The suppliers include local RO water plants in your area and some well-known brands. The suppliers are solely responsible for the quality and quantity of water present in these water cans. Neer24 acts as a delivery service provider in between the supplier and you, the end user.
+Neer24 delivers water cans of only those brands which pass our quality and purity tests. Neer24 performs quality tests on every batch of sealed bottles received. Every time a new batch of sealed bottles arrive, one random bottle is chosen and quality tests are performed on it.
+For your surety, we specify the quality of each brand and each batch of water cans in our app.
+"
+            android:textSize="16sp"
+            android:padding="17dp"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
