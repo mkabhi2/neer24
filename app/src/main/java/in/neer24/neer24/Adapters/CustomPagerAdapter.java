@@ -34,9 +34,10 @@ public class CustomPagerAdapter extends PagerAdapter {
     }
     @Override
     public Object instantiateItem(ViewGroup container, int position){
+
         layoutInflater=(LayoutInflater)ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View item_view=layoutInflater.inflate(R.layout.swipe_layout,container,false);
-        ImageView imageView=(ImageView)item_view.findViewById(R.id.imageView);
+        ImageView imageView=(ImageView)item_view.findViewById(R.id.iv_productImage);
         imageView.setImageResource(slide_images[position]);
         container.addView(item_view);
         return item_view;

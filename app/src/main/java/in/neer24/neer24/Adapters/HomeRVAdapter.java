@@ -46,13 +46,13 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
         public ViewHolder(View itemView) {
 
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.textView_name);
-            description = (TextView) itemView.findViewById(R.id.textView_des);
-            price = (TextView) itemView.findViewById(R.id.textView_price);
-            image = (ImageView) itemView.findViewById(R.id.imageView);
-            increaseByOne =(Button)itemView.findViewById(R.id.increaseByOneCheckoutListViewButton);
-            decreaseByOne=(Button)itemView.findViewById(R.id.decreaseByOneCheckoutListViewButton);
-            displayItemCount=(Button) itemView.findViewById(R.id.addCheckoutListViewButton);
+            name = (TextView) itemView.findViewById(R.id.tv_productName);
+            description = (TextView) itemView.findViewById(R.id.tv_productQuality);
+            price = (TextView) itemView.findViewById(R.id.tv_productPrice);
+            image = (ImageView) itemView.findViewById(R.id.iv_productImage);
+            increaseByOne =(Button)itemView.findViewById(R.id.btn_qty_increase);
+            decreaseByOne=(Button)itemView.findViewById(R.id.btn_qty_decrease);
+            displayItemCount=(Button) itemView.findViewById(R.id.btn_order_or_qty);
         }
     }
 
@@ -79,23 +79,22 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
         final Button decreaseByOneBT = holder.decreaseByOne;
         final Button displayItemCountBT = holder.displayItemCount;
 
-        nameTV.setText(can.getName());
+        nameTV.setText(can.getName() + " 20 L");
         Double temPrice = new Double(can.getPrice());
-        priceTV.setText(temPrice.toString());
-        if(can.getName().equalsIgnoreCase("aquasure")){
-            photoIV.setImageResource(R.drawable.aquasure);
-        }
-        if(can.getName().equalsIgnoreCase("bisleri")) {
-            photoIV.setImageResource(R.drawable.bisleri);
-        }
-        if(can.getName().equalsIgnoreCase("dispencer")) {
-            photoIV.setImageResource(R.drawable.dispencer);
-        }
-        if(can.getName().equalsIgnoreCase("kinley")) {
-            photoIV.setImageResource(R.drawable.kinley);
-        }
-        if(can.getName().equalsIgnoreCase("normal")) {
-            photoIV.setImageResource(R.drawable.normal);
+        priceTV.setText("Rs. " + temPrice.toString());
+
+        String canName = can.getName().toLowerCase();
+        switch(canName){
+            case "aquasure" : photoIV.setImageResource(R.drawable.aquasure);
+                              break;
+            case "bisleri"  : photoIV.setImageResource(R.drawable.bisleri);
+                              break;
+            case "despenser": photoIV.setImageResource(R.drawable.dispencer);
+                              descriptionTV.setVisibility(View.INVISIBLE);
+                              break;
+            case "kinley"   : photoIV.setImageResource(R.drawable.kinley);
+                              break;
+            default         : photoIV.setImageResource(R.drawable.normal);
         }
         //Picasso.with(mContext).load(can.getPhoto()).into(photoIV);
 

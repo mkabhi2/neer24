@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import in.neer24.neer24.Adapters.ScheduleRVAdapter;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RVItemClickListener;
+import in.neer24.neer24.Utilities.RVItemDecoration;
 
 public class ScheduleDeliveryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -47,6 +49,7 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
     public void setUpRecyclerView(final RecyclerView recyclerView){
 
         recyclerView.setAdapter(new ScheduleRVAdapter(allCans, this));
+        recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
         recyclerView.addOnItemTouchListener(
                 new RVItemClickListener(this, new RVItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, final int position) {

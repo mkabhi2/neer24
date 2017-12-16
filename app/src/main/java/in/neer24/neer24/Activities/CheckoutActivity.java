@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.widget.TextView;
 
@@ -13,7 +12,6 @@ import in.neer24.neer24.R;
 
 public class CheckoutActivity extends AppCompatActivity {
 
-    private Toolbar checkoutActivityToolbar;
     private TextView cartSummaryTextView;
     // private TextView checkoutActivityTotalCartValueTextView;
 
@@ -22,7 +20,6 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
-        checkoutActivityToolbar=(Toolbar)findViewById(R.id.checkoutActivityToolbar);
         cartSummaryTextView=(TextView)findViewById(R.id.checkoutActivityCartSummaryTextView);
         //checkoutActivityTotalCartValueTextView=(TextView)findViewById(R.id.checkoutActivityTotalCartValueTextView);
         cartSummaryTextView.setGravity(Gravity.CENTER_VERTICAL);

@@ -37,4 +37,6 @@
 
     <color name="black_overlay">#66000000</color>
 
+    <color name="app_color">#36ABE1</color>
+
 </resources>

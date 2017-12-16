@@ -31,7 +31,7 @@ tools:context="in.neer24.neer24.Activities.OTPActivity">
 <ImageView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/imageView"
+    android:id="@+id/iv_productImage"
     android:src="@drawable/firstactivityimage"
     android:layout_marginTop="48dp"
     android:layout_below="@+id/textView2"

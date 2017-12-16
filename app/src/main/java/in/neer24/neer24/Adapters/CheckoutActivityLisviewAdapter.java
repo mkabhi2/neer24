@@ -56,7 +56,7 @@ public class CheckoutActivityLisviewAdapter extends BaseAdapter {
         final Button decreaseByOneCheckoutListView=(Button)view.findViewById(R.id.decreaseByOneCheckoutListView);
         final Button quantityCheckoutListView = (Button)view.findViewById(R.id.quantityCheckoutListView);
         final TextView showAmountCheckoutListView=(TextView)view.findViewById(R.id.showAmountCheckoutListView);
-        final ImageView photoIV = (ImageView) view.findViewById(R.id.imageView);
+        final ImageView photoIV = (ImageView) view.findViewById(R.id.iv_productImage);
 
         if(can.getName().equalsIgnoreCase("aquasure")){
             photoIV.setImageResource(R.drawable.aquasure);

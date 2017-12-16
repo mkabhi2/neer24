@@ -39,10 +39,10 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<ScheduleRVAdapter.Vi
         public ViewHolder(View itemView) {
 
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.textView_name);
-            description = (TextView) itemView.findViewById(R.id.textView_des);
-            price = (TextView) itemView.findViewById(R.id.textView_price);
-            image = (ImageView) itemView.findViewById(R.id.imageView);
+            name = (TextView) itemView.findViewById(R.id.tv_productName);
+            description = (TextView) itemView.findViewById(R.id.tv_productQuality);
+            price = (TextView) itemView.findViewById(R.id.tv_productPrice);
+            image = (ImageView) itemView.findViewById(R.id.iv_productImage);
         }
     }
 
@@ -67,23 +67,22 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<ScheduleRVAdapter.Vi
         TextView descriptionTV = holder.description;
         ImageView photoIV = holder.image;
 
-        nameTV.setText(can.getName());
+        nameTV.setText(can.getName() + " 20 L");
         Double temPrice = new Double(can.getPrice());
-        priceTV.setText(temPrice.toString());
-        if(can.getName().equalsIgnoreCase("aquasure")){
-            photoIV.setImageResource(R.drawable.aquasure);
-        }
-        if(can.getName().equalsIgnoreCase("bisleri")) {
-            photoIV.setImageResource(R.drawable.bisleri);
-        }
-        if(can.getName().equalsIgnoreCase("dispencer")) {
-            photoIV.setImageResource(R.drawable.dispencer);
-        }
-        if(can.getName().equalsIgnoreCase("kinley")) {
-            photoIV.setImageResource(R.drawable.kinley);
-        }
-        if(can.getName().equalsIgnoreCase("normal")) {
-            photoIV.setImageResource(R.drawable.normal);
+        priceTV.setText("Rs. " + temPrice.toString());
+
+        String canName = can.getName().toLowerCase();
+        switch(canName){
+            case "aquasure" : photoIV.setImageResource(R.drawable.aquasure);
+                break;
+            case "bisleri"  : photoIV.setImageResource(R.drawable.bisleri);
+                break;
+            case "despenser": photoIV.setImageResource(R.drawable.dispencer);
+                descriptionTV.setVisibility(View.INVISIBLE);
+                break;
+            case "kinley"   : photoIV.setImageResource(R.drawable.kinley);
+                break;
+            default         : photoIV.setImageResource(R.drawable.normal);
         }
         //Picasso.with(mContext).load(can.getPhoto()).into(photoIV);
     }

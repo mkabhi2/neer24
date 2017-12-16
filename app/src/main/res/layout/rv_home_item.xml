@@ -3,48 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="1dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     android:background="@drawable/shadow">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_productImage"
         android:layout_width="70dp"
         android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="16dp"
         app:srcCompat="@mipmap/ic_launcher"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:scaleType="centerCrop"/>
 
     <LinearLayout
         android:id="@+id/textviews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_toRightOf="@id/imageView">
+        android:layout_toRightOf="@id/iv_productImage">
         <TextView
-            android:id="@+id/textView_name"
-            android:text="TextView1"
-            android:textSize="16dp"
+            android:id="@+id/tv_productName"
+            android:text="Bottle"
+            android:textSize="17sp"
             android:textColor="#000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp" />
+
+        <!--
         <TextView
-            android:id="@+id/textView_des"
+            android:id="@+id/tv_productVolume_and_quality"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView2"
-            android:layout_marginTop="11dp" />
+            android:text="20L Can"
+            android:textSize="13sp"
+            android:layout_marginTop="5dp" />
+           -->
 
         <TextView
-            android:id="@+id/textView_price"
+            android:id="@+id/tv_productQuality"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView3"
+            android:text="TDS : 0.01 ppm"
+            android:textSize="13sp"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_productPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="price"
             android:textColor="#000"
-            android:layout_marginBottom="15dp" />
+            android:layout_marginTop="5dp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -53,33 +66,37 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/textviews"
-        android:paddingLeft="10dp">
+        android:paddingLeft="20dp">
 
 
         <Button
-            android:id="@+id/decreaseByOneCheckoutListViewButton"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_qty_decrease"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:text="-"
             android:textSize="17sp"
-            android:background="#ff0099cc"/>
+            android:layout_marginRight="5dp"
+            android:background="#36ABE1"/>
 
         <Button
-            android:id="@+id/addCheckoutListViewButton"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_order_or_qty"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
             android:text="ORDER"
-            android:background="#33FFFF" />
+            android:layout_marginRight="5dp"
+            android:background="#36ABE1"
+
+            />
 
         <Button
-            android:id="@+id/increaseByOneCheckoutListViewButton"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
+            android:id="@+id/btn_qty_increase"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="+"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:background="#36ABE1"/>
 
 
     </LinearLayout>

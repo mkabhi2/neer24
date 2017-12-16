@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -26,6 +27,7 @@ import in.neer24.neer24.Adapters.HomeRVAdapter;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.Cart;
 import in.neer24.neer24.R;
+import in.neer24.neer24.Utilities.RVItemDecoration;
 
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -48,6 +50,7 @@ public class HomeScreenActivity extends AppCompatActivity
         setContentView(R.layout.activity_home_screen);
 
         checkoutButton=(Button)findViewById(R.id.dishActivityCheckoutButton);
+        checkoutButton.setBackgroundColor(getResources().getColor(R.color.app_color));
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +60,7 @@ public class HomeScreenActivity extends AppCompatActivity
         });
 
         cartSummary=(TextView)findViewById(R.id.dishActivityCartSummaryTextView);
+        cartSummary.setBackgroundColor(getResources().getColor(R.color.app_color));
         cartSummary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +93,7 @@ public class HomeScreenActivity extends AppCompatActivity
     public void setUpRecyclerView(RecyclerView recyclerView){
 
         recyclerView.setAdapter(new HomeRVAdapter(cansList, this));
+        recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
     }
 
     public void setUpNavigationDrawer(Toolbar toolbar){

@@ -545,7 +545,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         EditText passwordEditText = new EditText(this);
         passwordEditText.setId(View.generateViewId());
-        lparams.height = 128;
+        lparams.height = 130;
 
         lparams.addRule(RelativeLayout.BELOW, R.id.emailEditText);
         lparams.setMargins(0, 20, 0, 0);

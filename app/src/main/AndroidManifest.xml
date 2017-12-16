@@ -92,7 +92,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.OTPActivity" />
         <activity android:name=".Activities.UserProfileActivity" />
-        <activity android:name=".Activities.CheckoutActivity"></activity>
+        <activity
+            android:name=".Activities.CheckoutActivity"
+            android:label="Checkout"
+            android:parentActivityName=".Activities.HomeScreenActivity">
+        </activity>
     </application>
 
 </manifest>
