@@ -33,6 +33,7 @@ import in.neer24.neer24.BuildConfig;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
+import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,6 +60,8 @@ public class FirstActivity extends AppCompatActivity {
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
 
+    SharedPreferenceUtility sharedPreferenceUtility;
+
     int warehouseID;
 
     @Override
@@ -66,6 +69,8 @@ public class FirstActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
+
+        sharedPreferenceUtility=new SharedPreferenceUtility(this);
 
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         editor = sharedPref.edit();
@@ -77,6 +82,8 @@ public class FirstActivity extends AppCompatActivity {
         mLatitudeLabel = getResources().getString(R.string.latitude_label);
         mLongitudeLabel = getResources().getString(R.string.longitude_label);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+
     }
 
     @Override
@@ -99,30 +106,34 @@ public class FirstActivity extends AppCompatActivity {
             getCansListForWarehouse(warehouseID);
         }
 
-        launchNextActivity();
+        pauseActivityForTwoSeconds();
 
     }
 
+    public void pauseActivityForTwoSeconds(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+            launchNextActivity();
+                finish();
+            }
+        }, 5000);
+    }
+
     private void launchNextActivity(){
-        if(sharedPref.getBoolean("isFirstLaunch", true)) {
 
-            editor.putBoolean("isFirstLaunch", false);
-            editor.commit();
-
-            delayActivity();
+        if(sharedPreferenceUtility.getFirstTimeLaunch()){
+            sharedPreferenceUtility.setFirstTimeLaunch(false);
 
             Intent intent = new Intent(FirstActivity.this, WelcomeActivity.class);
             startActivity(intent);
 
         }else {
-
-            if(sharedPref.getBoolean("isLoggedIn",false)) {
+            if(sharedPreferenceUtility.loggedIn()) {
                 //take to home page
-                delayActivity();
                 Intent intent = new Intent(FirstActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
             }else {
-                delayActivity();
                 Intent intent = new Intent(FirstActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -152,12 +163,11 @@ public class FirstActivity extends AppCompatActivity {
                             currentLongitude=String.format(Locale.ENGLISH, "%s: %f",
                                     mLongitudeLabel,
                                     mLastLocation.getLongitude());
-
-
                         } else {
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar(getString(R.string.no_location_detected));
                         }
+
                     }
                 });
     }

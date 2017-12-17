@@ -3,75 +3,21 @@
 
     <item
         is-multidex="false"
-        jar="/Users/abhmishr/Desktop/neer24/neer24/app/libs/activation.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.2"
-        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
-        <dex dex="/Users/abhmishr/Desktop/neer24/neer24/app/build/intermediates/pre-dexed/debug/activation_8db8adf557a86781e72d52068cef4a57a8b7809e.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/abhmishr/Documents/copper3/neer242/app/libs/additionnal.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
-        <dex dex="/Users/abhmishr/Documents/copper3/neer242/app/build/intermediates/transforms/dex/debug/folders/1000/2/additionnal_ff9eb7e90edd15ea2b335ddc13e3cd0e950b3cf4/classes.dex" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/abhmishr/Documents/copper3/neer242/app/libs/additionnal.jar"
+        jar="C:\Users\vijaysingh\Desktop\Neer 24 v 1.1\neer24\app\libs\additionnal.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.2"
         sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
-        <dex dex="/Users/abhmishr/Documents/copper3/neer242/app/build/intermediates/pre-dexed/debug/additionnal_ff9eb7e90edd15ea2b335ddc13e3cd0e950b3cf4.jar" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/abhmishr/Documents/copper3/neer242/app/libs/activation.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
-        <dex dex="/Users/abhmishr/Documents/copper3/neer242/app/build/intermediates/transforms/dex/debug/folders/1000/2/activation_5bc817f369b916fdd93f37ad5e72f5786a674b38/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/abhmishr/Documents/copper3/neer242/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="e3df787818104830043a41e166b6f8ea7ce51ab7">
-        <dex dex="/Users/abhmishr/Documents/copper3/neer242/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_4aed3d37aa530f56d9acf38929532c70c3548646/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/abhmishr/Documents/copper3/neer242/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="26.0.2"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="/Users/abhmishr/Documents/copper3/neer242/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_f3db42bfc3fd5255d52186f7b66f9a04a6d91265/classes.dex" />
+        <dex dex="C:\Users\vijaysingh\Desktop\Neer 24 v 1.1\neer24\app\build\intermediates\pre-dexed\debug\additionnal_039bb95312e24d7ec4ea78c173f95adf27e11be0.jar" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/abhmishr/Documents/copper3/neer242/app/libs/activation.jar"
+        jar="C:\Users\vijaysingh\Desktop\Neer 24 v 1.1\neer24\app\libs\activation.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.2"
         sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
-        <dex dex="/Users/abhmishr/Documents/copper3/neer242/app/build/intermediates/pre-dexed/debug/activation_5bc817f369b916fdd93f37ad5e72f5786a674b38.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/abhmishr/Desktop/neer24/neer24/app/libs/additionnal.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.2"
-        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
-        <dex dex="/Users/abhmishr/Desktop/neer24/neer24/app/build/intermediates/pre-dexed/debug/additionnal_de25004b28fcfc43e2589d7cfe264f4c6b820419.jar" />
+        <dex dex="C:\Users\vijaysingh\Desktop\Neer 24 v 1.1\neer24\app\build\intermediates\pre-dexed\debug\activation_2ea509a29a81ecc0c356e8d35741f52be1ba4e28.jar" />
     </item>
 
 </items>

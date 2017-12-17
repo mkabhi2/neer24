@@ -60,6 +60,7 @@ import java.util.Map;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.AsteriskTransformationMethod;
 import in.neer24.neer24.Utilities.BlurImage;
+import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 import in.neer24.neer24.Utilities.UtilityClass;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener,GoogleApiClient.OnConnectionFailedListener {
@@ -85,6 +86,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressBar progressBar;
     private Button gmailButton;
     private SignInButton signInButton;
+
+    SharedPreferenceUtility sharedPreferenceUtility;
 
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
@@ -126,6 +129,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         facebookButton = (Button) findViewById(R.id.facebookButton);
         progressBar=(ProgressBar) findViewById(R.id.progressBar1);
         progressBar.setVisibility(View.GONE);
+
+        sharedPreferenceUtility=new SharedPreferenceUtility(this);
 
 
         nextButton.setOnClickListener(this);
@@ -286,19 +291,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
 
             }else {
-                editor.putBoolean("isLoggedIn",true);
-                editor.commit();
-                String tempString[]=result.split(",");
-                editor.putString("EMAIL", tempString[0]);
-                editor.commit();
-                editor.putString("ID", tempString[1]);
-                editor.commit();
-//                editor.putString("NAME", tempString[2]);
-//                editor.commit();
 
-//                String fir=sharedPref.getString("EMAIL"," ");
-//                String sec=sharedPref.getString("NAME","");
-//                //insert values in shared preferences
+                String tempString[]=result.split(",");
+                sharedPreferenceUtility.setLoggedIn(true);
+                sharedPreferenceUtility.setCustomerID(Integer.parseInt(tempString[0].substring(tempString[0].lastIndexOf(":")+1)));
+
                 Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(LoginActivity.this,HomeScreenActivity.class);
                 startActivity(intent);
