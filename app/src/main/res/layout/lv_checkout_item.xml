@@ -1,69 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/lineraLayout1"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:layout_marginTop="2dp">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:background="@drawable/shadow"
+    android:id="@+id/lineraLayout1">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/productView">
+        <ImageView
+            android:id="@+id/iv_productImage"
+            android:layout_width="70dp"
+            android:layout_height="100dp"
+            android:layout_marginRight="16dp"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:scaleType="centerCrop"/>
+
+        <LinearLayout
+            android:id="@+id/textviews"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/iv_productImage">
+            <TextView
+                android:id="@+id/tv_checkout_product_name"
+                android:text="Bottle"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
+
+
+            <TextView
+                android:id="@+id/tv_productPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="price"
+                android:textColor="#000"
+                android:layout_marginTop="10dp"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_new_can"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="New Can " />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp"
+            android:id="@+id/linearLayout">
+
+
+            <Button
+                android:id="@+id/decreaseByOneCheckoutListView"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:text="-"
+                android:textSize="17sp"
+                android:layout_marginRight="5dp"
+                android:background="#36ABE1"
+                android:textAlignment="center"/>
+
+            <Button
+                android:id="@+id/quantityCheckoutListView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:text="O"
+                android:layout_marginRight="5dp"
+                android:background="#36ABE1"
+                android:textAlignment="center"
+
+                />
+
+            <Button
+                android:id="@+id/increaseByOneCheckoutListView"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="+"
+                android:textSize="17sp"
+                android:background="#36ABE1"
+                android:textAlignment="center"/>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000000"
+        android:id="@+id/straightLine"
+        android:layout_below="@id/productView"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/straightLine"
         android:orientation="horizontal"
-        android:layout_marginTop="2dp">
-
-        <ImageView
-        android:id="@+id/iv_productImage"
-        android:layout_width="70dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        app:srcCompat="@mipmap/ic_launcher" />
-
-    <TextView
-        android:id="@+id/dishNameCheckoutListView"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="5.5"
-        android:textSize="15sp"
-        android:paddingTop="10dip"
-        android:text="Paneer Tikka"
-       />
-    <Button
-        android:id="@+id/decreaseByOneCheckoutListView"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:text="-"
-        android:layout_marginTop="10dip"
-        android:textSize="10sp"
-        android:layout_weight="1"/>
-
-        <Button
-            android:id="@+id/quantityCheckoutListView"
+        android:layout_marginBottom="10dp">
+        <TextView
             android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dip"
-            android:textSize="10sp"
-            android:layout_weight="1"/>
-    <Button
-        android:id="@+id/increaseByOneCheckoutListView"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:text="+"
-        android:textSize="10sp"
-        android:layout_marginTop="10dip"
-        android:layout_weight="1"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:textSize="15sp"
+            android:layout_gravity="left"
+            android:text="Total :"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/showAmountCheckoutListView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.5"
+            android:textSize="15sp"
+            android:layout_gravity="end"
+            android:textAlignment="viewEnd"
+            android:text="Rs 100"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
 
 
-    <TextView
-        android:id="@+id/showAmountCheckoutListView"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1.5"
-        android:textSize="15sp"
-        android:layout_gravity="left"
-        android:text="Rs 100"/>
-</LinearLayout>
 </RelativeLayout>

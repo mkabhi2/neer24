@@ -67,6 +67,17 @@ public class Cart {
         return "hello";
     }
 
+    public static double getCanPriceByPosition(int position){
+        int count=0;
+        for (Can c:cartList.keySet()) {
+            if(count==position){
+                return c.getPrice();
+            }
+            count=count+1;
+        }
+        return 0;
+    }
+
     public static Can getCanByPosition(int position){
         int count=0;
         for (Can c:cartList.keySet()) {
@@ -84,7 +95,11 @@ public class Cart {
             if(c.getCanID() == can.getCanID()){
                 price=c.getPrice();
                 int quantity=cartList.get(c);
-                return quantity*price;
+                double totalPrice =  quantity*price;
+                if(c.getUserWantsNewCan() == 1){
+                    totalPrice = totalPrice + c.getNewCanPrice() - c.getPrice();
+                }
+                return totalPrice;
             }
         }
         return 0;

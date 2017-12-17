@@ -69,6 +69,11 @@ public class HomeScreenActivity extends AppCompatActivity
             }
         });
 
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            cansList = savedInstanceState.getParcelableArrayList("savedCansList");
+        }
+
         recyclerView = findViewById(R.id.rv);
 
         RecyclerView recyclerView = findViewById(R.id.rv);
@@ -190,9 +195,12 @@ public class HomeScreenActivity extends AppCompatActivity
         }else {
             for (Can c : cart.keySet()) {
                 price = c.getPrice();
-                Integer value = cart.get(c);
-                totalCost = totalCost + (price * value);
-                totalQuantity += value;
+                Integer quantity = cart.get(c);
+                totalCost = totalCost + (price * quantity);
+                if(c.getUserWantsNewCan() == 1){
+                    totalCost = totalCost + c.getNewCanPrice() - c.getPrice();
+                }
+                totalQuantity += quantity;
             }
 
             String message = totalQuantity + "items in your cart" + "\n" + "Rs " + totalCost;
@@ -205,6 +213,13 @@ public class HomeScreenActivity extends AppCompatActivity
 
 
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putParcelableArrayList("savedCansList",cansList);
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override

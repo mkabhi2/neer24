@@ -1,6 +1,8 @@
 package in.neer24.neer24.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,9 +81,11 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
         final Button decreaseByOneBT = holder.decreaseByOne;
         final Button displayItemCountBT = holder.displayItemCount;
 
+        String rupeeSymbol = mContext.getResources().getString(R.string.Rs);
+
         nameTV.setText(can.getName() + " 20 L");
         Double temPrice = new Double(can.getPrice());
-        priceTV.setText("Rs. " + temPrice.toString());
+        priceTV.setText(rupeeSymbol + " " + temPrice.toString());
 
         String canName = can.getName().toLowerCase();
         switch(canName){
@@ -131,16 +135,54 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
             @Override
             public void onClick(View v) {
 
-                Cart.addItemsToCarts(can);
-                Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
-                displayItemCountBT.setText(count.toString());
-                HomeScreenActivity.showCartDetailsSummary();
+
+                if(Cart.getQuantityForSelectedItem(can) == 1){
+                    if(can.getUserWantsNewCan() == 1 ){
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+                        alertDialogBuilder.setMessage("You will not be able to order a new can for keeping if you order more than 1 item of the same product. Are you sure you want to order more cans of same product ?");
+                        alertDialogBuilder.setPositiveButton("yes",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        can.setUserWantsNewCan(0);
+                                        Cart.addItemsToCarts(can);
+                                        Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
+                                        displayItemCountBT.setText(count.toString());
+                                        HomeScreenActivity.showCartDetailsSummary();
+
+                                        return;
+                                    }
+                                });
+
+                        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.setCancelable(false);
+                        alertDialog.show();
+                    }
+                }
+
+                if(!(Cart.getQuantityForSelectedItem(can) == 1 && can.getUserWantsNewCan() == 1)){
+                    Cart.addItemsToCarts(can);
+                    Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
+                    displayItemCountBT.setText(count.toString());
+                    HomeScreenActivity.showCartDetailsSummary();
+                }
             }
         });
 
         decreaseByOneBT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(Cart.getQuantityForSelectedItem(can) == 1 && can.getUserWantsNewCan() == 1){
+                    can.setUserWantsNewCan(0);
+                }
 
                 Cart.deleteItemsFromCarts(can);
 

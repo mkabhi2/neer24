@@ -47,8 +47,11 @@ public class CheckoutFragment extends android.app.Fragment {
         } else {
             for (Can c : cart.keySet()) {
                 price = c.getPrice();
-                Integer value = cart.get(c);
-                totalCost = totalCost + (price * value);
+                Integer qunatity = cart.get(c);
+                totalCost = totalCost + (price * qunatity);
+                if(c.getUserWantsNewCan() == 1){
+                    totalCost = totalCost + c.getNewCanPrice() - c.getPrice();
+                }
             }
             totalCheckoutFragmentTextView.setText("Total Amount" + "\t\t\t" + String.valueOf(totalCost));
 
