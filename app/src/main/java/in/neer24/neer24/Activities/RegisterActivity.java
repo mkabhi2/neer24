@@ -3,6 +3,10 @@ package in.neer24.neer24.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.json.JSONObject;
@@ -27,6 +32,7 @@ import java.util.concurrent.ExecutionException;
 
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.AsteriskTransformationMethod;
+import in.neer24.neer24.Utilities.BlurImage;
 import in.neer24.neer24.Utilities.UtilityClass;
 
 public class RegisterActivity extends AppCompatActivity  implements View.OnClickListener {
@@ -35,9 +41,9 @@ public class RegisterActivity extends AppCompatActivity  implements View.OnClick
     private EditText mobileEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
+    private RelativeLayout registerActivityRL;
     Button showPasswordButton;
     private Button signUpButton;
-    Toolbar registerActivityToolbar;
     ProgressBar registerProgressBar;
     String emailID;
 
@@ -47,12 +53,16 @@ public class RegisterActivity extends AppCompatActivity  implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_register);
 
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
-        registerActivityToolbar = (Toolbar) findViewById(R.id.registerPageToolbar);
+
+        registerActivityRL = (RelativeLayout) findViewById(R.id.register_activity_relative_layout);
         nameEditText = (EditText) findViewById(R.id.registerNameEditText);
         mobileEditText = (EditText) findViewById(R.id.registerMobileEditText);
         emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
@@ -61,10 +71,19 @@ public class RegisterActivity extends AppCompatActivity  implements View.OnClick
         signUpButton = (Button) findViewById(R.id.signUpButton);
         registerProgressBar=(ProgressBar)findViewById(R.id.registerProgressBar);
 
+        registerProgressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.signup_img);
+        Bitmap blurredBitmap = BlurImage.blur(this, originalBitmap);
 
-        registerActivityToolbar.setTitle("SIGN UP");
+
+        registerActivityRL.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
+
+
+
 
         registerProgressBar.setVisibility(View.GONE);
+
+
         showPasswordButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
 

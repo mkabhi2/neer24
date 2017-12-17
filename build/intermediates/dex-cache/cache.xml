@@ -3,6 +3,24 @@
 
     <item
         is-multidex="false"
+        jar="C:\Users\vijaysingh\Desktop\Neer 24 v 1.2\neer24\app\libs\activation.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="C:\Users\vijaysingh\Desktop\Neer 24 v 1.2\neer24\app\build\intermediates\pre-dexed\debug\activation_006be6c752cc8075e72201c4eff0743b6d3d709c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\vijaysingh\Desktop\Neer 24 v 1.2\neer24\app\libs\additionnal.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="C:\Users\vijaysingh\Desktop\Neer 24 v 1.2\neer24\app\build\intermediates\pre-dexed\debug\additionnal_7778398ab57ec4d125b9fa48a1ac458a09f096eb.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="C:\Users\vijaysingh\Desktop\Neer 24 v 1.1\neer24\app\libs\additionnal.jar"
         jumboMode="false"
         optimize="true"

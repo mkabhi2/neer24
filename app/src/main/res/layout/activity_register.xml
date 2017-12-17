@@ -2,31 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/register_activity_relative_layout"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context="in.neer24.neer24.Activities.RegisterActivity">
 
-<android.support.v7.widget.Toolbar
-    android:id="@+id/registerPageToolbar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentTop="true"
-    android:background="?attr/colorPrimary"
-    android:minHeight="?attr/actionBarSize"
-    android:theme="?attr/actionBarTheme" />
 
-<android.support.design.widget.TextInputLayout
+    <ImageView
+        android:id="@+id/registerActivityLogoImageView"
+        android:layout_width="100dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/logo" />
+
+    <android.support.design.widget.TextInputLayout
     android:id="@+id/nameInputLayout"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="10dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
     android:background="@drawable/rounded_corners_black_stroke"
     android:textColorHint="#000000"
-    android:layout_below="@+id/registerPageToolbar">
+    android:layout_below="@+id/registerActivityLogoImageView">
 
     <EditText
         android:id="@+id/registerNameEditText"
@@ -45,6 +46,8 @@ tools:context="in.neer24.neer24.Activities.RegisterActivity">
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:layout_marginTop="20dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:layout_below="@+id/nameInputLayout"
     android:background="@drawable/rounded_corners_black_stroke">
 
@@ -62,8 +65,11 @@ tools:context="in.neer24.neer24.Activities.RegisterActivity">
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_marginTop="20dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
+    app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
     android:layout_below="@+id/mobileInputLayout"
     android:background="@drawable/rounded_corners_black_stroke">
 
@@ -83,6 +89,8 @@ tools:context="in.neer24.neer24.Activities.RegisterActivity">
     android:layout_marginTop="20dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:layout_below="@+id/emailInputLayout"
     android:background="@drawable/rounded_corners_black_stroke">
 

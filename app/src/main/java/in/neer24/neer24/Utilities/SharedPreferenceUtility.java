@@ -48,4 +48,35 @@ public class SharedPreferenceUtility {
         return sharedPreferences.getInt("CUSTOMERID",0);
     }
 
+
+    public void setLocationLatitude(String latitude){
+        editor.putString("currentLatitude",latitude);
+        editor.commit();
+    }
+
+    public String getLocationLatitude(){
+        return sharedPreferences.getString("currentLatitude","0");
+    }
+
+
+
+    public void setLocationLongitude(String longitude){
+        editor.putString("currentLongitude",longitude);
+        editor.commit();
+    }
+
+
+    public String getLocationLongitude(){
+        return sharedPreferences.getString("currentLongitude","0");
+    }
+
+    public void setWareHouseID(int wareHouseID){
+        editor.putInt("warehouseID",wareHouseID);
+    }
+
+    public int getWareHouseID(){
+        return sharedPreferences.getInt("warehouseID",0);
+    }
+
+
 }

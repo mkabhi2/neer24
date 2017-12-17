@@ -57,8 +57,6 @@ public class FirstActivity extends AppCompatActivity {
     private String mLatitudeLabel;
     private String mLongitudeLabel;
 
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
 
     SharedPreferenceUtility sharedPreferenceUtility;
 
@@ -72,8 +70,6 @@ public class FirstActivity extends AppCompatActivity {
 
         sharedPreferenceUtility=new SharedPreferenceUtility(this);
 
-        sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
 
 
         progressBar=(ProgressBar)findViewById(R.id.firstActivityProgressBar);
@@ -90,7 +86,7 @@ public class FirstActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        warehouseID = sharedPref.getInt("warehouseID", 0);
+        warehouseID = sharedPreferenceUtility.getWareHouseID();
 
         if(warehouseID == 0){
             if (!checkPermissions()) {
@@ -98,8 +94,9 @@ public class FirstActivity extends AppCompatActivity {
             } else {
                 getLastLocation();
             }
-            currentLatitude = sharedPref.getString("currentLatitude","0");
-            currentLongitude = sharedPref.getString("currentLongitude","0");
+            currentLatitude= sharedPreferenceUtility.getLocationLatitude();
+            currentLongitude=sharedPreferenceUtility.getLocationLongitude();
+
             getWarehouseForLocation(Float.parseFloat(currentLatitude),Float.parseFloat(currentLongitude));
         }
         else {
@@ -117,7 +114,7 @@ public class FirstActivity extends AppCompatActivity {
             launchNextActivity();
                 finish();
             }
-        }, 5000);
+        }, 2500);
     }
 
     private void launchNextActivity(){
