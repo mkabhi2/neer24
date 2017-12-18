@@ -1,8 +1,6 @@
 package in.neer24.neer24.Adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,9 +50,9 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
             description = (TextView) itemView.findViewById(R.id.tv_productQuality);
             price = (TextView) itemView.findViewById(R.id.tv_productPrice);
             image = (ImageView) itemView.findViewById(R.id.iv_productImage);
-            increaseByOne =(Button)itemView.findViewById(R.id.btn_qty_increase);
-            decreaseByOne=(Button)itemView.findViewById(R.id.btn_qty_decrease);
-            displayItemCount=(Button) itemView.findViewById(R.id.btn_order_or_qty);
+            increaseByOne = (Button) itemView.findViewById(R.id.btn_qty_increase);
+            decreaseByOne = (Button) itemView.findViewById(R.id.btn_qty_decrease);
+            displayItemCount = (Button) itemView.findViewById(R.id.btn_order_or_qty);
         }
     }
 
@@ -88,30 +86,34 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
         priceTV.setText(rupeeSymbol + " " + temPrice.toString());
 
         String canName = can.getName().toLowerCase();
-        switch(canName){
-            case "aquasure" : photoIV.setImageResource(R.drawable.aquasure);
-                              break;
-            case "bisleri"  : photoIV.setImageResource(R.drawable.bisleri);
-                              break;
-            case "despenser": photoIV.setImageResource(R.drawable.dispencer);
-                              descriptionTV.setVisibility(View.INVISIBLE);
-                              break;
-            case "kinley"   : photoIV.setImageResource(R.drawable.kinley);
-                              break;
-            default         : photoIV.setImageResource(R.drawable.normal);
+        switch (canName) {
+            case "aquasure":
+                photoIV.setImageResource(R.drawable.aquasure);
+                break;
+            case "bisleri":
+                photoIV.setImageResource(R.drawable.bisleri);
+                break;
+            case "despenser":
+                photoIV.setImageResource(R.drawable.dispencer);
+                descriptionTV.setVisibility(View.INVISIBLE);
+                break;
+            case "kinley":
+                photoIV.setImageResource(R.drawable.kinley);
+                break;
+            default:
+                photoIV.setImageResource(R.drawable.normal);
         }
         //Picasso.with(mContext).load(can.getPhoto()).into(photoIV);
 
 
-        HashMap<Can,Integer> ch= Cart.getCartList();
+        HashMap<Can, Integer> ch = Cart.getCartList();
 
-        if(Cart.getQuantityForSelectedItem(can) == 0){
+        if (Cart.getQuantityForSelectedItem(can) == 0) {
 
             displayItemCountBT.setText("ORDER");
             decreaseByOneBT.setVisibility(View.INVISIBLE);
             increaseByOneBT.setVisibility(View.INVISIBLE);
-        }
-        else {
+        } else {
             Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
             displayItemCountBT.setText(count.toString());
             HomeScreenActivity.showCartDetailsSummary();
@@ -121,7 +123,7 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
             @Override
             public void onClick(View v) {
 
-                if(Cart.getQuantityForSelectedItem(can) == 0) {
+                if (Cart.getQuantityForSelectedItem(can) == 0) {
                     Cart.addItemsToCarts(can);
                     displayItemCountBT.setText("1");
                     decreaseByOneBT.setVisibility(View.VISIBLE);
@@ -135,44 +137,10 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
             @Override
             public void onClick(View v) {
 
-
-                if(Cart.getQuantityForSelectedItem(can) == 1){
-                    if(can.getUserWantsNewCan() == 1 ){
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-                        alertDialogBuilder.setMessage("You will not be able to order a new can for keeping if you order more than 1 item of the same product. Are you sure you want to order more cans of same product ?");
-                        alertDialogBuilder.setPositiveButton("yes",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        can.setUserWantsNewCan(0);
-                                        Cart.addItemsToCarts(can);
-                                        Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
-                                        displayItemCountBT.setText(count.toString());
-                                        HomeScreenActivity.showCartDetailsSummary();
-
-                                        return;
-                                    }
-                                });
-
-                        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
-                            }
-                        });
-
-                        AlertDialog alertDialog = alertDialogBuilder.create();
-                        alertDialog.setCancelable(false);
-                        alertDialog.show();
-                    }
-                }
-
-                if(!(Cart.getQuantityForSelectedItem(can) == 1 && can.getUserWantsNewCan() == 1)){
-                    Cart.addItemsToCarts(can);
-                    Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
-                    displayItemCountBT.setText(count.toString());
-                    HomeScreenActivity.showCartDetailsSummary();
-                }
+                Cart.addItemsToCarts(can);
+                Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
+                displayItemCountBT.setText(count.toString());
+                HomeScreenActivity.showCartDetailsSummary();
             }
         });
 
@@ -180,19 +148,18 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
             @Override
             public void onClick(View v) {
 
-                if(Cart.getQuantityForSelectedItem(can) == 1 && can.getUserWantsNewCan() == 1){
+                if (Cart.getQuantityForSelectedItem(can) == 1 && can.getUserWantsNewCan() == 1) {
                     can.setUserWantsNewCan(0);
                 }
 
                 Cart.deleteItemsFromCarts(can);
 
-                if(Cart.getQuantityForSelectedItem(can) == 0){
+                if (Cart.getQuantityForSelectedItem(can) == 0) {
 
                     displayItemCountBT.setText("ORDER");
                     increaseByOneBT.setVisibility(View.INVISIBLE);
                     decreaseByOneBT.setVisibility(View.INVISIBLE);
-                }
-                else{
+                } else {
                     Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
                     displayItemCountBT.setText(count.toString());
                 }

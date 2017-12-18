@@ -198,7 +198,7 @@ public class HomeScreenActivity extends AppCompatActivity
                 Integer quantity = cart.get(c);
                 totalCost = totalCost + (price * quantity);
                 if(c.getUserWantsNewCan() == 1){
-                    totalCost = totalCost + c.getNewCanPrice() - c.getPrice();
+                    totalCost = totalCost + (c.getNewCanPrice() * quantity);
                 }
                 totalQuantity += quantity;
             }
