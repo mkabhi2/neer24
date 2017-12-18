@@ -19,23 +19,5 @@
         sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
         <dex dex="/Users/abhmishr/Desktop/neer24/neer24/app/build/intermediates/pre-dexed/debug/additionnal_de25004b28fcfc43e2589d7cfe264f4c6b820419.jar" />
     </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\vijaysingh\Desktop\Neer 24 v 1.3\neer24\app\libs\additionnal.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.2"
-        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
-        <dex dex="C:\Users\vijaysingh\Desktop\Neer 24 v 1.3\neer24\app\build\intermediates\pre-dexed\debug\additionnal_c04ca6233aa961545ddf2a4e9d3d63b45ad6af1b.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\vijaysingh\Desktop\Neer 24 v 1.3\neer24\app\libs\activation.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.2"
-        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
-        <dex dex="C:\Users\vijaysingh\Desktop\Neer 24 v 1.3\neer24\app\build\intermediates\pre-dexed\debug\activation_499e3dc8fe78aa2a514c7dcb771b230b031a9df2.jar" />
-    </item>
 
 </items>

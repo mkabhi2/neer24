@@ -158,6 +158,7 @@ public class CheckoutActivityLisviewAdapter extends BaseAdapter {
                 if (Cart.getQuantityForSelectedItem(can) == 0) {
 
                     decreaseByOneCheckoutListView.setVisibility(View.INVISIBLE);
+                    notifyDataSetChanged();
 
                 }
                 Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
