@@ -76,6 +76,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/HomeScreenActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/HomeScreenActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Adapters/CheckoutActivityLisviewAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Adapters/CheckoutActivityLisviewAdapter.java" />
@@ -83,6 +84,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/CustomObjects/Cart.java" afterPath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/CustomObjects/Cart.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Fragments/CheckoutFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Fragments/CheckoutFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_checkout.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_checkout.xml" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_first.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_first.xml" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
     </list>
@@ -114,6 +119,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< HEAD
       <file leaf-file-name="CheckoutActivityLisviewAdapter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Adapters/CheckoutActivityLisviewAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -121,13 +127,113 @@
               <caret line="55" column="0" lean-forward="true" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
               <folding>
                 <element signature="e#6623#6668#0" expanded="true" />
+=======
+      <file leaf-file-name="FirstActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="147" column="58" selection-start-line="147" selection-start-column="58" selection-end-line="147" selection-end-column="58" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2343#2392#0" expanded="true" />
+                <element signature="e#3311#3439#0" expanded="true" />
+                <element signature="e#3438#3439#0" expanded="true" />
+                <element signature="method#delayActivity#0;class#FirstActivity#0" expanded="false" />
+                <element signature="class#4216:4306" expanded="false" />
+                <element signature="method#run#0;class#4216:4306" expanded="false" />
+                <element signature="e#5723#5724#0" expanded="true" />
+                <element signature="method#showSnackbar#0;class#FirstActivity#0" expanded="false" />
+                <element signature="method#showSnackbar#1;class#FirstActivity#0" expanded="false" />
+                <element signature="e#7096#7184#0" expanded="false" />
+                <element signature="e#7419#7448#0" expanded="true" />
+                <element signature="e#7491#7770#0" expanded="true" />
+                <element signature="e#7769#7770#0" expanded="true" />
+                <element signature="e#8491#8574#0" expanded="false" />
+                <element signature="e#8929#8950#0" expanded="false" />
+                <element signature="e#9778#9816#0" expanded="true" />
+                <element signature="e#9818#9835#0" expanded="true" />
+                <element signature="e#9861#10660#0" expanded="true" />
+                <element signature="e#10659#10660#0" expanded="true" />
+                <element signature="method#getWarehouseForLocation#0;class#FirstActivity#0" expanded="false" />
+                <element signature="class#11226:12175" expanded="false" />
+                <element signature="method#onResponse#0;class#11226:12175" expanded="false" />
+                <element signature="method#onFailure#0;class#11226:12175" expanded="false" />
+                <element signature="method#getCansListForWarehouse#0;class#FirstActivity#0" expanded="false" />
+                <element signature="class#12671:13786" expanded="false" />
+                <element signature="method#onResponse#0;class#12671:13786" expanded="false" />
+                <element signature="method#onFailure#0;class#12671:13786" expanded="false" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
               </folding>
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="Cart.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/CustomObjects/Cart.java">
+=======
+      <file leaf-file-name="activity_first.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_first.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="186">
+              <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_register.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="styles.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="544">
+              <caret line="32" column="58" selection-start-line="32" selection-start-column="58" selection-end-line="32" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_login.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="136">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="15" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BlurImage.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Utilities/BlurImage.java">
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="144">
               <caret line="91" column="25" lean-forward="false" selection-start-line="91" selection-start-column="25" selection-end-line="91" selection-end-column="25" />
@@ -136,6 +242,32 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
+=======
+      <file leaf-file-name="RegisterActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/RegisterActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="680">
+              <caret line="73" column="125" selection-start-line="73" selection-start-column="125" selection-end-line="73" selection-end-column="125" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1547">
+              <caret line="91" column="55" selection-start-line="91" selection-start-column="55" selection-end-line="91" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
+        </entry>
+      </file>
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -1775,6 +1907,7 @@
       <map>
         <entry key="C:\Users\vijaysingh\Desktop\Neer 24 v 1.1\neer24" value="4540599718973" />
         <entry key="C:\Users\vijaysingh\Desktop\Neer 24 v 1.2\neer24" value="4540616334912" />
+        <entry key="C:\Users\vijaysingh\Desktop\Neer 24 v 1.3\neer24" value="4540827641668" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -2147,17 +2280,21 @@
         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/WelcomeActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Utilities/SharedPreferenceUtility.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/LoginActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/RegisterActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" />
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_checkout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Fragments/CheckoutFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Adapters/HomeRVAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/HomeScreenActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/CustomObjects/Cart.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Adapters/CheckoutActivityLisviewAdapter.java" />
+=======
+        <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_first.xml" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
       </list>
     </option>
   </component>
@@ -2184,6 +2321,11 @@
     </navigator>
     <panes>
       <pane id="Scratches" />
+<<<<<<< HEAD
+=======
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
       <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
@@ -2198,7 +2340,11 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="res" />
+<<<<<<< HEAD
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidResFolderNode" />
+=======
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2218,9 +2364,8 @@
               <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
-          </PATH>
-          <PATH>
             <PATH_ELEMENT>
+<<<<<<< HEAD
               <option name="myItemId" value="neer24" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
             </PATH_ELEMENT>
@@ -2293,6 +2438,10 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="Adapters" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+=======
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2304,10 +2453,13 @@
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
             </PATH_ELEMENT>
+<<<<<<< HEAD
             <PATH_ELEMENT>
               <option name="myItemId" value="manifests" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
+=======
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
           </PATH>
         </subPane>
       </pane>
@@ -2690,12 +2842,21 @@
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37344912" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42832765" sideWeight="0.4969743" order="7" side_tool="false" content_ui="tabs" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+=======
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42832765" sideWeight="0.5030257" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22354949" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30615166" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2710,7 +2871,11 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39826304" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25255972" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -2736,11 +2901,54 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+<<<<<<< HEAD
       <option name="time" value="9" />
+=======
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>
+          <line>240</line>
+          <properties />
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>
+          <line>168</line>
+          <properties />
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>
+          <line>167</line>
+          <properties />
+          <option name="timeStamp" value="13" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>
+          <line>254</line>
+          <properties />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>
+          <line>75</line>
+          <properties />
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>
+          <line>117</line>
+          <properties />
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="17" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/swipe_layout.xml">
       <provider editor-type-id="android-designer2">
         <state />
@@ -2766,26 +2974,28 @@
         </state>
       </provider>
     </entry>
+=======
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_set_recurring_schedule.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="22" column="41" lean-forward="false" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_set_recurring_schedule.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_set_recurring_schedule.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="155">
           <caret line="20" column="32" lean-forward="false" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Utilities/UtilityClass.java">
@@ -2805,21 +3015,25 @@
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
+<<<<<<< HEAD
           <caret line="6" column="39" lean-forward="false" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="39" />
           <folding />
+=======
+          <caret line="6" column="39" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="39" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Library/Android/sdk/platforms/android-26/data/res/values/colors.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
           <caret line="63" column="18" lean-forward="false" selection-start-line="63" selection-start-column="18" selection-end-line="63" selection-end-column="18" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values-v21/styles.xml">
@@ -2837,26 +3051,26 @@
     </entry>
     <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-26/android.jar!/android/widget/TextView.class" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home_screen.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values/values.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_schedule_delivery.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values/values.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_schedule_delivery.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-245">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/ScheduleDeliveryActivity.java">
@@ -2875,14 +3089,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/rv_schedule_item.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="78">
           <caret line="6" column="31" lean-forward="false" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/rounded_corners.xml">
@@ -2896,11 +3110,25 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/button_transparent_blue.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
+<<<<<<< HEAD
           <caret line="12" column="30" lean-forward="false" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="30" />
+=======
+          <caret line="12" column="30" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="30" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/CheckoutActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="13" column="0" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Utilities/RVItemDecoration.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
@@ -2909,14 +3137,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/rv_home_item.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/checkout_item_total_border.xml">
@@ -2928,12 +3156,75 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_checkout.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+<<<<<<< HEAD
+          <caret line="31" column="17" lean-forward="false" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+=======
+          <caret line="31" column="17" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_checkout.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="17" lean-forward="false" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />
+        <state relative-caret-position="340">
+          <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/lv_checkout_item.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2312">
+          <caret line="136" column="29" selection-start-line="136" selection-start-column="29" selection-end-line="136" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/CustomObjects/Cart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="49" column="22" selection-start-line="49" selection-start-column="22" selection-end-line="49" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Fragments/CheckoutFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="52" column="78" selection-start-line="52" selection-start-column="78" selection-end-line="52" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Adapters/HomeRVAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2788">
+          <caret line="183" column="46" selection-start-line="183" selection-start-column="46" selection-end-line="183" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Adapters/CheckoutActivityLisviewAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2244">
+          <caret line="159" column="93" selection-start-line="159" selection-start-column="16" selection-end-line="159" selection-end-column="93" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/HomeScreenActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2975">
+          <caret line="202" column="42" selection-start-line="202" selection-start-column="42" selection-end-line="202" selection-end-column="42" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
           <folding />
         </state>
       </provider>
@@ -2948,6 +3239,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/WelcomeActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
+<<<<<<< HEAD
           <caret line="113" column="21" lean-forward="false" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -2956,6 +3248,9 @@
             <element signature="e#2217#2708#0" expanded="true" />
             <element signature="e#2707#2708#0" expanded="true" />
           </folding>
+=======
+          <caret line="113" column="21" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
         </state>
       </provider>
     </entry>
@@ -2991,6 +3286,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Utilities/AsteriskTransformationMethod.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
+<<<<<<< HEAD
           <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
         </state>
       </provider>
@@ -3045,6 +3341,9 @@
             <element signature="method#onResponse#0;class#12363:13478" expanded="false" />
             <element signature="method#onFailure#0;class#12363:13478" expanded="false" />
           </folding>
+=======
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
         </state>
       </provider>
     </entry>
@@ -3061,8 +3360,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="335">
           <caret line="32" column="58" lean-forward="false" selection-start-line="32" selection-start-column="58" selection-end-line="32" selection-end-column="58" />
+=======
+        <state relative-caret-position="1547">
+          <caret line="91" column="55" selection-start-line="91" selection-start-column="55" selection-end-line="91" selection-end-column="55" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
           <folding />
         </state>
       </provider>
@@ -3086,6 +3390,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/RegisterActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -3109,11 +3414,17 @@
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="23" column="41" lean-forward="false" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
@@ -3137,20 +3448,31 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="790">
           <caret line="136" column="29" lean-forward="false" selection-start-line="136" selection-start-column="29" selection-end-line="136" selection-end-column="29" />
+=======
+        <state relative-caret-position="544">
+          <caret line="32" column="58" selection-start-line="32" selection-start-column="58" selection-end-line="32" selection-end-column="58" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Adapters/HomeRVAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="122">
           <caret line="142" column="49" lean-forward="false" selection-start-line="142" selection-start-column="49" selection-end-line="142" selection-end-column="49" />
+=======
+        <state relative-caret-position="680">
+          <caret line="73" column="125" selection-start-line="73" selection-start-column="125" selection-end-line="73" selection-end-column="125" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/HomeScreenActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="170">
@@ -3163,24 +3485,106 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="343">
           <caret line="52" column="76" lean-forward="false" selection-start-line="52" selection-start-column="44" selection-end-line="52" selection-end-column="76" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Android/.android/build-cache/3aa7f053810022174a4fe436a848b97dca63a4cf/output/jars/classes.jar!/android/support/v4/app/ActivityCompat.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="131" column="23" selection-start-line="131" selection-start-column="23" selection-end-line="131" selection-end-column="23" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/CustomObjects/Cart.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
           <caret line="91" column="25" lean-forward="false" selection-start-line="91" selection-start-column="25" selection-end-line="91" selection-end-column="25" />
+=======
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Adapters/CheckoutActivityLisviewAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-442">
           <caret line="55" column="0" lean-forward="true" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
           <folding>
             <element signature="e#6623#6668#0" expanded="true" />
+=======
+    <entry file="jar://C:/Android/.android/build-cache/2c5294fbf1d76f63273064540d958a30f3abc8d4/output/jars/classes.jar!/com/google/android/gms/location/FusedLocationProviderClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="53" column="26" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="26" />
+          <folding>
+            <element signature="e#2238#2239#0" expanded="true" />
+            <element signature="e#2284#2285#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_first.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="147" column="58" selection-start-line="147" selection-start-column="58" selection-end-line="147" selection-end-column="58" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2343#2392#0" expanded="true" />
+            <element signature="e#3311#3439#0" expanded="true" />
+            <element signature="e#3438#3439#0" expanded="true" />
+            <element signature="method#delayActivity#0;class#FirstActivity#0" expanded="false" />
+            <element signature="class#4216:4306" expanded="false" />
+            <element signature="method#run#0;class#4216:4306" expanded="false" />
+            <element signature="e#5723#5724#0" expanded="true" />
+            <element signature="method#showSnackbar#0;class#FirstActivity#0" expanded="false" />
+            <element signature="method#showSnackbar#1;class#FirstActivity#0" expanded="false" />
+            <element signature="e#7096#7184#0" expanded="false" />
+            <element signature="e#7419#7448#0" expanded="true" />
+            <element signature="e#7491#7770#0" expanded="true" />
+            <element signature="e#7769#7770#0" expanded="true" />
+            <element signature="e#8491#8574#0" expanded="false" />
+            <element signature="e#8929#8950#0" expanded="false" />
+            <element signature="e#9778#9816#0" expanded="true" />
+            <element signature="e#9818#9835#0" expanded="true" />
+            <element signature="e#9861#10660#0" expanded="true" />
+            <element signature="e#10659#10660#0" expanded="true" />
+            <element signature="method#getWarehouseForLocation#0;class#FirstActivity#0" expanded="false" />
+            <element signature="class#11226:12175" expanded="false" />
+            <element signature="method#onResponse#0;class#11226:12175" expanded="false" />
+            <element signature="method#onFailure#0;class#11226:12175" expanded="false" />
+            <element signature="method#getCansListForWarehouse#0;class#FirstActivity#0" expanded="false" />
+            <element signature="class#12671:13786" expanded="false" />
+            <element signature="method#onResponse#0;class#12671:13786" expanded="false" />
+            <element signature="method#onFailure#0;class#12671:13786" expanded="false" />
+>>>>>>> 24f948a6383e39112bc7e3b8b0d5e9b16277b2aa
           </folding>
         </state>
       </provider>

@@ -73,7 +73,6 @@ public class FirstActivity extends AppCompatActivity {
 
 
         progressBar=(ProgressBar)findViewById(R.id.firstActivityProgressBar);
-        progressBar.setVisibility(View.VISIBLE);
 
         mLatitudeLabel = getResources().getString(R.string.latitude_label);
         mLongitudeLabel = getResources().getString(R.string.longitude_label);
@@ -85,6 +84,7 @@ public class FirstActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+
 
         warehouseID = sharedPreferenceUtility.getWareHouseID();
 
@@ -102,9 +102,6 @@ public class FirstActivity extends AppCompatActivity {
         else {
             getCansListForWarehouse(warehouseID);
         }
-
-        pauseActivityForTwoSeconds();
-
     }
 
     public void pauseActivityForTwoSeconds(){
@@ -112,7 +109,6 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void run() {
             launchNextActivity();
-                finish();
             }
         }, 2500);
     }
@@ -121,7 +117,6 @@ public class FirstActivity extends AppCompatActivity {
 
         if(sharedPreferenceUtility.getFirstTimeLaunch()){
             sharedPreferenceUtility.setFirstTimeLaunch(false);
-
             Intent intent = new Intent(FirstActivity.this, WelcomeActivity.class);
             startActivity(intent);
 
@@ -152,6 +147,8 @@ public class FirstActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
+                            Toast.makeText(FirstActivity.this,"exception 1",Toast.LENGTH_SHORT);
+                            progressBar.setVisibility(View.VISIBLE);
                             mLastLocation = task.getResult();
 
                             currentLatitude=String.format(Locale.ENGLISH, "%s: %f",
@@ -161,12 +158,17 @@ public class FirstActivity extends AppCompatActivity {
                                     mLongitudeLabel,
                                     mLastLocation.getLongitude());
                         } else {
+                            Toast.makeText(FirstActivity.this,"exception 2",Toast.LENGTH_SHORT);
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar(getString(R.string.no_location_detected));
                         }
 
                     }
                 });
+
+        pauseActivityForTwoSeconds();
+
+
     }
 
     private void showSnackbar(final String text) {
@@ -232,10 +234,12 @@ public class FirstActivity extends AppCompatActivity {
             if (grantResults.length <= 0) {
                 // If user interaction was interrupted, the permission request is cancelled and you
                 // receive empty arrays.
+                progressBar.setVisibility(View.INVISIBLE);
                 Log.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
                 getLastLocation();
+
             } else {
                 // Permission denied.
 
@@ -248,6 +252,7 @@ public class FirstActivity extends AppCompatActivity {
                 // again" prompts). Therefore, a user interface affordance is typically implemented
                 // when permissions are denied. Otherwise, your app could appear unresponsive to
                 // touches or interactions which have required permissions.
+                progressBar.setVisibility(View.INVISIBLE);
                 showSnackbar(R.string.permission_denied_explanation, R.string.settings,
                         new View.OnClickListener() {
                             @Override

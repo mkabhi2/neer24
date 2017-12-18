@@ -1,0 +1,953 @@
+warning: LF will be replaced by CRLF in build/intermediates/dex-cache/cache.xml.
+The file will have its original line endings in your working directory.
+[1mdiff --git a/.gradle/4.1/fileContent/fileContent.lock b/.gradle/4.1/fileContent/fileContent.lock[m
+[1mindex 89f43b5..3a6b686 100644[m
+Binary files a/.gradle/4.1/fileContent/fileContent.lock and b/.gradle/4.1/fileContent/fileContent.lock differ
+[1mdiff --git a/.gradle/4.1/fileHashes/fileHashes.bin b/.gradle/4.1/fileHashes/fileHashes.bin[m
+[1mindex 7eb73e9..74c0cb6 100644[m
+Binary files a/.gradle/4.1/fileHashes/fileHashes.bin and b/.gradle/4.1/fileHashes/fileHashes.bin differ
+[1mdiff --git a/.gradle/4.1/fileHashes/fileHashes.lock b/.gradle/4.1/fileHashes/fileHashes.lock[m
+[1mindex fba91da..c876dd0 100644[m
+Binary files a/.gradle/4.1/fileHashes/fileHashes.lock and b/.gradle/4.1/fileHashes/fileHashes.lock differ
+[1mdiff --git a/.gradle/4.1/javaCompile/classAnalysis.bin b/.gradle/4.1/javaCompile/classAnalysis.bin[m
+[1mindex bdd4adc..eb0e761 100644[m
+Binary files a/.gradle/4.1/javaCompile/classAnalysis.bin and b/.gradle/4.1/javaCompile/classAnalysis.bin differ
+[1mdiff --git a/.gradle/4.1/javaCompile/javaCompile.lock b/.gradle/4.1/javaCompile/javaCompile.lock[m
+[1mindex cdaef33..d9d0b1e 100644[m
+Binary files a/.gradle/4.1/javaCompile/javaCompile.lock and b/.gradle/4.1/javaCompile/javaCompile.lock differ
+[1mdiff --git a/.gradle/4.1/javaCompile/taskHistory.bin b/.gradle/4.1/javaCompile/taskHistory.bin[m
+[1mindex ec82e14..eccad3a 100644[m
+Binary files a/.gradle/4.1/javaCompile/taskHistory.bin and b/.gradle/4.1/javaCompile/taskHistory.bin differ
+[1mdiff --git a/.gradle/4.1/javaCompile/taskJars.bin b/.gradle/4.1/javaCompile/taskJars.bin[m
+[1mindex e6e27b8..f1d559e 100644[m
+Binary files a/.gradle/4.1/javaCompile/taskJars.bin and b/.gradle/4.1/javaCompile/taskJars.bin differ
+[1mdiff --git a/.gradle/4.1/taskHistory/fileSnapshots.bin b/.gradle/4.1/taskHistory/fileSnapshots.bin[m
+[1mindex 6bc6fe3..9859461 100644[m
+Binary files a/.gradle/4.1/taskHistory/fileSnapshots.bin and b/.gradle/4.1/taskHistory/fileSnapshots.bin differ
+[1mdiff --git a/.gradle/4.1/taskHistory/taskHistory.bin b/.gradle/4.1/taskHistory/taskHistory.bin[m
+[1mindex 59fb72f..948d438 100644[m
+Binary files a/.gradle/4.1/taskHistory/taskHistory.bin and b/.gradle/4.1/taskHistory/taskHistory.bin differ
+[1mdiff --git a/.gradle/4.1/taskHistory/taskHistory.lock b/.gradle/4.1/taskHistory/taskHistory.lock[m
+[1mindex beca2c0..fa21166 100644[m
+Binary files a/.gradle/4.1/taskHistory/taskHistory.lock and b/.gradle/4.1/taskHistory/taskHistory.lock differ
+[1mdiff --git a/.idea/workspace.xml b/.idea/workspace.xml[m
+[1mindex 6192fdf..528f51a 100644[m
+[1m--- a/.idea/workspace.xml[m
+[1m+++ b/.idea/workspace.xml[m
+[36m@@ -11,7 +11,6 @@[m
+   </component>[m
+   <component name="ChangeListManager">[m
+     <list default="true" id="a2a04669-3852-4816-b9c1-11fcc21dd2ad" name="Default" comment="">[m
+[31m-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/signup_img.png" />[m
+       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileContent/fileContent.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileContent/fileContent.lock" />[m
+       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.bin" />[m
+       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/fileHashes/fileHashes.lock" />[m
+[36m@@ -24,11 +23,7 @@[m
+       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.1/taskHistory/taskHistory.lock" />[m
+       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />[m
+       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java" />[m
+[31m-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/RegisterActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/RegisterActivity.java" />[m
+[31m-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Utilities/SharedPreferenceUtility.java" afterPath="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Utilities/SharedPreferenceUtility.java" />[m
+[31m-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" />[m
+[31m-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />[m
+[31m-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />[m
+[32m+[m[32m      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_first.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_first.xml" />[m
+       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />[m
+     </list>[m
+     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />[m
+[36m@@ -59,54 +54,86 @@[m
+   </component>[m
+   <component name="FileEditorManager">[m
+     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">[m
+[31m-      <file leaf-file-name="FirstActivity.java" pinned="false" current-in-tab="false">[m
+[32m+[m[32m      <file leaf-file-name="FirstActivity.java" pinned="false" current-in-tab="true">[m
+         <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java">[m
+           <provider selected="true" editor-type-id="text-editor">[m
+[31m-            <state relative-caret-position="170">[m
+[31m-              <caret line="113" column="33" selection-start-line="113" selection-start-column="33" selection-end-line="113" selection-end-column="33" />[m
+[32m+[m[32m            <state relative-caret-position="201">[m
+[32m+[m[32m              <caret line="151" column="61" selection-start-line="151" selection-start-column="61" selection-end-line="151" selection-end-column="61" />[m
+               <folding>[m
+                 <element signature="imports" expanded="true" />[m
+[32m+[m[32m                <element signature="e#2343#2392#0" expanded="true" />[m
+[32m+[m[32m                <element signature="e#3311#3439#0" expanded="true" />[m
+[32m+[m[32m                <element signature="e#3438#3439#0" expanded="true" />[m
+                 <element signature="method#delayActivity#0;class#FirstActivity#0" expanded="false" />[m
+[31m-                <element signature="class#4331:4421" expanded="false" />[m
+[31m-                <element signature="method#run#0;class#4331:4421" expanded="false" />[m
+[32m+[m[32m                <element signature="class#4216:4306" expanded="false" />[m
+[32m+[m[32m                <element signature="method#run#0;class#4216:4306" expanded="false" />[m
+[32m+[m[32m                <element signature="e#4497#5724#0" expanded="true" />[m
+[32m+[m[32m                <element signature="e#5723#5724#0" expanded="true" />[m
+                 <element signature="method#showSnackbar#0;class#FirstActivity#0" expanded="false" />[m
+                 <element signature="method#showSnackbar#1;class#FirstActivity#0" expanded="false" />[m
+[31m-                <element signature="method#checkPermissions#0;class#FirstActivity#0" expanded="false" />[m
+[31m-                <element signature="method#startLocationPermissionRequest#0;class#FirstActivity#0" expanded="false" />[m
+[31m-                <element signature="method#requestPermissions#0;class#FirstActivity#0" expanded="false" />[m
+[31m-                <element signature="e#6907#6995#0" expanded="false" />[m
+[31m-                <element signature="e#7663#7742#0" expanded="false" />[m
+[31m-                <element signature="method#onRequestPermissionsResult#0;class#FirstActivity#0" expanded="false" />[m
+[31m-                <element signature="e#8302#8385#0" expanded="false" />[m
+[31m-                <element signature="e#8680#8701#0" expanded="false" />[m
+[31m-                <element signature="class#10918:11867" expanded="false" />[m
+[31m-                <element signature="method#onResponse#0;class#10918:11867" expanded="false" />[m
+[31m-                <element signature="method#onFailure#0;class#10918:11867" expanded="false" />[m
+[31m-                <element signature="class#12363:13478" expanded="false" />[m
+[31m-                <element signature="method#onResponse#0;class#12363:13478" expanded="false" />[m
+[31m-                <element signature="method#onFailure#0;class#12363:13478" expanded="false" />[m
+[32m+[m[32m                <element signature="e#7096#7184#0" expanded="false" />[m
+[32m+[m[32m                <element signature="e#7419#7448#0" expanded="true" />[m
+[32m+[m[32m                <element signature="e#7491#7770#0" expanded="true" />[m
+[32m+[m[32m                <element signature="e#7769#7770#0" expanded="true" />[m
+[32m+[m[32m                <element signature="e#8491#8574#0" expanded="false" />[m
+[32m+[m[32m                <element signature="e#8929#8950#0" expanded="false" />[m
+[32m+[m[32m                <element signature="e#9778#9816#0" expanded="true" />[m
+[32m+[m[32m                <element signature="e#9818#9835#0" expanded="true" />[m
+[32m+[m[32m                <element signature="e#9861#10660#0" expanded="true" />[m
+[32m+[m[32m                <element signature="e#10659#10660#0" expanded="true" />[m
+[32m+[m[32m                <element signature="method#getWarehouseForLocation#0;class#FirstActivity#0" expanded="false" />[m
+[32m+[m[32m                <element signature="class#11226:12175" expanded="false" />[m
+[32m+[m[32m                <element signature="method#onResponse#0;class#11226:12175" expanded="false" />[m
+[32m+[m[32m                <element signature="method#onFailure#0;class#11226:12175" expanded="false" />[m
+[32m+[m[32m                <element signature="method#getCansListForWarehouse#0;class#FirstActivity#0" expanded="false" />[m
+[32m+[m[32m                <element signature="class#12671:13786" expanded="false" />[m
+[32m+[m[32m                <element signature="method#onResponse#0;class#12671:13786" expanded="false" />[m
+[32m+[m[32m                <element signature="method#onFailure#0;class#12671:13786" expanded="false" />[m
+               </folding>[m
+             </state>[m
+           </provider>[m
+         </entry>[m
+       </file>[m
+[31m-      <file leaf-file-name="activity_register.xml" pinned="false" current-in-tab="true">[m
+[31m-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml">[m
+[32m+[m[32m      <file leaf-file-name="activity_first.xml" pinned="false" current-in-tab="false">[m
+[32m+[m[32m        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_first.xml">[m
+[32m+[m[32m          <provider selected="true" editor-type-id="text-editor">[m
+[32m+[m[32m            <state relative-caret-position="119">[m
+[32m+[m[32m              <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />[m
+[32m+[m[32m              <folding />[m
+[32m+[m[32m            </state>[m
+[32m+[m[32m          </provider>[m
+           <provider editor-type-id="android-designer2">[m
+             <state />[m
+           </provider>[m
+[32m+[m[32m        </entry>[m
+[32m+[m[32m      </file>[m
+[32m+[m[32m      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">[m
+[32m+[m[32m        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">[m
+           <provider selected="true" editor-type-id="text-editor">[m
+[31m-            <state relative-caret-position="255">[m
+[31m-              <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />[m
+[32m+[m[32m            <state relative-caret-position="186">[m
+[32m+[m[32m              <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />[m
+               <folding />[m
+             </state>[m
+           </provider>[m
+         </entry>[m
+       </file>[m
+[32m+[m[32m      <file leaf-file-name="activity_register.xml" pinned="false" current-in-tab="false">[m
+[32m+[m[32m        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml">[m
+[32m+[m[32m          <provider selected="true" editor-type-id="text-editor">[m
+[32m+[m[32m            <state relative-caret-position="374">[m
+[32m+[m[32m              <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />[m
+[32m+[m[32m              <folding />[m
+[32m+[m[32m            </state>[m
+[32m+[m[32m          </provider>[m
+[32m+[m[32m          <provider editor-type-id="android-designer2">[m
+[32m+[m[32m            <state />[m
+[32m+[m[32m          </provider>[m
+[32m+[m[32m        </entry>[m
+[32m+[m[32m      </file>[m
+       <file leaf-file-name="styles.xml" pinned="false" current-in-tab="false">[m
+         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">[m
+           <provider selected="true" editor-type-id="text-editor">[m
+[31m-            <state relative-caret-position="335">[m
+[32m+[m[32m            <state relative-caret-position="544">[m
+               <caret line="32" column="58" selection-start-line="32" selection-start-column="58" selection-end-line="32" selection-end-column="58" />[m
+               <folding />[m
+             </state>[m
+[36m@@ -115,15 +142,15 @@[m
+       </file>[m
+       <file leaf-file-name="activity_login.xml" pinned="false" current-in-tab="false">[m
+         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">[m
+[31m-          <provider editor-type-id="android-designer2">[m
+[31m-            <state />[m
+[31m-          </provider>[m
+           <provider selected="true" editor-type-id="text-editor">[m
+             <state relative-caret-position="136">[m
+               <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="15" selection-end-column="37" />[m
+               <folding />[m
+             </state>[m
+           </provider>[m
+[32m+[m[32m          <provider editor-type-id="android-designer2">[m
+[32m+[m[32m            <state />[m
+[32m+[m[32m          </provider>[m
+         </entry>[m
+       </file>[m
+       <file leaf-file-name="BlurImage.java" pinned="false" current-in-tab="false">[m
+[36m@@ -139,7 +166,7 @@[m
+       <file leaf-file-name="RegisterActivity.java" pinned="false" current-in-tab="false">[m
+         <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/RegisterActivity.java">[m
+           <provider selected="true" editor-type-id="text-editor">[m
+[31m-            <state relative-caret-position="323">[m
+[32m+[m[32m            <state relative-caret-position="680">[m
+               <caret line="73" column="125" selection-start-line="73" selection-start-column="125" selection-end-line="73" selection-end-column="125" />[m
+               <folding />[m
+             </state>[m
+[36m@@ -149,7 +176,7 @@[m
+       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">[m
+         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">[m
+           <provider selected="true" editor-type-id="text-editor">[m
+[31m-            <state relative-caret-position="308">[m
+[32m+[m[32m            <state relative-caret-position="1547">[m
+               <caret line="91" column="55" selection-start-line="91" selection-start-column="55" selection-end-line="91" selection-end-column="55" />[m
+               <folding />[m
+             </state>[m
+[36m@@ -1798,6 +1825,7 @@[m
+       <map>[m
+         <entry key="C:\Users\vijaysingh\Desktop\Neer 24 v 1.1\neer24" value="4540599718973" />[m
+         <entry key="C:\Users\vijaysingh\Desktop\Neer 24 v 1.2\neer24" value="4540616334912" />[m
+[32m+[m[32m        <entry key="C:\Users\vijaysingh\Desktop\Neer 24 v 1.3\neer24" value="4540827641668" />[m
+       </map>[m
+     </option>[m
+     <option name="projectBuildClasspath">[m
+[36m@@ -2172,11 +2200,12 @@[m
+         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/WelcomeActivity.java" />[m
+         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Utilities/SharedPreferenceUtility.java" />[m
+         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/LoginActivity.java" />[m
+[31m-        <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java" />[m
+         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />[m
+         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />[m
+         <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/RegisterActivity.java" />[m
+         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml" />[m
+[32m+[m[32m        <option value="$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java" />[m
+[32m+[m[32m        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_first.xml" />[m
+       </list>[m
+     </option>[m
+   </component>[m
+[36m@@ -2211,10 +2240,10 @@[m
+       <foldersAlwaysOnTop value="true" />[m
+     </navigator>[m
+     <panes>[m
+[31m-      <pane id="Scope" />[m
+[31m-      <pane id="PackagesPane" />[m
+       <pane id="Scratches" />[m
+[32m+[m[32m      <pane id="PackagesPane" />[m
+       <pane id="ProjectPane" />[m
+[32m+[m[32m      <pane id="Scope" />[m
+       <pane id="AndroidView">[m
+         <subPane>[m
+           <PATH>[m
+[36m@@ -2236,10 +2265,6 @@[m
+               <option name="myItemId" value="res" />[m
+               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />[m
+             </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="values" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />[m
+[31m-            </PATH_ELEMENT>[m
+           </PATH>[m
+           <PATH>[m
+             <PATH_ELEMENT>[m
+[36m@@ -2254,81 +2279,9 @@[m
+               <option name="myItemId" value="res" />[m
+               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />[m
+             </PATH_ELEMENT>[m
+[31m-          </PATH>[m
+[31m-          <PATH>[m
+             <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="neer24" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="app" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="java" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-          </PATH>[m
+[31m-          <PATH>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="neer24" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="app" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="java" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="neer24" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="Utilities" />[m
+[31m-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-          </PATH>[m
+[31m-          <PATH>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="neer24" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="app" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="java" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="neer24" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-          </PATH>[m
+[31m-          <PATH>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="neer24" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="app" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="java" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="neer24" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />[m
+[31m-            </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="Activities" />[m
+[31m-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />[m
+[32m+[m[32m              <option name="myItemId" value="layout" />[m
+[32m+[m[32m              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />[m
+             </PATH_ELEMENT>[m
+           </PATH>[m
+           <PATH>[m
+[36m@@ -2340,10 +2293,6 @@[m
+               <option name="myItemId" value="app" />[m
+               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />[m
+             </PATH_ELEMENT>[m
+[31m-            <PATH_ELEMENT>[m
+[31m-              <option name="myItemId" value="manifests" />[m
+[31m-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />[m
+[31m-            </PATH_ELEMENT>[m
+           </PATH>[m
+         </subPane>[m
+       </pane>[m
+[36m@@ -2705,11 +2654,11 @@[m
+     <editor active="true" />[m
+     <layout>[m
+       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />[m
+[31m-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37372014" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />[m
+[32m+[m[32m      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42832765" sideWeight="0.4969743" order="7" side_tool="false" content_ui="tabs" />[m
+       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />[m
+       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />[m
+       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />[m
+[31m-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />[m
+[32m+[m[32m      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42832765" sideWeight="0.5030257" order="7" side_tool="true" content_ui="tabs" />[m
+       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22354949" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />[m
+       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30615166" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />[m
+       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />[m
+[36m@@ -2724,7 +2673,7 @@[m
+       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />[m
+       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />[m
+       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />[m
+[31m-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39880952" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />[m
+[32m+[m[32m      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25255972" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />[m
+       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />[m
+       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />[m
+       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />[m
+[36m@@ -2752,57 +2701,70 @@[m
+   </component>[m
+   <component name="XDebuggerManager">[m
+     <breakpoint-manager>[m
+[31m-      <option name="time" value="8" />[m
+[32m+[m[32m      <breakpoints>[m
+[32m+[m[32m        <line-breakpoint enabled="true" type="java-line">[m
+[32m+[m[32m          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>[m
+[32m+[m[32m          <line>240</line>[m
+[32m+[m[32m          <properties />[m
+[32m+[m[32m          <option name="timeStamp" value="8" />[m
+[32m+[m[32m        </line-breakpoint>[m
+[32m+[m[32m        <line-breakpoint enabled="true" type="java-line">[m
+[32m+[m[32m          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>[m
+[32m+[m[32m          <line>168</line>[m
+[32m+[m[32m          <properties />[m
+[32m+[m[32m          <option name="timeStamp" value="12" />[m
+[32m+[m[32m        </line-breakpoint>[m
+[32m+[m[32m        <line-breakpoint enabled="true" type="java-line">[m
+[32m+[m[32m          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>[m
+[32m+[m[32m          <line>167</line>[m
+[32m+[m[32m          <properties />[m
+[32m+[m[32m          <option name="timeStamp" value="13" />[m
+[32m+[m[32m        </line-breakpoint>[m
+[32m+[m[32m        <line-breakpoint enabled="true" type="java-line">[m
+[32m+[m[32m          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>[m
+[32m+[m[32m          <line>254</line>[m
+[32m+[m[32m          <properties />[m
+[32m+[m[32m          <option name="timeStamp" value="14" />[m
+[32m+[m[32m        </line-breakpoint>[m
+[32m+[m[32m        <line-breakpoint enabled="true" type="java-line">[m
+[32m+[m[32m          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>[m
+[32m+[m[32m          <line>75</line>[m
+[32m+[m[32m          <properties />[m
+[32m+[m[32m          <option name="timeStamp" value="15" />[m
+[32m+[m[32m        </line-breakpoint>[m
+[32m+[m[32m        <line-breakpoint enabled="true" type="java-line">[m
+[32m+[m[32m          <url>file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java</url>[m
+[32m+[m[32m          <line>117</line>[m
+[32m+[m[32m          <properties />[m
+[32m+[m[32m          <option name="timeStamp" value="16" />[m
+[32m+[m[32m        </line-breakpoint>[m
+[32m+[m[32m      </breakpoints>[m
+[32m+[m[32m      <option name="time" value="17" />[m
+     </breakpoint-manager>[m
+     <watches-manager />[m
+   </component>[m
+   <component name="editorHistoryManager">[m
+[31m-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/swipe_layout.xml">[m
+[31m-      <provider editor-type-id="android-designer2">[m
+[31m-        <state />[m
+[31m-      </provider>[m
+[31m-      <provider selected="true" editor-type-id="text-editor">[m
+[31m-        <state relative-caret-position="180">[m
+[31m-          <caret line="12" column="41" selection-start-line="12" selection-start-column="41" selection-end-line="12" selection-end-column="41" />[m
+[31m-          <folding />[m
+[31m-        </state>[m
+[31m-      </provider>[m
+[31m-    </entry>[m
+[31m-    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Adapters/CustomPagerAdapter.java">[m
+[31m-      <provider selected="true" editor-type-id="text-editor">[m
+[31m-        <state relative-caret-position="435">[m
+[31m-          <caret line="41" column="37" selection-start-line="41" selection-start-column="37" selection-end-line="41" selection-end-column="37" />[m
+[31m-        </state>[m
+[31m-      </provider>[m
+[31m-    </entry>[m
+[31m-    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/SetRecurringScheduleActivity.java">[m
+[31m-      <provider selected="true" editor-type-id="text-editor">[m
+[31m-        <state relative-caret-position="240">[m
+[31m-          <caret line="37" column="50" selection-start-line="37" selection-start-column="50" selection-end-line="37" selection-end-column="50" />[m
+[31m-        </state>[m
+[31m-      </provider>[m
+[31m-    </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_set_recurring_schedule.xml">[m
+[31m-      <provider editor-type-id="android-designer2">[m
+[31m-        <state />[m
+[31m-      </provider>[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="330">[m
+           <caret line="22" column="41" selection-start-line="22" selection-start-column="41" selection-end-line="22" selection-end-column="41" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[31m-    </entry>[m
+[31m-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_set_recurring_schedule.xml">[m
+       <provider editor-type-id="android-designer2">[m
+         <state />[m
+       </provider>[m
+[32m+[m[32m    </entry>[m
+[32m+[m[32m    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_set_recurring_schedule.xml">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="155">[m
+           <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[32m+[m[32m      <provider editor-type-id="android-designer2">[m
+[32m+[m[32m        <state />[m
+[32m+[m[32m      </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Utilities/UtilityClass.java">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[36m@@ -2822,21 +2784,20 @@[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="90">[m
+           <caret line="6" column="39" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="39" />[m
+[31m-          <folding />[m
+         </state>[m
+       </provider>[m
+     </entry>[m
+     <entry file="file://$USER_HOME$/Library/Android/sdk/platforms/android-26/data/res/values/colors.xml" />[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/layout.xml">[m
+[31m-      <provider editor-type-id="android-designer2">[m
+[31m-        <state />[m
+[31m-      </provider>[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="346">[m
+           <caret line="63" column="18" selection-start-line="63" selection-start-column="18" selection-end-line="63" selection-end-column="18" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[32m+[m[32m      <provider editor-type-id="android-designer2">[m
+[32m+[m[32m        <state />[m
+[32m+[m[32m      </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/values-v21/styles.xml">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[36m@@ -2853,27 +2814,27 @@[m
+     </entry>[m
+     <entry file="jar://$USER_HOME$/Library/Android/sdk/platforms/android-26/android.jar!/android/widget/TextView.class" />[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_home_screen.xml">[m
+[31m-      <provider editor-type-id="android-designer2">[m
+[31m-        <state />[m
+[31m-      </provider>[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="0">[m
+           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[31m-    </entry>[m
+[31m-    <entry file="file://$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values/values.xml" />[m
+[31m-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_schedule_delivery.xml">[m
+       <provider editor-type-id="android-designer2">[m
+         <state />[m
+       </provider>[m
+[32m+[m[32m    </entry>[m
+[32m+[m[32m    <entry file="file://$PROJECT_DIR$/app/build/intermediates/res/merged/debug/values/values.xml" />[m
+[32m+[m[32m    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_schedule_delivery.xml">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="-245">[m
+           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[32m+[m[32m      <provider editor-type-id="android-designer2">[m
+[32m+[m[32m        <state />[m
+[32m+[m[32m      </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/ScheduleDeliveryActivity.java">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[36m@@ -2891,15 +2852,15 @@[m
+       </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/rv_schedule_item.xml">[m
+[31m-      <provider editor-type-id="android-designer2">[m
+[31m-        <state />[m
+[31m-      </provider>[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="78">[m
+           <caret line="6" column="31" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[32m+[m[32m      <provider editor-type-id="android-designer2">[m
+[32m+[m[32m        <state />[m
+[32m+[m[32m      </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/rounded_corners.xml">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[36m@@ -2917,14 +2878,6 @@[m
+         </state>[m
+       </provider>[m
+     </entry>[m
+[31m-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">[m
+[31m-      <provider selected="true" editor-type-id="text-editor">[m
+[31m-        <state relative-caret-position="357">[m
+[31m-          <caret line="55" column="37" selection-start-line="55" selection-start-column="37" selection-end-line="55" selection-end-column="37" />[m
+[31m-          <folding />[m
+[31m-        </state>[m
+[31m-      </provider>[m
+[31m-    </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/CheckoutActivity.java">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="22">[m
+[36m@@ -2940,15 +2893,15 @@[m
+       </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/rv_home_item.xml">[m
+[31m-      <provider editor-type-id="android-designer2">[m
+[31m-        <state />[m
+[31m-      </provider>[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="285">[m
+           <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[32m+[m[32m      <provider editor-type-id="android-designer2">[m
+[32m+[m[32m        <state />[m
+[32m+[m[32m      </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/checkout_item_total_border.xml">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[36m@@ -2959,37 +2912,37 @@[m
+       </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_checkout.xml">[m
+[31m-      <provider editor-type-id="android-designer2">[m
+[31m-        <state />[m
+[31m-      </provider>[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="527">[m
+           <caret line="31" column="17" selection-start-line="31" selection-start-column="17" selection-end-line="31" selection-end-column="17" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[31m-    </entry>[m
+[31m-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_checkout.xml">[m
+       <provider editor-type-id="android-designer2">[m
+         <state />[m
+       </provider>[m
+[32m+[m[32m    </entry>[m
+[32m+[m[32m    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_checkout.xml">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="340">[m
+           <caret line="20" column="40" selection-start-line="20" selection-start-column="40" selection-end-line="20" selection-end-column="40" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[31m-    </entry>[m
+[31m-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/lv_checkout_item.xml">[m
+       <provider editor-type-id="android-designer2">[m
+         <state />[m
+       </provider>[m
+[32m+[m[32m    </entry>[m
+[32m+[m[32m    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/lv_checkout_item.xml">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="2312">[m
+           <caret line="136" column="29" selection-start-line="136" selection-start-column="29" selection-end-line="136" selection-end-column="29" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[32m+[m[32m      <provider editor-type-id="android-designer2">[m
+[32m+[m[32m        <state />[m
+[32m+[m[32m      </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/CustomObjects/Cart.java">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[36m@@ -3039,13 +2992,6 @@[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="196">[m
+           <caret line="113" column="21" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />[m
+[31m-          <folding>[m
+[31m-            <element signature="imports" expanded="true" />[m
+[31m-            <element signature="e#2026#2178#0" expanded="true" />[m
+[31m-            <element signature="e#2177#2178#0" expanded="true" />[m
+[31m-            <element signature="e#2217#2708#0" expanded="true" />[m
+[31m-            <element signature="e#2707#2708#0" expanded="true" />[m
+[31m-          </folding>[m
+         </state>[m
+       </provider>[m
+     </entry>[m
+[36m@@ -3082,36 +3028,6 @@[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="136">[m
+           <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />[m
+[31m-          <folding />[m
+[31m-        </state>[m
+[31m-      </provider>[m
+[31m-    </entry>[m
+[31m-    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java">[m
+[31m-      <provider selected="true" editor-type-id="text-editor">[m
+[31m-        <state relative-caret-position="170">[m
+[31m-          <caret line="113" column="33" selection-start-line="113" selection-start-column="33" selection-end-line="113" selection-end-column="33" />[m
+[31m-          <folding>[m
+[31m-            <element signature="imports" expanded="true" />[m
+[31m-            <element signature="method#delayActivity#0;class#FirstActivity#0" expanded="false" />[m
+[31m-            <element signature="class#4331:4421" expanded="false" />[m
+[31m-            <element signature="method#run#0;class#4331:4421" expanded="false" />[m
+[31m-            <element signature="method#showSnackbar#0;class#FirstActivity#0" expanded="false" />[m
+[31m-            <element signature="method#showSnackbar#1;class#FirstActivity#0" expanded="false" />[m
+[31m-            <element signature="method#checkPermissions#0;class#FirstActivity#0" expanded="false" />[m
+[31m-            <element signature="method#startLocationPermissionRequest#0;class#FirstActivity#0" expanded="false" />[m
+[31m-            <element signature="method#requestPermissions#0;class#FirstActivity#0" expanded="false" />[m
+[31m-            <element signature="e#6907#6995#0" expanded="false" />[m
+[31m-            <element signature="e#7663#7742#0" expanded="false" />[m
+[31m-            <element signature="method#onRequestPermissionsResult#0;class#FirstActivity#0" expanded="false" />[m
+[31m-            <element signature="e#8302#8385#0" expanded="false" />[m
+[31m-            <element signature="e#8680#8701#0" expanded="false" />[m
+[31m-            <element signature="class#10918:11867" expanded="false" />[m
+[31m-            <element signature="method#onResponse#0;class#10918:11867" expanded="false" />[m
+[31m-            <element signature="method#onFailure#0;class#10918:11867" expanded="false" />[m
+[31m-            <element signature="class#12363:13478" expanded="false" />[m
+[31m-            <element signature="method#onResponse#0;class#12363:13478" expanded="false" />[m
+[31m-            <element signature="method#onFailure#0;class#12363:13478" expanded="false" />[m
+[31m-          </folding>[m
+         </state>[m
+       </provider>[m
+     </entry>[m
+[36m@@ -3125,7 +3041,7 @@[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[31m-        <state relative-caret-position="308">[m
+[32m+[m[32m        <state relative-caret-position="1547">[m
+           <caret line="91" column="55" selection-start-line="91" selection-start-column="55" selection-end-line="91" selection-end-column="55" />[m
+           <folding />[m
+         </state>[m
+[36m@@ -3143,15 +3059,15 @@[m
+       </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">[m
+[31m-      <provider editor-type-id="android-designer2">[m
+[31m-        <state />[m
+[31m-      </provider>[m
+       <provider selected="true" editor-type-id="text-editor">[m
+         <state relative-caret-position="136">[m
+           <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="15" selection-end-column="37" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+[32m+[m[32m      <provider editor-type-id="android-designer2">[m
+[32m+[m[32m        <state />[m
+[32m+[m[32m      </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/rounded_corners_black_stroke.xml">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[36m@@ -3171,7 +3087,7 @@[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[31m-        <state relative-caret-position="335">[m
+[32m+[m[32m        <state relative-caret-position="544">[m
+           <caret line="32" column="58" selection-start-line="32" selection-start-column="58" selection-end-line="32" selection-end-column="58" />[m
+           <folding />[m
+         </state>[m
+[36m@@ -3179,22 +3095,98 @@[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/RegisterActivity.java">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[31m-        <state relative-caret-position="323">[m
+[32m+[m[32m        <state relative-caret-position="680">[m
+           <caret line="73" column="125" selection-start-line="73" selection-start-column="125" selection-end-line="73" selection-end-column="125" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+     </entry>[m
+     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_register.xml">[m
+[32m+[m[32m      <provider selected="true" editor-type-id="text-editor">[m
+[32m+[m[32m        <state relative-caret-position="374">[m
+[32m+[m[32m          <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />[m
+[32m+[m[32m          <folding />[m
+[32m+[m[32m        </state>[m
+[32m+[m[32m      </provider>[m
+       <provider editor-type-id="android-designer2">[m
+         <state />[m
+       </provider>[m
+[32m+[m[32m    </entry>[m
+[32m+[m[32m    <entry file="jar://C:/Android/.android/build-cache/3aa7f053810022174a4fe436a848b97dca63a4cf/output/jars/classes.jar!/android/support/v4/app/ActivityCompat.class">[m
+       <provider selected="true" editor-type-id="text-editor">[m
+[31m-        <state relative-caret-position="255">[m
+[31m-          <caret line="15" column="46" selection-start-line="15" selection-start-column="46" selection-end-line="15" selection-end-column="46" />[m
+[32m+[m[32m        <state relative-caret-position="186">[m
+[32m+[m[32m          <caret line="131" column="23" selection-start-line="131" selection-start-column="23" selection-end-line="131" selection-end-column="23" />[m
+           <folding />[m
+         </state>[m
+       </provider>[m
+     </entry>[m
+[32m+[m[32m    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">[m
+[32m+[m[32m      <provider selected="true" editor-type-id="text-editor">[m
+[32m+[m[32m        <state relative-caret-position="186">[m
+[32m+[m[32m          <caret line="19" column="18" selection-start-line="19" selection-start-column="18" selection-end-line="19" selection-end-column="18" />[m
+[32m+[m[32m          <folding />[m
+[32m+[m[32m        </state>[m
+[32m+[m[32m      </provider>[m
+[32m+[m[32m    </entry>[m
+[32m+[m[32m    <entry file="jar://C:/Android/.android/build-cache/2c5294fbf1d76f63273064540d958a30f3abc8d4/output/jars/classes.jar!/com/google/android/gms/location/FusedLocationProviderClient.class">[m
+[32m+[m[32m      <provider selected="true" editor-type-id="text-editor">[m
+[32m+[m[32m        <state relative-caret-position="186">[m
+[32m+[m[32m          <caret line="53" column="26" selection-start-line="53" selection-start-column="26" selection-end-line="53" selection-end-column="26" />[m
+[32m+[m[32m          <folding>[m
+[32m+[m[32m            <element signature="e#2238#2239#0" expanded="true" />[m
+[32m+[m[32m            <element signature="e#2284#2285#0" expanded="true" />[m
+[32m+[m[32m          </folding>[m
+[32m+[m[32m        </state>[m
+[32m+[m[32m      </provider>[m
+[32m+[m[32m    </entry>[m
+[32m+[m[32m    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_first.xml">[m
+[32m+[m[32m      <provider selected="true" editor-type-id="text-editor">[m
+[32m+[m[32m        <state relative-caret-position="119">[m
+[32m+[m[32m          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />[m
+[32m+[m[32m          <folding />[m
+[32m+[m[32m        </state>[m
+[32m+[m[32m      </provider>[m
+[32m+[m[32m      <provider editor-type-id="android-designer2">[m
+[32m+[m[32m        <state />[m
+[32m+[m[32m      </provider>[m
+[32m+[m[32m    </entry>[m
+[32m+[m[32m    <entry file="file://$PROJECT_DIR$/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java">[m
+[32m+[m[32m      <provider selected="true" editor-type-id="text-editor">[m
+[32m+[m[32m        <state relative-caret-position="201">[m
+[32m+[m[32m          <caret line="151" column="61" selection-start-line="151" selection-start-column="61" selection-end-line="151" selection-end-column="61" />[m
+[32m+[m[32m          <folding>[m
+[32m+[m[32m            <element signature="imports" expanded="true" />[m
+[32m+[m[32m            <element signature="e#2343#2392#0" expanded="true" />[m
+[32m+[m[32m            <element signature="e#3311#3439#0" expanded="true" />[m
+[32m+[m[32m            <element signature="e#3438#3439#0" expanded="true" />[m
+[32m+[m[32m            <element signature="method#delayActivity#0;class#FirstActivity#0" expanded="false" />[m
+[32m+[m[32m            <element signature="class#4216:4306" expanded="false" />[m
+[32m+[m[32m            <element signature="method#run#0;class#4216:4306" expanded="false" />[m
+[32m+[m[32m            <element signature="e#4497#5724#0" expanded="true" />[m
+[32m+[m[32m            <element signature="e#5723#5724#0" expanded="true" />[m
+[32m+[m[32m            <element signature="method#showSnackbar#0;class#FirstActivity#0" expanded="false" />[m
+[32m+[m[32m            <element signature="method#showSnackbar#1;class#FirstActivity#0" expanded="false" />[m
+[32m+[m[32m            <element signature="e#7096#7184#0" expanded="false" />[m
+[32m+[m[32m            <element signature="e#7419#7448#0" expanded="true" />[m
+[32m+[m[32m            <element signature="e#7491#7770#0" expanded="true" />[m
+[32m+[m[32m            <element signature="e#7769#7770#0" expanded="true" />[m
+[32m+[m[32m            <element signature="e#8491#8574#0" expanded="false" />[m
+[32m+[m[32m            <element signature="e#8929#8950#0" expanded="false" />[m
+[32m+[m[32m            <element signature="e#9778#9816#0" expanded="true" />[m
+[32m+[m[32m            <element signature="e#9818#9835#0" expanded="true" />[m
+[32m+[m[32m            <element signature="e#9861#10660#0" expanded="true" />[m
+[32m+[m[32m            <element signature="e#10659#10660#0" expanded="true" />[m
+[32m+[m[32m            <element signature="method#getWarehouseForLocation#0;class#FirstActivity#0" expanded="false" />[m
+[32m+[m[32m            <element signature="class#11226:12175" expanded="false" />[m
+[32m+[m[32m            <element signature="method#onResponse#0;class#11226:12175" expanded="false" />[m
+[32m+[m[32m            <element signature="method#onFailure#0;class#11226:12175" expanded="false" />[m
+[32m+[m[32m            <element signature="method#getCansListForWarehouse#0;class#FirstActivity#0" expanded="false" />[m
+[32m+[m[32m            <element signature="class#12671:13786" expanded="false" />[m
+[32m+[m[32m            <element signature="method#onResponse#0;class#12671:13786" expanded="false" />[m
+[32m+[m[32m            <element signature="method#onFailure#0;class#12671:13786" expanded="false" />[m
+[32m+[m[32m          </folding>[m
+[32m+[m[32m        </state>[m
+[32m+[m[32m      </provider>[m
+[32m+[m[32m    </entry>[m
+   </component>[m
+ </project>[m
+\ No newline at end of file[m
+[1mdiff --git a/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java b/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java[m
+[1mindex b37baa5..4ae6889 100644[m
+[1m--- a/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java[m
+[1m+++ b/app/src/main/java/in/neer24/neer24/Activities/FirstActivity.java[m
+[36m@@ -73,7 +73,6 @@[m [mpublic class FirstActivity extends AppCompatActivity {[m
+ [m
+ [m
+         progressBar=(ProgressBar)findViewById(R.id.firstActivityProgressBar);[m
+[31m-        progressBar.setVisibility(View.VISIBLE);[m
+ [m
+         mLatitudeLabel = getResources().getString(R.string.latitude_label);[m
+         mLongitudeLabel = getResources().getString(R.string.longitude_label);[m
+[36m@@ -86,6 +85,7 @@[m [mpublic class FirstActivity extends AppCompatActivity {[m
+     public void onStart() {[m
+         super.onStart();[m
+ [m
+[32m+[m
+         warehouseID = sharedPreferenceUtility.getWareHouseID();[m
+ [m
+         if(warehouseID == 0){[m
+[36m@@ -102,9 +102,6 @@[m [mpublic class FirstActivity extends AppCompatActivity {[m
+         else {[m
+             getCansListForWarehouse(warehouseID);[m
+         }[m
+[31m-[m
+[31m-        pauseActivityForTwoSeconds();[m
+[31m-[m
+     }[m
+ [m
+     public void pauseActivityForTwoSeconds(){[m
+[36m@@ -112,7 +109,6 @@[m [mpublic class FirstActivity extends AppCompatActivity {[m
+             @Override[m
+             public void run() {[m
+             launchNextActivity();[m
+[31m-                finish();[m
+             }[m
+         }, 2500);[m
+     }[m
+[36m@@ -121,7 +117,6 @@[m [mpublic class FirstActivity extends AppCompatActivity {[m
+ [m
+         if(sharedPreferenceUtility.getFirstTimeLaunch()){[m
+             sharedPreferenceUtility.setFirstTimeLaunch(false);[m
+[31m-[m
+             Intent intent = new Intent(FirstActivity.this, WelcomeActivity.class);[m
+             startActivity(intent);[m
+ [m
+[36m@@ -152,6 +147,8 @@[m [mpublic class FirstActivity extends AppCompatActivity {[m
+                     @Override[m
+                     public void onComplete(@NonNull Task<Location> task) {[m
+                         if (task.isSuccessful() && task.getResult() != null) {[m
+[32m+[m[32m                            Toast.makeText(FirstActivity.this,"exception 1",Toast.LENGTH_SHORT);[m
+[32m+[m[32m                            progressBar.setVisibility(View.VISIBLE);[m
+                             mLastLocation = task.getResult();[m
+ [m
+                             currentLatitude=String.format(Locale.ENGLISH, "%s: %f",[m
+[36m@@ -161,12 +158,17 @@[m [mpublic class FirstActivity extends AppCompatActivity {[m
+                                     mLongitudeLabel,[m
+                                     mLastLocation.getLongitude());[m
+                         } else {[m
+[32m+[m[32m                            Toast.makeText(FirstActivity.this,"exception 2",Toast.LENGTH_SHORT);[m
+                             Log.w(TAG, "getLastLocation:exception", task.getException());[m
+                             showSnackbar(getString(R.string.no_location_detected));[m
+                         }[m
+ [m
+                     }[m
+                 });[m
+[32m+[m
+[32m+[m[32m        pauseActivityForTwoSeconds();[m
+[32m+[m
+[32m+[m
+     }[m
+ [m
+     private void showSnackbar(final String text) {[m
+[36m@@ -232,10 +234,12 @@[m [mpublic class FirstActivity extends AppCompatActivity {[m
+             if (grantResults.length <= 0) {[m
+                 // If user interaction was interrupted, the permission request is cancelled and you[m
+                 // receive empty arrays.[m
+[32m+[m[32m                progressBar.setVisibility(View.INVISIBLE);[m
+                 Log.i(TAG, "User interaction was cancelled.");[m
+             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {[m
+                 // Permission granted.[m
+                 getLastLocation();[m
+[32m+[m
+             } else {[m
+                 // Permission denied.[m
+ [m
+[36m@@ -248,6 +252,7 @@[m [mpublic class FirstActivity extends AppCompatActivity {[m
+                 // again" prompts). Therefore, a user interface affordance is typically implemented[m
+                 // when permissions are denied. Otherwise, your app could appear unresponsive to[m
+                 // touches or interactions which have required permissions.[m
+[32m+[m[32m                progressBar.setVisibility(View.INVISIBLE);[m
+                 showSnackbar(R.string.permission_denied_explanation, R.string.settings,[m
+                         new View.OnClickListener() {[m
+                             @Override[m
+[1mdiff --git a/app/src/main/res/layout/activity_first.xml b/app/src/main/res/layout/activity_first.xml[m
+[1mindex f0add31..6858b23 100644[m
+[1m--- a/app/src/main/res/layout/activity_first.xml[m
+[1m+++ b/app/src/main/res/layout/activity_first.xml[m
+[36m@@ -16,6 +16,7 @@[m [mtools:context="in.neer24.neer24.Activities.FirstActivity">[m
+     android:layout_width="wrap_content"[m
+     android:layout_height="wrap_content"[m
+     android:layout_centerHorizontal="true"[m
+[32m+[m[32m    android:visibility="invisible"[m
+     android:layout_centerVertical="true" />[m
+ [m
+ </RelativeLayout>[m
+[1mdiff --git a/build/intermediates/dex-cache/cache.xml b/build/intermediates/dex-cache/cache.xml[m
+[1mindex b1c2ae4..b92150d 100644[m
+[1m--- a/build/intermediates/dex-cache/cache.xml[m
+[1m+++ b/build/intermediates/dex-cache/cache.xml[m
+[36m@@ -37,5 +37,23 @@[m
+         sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">[m
+         <dex dex="C:\Users\vijaysingh\Desktop\Neer 24 v 1.1\neer24\app\build\intermediates\pre-dexed\debug\activation_2ea509a29a81ecc0c356e8d35741f52be1ba4e28.jar" />[m
+     </item>[m
+[32m+[m[32m    <item[m
+[32m+[m[32m        is-multidex="false"[m
+[32m+[m[32m        jar="C:\Users\vijaysingh\Desktop\Neer 24 v 1.3\neer24\app\libs\additionnal.jar"[m
+[32m+[m[32m        jumboMode="false"[m
+[32m+[m[32m        optimize="true"[m
+[32m+[m[32m        revision="26.0.2"[m
+[32m+[m[32m        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">[m
+[32m+[m[32m        <dex dex="C:\Users\vijaysingh\Desktop\Neer 24 v 1.3\neer24\app\build\intermediates\pre-dexed\debug\additionnal_c04ca6233aa961545ddf2a4e9d3d63b45ad6af1b.jar" />[m
+[32m+[m[32m    </item>[m
+[32m+[m[32m    <item[m
+[32m+[m[32m        is-multidex="false"[m
+[32m+[m[32m        jar="C:\Users\vijaysingh\Desktop\Neer 24 v 1.3\neer24\app\libs\activation.jar"[m
+[32m+[m[32m        jumboMode="false"[m
+[32m+[m[32m        optimize="true"[m
+[32m+[m[32m        revision="26.0.2"[m
+[32m+[m[32m        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">[m
+[32m+[m[32m        <dex dex="C:\Users\vijaysingh\Desktop\Neer 24 v 1.3\neer24\app\build\intermediates\pre-dexed\debug\activation_499e3dc8fe78aa2a514c7dcb771b230b031a9df2.jar" />[m
+[32m+[m[32m    </item>[m
+ [m
+ </items>[m
