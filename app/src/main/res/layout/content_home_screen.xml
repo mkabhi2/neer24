@@ -9,13 +9,22 @@
     tools:showIn="@layout/app_bar_home_screen"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layoutManager="LinearLayoutManager" />
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/checkoutButton">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="LinearLayoutManager" />
+
+    </ScrollView>
 
     <LinearLayout
+        android:id="@+id/checkoutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="3"

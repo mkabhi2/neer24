@@ -19,6 +19,7 @@ public class DisclaimerActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_disclaimer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
         setSupportActionBar(toolbar);
 
         setUpNavigationDrawer(toolbar);

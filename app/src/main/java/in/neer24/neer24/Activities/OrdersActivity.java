@@ -25,6 +25,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
         recyclerView = findViewById(R.id.order_rv);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
         setSupportActionBar(toolbar);
 
         setUpNavigationDrawer(toolbar);

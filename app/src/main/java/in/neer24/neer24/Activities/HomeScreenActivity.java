@@ -1,7 +1,6 @@
 package in.neer24.neer24.Activities;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -82,7 +81,7 @@ public class HomeScreenActivity extends AppCompatActivity
         setUpViewPager();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(Color.parseColor("#ff0099cc"));
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
         setSupportActionBar(toolbar);
 
         setUpNavigationDrawer(toolbar);

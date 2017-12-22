@@ -41,6 +41,7 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
         setUpRecyclerView(recyclerView);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
         setSupportActionBar(toolbar);
 
         setUpNavigationDrawer(toolbar);
