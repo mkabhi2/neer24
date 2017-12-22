@@ -1,11 +1,14 @@
 package in.neer24.neer24.Activities;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -58,6 +62,11 @@ public class FirstActivity extends AppCompatActivity {
     private String mLongitudeLabel;
 
 
+    Snackbar snackbar;
+    private RelativeLayout relativeLayout;
+    private BroadcastReceiver mNetworkReceiver;
+
+
     SharedPreferenceUtility sharedPreferenceUtility;
 
     int warehouseID;
@@ -69,10 +78,9 @@ public class FirstActivity extends AppCompatActivity {
         setContentView(R.layout.activity_first);
 
         sharedPreferenceUtility=new SharedPreferenceUtility(this);
-
-
-
+        relativeLayout=(RelativeLayout)findViewById(R.id.main_activity_container);
         progressBar=(ProgressBar)findViewById(R.id.firstActivityProgressBar);
+
 
         mLatitudeLabel = getResources().getString(R.string.latitude_label);
         mLongitudeLabel = getResources().getString(R.string.longitude_label);
@@ -81,27 +89,49 @@ public class FirstActivity extends AppCompatActivity {
 
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
+    public void doTheOperations(){
+
+
+        if(isNetworkAvailable()) {
+            warehouseID = sharedPreferenceUtility.getWareHouseID();
+            if (warehouseID == 0) {
+                if (!checkPermissions()) {
+                    requestPermissions();
+                } else {
+                    getLastLocation();
+                }
+                if (currentLongitude != null && currentLongitude != null)
+                    getWarehouseForLocation(Float.parseFloat(currentLatitude), Float.parseFloat(currentLongitude));
+            } else {
+                getCansListForWarehouse(warehouseID);
+            }
+        }else {
+            snackbar= Snackbar
+                    .make(relativeLayout, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            doTheOperations();
+                        }
+                    });
+            snackbar.show();
+        }
+    }
+
+
+
     @Override
     public void onStart() {
         super.onStart();
-
-
-        warehouseID = sharedPreferenceUtility.getWareHouseID();
-
-        if(warehouseID == 0){
-            if (!checkPermissions()) {
-                requestPermissions();
-            } else {
-                getLastLocation();
-            }
-            currentLatitude= sharedPreferenceUtility.getLocationLatitude();
-            currentLongitude=sharedPreferenceUtility.getLocationLongitude();
-
-            getWarehouseForLocation(Float.parseFloat(currentLatitude),Float.parseFloat(currentLongitude));
-        }
-        else {
-            getCansListForWarehouse(warehouseID);
-        }
+        doTheOperations();
     }
 
     public void pauseActivityForTwoSeconds(){

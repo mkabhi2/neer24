@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:background="@drawable/shadow">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/shadow">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/shadow">
+            <ImageView
+                android:id="@+id/iv_productImageRVOrder"
+                android:layout_width="70dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="16dp"
+                app:srcCompat="@drawable/bisleri"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:id="@+id/textviewsRVOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toRightOf="@id/iv_productImageRVOrder">
+                <TextView
+                    android:id="@+id/tv_productNameRVOrder"
+                    android:text="Bottle"
+                    android:textSize="20sp"
+                    android:textColor="#000"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="5dp" />
+                <TextView
+                    android:id="@+id/tv_productTotalCostRVOrder"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:text="itemQuantity"
+                    android:textSize="16sp"
+                    android:textColor="#000"
+                    android:layout_marginTop="5dp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/tv_productTotalItemRVOrder"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:text="price"
+                        android:textSize="16sp"
+                        android:textColor="#000"
+                        android:layout_marginTop="5dp"/>
+                    <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="70dp"
+                        android:layout_height="25dp"
+                        android:text="Details"
+                        android:textSize="10dp"
+                        android:textColor="@color/Black"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_marginBottom="0dp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@color/dot_dark_screen2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="Order Date and Time"
+            android:textSize="20sp"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp" />
+        <TextView
+            android:id="@+id/tv_productOrderDateRVOrder"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="orderDate"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
+</RelativeLayout>

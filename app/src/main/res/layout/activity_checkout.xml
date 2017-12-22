@@ -17,6 +17,7 @@ tools:context="in.neer24.neer24.Activities.CheckoutActivity">
     android:textColor="@color/colorPrimaryDark"/>
 
 <Button
+    android:id="@+id/proceedToPayCheckoutActivity"
     android:layout_width="match_parent"
     android:layout_alignParentBottom="true"
     android:text="Proceed To Pay"

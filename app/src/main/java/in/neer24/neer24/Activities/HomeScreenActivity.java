@@ -214,6 +214,22 @@ public class HomeScreenActivity extends AppCompatActivity
         }
     }
 
+    public static double  calculateTotalCostOfCart(){
+        HashMap<Can,Integer> cart= Cart.getCartList();
+        int totalQuantity=0;
+        double price=0;
+        double totalCost=0;
+        if(cart.size()==0){
+            return 0.0;
+        }else {
+            for (Can c : cart.keySet()) {
+                price = c.getPrice();
+                Integer value = cart.get(c);
+                totalCost = totalCost + (price * value);
+            }
+            return totalCost;
+        }
+    }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 

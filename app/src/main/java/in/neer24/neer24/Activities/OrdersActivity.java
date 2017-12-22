@@ -7,16 +7,32 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import in.neer24.neer24.Adapters.OrdersRVAdapter;
+import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.R;
+import in.neer24.neer24.Utilities.RVItemDecoration;
+import in.neer24.neer24.Utilities.RetroFitNetworkClient;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OrdersActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     RecyclerView recyclerView;
-
+    static ArrayList<CustomerOrder> ordersList = new ArrayList<CustomerOrder>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,12 +41,51 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
         recyclerView = findViewById(R.id.order_rv);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
         setSupportActionBar(toolbar);
 
+        fetchCustomerOrders();
         setUpNavigationDrawer(toolbar);
+
+
     }
 
+    public void fetchCustomerOrders(){
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<List<CustomerOrder>> call = retroFitNetworkClient.getAllCustomerOrders(1);
+
+        call.enqueue(new Callback<List<CustomerOrder>>() {
+            @Override
+            public void onResponse(Call<List<CustomerOrder>> call, Response<List<CustomerOrder>> response) {
+                ordersList = (ArrayList<CustomerOrder>) response.body();
+                setUpRecyclerView(recyclerView);
+            }
+
+            @Override
+            public void onFailure(Call<List<CustomerOrder>> call, Throwable t) {
+                Toast.makeText(OrdersActivity.this,"Error occured",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+    public void setUpRecyclerView(RecyclerView recyclerView){
+
+        recyclerView.setAdapter(new OrdersRVAdapter(ordersList, this));
+        recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
+    }
     public void setUpNavigationDrawer(Toolbar toolbar){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.order_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
