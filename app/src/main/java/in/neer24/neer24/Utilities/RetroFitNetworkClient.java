@@ -43,4 +43,7 @@ public interface RetroFitNetworkClient {
 
     @GET("/neer/webapi/warehousecan/updatecanquantity")
     Call<String> updateWarehouseCanTable(@Query("canid") int canID, @Query("warehouseid") int warehouseID);
+
+    @GET("/neer/webapi/warehousecan/warehousecanbywarehouseid")
+    Call<OrderDetails> getOrderDetailsForOrderID(@Query("orderID") int orderID);
 }

@@ -34,7 +34,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
     TextView endDateTV, deliveryTimeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV;
     ImageView productImage;
     Spinner spinnerNumOfCans, spinnerInterval;
-    private int mYear, mMonth, mDay, mHour, mMinute,  sYear, sMonth, sDay, sHour, sMinute;
+    private int currentYear, currentMonth, currentDay, currentHour, currentMinute, selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute;
     Date date;
     Can can;
     int numOfCans, recurrenceInterval;
@@ -42,6 +42,8 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
     double total;
     Toast toast;
     Time time;
+    View calculationView;
+    String monthName[] = {"Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","Nov","Dec"};
 
 
     @Override
@@ -65,6 +67,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         priceDetailsTV = (TextView) findViewById(R.id.price_details);
         totalCostTV = (TextView) findViewById(R.id.totalCost);
         spinnerInterval = (Spinner) findViewById(R.id.spinner_interval);
+        calculationView = findViewById(R.id.calculationView);
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
@@ -176,9 +179,9 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
             final Calendar c = Calendar.getInstance();
             c.add(Calendar.DATE, 2);
 
-            mDay = c.get(Calendar.DAY_OF_MONTH);
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
+            currentDay = c.get(Calendar.DAY_OF_MONTH);
+            currentYear = c.get(Calendar.YEAR);
+            currentMonth = c.get(Calendar.MONTH);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                     new DatePickerDialog.OnDateSetListener() {
@@ -187,14 +190,22 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
 
-                            sDay = dayOfMonth;
-                            sMonth = monthOfYear + 1;
-                            sYear = year;
+                            String showDay, showYear;
+                            selectedDay = dayOfMonth;
+                            selectedMonth = monthOfYear;
+                            selectedYear = year;
 
-                            endDateTV.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                            showDay = Integer.valueOf(selectedDay).toString();
+                            showYear = Integer.valueOf(selectedYear).toString();
+
+                            if(selectedDay < 10) {
+                                showDay = "0" + showDay;
+                            }
+
+                            endDateTV.setText(showDay + " - " + monthName[selectedMonth] + " - " + showYear);
 
                         }
-                    }, mYear, mMonth, mDay);
+                    }, currentYear, currentMonth, currentDay);
             datePickerDialog.getDatePicker().setMinDate(c.getTime().getTime());
             datePickerDialog.show();
         }
@@ -202,8 +213,8 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
             // Get Current Time
             final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
+            currentHour = c.get(Calendar.HOUR_OF_DAY);
+            currentMinute = c.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this,
@@ -213,18 +224,45 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
 
-                            sHour = hourOfDay;
-                            sMinute = minute;
+                            selectedHour = hourOfDay;
+                            selectedMinute = minute;
+                            String showHour;
+                            String showMinute;
+                            boolean isAM;
 
-                            deliveryTimeTV.setText(hourOfDay + ":" + minute);
+                            if(selectedHour > 12) {
+                                isAM = false;
+                                showHour = Integer.valueOf(hourOfDay - 12).toString();
+                            }
+                            else {
+                                isAM = true;
+                                showHour = Integer.valueOf(hourOfDay).toString();
+                            }
+
+                            showMinute = Integer.valueOf(minute).toString();
+
+                            if(selectedHour != 12) {
+                                showHour = "0" + showHour;
+                            }
+
+                            if(selectedMinute < 10) {
+                                showMinute = "0" + showMinute;
+                            }
+
+                            if(isAM) {
+                                deliveryTimeTV.setText(showHour + " : " + showMinute + " AM");
+                            }
+                            else {
+                                deliveryTimeTV.setText(showHour + " : " + showMinute + " PM");
+                            }
                         }
-                    }, mHour, mMinute, false);
+                    }, currentHour, currentMinute, false);
             timePickerDialog.show();
         }
 
         if( v == btnCart ){
             //TODO CREATE INTENT FOR GOING TO CART PAGE WITH DETAILS
-            if(sDay == 0 || (sHour == 0 && sMinute==0)){
+            if(selectedDay == 0 || (selectedHour == 0 && selectedMinute ==0)){
                 if (toast != null) {
                     toast.cancel();
                 }
@@ -232,16 +270,16 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                 toast.show();
             }
             else {
-                date = new Date(sYear,sMonth,sDay);
-                Date startDate = new Date(mYear,mMonth,mDay);
+                date = new Date(selectedYear, selectedMonth, selectedDay);
+                Date startDate = new Date(currentYear, currentMonth, currentDay);
 
                 long diff = date.getTime() - startDate.getTime();
                 float days = (diff / (1000*60*60*24));
 
 
-                time = new Time(sHour, sMinute, 0);
-                date.setHours(sHour);
-                date.setMinutes(sMinute);
+                time = new Time(selectedHour, selectedMinute, 0);
+                date.setHours(selectedHour);
+                date.setMinutes(selectedMinute);
                 Intent intent = new Intent();
                 intent.putExtra("dateTime",date);
             }
@@ -251,10 +289,12 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
     void updateOrderValue(){
 
-        if(sDay != 0 && (sHour != 0 || sMinute != 0)) {
+        if( selectedDay != 0 ) {
 
-            Date endDate = new Date(sYear,sMonth-1,sDay);
-            Date startDate = new Date(mYear,mMonth,mDay);
+            calculationView.setVisibility(View.VISIBLE);
+
+            Date endDate = new Date(selectedYear, selectedMonth, selectedDay);
+            Date startDate = new Date(currentYear, currentMonth, currentDay);
 
             long diff = endDate.getTime() - startDate.getTime();
             int days = (int)(diff / (1000*60*60*24)) + 2;

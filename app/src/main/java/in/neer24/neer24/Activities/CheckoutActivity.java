@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import in.neer24.neer24.CustomObjects.Can;
-import in.neer24.neer24.CustomObjects.Cart;
+import in.neer24.neer24.CustomObjects.NormalCart;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.Fragments.CheckoutFragment;
@@ -33,12 +34,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CheckoutActivity extends AppCompatActivity {
 
     private TextView cartSummaryTextView;
-    private Button proceedToPayButton;
+    public static Button proceedToPayButton;
 
     String returnedOrderID="";
     String isOrderDetailsInsertionSuccesFull;
     // private TextView checkoutActivityTotalCartValueTextView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +63,24 @@ public class CheckoutActivity extends AppCompatActivity {
         proceedToPayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap.Entry<Can, Integer> entry = Cart.getCartList().entrySet().iterator().next();
+                HashMap.Entry<Can, Integer> entry = NormalCart.getCartList().entrySet().iterator().next();
                 Can can = entry.getKey();
                 insertDataIntoOrderTable(createObjectForOrderTable(can));
             }
         });
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
     public ArrayList<OrderDetails> createObjectForOrderDetails(String orderID){
         ArrayList<OrderDetails> al=new ArrayList<OrderDetails>();
-        HashMap<Can,Integer> cans=Cart.getCartList();
+        HashMap<Can,Integer> cans= NormalCart.getCartList();
         for (Can can:cans.keySet()) {
             int canID=can.getCanID();
             int isNew=0;
@@ -100,7 +107,7 @@ public class CheckoutActivity extends AppCompatActivity {
         int customerID=sharedPreferenceUtility.getCustomerID();
         int warehouseID=can.getWarehouseID();
         int deliveryBoyID=1;
-        double totalAmount=HomeScreenActivity.calculateTotalCostOfCart();
+        double totalAmount= HomeScreenActivity.calculateTotalCostOfCart();
 
         String orderDate= sdf.format(oDate);
         String deliveryTime=sdf1.format(dTime);
@@ -206,7 +213,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
 
 //    public void updateTotalValueOfCart() {
-//        HashMap<Dish, Integer> cart = Cart.getCartList();
+//        HashMap<Dish, Integer> cart = NormalCart.getCartList();
 //        double price = 0;
 //        double totalCost = 0;
 //        if (cart.size() == 0) {
@@ -228,5 +235,7 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onBackPressed();
         HomeScreenActivity.showCartDetailsSummary();
     }
-}
 
+
+
+}

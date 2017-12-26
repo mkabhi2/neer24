@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="16dp"
+    android:paddingLeft="10dp"
     android:paddingRight="16dp"
     android:background="@drawable/shadow">
 
@@ -11,7 +11,7 @@
         android:id="@+id/iv_productImage"
         android:layout_width="70dp"
         android:layout_height="100dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="10dp"
         app:srcCompat="@mipmap/ic_launcher"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -31,7 +31,8 @@
             android:textColor="#000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"/>
 
         <!--
         <TextView
@@ -72,31 +73,33 @@
         <Button
             android:id="@+id/btn_qty_decrease"
             android:layout_width="30dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:text="-"
             android:textSize="17sp"
             android:layout_marginRight="5dp"
-            android:background="#36ABE1"/>
+            android:background="@drawable/rv_home_item_round_corner_button_add"
+            android:layout_gravity="center_vertical"/>
 
         <Button
             android:id="@+id/btn_order_or_qty"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
-            android:text="ORDER"
+            android:layout_width="50dp"
+            android:layout_height="37dp"
+            android:text="ADD"
             android:layout_marginRight="5dp"
-            android:background="#36ABE1"
+            android:background="@drawable/rv_home_item_round_corner_button"
 
             />
 
         <Button
             android:id="@+id/btn_qty_increase"
             android:layout_width="30dp"
-            android:layout_height="40dp"
+            android:layout_height="30dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="+"
             android:textSize="17sp"
-            android:background="#36ABE1"/>
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/rv_home_item_round_corner_button_add"/>
 
 
     </LinearLayout>

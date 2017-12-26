@@ -1,35 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context="in.neer24.neer24.Activities.CheckoutActivity">
-
-<TextView
-    android:id="@+id/checkoutActivityCartSummaryTextView"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="40dp"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:paddingLeft="8dp"
-    android:text="Cart Summary"
-    android:textColor="@color/colorPrimaryDark"/>
+    android:layout_height="match_parent"
+    tools:context="in.neer24.neer24.Activities.CheckoutActivity">
 
-<Button
-    android:id="@+id/proceedToPayCheckoutActivity"
-    android:layout_width="match_parent"
-    android:layout_alignParentBottom="true"
-    android:text="Proceed To Pay"
-    android:layout_height="40dp" />
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    android:layout_below="@+id/checkoutActivityCartSummaryTextView"
-    android:id="@+id/cartFragmentContainer">
+    </android.support.design.widget.AppBarLayout>
 
-</RelativeLayout>
+    <include layout="@layout/content_checkout" />
 
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

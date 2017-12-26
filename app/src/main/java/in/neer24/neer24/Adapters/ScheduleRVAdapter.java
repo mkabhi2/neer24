@@ -21,7 +21,7 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<ScheduleRVAdapter.Vi
 
     private final List<Can> cans;
     private final Context mContext;
-
+    public View view;
 
     public ScheduleRVAdapter(List<Can> cans, Context context) {
         this.cans = cans;
@@ -39,6 +39,7 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<ScheduleRVAdapter.Vi
         public ViewHolder(View itemView) {
 
             super(itemView);
+            view = itemView;
             name = (TextView) itemView.findViewById(R.id.tv_productName);
             description = (TextView) itemView.findViewById(R.id.tv_productQuality);
             price = (TextView) itemView.findViewById(R.id.tv_productPrice);
@@ -73,15 +74,16 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<ScheduleRVAdapter.Vi
 
         String canName = can.getName().toLowerCase();
         switch(canName){
+
             case "aquasure" : photoIV.setImageResource(R.drawable.aquasure);
-                break;
+                              break;
             case "bisleri"  : photoIV.setImageResource(R.drawable.bisleri);
-                break;
-            case "despenser": photoIV.setImageResource(R.drawable.dispencer);
-                descriptionTV.setVisibility(View.INVISIBLE);
-                break;
+                              break;
+            case "despenser": view.setVisibility(View.GONE);
+                              cans.remove(can);
+                              break;
             case "kinley"   : photoIV.setImageResource(R.drawable.kinley);
-                break;
+                              break;
             default         : photoIV.setImageResource(R.drawable.normal);
         }
         //Picasso.with(mContext).load(can.getPhoto()).into(photoIV);

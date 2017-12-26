@@ -6,13 +6,13 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_orders">ORDERS</string>
+    <string name="title_activity_orders">My Orders</string>
     <string name="title_activity_schedule_delivery">Schedule Delivery</string>
     <string name="title_activity_disclaimer">Disclaimer</string>
     <string name="title_activity_share">Share and Earn</string>
     <string name="title_activity_help">Help</string>
-    <string name="title_activity_one_time_set_schedule">Schedule Delivery</string>
-    <string name="title_activity_set_recurring_schedule">Schedule Delivery</string>
+    <string name="title_activity_one_time_set_schedule">Schedule Single Delivery</string>
+    <string name="title_activity_set_recurring_schedule">Schedule Recurring Delivery</string>
     <string name="latitude_label">Latitude</string>
     <string name="longitude_label">Longitude</string>
     <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
@@ -54,4 +54,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Rs">\u20B9</string>
+    <string name="title_activity_order_details">Order Details</string>
+    <string name="title_activity_checkout">Checkout</string>
 </resources>

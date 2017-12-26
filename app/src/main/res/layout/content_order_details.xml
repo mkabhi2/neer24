@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.neer24.neer24.Activities.OrderDetailsActivity"
+    tools:showIn="@layout/activity_order_details">
+
+    <ProgressBar
+        android:id="@+id/orderDetailsActivityProgressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        android:layout_centerVertical="true" />
+
+    <ScrollView
+        android:id="@+id/hello1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/checkoutButtons"
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:id="@+id/mainContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/basicOrderDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/tv_border2"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Order ID" />
+
+                    <TextView
+                        android:id="@+id/orderID"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="12345"
+                        android:textAlignment="viewEnd" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Order Date" />
+
+                    <TextView
+                        android:id="@+id/orderDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Order Date"
+                        android:textAlignment="viewEnd" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Order Status" />
+
+                    <TextView
+                        android:id="@+id/orderStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Dispatched"
+                        android:textAlignment="viewEnd" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Order Type" />
+
+                    <TextView
+                        android:id="@+id/orderType"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Recurring"
+                        android:textAlignment="viewEnd" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/orderContents"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/tv_border2"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <RelativeLayout
+                    android:id="@+id/orderItemsHeading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/Green"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/totalTetxView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_gravity="start"
+                        android:text="Item"
+                        android:textAlignment="viewStart"
+                        android:textColor="#FFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/totalCost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="end"
+                        android:text="Total"
+                        android:textAlignment="viewEnd"
+                        android:textColor="#FFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/orderItemsRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="LinearLayoutManager" />
+
+                <RelativeLayout
+                    android:id="@+id/grandTotalRL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/Green"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_gravity="start"
+                        android:text="Grand Total"
+                        android:textAlignment="viewStart"
+                        android:textColor="#FFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/grandTotalTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="end"
+                        android:text="Total"
+                        android:textAlignment="viewEnd"
+                        android:textColor="#FFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/tv_border2"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="DELIVERY ADDRESS"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/deliveryAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Flat No. 7, 2nd Floor, Building No. 86, 4th cross road, 1st main road, Kalamadir, Marathahalli, Bangalore 560037" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/checkoutButtons">
+
+        <Button
+            android:id="@+id/recurringOrderCancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:text="CANCEL RECURRING ORDER"
+            android:background="@color/Yellow"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/orderCancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="5dp"
+            android:text="CANCEL ORDER"
+            android:background="@color/Red"
+            android:textColor="@color/White"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

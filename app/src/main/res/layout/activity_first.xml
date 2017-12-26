@@ -12,7 +12,7 @@ tools:context="in.neer24.neer24.Activities.FirstActivity">
 
 <ProgressBar
     android:id="@+id/firstActivityProgressBar"
-    style="?android:attr/progressBarStyleLarge"
+    style="?android:attr/progressBarStyle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"

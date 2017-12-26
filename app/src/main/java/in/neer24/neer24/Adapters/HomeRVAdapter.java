@@ -14,7 +14,7 @@ import java.util.List;
 
 import in.neer24.neer24.Activities.HomeScreenActivity;
 import in.neer24.neer24.CustomObjects.Can;
-import in.neer24.neer24.CustomObjects.Cart;
+import in.neer24.neer24.CustomObjects.NormalCart;
 import in.neer24.neer24.R;
 
 /**
@@ -95,7 +95,7 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
                 break;
             case "despenser":
                 photoIV.setImageResource(R.drawable.dispencer);
-                descriptionTV.setVisibility(View.INVISIBLE);
+                descriptionTV.setVisibility(View.GONE);
                 break;
             case "kinley":
                 photoIV.setImageResource(R.drawable.kinley);
@@ -106,15 +106,15 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
         //Picasso.with(mContext).load(can.getPhoto()).into(photoIV);
 
 
-        HashMap<Can, Integer> ch = Cart.getCartList();
+        HashMap<Can, Integer> ch = NormalCart.getCartList();
 
-        if (Cart.getQuantityForSelectedItem(can) == 0) {
+        if (NormalCart.getQuantityForSelectedItem(can) == 0) {
 
-            displayItemCountBT.setText("ORDER");
+            displayItemCountBT.setText("ADD");
             decreaseByOneBT.setVisibility(View.INVISIBLE);
             increaseByOneBT.setVisibility(View.INVISIBLE);
         } else {
-            Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
+            Integer count = new Integer(NormalCart.getQuantityForSelectedItem(can));
             displayItemCountBT.setText(count.toString());
             HomeScreenActivity.showCartDetailsSummary();
         }
@@ -123,9 +123,10 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
             @Override
             public void onClick(View v) {
 
-                if (Cart.getQuantityForSelectedItem(can) == 0) {
-                    Cart.addItemsToCarts(can);
+                if (NormalCart.getQuantityForSelectedItem(can) == 0) {
+                    NormalCart.addItemsToCarts(can);
                     displayItemCountBT.setText("1");
+                    displayItemCountBT.requestLayout();
                     decreaseByOneBT.setVisibility(View.VISIBLE);
                     increaseByOneBT.setVisibility(View.VISIBLE);
                     HomeScreenActivity.showCartDetailsSummary();
@@ -137,8 +138,8 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
             @Override
             public void onClick(View v) {
 
-                Cart.addItemsToCarts(can);
-                Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
+                NormalCart.addItemsToCarts(can);
+                Integer count = new Integer(NormalCart.getQuantityForSelectedItem(can));
                 displayItemCountBT.setText(count.toString());
                 HomeScreenActivity.showCartDetailsSummary();
             }
@@ -148,19 +149,19 @@ public class HomeRVAdapter extends RecyclerView.Adapter<HomeRVAdapter.ViewHolder
             @Override
             public void onClick(View v) {
 
-                if (Cart.getQuantityForSelectedItem(can) == 1 && can.getUserWantsNewCan() == 1) {
+                if (NormalCart.getQuantityForSelectedItem(can) == 1 && can.getUserWantsNewCan() == 1) {
                     can.setUserWantsNewCan(0);
                 }
 
-                Cart.deleteItemsFromCarts(can);
+                NormalCart.deleteItemsFromCarts(can);
 
-                if (Cart.getQuantityForSelectedItem(can) == 0) {
+                if (NormalCart.getQuantityForSelectedItem(can) == 0) {
 
-                    displayItemCountBT.setText("ORDER");
+                    displayItemCountBT.setText("ADD");
                     increaseByOneBT.setVisibility(View.INVISIBLE);
                     decreaseByOneBT.setVisibility(View.INVISIBLE);
                 } else {
-                    Integer count = new Integer(Cart.getQuantityForSelectedItem(can));
+                    Integer count = new Integer(NormalCart.getQuantityForSelectedItem(can));
                     displayItemCountBT.setText(count.toString());
                 }
                 HomeScreenActivity.showCartDetailsSummary();

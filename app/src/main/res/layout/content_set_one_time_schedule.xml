@@ -12,18 +12,18 @@
         android:id="@+id/pageTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_margin="16dp"
         android:text="Please provide details for scheduling a delivery"
         android:textSize="15sp"
-        android:textStyle="bold"
-        android:layout_alignParentTop="true"/>
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/wholeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pageTitle"
         android:layout_above="@+id/pay"
+        android:layout_below="@+id/pageTitle"
         android:orientation="vertical">
 
         <ScrollView
@@ -102,19 +102,20 @@
                             android:layout_marginTop="16dp"
                             android:text="No date Selected"
                             android:textColor="@color/DarkBlue"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <Button
                             android:id="@+id/btn_date"
                             android:layout_width="wrap_content"
                             android:layout_height="36dp"
                             android:layout_gravity="center"
-                            android:text="SELECT DATE"
-                            android:background="#36ABE1"
                             android:layout_marginTop="5dp"
+                            android:background="#36ABE1"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
-                            android:textSize="14sp" />
+                            android:text="SELECT DATE"
+                            android:textSize="14sp"
+                            android:textColor="#FFF"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -130,19 +131,20 @@
                             android:layout_marginTop="16dp"
                             android:text="No time selected"
                             android:textColor="@color/DarkBlue"
-                            android:textStyle="bold"/>
+                            android:textStyle="bold" />
 
                         <Button
                             android:id="@+id/btn_time"
                             android:layout_width="wrap_content"
                             android:layout_height="36dp"
                             android:layout_gravity="center"
-                            android:text="SELECT TIME"
-                            android:background="#36ABE1"
                             android:layout_marginTop="5dp"
+                            android:background="#36ABE1"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
-                            android:textSize="14sp" />
+                            android:text="SELECT TIME"
+                            android:textSize="14sp"
+                            android:textColor="#FFF"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -154,10 +156,10 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/pay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/pay">
+        android:layout_alignParentBottom="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -167,10 +169,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
                 android:layout_marginTop="32dp"
+                android:background="@color/Green"
                 android:orientation="horizontal"
-                android:background="@color/Yellow">
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="0dp"
@@ -179,7 +181,7 @@
                     android:layout_weight="1"
                     android:text="Total :"
                     android:textAlignment="viewStart"
-                    android:textColor="@color/Red"
+                    android:textColor="@color/White"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -191,7 +193,7 @@
                     android:layout_weight="1"
                     android:text="Total"
                     android:textAlignment="center"
-                    android:textColor="@color/Red"
+                    android:textColor="@color/White"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -203,7 +205,7 @@
                     android:layout_weight="1"
                     android:text="143"
                     android:textAlignment="viewEnd"
-                    android:textColor="@color/Red"
+                    android:textColor="@color/White"
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -213,8 +215,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:text="ORDER"
-                android:background="#36ABE1"/>
+                android:background="#36ABE1"
+                android:text="ORDER" />
         </LinearLayout>
 
     </LinearLayout>

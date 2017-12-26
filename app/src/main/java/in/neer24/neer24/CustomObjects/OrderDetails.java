@@ -13,6 +13,9 @@ public class OrderDetails {
     private int orderID;
     private int orderQuantity;
 
+    Can cansList[];
+    int canQuantity[];
+
 
     public OrderDetails(int canID, int isNew, int isNewDespenser, int orderID, int orderQuantity) {
         this.canID = canID;
@@ -68,5 +71,21 @@ public class OrderDetails {
 
     public void setOrderQuantity(int orderQuantity) {
         this.orderQuantity = orderQuantity;
+    }
+
+    public Can[] getCansList() {
+        return cansList;
+    }
+
+    public void setCansList(Can[] cansList) {
+        this.cansList = cansList;
+    }
+
+    public int[] getCanQuantity() {
+        return canQuantity;
+    }
+
+    public void setCanQuantity(int[] canQuantity) {
+        this.canQuantity = canQuantity;
     }
 }

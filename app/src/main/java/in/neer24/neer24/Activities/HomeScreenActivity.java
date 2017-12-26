@@ -2,6 +2,7 @@ package in.neer24.neer24.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -12,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,11 +20,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import in.neer24.neer24.Adapters.CustomPagerAdapter;
 import in.neer24.neer24.Adapters.HomeRVAdapter;
 import in.neer24.neer24.CustomObjects.Can;
-import in.neer24.neer24.CustomObjects.Cart;
+import in.neer24.neer24.CustomObjects.NormalCart;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RVItemDecoration;
 
@@ -92,6 +94,30 @@ public class HomeScreenActivity extends AppCompatActivity
         viewPager=(ViewPager)findViewById(R.id.viewPager);
         pagerAdapter=new CustomPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
+
+        Timer timer;
+        final long DELAY_MS = 2000;//delay in milliseconds before task is to be executed
+        final long PERIOD_MS = 4000;
+
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            int currentPage = 0;
+            public void run() {
+                if (currentPage == pagerAdapter.getCount()-1) {
+                    currentPage = 0;
+                }
+                viewPager.setCurrentItem(currentPage++, true);
+            }
+        };
+
+        timer = new Timer(); // This will create a new Thread
+        timer .schedule(new TimerTask() { // task to be scheduled
+
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, DELAY_MS, PERIOD_MS);
     }
 
     public void setUpRecyclerView(RecyclerView recyclerView){
@@ -119,28 +145,6 @@ public class HomeScreenActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_screen, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -184,13 +188,13 @@ public class HomeScreenActivity extends AppCompatActivity
     public static void showCartDetailsSummary(){
 
 
-        HashMap<Can,Integer> cart= Cart.getCartList();
+        HashMap<Can,Integer> cart= NormalCart.getCartList();
         int totalQuantity=0;
         double price=0;
         double totalCost=0;
         if(cart.size()==0){
-            cartSummary.setVisibility(View.INVISIBLE);
-            checkoutButton.setVisibility(View.INVISIBLE);
+            cartSummary.setVisibility(View.GONE);
+            checkoutButton.setVisibility(View.GONE);
         }else {
             for (Can c : cart.keySet()) {
                 price = c.getPrice();
@@ -215,7 +219,7 @@ public class HomeScreenActivity extends AppCompatActivity
     }
 
     public static double  calculateTotalCostOfCart(){
-        HashMap<Can,Integer> cart= Cart.getCartList();
+        HashMap<Can,Integer> cart= NormalCart.getCartList();
         int totalQuantity=0;
         double price=0;
         double totalCost=0;
@@ -249,6 +253,5 @@ public class HomeScreenActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         isNew = false;
-
     }
 }

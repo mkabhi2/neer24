@@ -9,15 +9,16 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
-import in.neer24.neer24.Adapters.CheckoutActivityLisviewAdapter;
+import in.neer24.neer24.Adapters.CheckoutLVAdapter;
 import in.neer24.neer24.CustomObjects.Can;
-import in.neer24.neer24.CustomObjects.Cart;
+import in.neer24.neer24.CustomObjects.NormalCart;
 import in.neer24.neer24.R;
 
 
 public class CheckoutFragment extends android.app.Fragment {
 
     ListView chekoutListView;
+    TextView noItemsInCart;
     private static TextView totalCheckoutFragmentTextView;
 
     @Override
@@ -26,9 +27,10 @@ public class CheckoutFragment extends android.app.Fragment {
 
         View view = inflater.inflate(R.layout.fragment_checkout, container, false);
         chekoutListView = (ListView) view.findViewById(R.id.checkoutFragmentListViews);
+        noItemsInCart = (TextView) view.findViewById(R.id.noItemsInCart);
 
 
-        CheckoutActivityLisviewAdapter customAdapter = new CheckoutActivityLisviewAdapter(getActivity());
+        CheckoutLVAdapter customAdapter = new CheckoutLVAdapter(getActivity(), noItemsInCart);
         chekoutListView.setAdapter(customAdapter);
 
         totalCheckoutFragmentTextView=(TextView)view.findViewById(R.id.totalCheckoutFragmentTextView);
@@ -39,7 +41,7 @@ public class CheckoutFragment extends android.app.Fragment {
     }
 
     public static void updateTotalValueOfCart() {
-        HashMap<Can, Integer> cart = Cart.getCartList();
+        HashMap<Can, Integer> cart = NormalCart.getCartList();
         double price = 0;
         double totalCost = 0;
         if (cart.size() == 0) {

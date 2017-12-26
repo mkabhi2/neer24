@@ -11,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
 
     RecyclerView recyclerView;
     static ArrayList<CustomerOrder> ordersList = new ArrayList<CustomerOrder>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +44,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
         recyclerView = findViewById(R.id.order_rv);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
         setSupportActionBar(toolbar);
 
         fetchCustomerOrders();
@@ -50,6 +54,10 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
     }
 
     public void fetchCustomerOrders(){
+
+        final ProgressBar progressBar;
+        progressBar = (ProgressBar) findViewById(R.id.ordersActivityProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
@@ -69,12 +77,14 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
             @Override
             public void onResponse(Call<List<CustomerOrder>> call, Response<List<CustomerOrder>> response) {
                 ordersList = (ArrayList<CustomerOrder>) response.body();
+                progressBar.setVisibility(View.INVISIBLE);
                 setUpRecyclerView(recyclerView);
             }
 
             @Override
             public void onFailure(Call<List<CustomerOrder>> call, Throwable t) {
                 Toast.makeText(OrdersActivity.this,"Error occured",Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -84,7 +94,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
     public void setUpRecyclerView(RecyclerView recyclerView){
 
         recyclerView.setAdapter(new OrdersRVAdapter(ordersList, this));
-        recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
+        recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 500));
     }
     public void setUpNavigationDrawer(Toolbar toolbar){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.order_drawer_layout);

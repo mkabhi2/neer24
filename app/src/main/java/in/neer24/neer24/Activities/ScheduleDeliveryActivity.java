@@ -29,11 +29,17 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
     int warehouseID;
     static ArrayList<Can> allCans = new ArrayList<Can>();
     float currentLatitude, currentLongitude;
+    boolean isNew = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_delivery);
+
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            allCans = savedInstanceState.getParcelableArrayList("scheduleSavedCansList");
+        }
 
         recyclerView = findViewById(R.id.rv1);
 
@@ -130,6 +136,30 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.schedule_delivery_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.schedule_delivery_drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putParcelableArrayList("scheduleSavedCansList",allCans);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isNew = false;
     }
 
 }

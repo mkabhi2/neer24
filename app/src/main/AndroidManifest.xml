@@ -20,18 +20,10 @@
         <activity
             android:name=".Activities.HomeScreenActivity"
             android:label="@string/title_activity_home_screen"
-            android:theme="@style/AppTheme.NoActionBar">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Activities.FirstActivity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -83,17 +75,32 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.LoginActivity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.RegisterActivity"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.OTPActivity" />
         <activity android:name=".Activities.UserProfileActivity" />
         <activity
+            android:name=".Activities.OrderDetailsActivity"
+            android:label="@string/title_activity_order_details"
+            android:parentActivityName=".Activities.OrdersActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.neer24.neer24.Activities.OrdersActivity" />
+        </activity>
+        <activity
             android:name=".Activities.CheckoutActivity"
-            android:label="Checkout"
-            android:parentActivityName=".Activities.HomeScreenActivity"></activity>
-        <activity android:name=".Activities.OrderDetailsActivity"></activity>
+            android:label="@string/title_activity_checkout"
+            android:parentActivityName=".Activities.HomeScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.neer24.neer24.Activities.HomeScreenActivity" />
+        </activity>
     </application>
 
 </manifest>

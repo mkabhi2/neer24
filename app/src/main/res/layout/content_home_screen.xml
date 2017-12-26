@@ -13,7 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/checkoutButton">
+        android:layout_above="@+id/checkoutButton"
+        android:padding="5dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
@@ -41,7 +42,7 @@
             android:background="@drawable/cart_summary_details_textview"
             android:layout_alignBottom="@id/home_screen_content"
             android:text="hello"
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
         <Button
             android:id="@+id/dishActivityCheckoutButton"
             android:layout_width="0dp"
@@ -51,7 +52,7 @@
             android:background="@drawable/checkout_button"
             android:layout_alignBottom="@id/home_screen_content"
             android:layout_toRightOf="@id/dishActivityCartSummaryTextView"
-            android:visibility="invisible"/>
+            android:visibility="gone"/>
     </LinearLayout>
 
 </RelativeLayout>

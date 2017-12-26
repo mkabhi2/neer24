@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
@@ -62,7 +61,7 @@ public class FirstActivity extends AppCompatActivity {
     private String mLongitudeLabel;
 
 
-    Snackbar snackbar;
+    Snackbar snackbar, retroCallFailSnackbar;
     private RelativeLayout relativeLayout;
     private BroadcastReceiver mNetworkReceiver;
 
@@ -77,9 +76,9 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
-        sharedPreferenceUtility=new SharedPreferenceUtility(this);
-        relativeLayout=(RelativeLayout)findViewById(R.id.main_activity_container);
-        progressBar=(ProgressBar)findViewById(R.id.firstActivityProgressBar);
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
+        relativeLayout = (RelativeLayout) findViewById(R.id.main_activity_container);
+        progressBar = (ProgressBar) findViewById(R.id.firstActivityProgressBar);
 
 
         mLatitudeLabel = getResources().getString(R.string.latitude_label);
@@ -97,10 +96,10 @@ public class FirstActivity extends AppCompatActivity {
     }
 
 
-    public void doTheOperations(){
+    public void doTheOperations() {
 
 
-        if(isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
             warehouseID = sharedPreferenceUtility.getWareHouseID();
             if (warehouseID == 0) {
                 if (!checkPermissions()) {
@@ -108,13 +107,12 @@ public class FirstActivity extends AppCompatActivity {
                 } else {
                     getLastLocation();
                 }
-                if (currentLongitude != null && currentLongitude != null)
-                    getWarehouseForLocation(Float.parseFloat(currentLatitude), Float.parseFloat(currentLongitude));
+                getWarehouseForLocation(Float.parseFloat("2.1"), Float.parseFloat("2.1"));
             } else {
                 getCansListForWarehouse(warehouseID);
             }
-        }else {
-            snackbar= Snackbar
+        } else {
+            snackbar = Snackbar
                     .make(relativeLayout, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
                     .setAction("RETRY", new View.OnClickListener() {
                         @Override
@@ -127,47 +125,48 @@ public class FirstActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onStart() {
         super.onStart();
         doTheOperations();
     }
 
-    public void pauseActivityForTwoSeconds(){
+    public void pauseActivityForTwoSeconds() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-            launchNextActivity();
+                launchNextActivity();
             }
         }, 2500);
     }
 
-    private void launchNextActivity(){
+    private void launchNextActivity() {
 
-        if(sharedPreferenceUtility.getFirstTimeLaunch()){
+        progressBar.setVisibility(View.GONE);
+
+        if (sharedPreferenceUtility.getFirstTimeLaunch()) {
             sharedPreferenceUtility.setFirstTimeLaunch(false);
             Intent intent = new Intent(FirstActivity.this, WelcomeActivity.class);
             startActivity(intent);
 
-        }else {
-            if(sharedPreferenceUtility.loggedIn()) {
+        } else {
+            if (sharedPreferenceUtility.loggedIn()) {
                 //take to home page
                 Intent intent = new Intent(FirstActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
-            }else {
+            } else {
                 Intent intent = new Intent(FirstActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         }
     }
 
-    private void delayActivity(){
+    private void delayActivity() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
             }
-        },TIME_OUT);
+        }, TIME_OUT);
     }
 
     @SuppressWarnings("MissingPermission")
@@ -177,18 +176,18 @@ public class FirstActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful() && task.getResult() != null) {
-                            Toast.makeText(FirstActivity.this,"exception 1",Toast.LENGTH_SHORT);
+                            Toast.makeText(FirstActivity.this, "exception 1", Toast.LENGTH_SHORT);
                             progressBar.setVisibility(View.VISIBLE);
                             mLastLocation = task.getResult();
 
-                            currentLatitude=String.format(Locale.ENGLISH, "%s: %f",
-                                    mLatitudeLabel,
+                            currentLatitude = String.format(Locale.ENGLISH, "%f",
                                     mLastLocation.getLatitude());
-                            currentLongitude=String.format(Locale.ENGLISH, "%s: %f",
-                                    mLongitudeLabel,
+                            currentLongitude = String.format(Locale.ENGLISH, "%f",
                                     mLastLocation.getLongitude());
+                            if (currentLongitude != null && currentLatitude != null)
+                                getWarehouseForLocation(Float.parseFloat(currentLatitude), Float.parseFloat(currentLongitude));
                         } else {
-                            Toast.makeText(FirstActivity.this,"exception 2",Toast.LENGTH_SHORT);
+                            Toast.makeText(FirstActivity.this, "exception 2", Toast.LENGTH_SHORT);
                             Log.w(TAG, "getLastLocation:exception", task.getException());
                             showSnackbar(getString(R.string.no_location_detected));
                         }
@@ -196,7 +195,7 @@ public class FirstActivity extends AppCompatActivity {
                     }
                 });
 
-        pauseActivityForTwoSeconds();
+        //pauseActivityForTwoSeconds();
 
 
     }
@@ -207,6 +206,7 @@ public class FirstActivity extends AppCompatActivity {
             Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
         }
     }
+
     private void showSnackbar(final int mainTextStringId, final int actionStringId,
                               View.OnClickListener listener) {
         Snackbar.make(findViewById(android.R.id.content),
@@ -253,7 +253,6 @@ public class FirstActivity extends AppCompatActivity {
             startLocationPermissionRequest();
         }
     }
-
 
 
     @Override
@@ -334,12 +333,20 @@ public class FirstActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
-                Toast.makeText(FirstActivity.this, "Error loading data", Toast.LENGTH_SHORT).show();
+                retroCallFailSnackbar = Snackbar
+                        .make(relativeLayout, "Failed to load data. No Internet Connection.", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                doTheOperations();
+                            }
+                        });
+                retroCallFailSnackbar.show();
             }
         });
     }
 
-    public void getCansListForWarehouse(int wid){
+    public void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://18.220.28.118:8080")
                 .addConverterFactory(GsonConverterFactory.create());
@@ -348,30 +355,39 @@ public class FirstActivity extends AppCompatActivity {
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
         Call<List<Can>> call = retroFitNetworkClient.getCansListForWarehouse(wid);
 
+
         call.enqueue(new Callback<List<Can>>() {
             @Override
             public void onResponse(Call<List<Can>> call, Response<List<Can>> response) {
 
                 HomeScreenActivity.cansList = (ArrayList<Can>) response.body();
-                ScheduleDeliveryActivity.allCans = (ArrayList<Can>) response.body();
-                while(HomeScreenActivity.recyclerView!=null) {
+                ScheduleDeliveryActivity.allCans = new ArrayList<Can>(response.body());
+
+                if (HomeScreenActivity.recyclerView != null) {
                     HomeScreenActivity.recyclerView.setAdapter(new HomeRVAdapter(HomeScreenActivity.cansList, FirstActivity.this));
                     HomeScreenActivity.recyclerView.invalidate();
                 }
-                while (ScheduleDeliveryActivity.recyclerView!=null) {
+                if (ScheduleDeliveryActivity.recyclerView != null) {
                     ScheduleDeliveryActivity.recyclerView.setAdapter(new HomeRVAdapter(ScheduleDeliveryActivity.allCans, FirstActivity.this));
                     ScheduleDeliveryActivity.recyclerView.invalidate();
                 }
+                launchNextActivity();
             }
 
             @Override
             public void onFailure(Call<List<Can>> call, Throwable t) {
-                Toast.makeText(FirstActivity.this, "Error loading data", Toast.LENGTH_SHORT).show();
+                retroCallFailSnackbar = Snackbar
+                        .make(relativeLayout, "Failed to load data. No Internet Connection.", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                doTheOperations();
+                            }
+                        });
+                retroCallFailSnackbar.show();
             }
         });
     }
 
 
-
-
-    }
+}

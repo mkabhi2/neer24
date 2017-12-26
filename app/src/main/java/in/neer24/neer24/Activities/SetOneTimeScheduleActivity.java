@@ -31,13 +31,14 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
     TextView dateTV, timeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV;
     ImageView productImage;
     Spinner spinnerNumOfCans;
-    private int mYear, mMonth, mDay, mHour, mMinute,  sYear, sMonth, sDay, sHour, sMinute;
+    private int currentYear, currentMonth, currentDay, currentHour, currentMinute, selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute;
     Date date;
     Can can;
     int numOfCans;
     String rupeeSymbol;
     double total;
-    Toast toast;
+    Toast checkoutToast, timeTVToast;
+    boolean isDateSelected = false, isTimeSelected = false;
 
 
     @Override
@@ -131,11 +132,10 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
             // Get Current Date
             final Calendar c = Calendar.getInstance();
-            c.add(Calendar.DATE, 1);
 
-            mDay = c.get(Calendar.DAY_OF_MONTH);
-            mYear = c.get(Calendar.YEAR);
-            mMonth = c.get(Calendar.MONTH);
+            currentDay = c.get(Calendar.DAY_OF_MONTH);
+            currentYear = c.get(Calendar.YEAR);
+            currentMonth = c.get(Calendar.MONTH);
 
             DatePickerDialog datePickerDialog = new DatePickerDialog(this,
                     new DatePickerDialog.OnDateSetListener() {
@@ -144,23 +144,37 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                         public void onDateSet(DatePicker view, int year,
                                               int monthOfYear, int dayOfMonth) {
 
-                            sDay = dayOfMonth;
-                            sMonth = monthOfYear + 1;
-                            sYear = year;
+                            timeTV.setText("No Time Selected");
+                            isTimeSelected = false;
+                            isDateSelected = true;
+
+                            selectedDay = dayOfMonth;
+                            selectedMonth = monthOfYear;
+                            selectedYear = year;
 
                             dateTV.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
 
                         }
-                    }, mYear, mMonth, mDay);
+                    }, currentYear, currentMonth, currentDay);
             datePickerDialog.getDatePicker().setMinDate(c.getTime().getTime());
             datePickerDialog.show();
         }
         if (v == btnTimePicker) {
 
+            if(!isDateSelected) {
+                if (timeTVToast != null) {
+                    timeTVToast.cancel();
+                }
+                timeTVToast = Toast.makeText(this, "Please select delivery date first", Toast.LENGTH_SHORT);
+                timeTVToast.show();
+                return;
+            }
+
             // Get Current Time
             final Calendar c = Calendar.getInstance();
-            mHour = c.get(Calendar.HOUR_OF_DAY);
-            mMinute = c.get(Calendar.MINUTE);
+            currentHour = c.get(Calendar.HOUR_OF_DAY);
+            c.add(Calendar.MINUTE,30);
+            currentMinute = c.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
             TimePickerDialog timePickerDialog = new TimePickerDialog(this,
@@ -170,29 +184,41 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
 
-                            sHour = hourOfDay;
-                            sMinute = minute;
+                            selectedHour = hourOfDay;
+                            selectedMinute = minute;
 
-                            timeTV.setText(hourOfDay + ":" + minute);
+                            if (selectedYear == currentYear
+                                    && selectedMonth == currentMonth
+                                    && selectedDay == currentDay
+                                    && (selectedHour < currentHour || (selectedHour == currentHour && selectedMinute < currentMinute))) {
+
+                                timeTV.setText("No Time Selected");
+                                isTimeSelected = false;
+                                Toast.makeText(SetOneTimeScheduleActivity.this, "Set date and time at least 30 minutes from now", Toast.LENGTH_LONG).show();
+                            }
+                            else {
+                                isTimeSelected = true;
+                                timeTV.setText(hourOfDay + ":" + minute);
+                            }
                         }
-                    }, mHour, mMinute, false);
+                    }, currentHour, currentMinute, false);
             timePickerDialog.show();
         }
 
         if( v == btnCart ){
             //TODO CREATE INTENT FOR GOING TO CART PAGE WITH DETAILS
-            if(sDay == 0 || (sHour == 0 && sMinute==0)){
+            if(!isDateSelected || !isTimeSelected){
 
-                if (toast != null) {
-                    toast.cancel();
+                if (checkoutToast != null) {
+                    checkoutToast.cancel();
                 }
-                toast = Toast.makeText(this, "Please select starting date and Time", Toast.LENGTH_SHORT);
-                toast.show();
+                checkoutToast = Toast.makeText(this, "Please select schedule date and Time", Toast.LENGTH_SHORT);
+                checkoutToast.show();
             }
             else {
-                date = new Date(sYear,sMonth,sDay);
-                date.setHours(sHour);
-                date.setMinutes(sMinute);
+                date = new Date(selectedYear, selectedMonth, selectedDay);
+                date.setHours(selectedHour);
+                date.setMinutes(selectedMinute);
                 Intent intent = new Intent();
                 intent.putExtra("dateTime",date);
             }
@@ -202,7 +228,11 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
     void updateOrderValue(){
 
-        priceDetailsTV.setText(rupeeSymbol + " " + (int)can.getPrice() + " * " + numOfCans + " =");
+        String temp  = " (can)";
+        if(numOfCans > 1) {
+            temp = " (cans)";
+        }
+        priceDetailsTV.setText(rupeeSymbol + " " + (int)can.getPrice() + " x " + numOfCans + temp);
         total = can.getPrice() * numOfCans;
         totalCostTV.setText(rupeeSymbol + " " + total);
     }

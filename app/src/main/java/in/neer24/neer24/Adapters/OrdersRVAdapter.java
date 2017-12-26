@@ -7,9 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -35,20 +34,22 @@ public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView name;
-        public TextView orderDate;
-        public TextView price;
-        public ImageView image;
-        public TextView itemQuantity;
+        TextView orderIDTV, totalAmountTV, orderDateTV, paymentModeTV, orderedTV, dispatchedTV, deliveredTV;
+        Button cancelOrderBtn, viewOrderBtn;
 
         public ViewHolder(View itemView) {
 
             super(itemView);
-            itemQuantity = (TextView) itemView.findViewById(R.id.tv_productTotalItemRVOrder);
-            price=(TextView) itemView.findViewById(R.id.tv_productTotalCostRVOrder);
-            name = (TextView) itemView.findViewById(R.id.tv_productNameRVOrder);
-            orderDate = (TextView) itemView.findViewById(R.id.tv_productOrderDateRVOrder);
-            image = (ImageView) itemView.findViewById(R.id.iv_productImageRVOrder);
+            orderIDTV = (TextView) itemView.findViewById(R.id.orderID);
+            totalAmountTV=(TextView) itemView.findViewById(R.id.total_tv);
+            orderDateTV = (TextView) itemView.findViewById(R.id.orderDateAndTime);
+            paymentModeTV = (TextView) itemView.findViewById(R.id.paymentMode);
+            orderedTV = (TextView) itemView.findViewById(R.id.tv_ordered);
+            dispatchedTV = (TextView) itemView.findViewById(R.id.tv_dispatched);
+            deliveredTV = (TextView) itemView.findViewById(R.id.tv_delivered);
+
+            cancelOrderBtn = (Button) itemView.findViewById(R.id.cancelOrderBtn);
+            viewOrderBtn = (Button) itemView.findViewById(R.id.viewOrderBtn);
 
         }
     }
@@ -68,28 +69,33 @@ public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder,final int position) {
-        final CustomerOrder customerOrder = orders.get(position);
 
-        TextView nameTV = holder.name;
-        TextView orderDateTV = holder.orderDate;
-        TextView itemQuantity = holder.itemQuantity;
-        TextView price=holder.price;
+        final CustomerOrder customerOrder = orders.get(position);
         String rupeeSymbol = mContext.getResources().getString(R.string.Rs);
 
-        nameTV.setText(customerOrder.getCanName().toString().replaceAll(",$",""));
-        itemQuantity.setText(Integer.valueOf(customerOrder.getOrderQuantity()).toString());
-        price.setText(rupeeSymbol+" "+ Double.valueOf(customerOrder.getCanPrice()).toString());
-        orderDateTV.setText(customerOrder.getOrderDate().toString().substring(0,16));
+        holder.orderIDTV.setText("ORDER ID : " + customerOrder.getOrderID());
+        holder.totalAmountTV.setText("Total Amount : " + rupeeSymbol + " " + customerOrder.getCanPrice());
+        holder.orderDateTV.setText(customerOrder.getOrderDate().toString().substring(0,16));
 
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.viewOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext, OrderDetailsActivity.class);
+                intent.putExtra("order", customerOrder);
+                ContextCompat.startActivity(mContext,intent,null);
+            }
+        });
+
+        holder.cancelOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(mContext, OrderDetailsActivity.class);
                 ContextCompat.startActivity(mContext,intent,null);
-                Toast.makeText(mContext, "Recycle Click" + position, Toast.LENGTH_SHORT).show();
             }
         });
+
+
 
 
     }
