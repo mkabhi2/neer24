@@ -16,23 +16,37 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.Adapters.CustomPagerAdapter;
 import in.neer24.neer24.Adapters.HomeRVAdapter;
 import in.neer24.neer24.CustomObjects.Can;
+import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.CustomObjects.NormalCart;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RVItemDecoration;
+import in.neer24.neer24.Utilities.RetroFitNetworkClient;
+import in.neer24.neer24.Utilities.SharedPreferenceUtility;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static ArrayList<CustomerAddress> addressList=new ArrayList<CustomerAddress>();
     static ArrayList<Can> cansList = new ArrayList<Can>();
     boolean isLoggedIn;
     int warehouseID;
@@ -41,17 +55,43 @@ public class HomeScreenActivity extends AppCompatActivity
     ViewPager viewPager;
     CustomPagerAdapter pagerAdapter;
     private static Button checkoutButton;
+    private static LinearLayout checkoutButtonLinearLayout;
     private static TextView cartSummary;
     boolean isNew = true;
 
+    private TextView customerEmailTextViewNavigationHeader;
+    private TextView customerNameTextViewNavigationHeader;
+    private NavigationView navigationView;
+    SharedPreferenceUtility sharedPreferenceUtility;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
+
+        sharedPreferenceUtility=new SharedPreferenceUtility(this);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerview = navigationView.getHeaderView(0);
+        customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
+        customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
+        checkoutButtonLinearLayout=(LinearLayout)findViewById(R.id.checkoutButtonHomeScreenLinearLayout);
+        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName()+" "+sharedPreferenceUtility.getCustomerLastName());
+        customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
+
+        checkoutButtonLinearLayout.setVisibility(View.GONE);
+        getCustomerAddress();
+
+        headerview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HomeScreenActivity.this,UserAccountActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
         checkoutButton=(Button)findViewById(R.id.dishActivityCheckoutButton);
-        checkoutButton.setBackgroundColor(getResources().getColor(R.color.app_color));
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,14 +101,14 @@ public class HomeScreenActivity extends AppCompatActivity
         });
 
         cartSummary=(TextView)findViewById(R.id.dishActivityCartSummaryTextView);
-        cartSummary.setBackgroundColor(getResources().getColor(R.color.app_color));
-        cartSummary.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(HomeScreenActivity.this,CheckoutActivity.class);
-                startActivity(intent);
-            }
-        });
+//        cartSummary.setBackgroundColor(getResources().getColor(R.color.app_color));
+//        cartSummary.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent=new Intent(HomeScreenActivity.this,CheckoutActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         if (savedInstanceState != null) {
             // Restore value of members from saved state
@@ -89,6 +129,41 @@ public class HomeScreenActivity extends AppCompatActivity
         setUpNavigationDrawer(toolbar);
 
     }
+
+    public void getCustomerAddress(){
+        int customerid=sharedPreferenceUtility.getCustomerID();
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.2:8080/").client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        String  unique=sharedPreferenceUtility.getCustomerUniqueID();
+
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<List<CustomerAddress>> call=retroFitNetworkClient.getAllCustomerAddress(customerid,unique);
+
+        call.enqueue(new Callback<List<CustomerAddress>>() {
+            @Override
+            public void onResponse(Call<List<CustomerAddress>> call, Response<List<CustomerAddress>> response) {
+                addressList=(ArrayList<CustomerAddress>)response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<CustomerAddress>> call, Throwable t) {
+                Toast.makeText(HomeScreenActivity.this,"Error loading address",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
 
     public void setUpViewPager(){
         viewPager=(ViewPager)findViewById(R.id.viewPager);
@@ -195,6 +270,7 @@ public class HomeScreenActivity extends AppCompatActivity
         if(cart.size()==0){
             cartSummary.setVisibility(View.GONE);
             checkoutButton.setVisibility(View.GONE);
+            checkoutButtonLinearLayout.setVisibility(View.GONE);
         }else {
             for (Can c : cart.keySet()) {
                 price = c.getPrice();
@@ -206,11 +282,10 @@ public class HomeScreenActivity extends AppCompatActivity
                 totalQuantity += quantity;
             }
 
-            String message = totalQuantity + "items in your cart" + "\n" + "Rs " + totalCost;
-            cartSummary.setCompoundDrawablesWithIntrinsicBounds(R.drawable.cart_icon, 0, 0, 0);
+            String message = "(" + totalQuantity+")" +"\n" + "Rs " + totalCost;
             cartSummary.setText(message);
             cartSummary.setGravity(Gravity.CENTER_VERTICAL);
-
+            checkoutButtonLinearLayout.setVisibility(View.VISIBLE);
             cartSummary.setVisibility(View.VISIBLE);
             checkoutButton.setVisibility(View.VISIBLE);
 
@@ -253,5 +328,8 @@ public class HomeScreenActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         isNew = false;
+    }
+    public static ArrayList<CustomerAddress> getaddressList(){
+        return addressList;
     }
 }

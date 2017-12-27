@@ -12,17 +12,28 @@ public class OrderDetails {
     private int orderDetailsID;
     private int orderID;
     private int orderQuantity;
+    private String customerUniqueID;
 
     Can cansList[];
     int canQuantity[];
 
 
-    public OrderDetails(int canID, int isNew, int isNewDespenser, int orderID, int orderQuantity) {
+    public OrderDetails(int canID, int isNew, int isNewDespenser, int orderID, int orderQuantity,String customerUniqueID) {
         this.canID = canID;
         this.isNew = isNew;
         this.isNewDespenser = isNewDespenser;
         this.orderID = orderID;
         this.orderQuantity = orderQuantity;
+        this.customerUniqueID=customerUniqueID;
+    }
+
+    public String getCustomerUniqueID(){
+        return this.customerUniqueID;
+    }
+
+
+    public void setCustomerUniqueID(String customerUniqueID){
+        this.customerUniqueID=customerUniqueID;
     }
 
     public int getCanID() {

@@ -10,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -28,16 +27,27 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.AsteriskTransformationMethod;
 import in.neer24.neer24.Utilities.BlurImage;
+import in.neer24.neer24.Utilities.RetroFitNetworkClient;
+import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 import in.neer24.neer24.Utilities.UtilityClass;
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RegisterActivity extends AppCompatActivity  implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText nameEditText;
+    private EditText firstNameEditText;
+    private EditText lastNameEditText;
     private EditText mobileEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -46,14 +56,18 @@ public class RegisterActivity extends AppCompatActivity  implements View.OnClick
     private Button signUpButton;
     ProgressBar registerProgressBar;
     String emailID;
+    String mobileNumber;
 
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
+    SharedPreferenceUtility sharedPreferenceUtility;
+
+    String flag = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
         setContentView(R.layout.activity_register);
@@ -63,13 +77,15 @@ public class RegisterActivity extends AppCompatActivity  implements View.OnClick
 
 
         registerActivityRL = (RelativeLayout) findViewById(R.id.register_activity_relative_layout);
-        nameEditText = (EditText) findViewById(R.id.registerNameEditText);
+        firstNameEditText = (EditText) findViewById(R.id.registerFirstNameEditText);
+        lastNameEditText = (EditText) findViewById(R.id.registerLastNameEditText);
         mobileEditText = (EditText) findViewById(R.id.registerMobileEditText);
         emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
         passwordEditText = (EditText) findViewById(R.id.registerPassworddEditText);
         showPasswordButton = (Button) findViewById(R.id.registerShowPasswordButton);
         signUpButton = (Button) findViewById(R.id.signUpButton);
-        registerProgressBar=(ProgressBar)findViewById(R.id.registerProgressBar);
+        registerProgressBar = (ProgressBar) findViewById(R.id.registerProgressBar);
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
         registerProgressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.signup_img);
@@ -77,8 +93,6 @@ public class RegisterActivity extends AppCompatActivity  implements View.OnClick
 
 
         registerActivityRL.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
-
-
 
 
         registerProgressBar.setVisibility(View.GONE);
@@ -91,11 +105,17 @@ public class RegisterActivity extends AppCompatActivity  implements View.OnClick
 
 
         Bundle bundle = getIntent().getExtras();
-        emailID = bundle.getString("email");
+        flag = bundle.getString("flag");
 
-        emailEditText.setText(emailID);
-        emailEditText.setEnabled(false);
-
+        if (flag.equals("email")) {
+            emailID = bundle.getString("email");
+            emailEditText.setText(emailID);
+            emailEditText.setEnabled(false);
+        } else if (flag.equals("mobilenumber")) {
+            mobileNumber = bundle.getString("mobilenumber");
+            mobileEditText.setText(mobileNumber);
+            mobileEditText.setEnabled(false);
+        }
 
     }
 
@@ -118,115 +138,136 @@ public class RegisterActivity extends AppCompatActivity  implements View.OnClick
 
             case R.id.signUpButton:
                 try {
-
-
-                    if (validateSignUpFields()) {
-
-                    } else {
-
-                    }
-                }catch (Exception e){
+                    registerProgressBar.setVisibility(View.VISIBLE);
+                    validateSignUpFields();
+                } catch (Exception e) {
 
                 }
 
         }
     }
 
-    public boolean validateSignUpFields() throws ExecutionException, InterruptedException {
+    public void validateSignUpFields() throws ExecutionException, InterruptedException {
 
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        String name = nameEditText.getText().toString();
+        String firstName = firstNameEditText.getText().toString();
+        String lastName = lastNameEditText.getText().toString();
         String mobileNumber = mobileEditText.getText().toString();
-        if (UtilityClass.validate(email) && password != null && password.length() > 5 && name != null && mobileNumber != null && mobileNumber.length() == 10 && (mobileNumber.startsWith("9") || mobileNumber.startsWith("8") || mobileNumber.startsWith("7"))) {
-            registerProgressBar.setVisibility(View.VISIBLE);
-            String res=new ExecuteTask().execute(email, password, name, mobileNumber).get();
-            doRestOfTaks(res);
-            return true;
+
+        if (UtilityClass.validate(email) && password != null && password.length() > 5 && firstName != null && mobileNumber != null && mobileNumber.length() == 10 && (mobileNumber.startsWith("9") || mobileNumber.startsWith("8") || mobileNumber.startsWith("7"))) {
+
+            saveEveryThingInSharePreferences(email, password, firstName, lastName, mobileNumber);
+            checkEmailAndMobileNumberIfALreadyRegistered(email,mobileNumber);
         } else {
-            return false;
+            registerProgressBar.setVisibility(View.GONE);
+            Toast.makeText(RegisterActivity.this,"Error in filled Fields",Toast.LENGTH_SHORT).show();
         }
     }
 
-    private class ExecuteTask extends AsyncTask<String, Integer, String> {
+    public void requestOTPFromServer(final String mobileNumber, final String emailID) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
 
-        @Override
-        protected String doInBackground(String... params) {
-
-            String type = "application/json";
-            String s = "";
-            try {
-
-                HttpURLConnection httpURLConnection = null;
-                BufferedReader bufferedReader = null;
-                try {
-                    URL url = new URL("http://18.220.28.118:8080/neer/webapi/customers/registercustomer");//vs02277@gmail.com");
-                    //URL url = new URL("http://192.168.0.7:8034/messenger/webapi/customers/register");//vs02277@gmail.com");
-                    //URL url = new URL("http://18.220.28.118:8080/messenger/webapi/customers");//vs02277@gmail.com");
-                    httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setRequestProperty("Content-Type", type);
-                    httpURLConnection.setDoOutput(true);
-                    httpURLConnection.connect();
-
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("customerEmail", params[0]);
-                    jsonObject.put("password", params[1]);
-                    jsonObject.put("customerFirstName", params[2]);
-                    jsonObject.put("customerMobileNumber", params[3]);
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.2:8080/").client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
 
 
-                    DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
-                    wr.writeBytes(jsonObject.toString());
-                    wr.flush();
-                    wr.close();
+        Retrofit retrofit = builder.build();
 
-                    int responseCode = httpURLConnection.getResponseCode();
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        BufferedReader in = new BufferedReader(
-                                new InputStreamReader(httpURLConnection.getInputStream()));
-                        StringBuffer sb = new StringBuffer("");
-                        String line = "";
-                        while ((line = in.readLine()) != null) {
-                            sb.append(line);
-                            //break;
-                        }
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<String> call = retroFitNetworkClient.requestOTPFromServer(mobileNumber);
 
-                        in.close();
-                        return sb.toString();
-                    }
-                } catch (Exception e) {
-                    Log.d("exception",e.toString());
-                }
-            } catch (Exception exception) {
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                registerProgressBar.setVisibility(View.GONE);
+                String generatedOTP = response.body();
+                sharedPreferenceUtility.setCustomerOTPRegisterActivity(generatedOTP);
+                sharedPreferenceUtility.setOTPStopwatch(new Date().getTime());
+                Intent intent = new Intent(RegisterActivity.this, OTPActivity.class);
+                startActivity(intent);
             }
-            return s;
-        }
 
-        @Override
-        protected void onPostExecute(String result) {
-//            registerProgressBar.setVisibility(View.GONE);
-//            if (result.contains("true")) {
-//                Intent intent=new Intent(RegisterActivity.this,OTPActivity.class);
-//                startActivity(intent);
-//
-//                sharedPreferencesUserSession.setLoggedIn(true);
-//                Toast.makeText(RegisterActivity.this, "Succesfully registerd", Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(RegisterActivity.this, "Please Fill mandatory fields", Toast.LENGTH_SHORT).show();
-//            }
-        }
-
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                registerProgressBar.setVisibility(View.GONE);
+                Toast.makeText(RegisterActivity.this, "Error in generating OTP", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
-    public void doRestOfTaks(String result){
+    public void checkEmailAndMobileNumberIfALreadyRegistered(final String emailID,final String mobileNumber){
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.2:8080/").client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
+
+
+        Retrofit retrofit = builder.build();
+
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<String> call=null;
+        if(flag.equals("mobilenumber")) {
+            call = retroFitNetworkClient.checkIfUserIsRegisterdUserOrNotUsingEmail(emailID);
+
+        }else if(flag.equals("email")){
+            call = retroFitNetworkClient.checkIfUserIsRegisterdUserOrNotUsingMobileNumber(mobileNumber);
+        }
+
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String res=response.body();
+                if(res.contains("true")){
+                    if(flag.equals("mobilenumber")) {
+                        registerProgressBar.setVisibility(View.GONE);
+                        Toast.makeText(RegisterActivity.this, "Enail ID already registered", Toast.LENGTH_SHORT);
+                    }else {
+                        registerProgressBar.setVisibility(View.GONE);
+                        Toast.makeText(RegisterActivity.this, "Mobile Number already registered", Toast.LENGTH_SHORT);
+
+                    }
+                }else {
+                    requestOTPFromServer(mobileNumber,emailID);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(RegisterActivity.this,"Enail verifying Mobile Number Or EmailID",Toast.LENGTH_SHORT);
+            }
+        });
+
+    }
+    public void saveEveryThingInSharePreferences(String emailID, String password, String firstName, String lastName, String mobileNumber) {
+        sharedPreferenceUtility.setCustomerFirstNameRegisterActivity(firstName);
+        sharedPreferenceUtility.setCustomerLastNameRegisterActivity(lastName);
+        sharedPreferenceUtility.setCustomerEmailRegisterActivity(emailID);
+        sharedPreferenceUtility.setCustomerMobileNumberRegisterActivity(mobileNumber);
+        sharedPreferenceUtility.setCustomerPasswordRegisterActivity(password);
+
+    }
+
+
+    public void doRestOfTaks(String result) {
         registerProgressBar.setVisibility(View.GONE);
         if (result.contains("true")) {
 
-            editor.putBoolean("isLoggedIn",true);
+            editor.putBoolean("isLoggedIn", true);
             editor.commit();
-            Intent intent=new Intent(RegisterActivity.this,HomeScreenActivity.class);
+            Intent intent = new Intent(RegisterActivity.this, HomeScreenActivity.class);
             startActivity(intent);
 
             Toast.makeText(RegisterActivity.this, "Succesfully registerd", Toast.LENGTH_SHORT).show();

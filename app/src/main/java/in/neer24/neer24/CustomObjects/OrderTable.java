@@ -19,13 +19,13 @@ public class OrderTable {
     private int isNightDelivery;
     private int isScheduleDelivery;
     private int isRecurringDelivery;
-
+    private String customerUniqueID;
 
     public OrderTable(){
 
     }
 
-    public OrderTable(int customerID, int warehouseID, int deliveryBoyID, double totalAmount, String orderDate, String deliveryTime, int orderPaymentID, int isNormalDelivery, int isNightDelivery, int isScheduleDelivery, int isRecurringDelivery) {
+    public OrderTable(int customerID, int warehouseID, int deliveryBoyID, double totalAmount, String orderDate, String deliveryTime, int orderPaymentID, int isNormalDelivery, int isNightDelivery, int isScheduleDelivery, int isRecurringDelivery,String customerUniqueID) {
         this.customerID = customerID;
         this.warehouseID = warehouseID;
         this.deliveryBoyID = deliveryBoyID;
@@ -37,6 +37,15 @@ public class OrderTable {
         this.isNightDelivery = isNightDelivery;
         this.isScheduleDelivery = isScheduleDelivery;
         this.isRecurringDelivery = isRecurringDelivery;
+        this.customerUniqueID=customerUniqueID;
+    }
+
+    public String getCustomerUniqueID() {
+        return customerUniqueID;
+    }
+
+    public void setCustomerUniqueID(String customerUniqueID) {
+        this.customerUniqueID = customerUniqueID;
     }
 
     public int getOrderID() {

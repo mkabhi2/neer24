@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.neer24.neer24.CustomObjects.Can;
+import in.neer24.neer24.CustomObjects.Customer;
+import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
@@ -19,15 +21,47 @@ import retrofit2.http.Query;
 
 public interface RetroFitNetworkClient {
 
+    @GET("/neer/webapi/customers/customeremail")
+    Call<String> checkIfUserIsRegisterdUserOrNotUsingEmail(@Query("emailid") String email);
+
+
+
+    @GET("/neer/webapi/customers/customermobile")
+    Call<String> checkIfUserIsRegisterdUserOrNotUsingMobileNumber(@Query("mobilenumber") String mobileNumber);
+
+
+
+    @GET("/neer/webapi/otpauth/requestotp")
+    Call<String> requestOTPFromServer(@Query("mobilenumber") String mobileNumber);
+
+
+
+
+    @POST("/neer/webapi/customers/logincustomerusingemail")
+    Call<Customer> authenticateUserAndLoginUsingEmail(@Body Customer customer);
+
+
+
+    @POST("/neer/webapi/customers/logincustomerusingmobile")
+    Call<Customer> authenticateUserAndLoginUsingMobileNumber(@Body Customer customer);
+
+
+    @POST("/neer/webapi/customers/registercustomer")
+    Call<Customer> registerUser(@Body Customer customer);
+
+
     @GET("/messenger/webapi/restraunt/specificrest")
     Call<List<Can>> getCansListForLocation(@Query("latitude") String latitude, @Query("longitude") String longitude);
+
 
     //http://192.168.0.7:8034/messenger/webapi/warehouse/specificwarehouse?latitude=12.948568&longitude=77.704373
     @GET("/neer/webapi/warehouse/specificwarehouse")
     Call<Integer> getWarehouseForLocation(@Query("latitude") String latitude, @Query("longitude") String longitude);
 
+
     @GET("/neer/webapi/warehousecan/warehousecanbywarehouseid")
     Call<List<Can>> getCansListForWarehouse(@Query("warehouseid") int warehouseID);
+
 
     @GET("/messenger/webapi/restraunt/specificrest")
     Call<List<Can>> getAllCansListForWarehouse(@Query("warehouseID") int warehouseID);
@@ -39,10 +73,14 @@ public interface RetroFitNetworkClient {
     Call<String> insertIntoOrderDetailsTable(@Body ArrayList<OrderDetails> orderDetails);
 
     @GET("/neer/webapi/customerorder/customerorderbycustomerid")
-    Call<List<CustomerOrder>> getAllCustomerOrders(@Query("customerid") int customerid);
+    Call<List<CustomerOrder>> getAllCustomerOrders(@Query("customerid") int customerid,@Query("customeruniqueid") String customerUniqueId);
 
     @GET("/neer/webapi/warehousecan/updatecanquantity")
     Call<String> updateWarehouseCanTable(@Query("canid") int canID, @Query("warehouseid") int warehouseID);
+
+
+    @GET("/neer/webapi/customeraddress/customeraddressbycustomerid")
+    Call<List<CustomerAddress>> getAllCustomerAddress(@Query("customerid") int customerid, @Query("customeruniqueid") String customerUniqueId);
 
     @GET("/neer/webapi/warehousecan/warehousecanbywarehouseid")
     Call<OrderDetails> getOrderDetailsForOrderID(@Query("orderID") int orderID);

@@ -38,6 +38,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     String returnedOrderID="";
     String isOrderDetailsInsertionSuccesFull;
+    SharedPreferenceUtility sharedPreferenceUtility;
     // private TextView checkoutActivityTotalCartValueTextView;
 
     @Override
@@ -50,6 +51,7 @@ public class CheckoutActivity extends AppCompatActivity {
         cartSummaryTextView.setGravity(Gravity.CENTER_VERTICAL);
 
         proceedToPayButton = (Button) findViewById(R.id.proceedToPayCheckoutActivity);
+        sharedPreferenceUtility=new SharedPreferenceUtility(this);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -87,14 +89,12 @@ public class CheckoutActivity extends AppCompatActivity {
             int isNewDespenser=0;
             int orderIDs=Integer.parseInt(orderID);
             int quantity= cans.get(can);
-            OrderDetails orderDetails=new OrderDetails(canID,isNew,isNewDespenser,orderIDs,quantity);
+            OrderDetails orderDetails=new OrderDetails(canID,isNew,isNewDespenser,orderIDs,quantity,sharedPreferenceUtility.getCustomerUniqueID());
             al.add(orderDetails);
         }
         return al;
     }
     public OrderTable createObjectForOrderTable(Can can){
-        SharedPreferenceUtility sharedPreferenceUtility=sharedPreferenceUtility=new SharedPreferenceUtility(this);;
-
         Date oDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -117,7 +117,7 @@ public class CheckoutActivity extends AppCompatActivity {
         int isNightDelivery=0;
         int isScheduleDelivery=0;
         int isRecurringDelivery=0;
-        OrderTable orderTable=new OrderTable(customerID,warehouseID,deliveryBoyID,totalAmount,orderDate,deliveryTime,orderPaymentID,isNormalDelivery,isNightDelivery,isScheduleDelivery,isRecurringDelivery);
+        OrderTable orderTable=new OrderTable(customerID,warehouseID,deliveryBoyID,totalAmount,orderDate,deliveryTime,orderPaymentID,isNormalDelivery,isNightDelivery,isScheduleDelivery,isRecurringDelivery,sharedPreferenceUtility.getCustomerUniqueID());
         return orderTable;
     }
 
@@ -154,7 +154,7 @@ public class CheckoutActivity extends AppCompatActivity {
     public void insertIntoOrderDetailsTable(String returnedOrderID){
         ArrayList<OrderDetails> orderDetails=createObjectForOrderDetails(returnedOrderID);
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.4:8034")
+                .baseUrl("http://192.168.0.2:8080")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -184,7 +184,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     public void updateWarehouseCansTable(int canID, int warehouseID){
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.4:8034")
+                .baseUrl("http://192.168.0.2:8080")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

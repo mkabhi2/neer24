@@ -7,12 +7,49 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
+import in.neer24.neer24.Adapters.HelpRVAdapter;
+import in.neer24.neer24.Adapters.OrdersRVAdapter;
 import in.neer24.neer24.R;
+import in.neer24.neer24.Utilities.RVItemDecoration;
+import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 
 public class HelpActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+
+
+    private TextView customerEmailTextViewNavigationHeader;
+    private TextView customerNameTextViewNavigationHeader;
+    private NavigationView navigationView;
+    SharedPreferenceUtility sharedPreferenceUtility;
+
+
+
+    private TextView AboutAnIssueTextViewHelpActivity;
+    private TextView WaterCansTextViewHelpActivity;
+    private TextView OrdersTextViewHelpActivity;
+    private TextView PaymentsTextViewHelpActivity;
+    private TextView DeliveryTextViewHelpActivity;
+    private TextView RefundsTextViewHelpActivity;
+    private TextView ContactUsextViewHelpActivity;
+    private TextView PrivacyPolicyTextViewHelpActivity;
+    private TextView TermsAndConditionTextViewHelpActivity;
+
+    private ArrayList<String> helpTextViewContentsList;
+
+    RecyclerView recyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +57,54 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_help);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+
+        recyclerView = findViewById(R.id.help_rv);
+
+
+        helpTextViewContentsList=new ArrayList<String>();
+        helpTextViewContentsList.add("About an issue");
+        helpTextViewContentsList.add("Water Can");
+        helpTextViewContentsList.add("Orders");
+        helpTextViewContentsList.add("Payments");
+        helpTextViewContentsList.add("Delivery");
+        helpTextViewContentsList.add("Refunds");
+        helpTextViewContentsList.add("Contact Us");
+        helpTextViewContentsList.add("Privacy Policy");
+        helpTextViewContentsList.add("Terms and Conditions");
+        helpTextViewContentsList.add("Feedback or Suggestion");
+
+
+
+
+
+
+        sharedPreferenceUtility=new SharedPreferenceUtility(this);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerview = navigationView.getHeaderView(0);
+        customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
+        customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
+
+        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName()+" "+sharedPreferenceUtility.getCustomerLastName());
+        customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
+
+        headerview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(HelpActivity.this,UserProfileActivity.class);
+                startActivity(intent);
+            }
+        });
         setSupportActionBar(toolbar);
         setUpNavigationDrawer(toolbar);
+
+        setUpRecyclerView(recyclerView);
     }
 
+    public void setUpRecyclerView(RecyclerView recyclerView){
+
+        recyclerView.setAdapter(new HelpRVAdapter(helpTextViewContentsList, this));
+        //recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
+    }
     public void setUpNavigationDrawer(Toolbar toolbar){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.help_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(

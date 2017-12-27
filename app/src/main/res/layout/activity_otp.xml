@@ -1,49 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:paddingLeft="@dimen/activity_horizontal_margin"
-android:paddingRight="@dimen/activity_horizontal_margin"
-android:paddingTop="@dimen/activity_vertical_margin"
-android:paddingBottom="@dimen/activity_vertical_margin"
-tools:context="in.neer24.neer24.Activities.OTPActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="in.neer24.neer24.Activities.OTPActivity">
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Drag and Drop Example"
-    android:id="@+id/textView"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
-    android:textSize="30dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Enter the received OTP"/>
 
-<TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Tutorials Point "
-    android:id="@+id/textView2"
-    android:layout_below="@+id/textView"
-    android:layout_centerHorizontal="true"
-    android:textSize="30dp"
-    android:textColor="#ff14be3c" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/enterOTPEditText"
+            android:layout_width="0dp"
+            android:layout_weight="3.7"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingTop="16dp"
+            android:inputType="number"
+            android:hint="OTP"/>
 
-<ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/iv_productImage"
-    android:src="@drawable/firstactivityimage"
-    android:layout_marginTop="48dp"
-    android:layout_below="@+id/textView2"
-    android:layout_centerHorizontal="true" />
+        <Button
+            android:id="@+id/resendOTPButton"
+            android:paddingTop="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_width="0dp"
+            android:layout_weight="1.3"
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Compose SMS"
-    android:id="@+id/button"
-    android:layout_alignParentBottom="true"
-    android:layout_centerHorizontal="true"
-    android:layout_marginBottom="70dp" />
-
-</RelativeLayout>
+            android:textSize="10sp"
+            android:text="Resend OTP"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/verifyOTPButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:textSize="16sp"
+        android:text="VERIFY"/>
+    <ProgressBar
+        android:id="@+id/progressBarOTPActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+</LinearLayout>

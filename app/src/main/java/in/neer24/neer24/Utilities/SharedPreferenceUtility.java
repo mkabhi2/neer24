@@ -14,69 +14,169 @@ public class SharedPreferenceUtility {
     SharedPreferences.Editor editor;
     Context context;
 
-    public SharedPreferenceUtility(Context context){
-        this.context=context;
+    public SharedPreferenceUtility(Context context) {
+        this.context = context;
         //context.get
-        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(context);
-        editor=sharedPreferences.edit();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        editor = sharedPreferences.edit();
     }
 
-    public void setLoggedIn(boolean loggedIn){
-        editor.putBoolean("loggedinmode",loggedIn);
+    public void setLoggedIn(boolean loggedIn) {
+        editor.putBoolean("loggedinmode", loggedIn);
         editor.commit();
     }
 
-    public boolean loggedIn(){
-        return sharedPreferences.getBoolean("loggedinmode",false);
+    public boolean loggedIn() {
+        return sharedPreferences.getBoolean("loggedinmode", false);
 
     }
 
-    public void setFirstTimeLaunch(boolean firstTimeLaunch){
-        editor.putBoolean("firstTimeLaunch",firstTimeLaunch);
+    public void setFirstTimeLaunch(boolean firstTimeLaunch) {
+        editor.putBoolean("firstTimeLaunch", firstTimeLaunch);
         editor.commit();
     }
 
-    public boolean getFirstTimeLaunch(){
-        return sharedPreferences.getBoolean("firstTimeLaunch",true);
+    public boolean getFirstTimeLaunch() {
+        return sharedPreferences.getBoolean("firstTimeLaunch", true);
     }
-    public void setCustomerID(int customerID){
-        editor.putInt("CUSTOMERID",customerID);
+
+    public void setCustomerID(int customerID) {
+        editor.putInt("CUSTOMERID", customerID);
         editor.commit();
     }
 
-    public int getCustomerID(){
-        return sharedPreferences.getInt("CUSTOMERID",0);
+    public int getCustomerID() {
+        return sharedPreferences.getInt("CUSTOMERID", 0);
     }
 
 
-    public void setLocationLatitude(String latitude){
-        editor.putString("currentLatitude",latitude);
+    public void setLocationLatitude(String latitude) {
+        editor.putString("currentLatitude", latitude);
         editor.commit();
     }
 
-    public String getLocationLatitude(){
-        return sharedPreferences.getString("currentLatitude","0");
+    public String getLocationLatitude() {
+        return sharedPreferences.getString("currentLatitude", "0");
     }
 
 
-
-    public void setLocationLongitude(String longitude){
-        editor.putString("currentLongitude",longitude);
+    public void setLocationLongitude(String longitude) {
+        editor.putString("currentLongitude", longitude);
         editor.commit();
     }
 
 
-    public String getLocationLongitude(){
-        return sharedPreferences.getString("currentLongitude","0");
+    public String getLocationLongitude() {
+        return sharedPreferences.getString("currentLongitude", "0");
     }
 
-    public void setWareHouseID(int wareHouseID){
-        editor.putInt("warehouseID",wareHouseID);
+    public void setWareHouseID(int wareHouseID) {
+        editor.putInt("warehouseID", wareHouseID);
     }
 
-    public int getWareHouseID(){
-        return sharedPreferences.getInt("warehouseID",0);
+    public int getWareHouseID() {
+        return sharedPreferences.getInt("warehouseID", 0);
+    }
+
+    public void setCustomerEmailID(String emailID) {
+        editor.putString("EMAILID", emailID);
+        editor.commit();
+    }
+
+    public String getCustomerEmailID() {
+        return sharedPreferences.getString("EMAILID", null);
+    }
+
+    public void setCustomerFirstName(String customerFirstName) {
+        editor.putString("FIRSTNAME", customerFirstName);
+        editor.commit();
     }
 
 
+    public String getCustomerFirstName() {
+        return sharedPreferences.getString("FIRSTNAME", null);
+    }
+
+    public void setCustomerLastName(String customerLastName) {
+        editor.putString("LASTNAME", customerLastName);
+        editor.commit();
+    }
+
+    public String getCustomerLastName() {
+        return sharedPreferences.getString("LASTNAME", null);
+    }
+
+    public void setCustomerUniqueID(String customerUniqueID) {
+        editor.putString("UNIQUEID", customerUniqueID);
+        editor.commit();
+    }
+
+    public String getCustomerUniqueID() {
+        return sharedPreferences.getString("UNIQUEID", null);
+    }
+
+    public void setCustomerFirstNameRegisterActivity(String name){
+        editor.putString("CustomerFirstNameRegisterActivity", name);
+        editor.commit();
+    }
+
+    public String getCustomerFirstNameRegisterActivity(){
+        return sharedPreferences.getString("CustomerFirstNameRegisterActivity",null);
+    }
+
+    public void setCustomerLastNameRegisterActivity(String name){
+        editor.putString("CustomerLastNameRegisterActivity", name);
+        editor.commit();
+    }
+
+    public String getCustomerLastNameRegisterActivity(){
+        return sharedPreferences.getString("CustomerLastNameRegisterActivity",null);
+    }
+
+
+
+    public void setCustomerEmailRegisterActivity(String email){
+        editor.putString("CustomerEmailRegisterActivity", email);
+        editor.commit();
+    }
+
+    public String getCustomerEmailRegisterActivity(){
+        return sharedPreferences.getString("CustomerEmailRegisterActivity",null);
+    }
+
+    public void setCustomerMobileNumberRegisterActivity(String mobileNumber){
+        editor.putString("CustomerMobileNumberRegisterActivity", mobileNumber);
+        editor.commit();
+    }
+
+    public String getCustomerMobileNumberRegisterActivity(){
+        return sharedPreferences.getString("CustomerMobileNumberRegisterActivity",null);
+    }
+
+    public void setCustomerPasswordRegisterActivity(String password){
+        editor.putString("CustomerPasswordRegisterActivity", password);
+        editor.commit();
+    }
+
+    public String getCustomerPasswordRegisterActivity(){
+        return sharedPreferences.getString("CustomerPasswordRegisterActivity",null);
+    }
+
+    public void setCustomerOTPRegisterActivity(String otp){
+        editor.putString("CustomerOTPRegisterActivity",otp);
+        editor.commit();
+    }
+
+    public String getCustomerOTPRegisterActivity(){
+        return sharedPreferences.getString("CustomerOTPRegisterActivity",null);
+    }
+
+    public void setOTPStopwatch(long time){
+        editor.putLong("OTPWATCH",time);
+        editor.commit();
+    }
+
+    public long getOTPStopwatch(){
+        return sharedPreferences.getLong("OTPWATCH",0);
+    }
 }

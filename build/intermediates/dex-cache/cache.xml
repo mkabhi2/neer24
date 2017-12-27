@@ -2,22 +2,58 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="/Users/abhmishr/Desktop/neer24/neer24/app/libs/additionnal.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/kumarpallav/Desktop/abhishek/neer24/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
         optimize="true"
         revision="26.0.2"
-        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
-        <dex dex="/Users/abhmishr/Desktop/neer24/neer24/app/build/intermediates/pre-dexed/debug/additionnal_de25004b28fcfc43e2589d7cfe264f4c6b820419.jar" />
+        sha1="8dd8c6610a15a855a5c1dffe0be860d0358a2b06">
+        <dex dex="/Users/kumarpallav/Desktop/abhishek/neer24/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_6f6fad6efd672f0b4820cef6ee054e85fd2f2079/classes.dex" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/abhmishr/Desktop/neer24/neer24/app/libs/activation.jar"
+        jar="/Users/kumarpallav/Desktop/abhishek/neer24/app/libs/activation.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.2"
         sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
-        <dex dex="/Users/abhmishr/Desktop/neer24/neer24/app/build/intermediates/pre-dexed/debug/activation_8db8adf557a86781e72d52068cef4a57a8b7809e.jar" />
+        <dex dex="/Users/kumarpallav/Desktop/abhishek/neer24/app/build/intermediates/pre-dexed/debug/activation_4e7bd10d7dcdfedd5db2d7a6ba501de863fe16ee.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kumarpallav/Desktop/abhishek/neer24/app/libs/additionnal.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="/Users/kumarpallav/Desktop/abhishek/neer24/app/build/intermediates/pre-dexed/debug/additionnal_e179a3d64395634e4df646a5d830ebff718ab4cb.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/kumarpallav/Desktop/abhishek/neer24/app/libs/activation.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="/Users/kumarpallav/Desktop/abhishek/neer24/app/build/intermediates/transforms/dex/debug/folders/1000/2/activation_4e7bd10d7dcdfedd5db2d7a6ba501de863fe16ee/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/kumarpallav/Desktop/abhishek/neer24/app/libs/additionnal.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="/Users/kumarpallav/Desktop/abhishek/neer24/app/build/intermediates/transforms/dex/debug/folders/1000/2/additionnal_e179a3d64395634e4df646a5d830ebff718ab4cb/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/kumarpallav/Desktop/abhishek/neer24/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/kumarpallav/Desktop/abhishek/neer24/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_d265257051f8b23de6d5b6d8f254b11d30adbb95/classes.dex" />
     </item>
 
 </items>

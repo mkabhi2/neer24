@@ -46,7 +46,7 @@
 
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
-
+    <string name="title_activity_user_account">Account</string>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
@@ -56,4 +56,5 @@
     <string name="Rs">\u20B9</string>
     <string name="title_activity_order_details">Order Details</string>
     <string name="title_activity_checkout">Checkout</string>
+    <string name="share_des">You can earn unlimited FREE CAN promo codes by inviting your friends to</string>
 </resources>

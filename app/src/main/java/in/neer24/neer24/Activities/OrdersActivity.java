@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RVItemDecoration;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
+import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +36,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class OrdersActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     RecyclerView recyclerView;
+    private TextView customerEmailTextViewNavigationHeader;
+    private TextView customerNameTextViewNavigationHeader;
+    private NavigationView navigationView;
+    SharedPreferenceUtility sharedPreferenceUtility;
     static ArrayList<CustomerOrder> ordersList = new ArrayList<CustomerOrder>();
 
     @Override
@@ -42,6 +48,24 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
         setContentView(R.layout.activity_orders);
 
         recyclerView = findViewById(R.id.order_rv);
+
+        sharedPreferenceUtility=new SharedPreferenceUtility(this);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerview = navigationView.getHeaderView(0);
+        customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
+        customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
+
+        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName()+" "+sharedPreferenceUtility.getCustomerLastName());
+        customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
+
+        headerview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(OrdersActivity.this,UserProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
@@ -71,7 +95,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<List<CustomerOrder>> call = retroFitNetworkClient.getAllCustomerOrders(1);
+        Call<List<CustomerOrder>> call = retroFitNetworkClient.getAllCustomerOrders(1,sharedPreferenceUtility.getCustomerUniqueID());
 
         call.enqueue(new Callback<List<CustomerOrder>>() {
             @Override

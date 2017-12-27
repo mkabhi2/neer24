@@ -8,4 +8,14 @@
     tools:context="in.neer24.neer24.Activities.HelpActivity"
     tools:showIn="@layout/activity_help">
 
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/help_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="LinearLayoutManager" />
+
 </android.support.constraint.ConstraintLayout>
+
+

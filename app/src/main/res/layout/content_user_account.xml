@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="in.neer24.neer24.Activities.UserAccountActivity"
+    tools:showIn="@layout/activity_user_account">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/logo_v1"
+            android:scaleType="fitXY" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="5"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shadow_user_account_activity"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginTop="16dp"
+            android:layout_weight="4.3"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nameUserAccountActivity"
+                android:text="Vijay Singh"
+                android:paddingLeft="16dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/Black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/emailUserAccountActivity"
+                android:textSize="13sp"
+                android:paddingLeft="16dp"
+                android:text="vijayvictory8@gmail.com"
+                android:textColor="@color/Gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/mobileNumberAccountActivity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:textSize="18sp"
+                android:textColor="@color/Gray"
+                android:layout_marginBottom="16dp"
+                android:text="+91 8792641409"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/editUserPersonalInformation"
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/edit_user_account"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/changePasswordUserAcountActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            android:textSize="14sp"
+            android:textColor="@color/app_color"
+            android:background="@drawable/shadow_user_account_activity"
+            android:text="CHANGE PASSWORD"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingLeft="16dp"
+            android:paddingBottom="16dp"
+            android:textSize="14sp"
+            android:text="ADDRESS"
+            android:background="@drawable/shadow_user_account_activity"
+            android:textColor="@color/app_color"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="5"
+            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/address_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="LinearLayoutManager" />
+            <TextView
+                android:id="@+id/addNewAddressUserAccountActivity"
+                android:text="ADD NEW ADDRESS"
+                android:textColor="@color/app_color"
+                android:paddingLeft="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:textSize="14sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

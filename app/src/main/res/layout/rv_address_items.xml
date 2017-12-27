@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="5"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/rvAddressTextView"
+        android:layout_weight="4.5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/Black"
+        android:textSize="16sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingLeft="16dp"
+        android:lineSpacingExtra="5dp"
+        android:text="Home- Flat No 3-/40, Muniyapa Buiding, ANand Nagar, 1st Main, Opposite Kala Mandir, Marathahalli, Aswath Nagar(Marathahalli) Banaglore"
+        android:singleLine="false"
+        android:maxLines="7"/>
+    <ImageView
+        android:id="@+id/rvAddressImageView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/delete_address_user_account"/>
+
+</LinearLayout>
