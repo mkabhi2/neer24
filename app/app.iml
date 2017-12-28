@@ -146,6 +146,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="com.android.support.test:runner-0.5" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-v4-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:/Users/abhmishr/Desktop/neer24/neer24/app/libs/activation.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:animated-vector-drawable-26.1.0" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-location-11.0.0" level="project" />
   </component>

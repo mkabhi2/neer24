@@ -15,7 +15,7 @@ import in.neer24.neer24.R;
  */
 
 public class CustomPagerAdapter extends PagerAdapter {
-    private int[] slide_images={R.drawable.slide7, R.drawable.slide10, R.drawable.slide11, R.drawable.slide12};
+    private int[] slide_images={ R.drawable.slide12, R.drawable.slide7, R.drawable.slide10, R.drawable.slide11};
     private Context ctx;
     private LayoutInflater layoutInflater;
 

@@ -2,10 +2,8 @@ package in.neer24.neer24.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,8 +21,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.Adapters.CustomPagerAdapter;
@@ -33,6 +29,7 @@ import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.CustomObjects.NormalCart;
 import in.neer24.neer24.R;
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import in.neer24.neer24.Utilities.RVItemDecoration;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
@@ -52,7 +49,7 @@ public class HomeScreenActivity extends AppCompatActivity
     int warehouseID;
     double currentLatitude, currentLongitude;
     static RecyclerView recyclerView;
-    ViewPager viewPager;
+    AutoScrollViewPager viewPager;
     CustomPagerAdapter pagerAdapter;
     private static Button checkoutButton;
     private static LinearLayout checkoutButtonLinearLayout;
@@ -166,33 +163,36 @@ public class HomeScreenActivity extends AppCompatActivity
 
 
     public void setUpViewPager(){
-        viewPager=(ViewPager)findViewById(R.id.viewPager);
+        viewPager=(AutoScrollViewPager)findViewById(R.id.viewPager);
         pagerAdapter=new CustomPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.startAutoScroll();
+        viewPager.setInterval(3000);
+        viewPager.setStopScrollWhenTouch(true);
 
-        Timer timer;
-        final long DELAY_MS = 2000;//delay in milliseconds before task is to be executed
-        final long PERIOD_MS = 4000;
-
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            int currentPage = 0;
-            public void run() {
-                if (currentPage == pagerAdapter.getCount()) {
-                    currentPage = 0;
-                }
-                viewPager.setCurrentItem(currentPage++, true);
-            }
-        };
-
-        timer = new Timer(); // This will create a new Thread
-        timer .schedule(new TimerTask() { // task to be scheduled
-
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, DELAY_MS, PERIOD_MS);
+//        Timer timer;
+//        final long DELAY_MS = 2000;//delay in milliseconds before task is to be executed
+//        final long PERIOD_MS = 4000;
+//
+//        final Handler handler = new Handler();
+//        final Runnable Update = new Runnable() {
+//            int currentPage = 0;
+//            public void run() {
+//                if (currentPage == pagerAdapter.getCount()) {
+//                    currentPage = 0;
+//                }
+//                viewPager.setCurrentItem(currentPage++, true);
+//            }
+//        };
+//
+//        timer = new Timer(); // This will create a new Thread
+//        timer .schedule(new TimerTask() { // task to be scheduled
+//
+//            @Override
+//            public void run() {
+//                handler.post(Update);
+//            }
+//        }, DELAY_MS, PERIOD_MS);
     }
 
     public void setUpRecyclerView(RecyclerView recyclerView){

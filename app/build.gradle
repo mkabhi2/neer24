@@ -48,6 +48,9 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:4.5'
     compile 'com.google.android.gms:play-services-location:11.0.0'
     compile 'com.github.stfalcon:smsverifycatcher:0.3.1'
+    compile ('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
+        exclude module: 'support-v4'
+    }
     testCompile 'junit:junit:4.12'
 }
 
