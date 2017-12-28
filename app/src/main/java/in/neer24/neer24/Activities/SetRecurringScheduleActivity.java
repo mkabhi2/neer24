@@ -30,14 +30,14 @@ import in.neer24.neer24.R;
 
 public class SetRecurringScheduleActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    Button btnDatePicker, btnTimePicker, btnCart ;
+    Button btnDatePicker, btnTimePicker, btnCart, increaseByOne, decreaseByOne, displayItemCount ;
     TextView endDateTV, deliveryTimeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV;
     ImageView productImage;
-    Spinner spinnerNumOfCans, spinnerInterval;
+    Spinner spinnerInterval;
     private int currentYear, currentMonth, currentDay, currentHour, currentMinute, selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute;
     Date date;
     Can can;
-    int numOfCans, recurrenceInterval;
+    int numOfCans = 1, recurrenceInterval;
     String rupeeSymbol;
     double total;
     Toast toast;
@@ -62,16 +62,22 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         deliveryTimeTV =(TextView) findViewById(R.id.in_time);
         productImage = (ImageView) findViewById(R.id.productImage);
         productPriceTV = (TextView) findViewById(R.id.productPrice);
-        spinnerNumOfCans = (Spinner) findViewById(R.id.spinner_numOfCans);
         productNameTV = (TextView) findViewById(R.id.productName);
         priceDetailsTV = (TextView) findViewById(R.id.price_details);
         totalCostTV = (TextView) findViewById(R.id.totalCost);
         spinnerInterval = (Spinner) findViewById(R.id.spinner_interval);
         calculationView = findViewById(R.id.calculationView);
+        increaseByOne = (Button) findViewById(R.id.btn_qty_increase);
+        decreaseByOne = (Button) findViewById(R.id.btn_qty_decrease);
+        displayItemCount = (Button) findViewById(R.id.btn_order_or_qty);
+
+        displayItemCount.setText("" + numOfCans);
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
         btnCart.setOnClickListener(this);
+        increaseByOne.setOnClickListener(this);
+        decreaseByOne.setOnClickListener(this);
 
         endDateTV.addTextChangedListener(new TextWatcher() {
             @Override
@@ -123,20 +129,6 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
 
     public void setUpSpinner(){
-        List<String> numberList = new ArrayList<String>();
-        numberList.add("1 can");
-        for(int i=2;i<101;i++){
-            numberList.add("" + i + " cans");
-        }
-        ArrayAdapter<String> numberAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item,numberList);
-
-        numberAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerNumOfCans.setAdapter(numberAdapter);
-        spinnerNumOfCans.setOnItemSelectedListener(this);
-        spinnerNumOfCans.setSelection(0);
-        numOfCans = 1;
-
 
         List<String> intervalList = new ArrayList<String>();
         intervalList.add("Everyday");
@@ -284,6 +276,24 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                 intent.putExtra("dateTime",date);
             }
 
+        }
+
+        if( v == increaseByOne ) {
+
+            numOfCans++;
+            displayItemCount.setText("" + numOfCans);
+            updateOrderValue();
+
+        }
+
+        if( v == decreaseByOne ) {
+
+            if( numOfCans != 1 ) {
+
+                numOfCans--;
+                displayItemCount.setText("" + numOfCans);
+                updateOrderValue();
+            }
         }
     }
 

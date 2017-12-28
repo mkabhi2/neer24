@@ -32,18 +32,6 @@
     <string name="btn_revoke_access">Revoke Access</string>
     <string name="title_activity_welcome">Home Screen</string>
 
-    <string name="slide_1_title">Hello Food!</string>
-    <string name="slide_1_desc">The easiest way to order food from your favourite restaurant!</string>
-
-    <string name="slide_2_title">Movie Tickets</string>
-    <string name="slide_2_desc">Book movie tickets for your family and friends!</string>
-
-    <string name="slide_3_title">Great Discounts</string>
-    <string name="slide_3_desc">Best discounts on every single service we offer!</string>
-
-    <string name="slide_4_title">World Travel</string>
-    <string name="slide_4_desc">Book tickets of any transportation and travel the world!</string>
-
     <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
     <string name="play_again">Play Again</string>
     <string name="title_activity_user_account">Account</string>
@@ -57,4 +45,29 @@
     <string name="title_activity_order_details">Order Details</string>
     <string name="title_activity_checkout">Checkout</string>
     <string name="share_des">You can earn unlimited FREE CAN promo codes by inviting your friends to</string>
+
+    <string name="slide_1_title">Neer24</string>
+    <string name="slide_1_desc">Simplifies your water needs</string>
+    <string name="slide_1_details">With features that put you on the top of the world</string>
+
+
+    <string name="slide_2_title">Simple.Beautiful.Reliable</string>
+    <string name="slide_2_desc">Rock-solid water can delivery service built to delight</string>
+    <string name="slide_2_details">With assured delivery within 45 minutes</string>
+
+    <string name="slide_3_title">Brands You Love</string>
+    <string name="slide_3_desc">Find the purified water brand you love on Neer24</string>
+    <string name="slide_3_details"/>
+
+    <string name="slide_4_title">Tested Quality</string>
+    <string name="slide_4_desc">Know the water quality of each individual product</string>
+    <string name="slide_4_details">Tested by us beforehand for you</string>
+
+    <string name="slide_5_title">Schedule delivery</string>
+    <string name="slide_5_desc">Schedule your water can delivery beforehand</string>
+    <string name="slide_5_details">Specify date and time when you need your delivery</string>
+
+    <string name="slide_6_title">Recurring Delivery</string>
+    <string name="slide_6_desc">Know the water quality of each individual product</string>
+    <string name="slide_6_details"/>
 </resources>

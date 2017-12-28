@@ -178,7 +178,7 @@ public class HomeScreenActivity extends AppCompatActivity
         final Runnable Update = new Runnable() {
             int currentPage = 0;
             public void run() {
-                if (currentPage == pagerAdapter.getCount()-1) {
+                if (currentPage == pagerAdapter.getCount()) {
                     currentPage = 0;
                 }
                 viewPager.setCurrentItem(currentPage++, true);
