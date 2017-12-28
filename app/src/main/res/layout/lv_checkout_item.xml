@@ -81,7 +81,7 @@
             <Button
                 android:id="@+id/quantityCheckoutListView"
                 android:layout_width="30dp"
-                android:layout_height="40dp"
+                android:layout_height="30dp"
                 android:text="O"
                 android:layout_marginRight="5dp"
                 android:background="@drawable/rv_home_item_round_corner_button"
