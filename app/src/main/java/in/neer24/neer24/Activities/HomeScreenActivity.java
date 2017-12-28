@@ -140,7 +140,7 @@ public class HomeScreenActivity extends AppCompatActivity
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/").client(okHttpClient)
+                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();

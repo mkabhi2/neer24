@@ -154,7 +154,7 @@ public class CheckoutActivity extends AppCompatActivity {
     public void insertIntoOrderDetailsTable(String returnedOrderID){
         ArrayList<OrderDetails> orderDetails=createObjectForOrderDetails(returnedOrderID);
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080")
+                .baseUrl("http://18.220.28.118:8080/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -184,7 +184,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     public void updateWarehouseCansTable(int canID, int warehouseID){
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080")
+                .baseUrl("http://18.220.28.118:8080")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

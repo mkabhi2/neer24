@@ -1,12 +1,10 @@
 package in.neer24.neer24.Activities;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -122,7 +120,7 @@ public class OTPActivity extends AppCompatActivity {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/").client(okHttpClient)
+                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
 
