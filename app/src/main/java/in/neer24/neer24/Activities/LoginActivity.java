@@ -297,12 +297,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     sharedPreferenceUtility.setCustomerID(customer.getCustomerID());
                     sharedPreferenceUtility.setCustomerEmailID(customer.getCustomerEmail());
                     sharedPreferenceUtility.setCustomerFirstName(customer.getCustomerFirstName());
-                    sharedPreferenceUtility.setCustomerLastName(customer.getCustomerLastName());
                     sharedPreferenceUtility.setCustomerUniqueID(customer.getCustomerUniqueID());
 
-
-                    String lastName = sharedPreferenceUtility.getCustomerLastName();
-                    String firsName = sharedPreferenceUtility.getCustomerFirstName();
 
                     Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);

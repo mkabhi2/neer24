@@ -84,7 +84,7 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
         customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
         customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
 
-        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName()+" "+sharedPreferenceUtility.getCustomerLastName());
+        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
         customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
 
         headerview.setOnClickListener(new View.OnClickListener() {

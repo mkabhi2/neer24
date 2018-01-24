@@ -2,40 +2,67 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="/Users/abhmishr/Desktop/neer24/neer24/app/libs/activation.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="26.0.2"
-        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
-        <dex dex="/Users/abhmishr/Desktop/neer24/neer24/app/build/intermediates/pre-dexed/debug/activation_8db8adf557a86781e72d52068cef4a57a8b7809e.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/abhmishr/Desktop/neer24/neer24/app/libs/additionnal.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/libs/additionnal.jar"
+        jumboMode="true"
         optimize="true"
         revision="26.0.2"
         sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
-        <dex dex="/Users/abhmishr/Desktop/neer24/neer24/app/build/intermediates/pre-dexed/debug/additionnal_de25004b28fcfc43e2589d7cfe264f4c6b820419.jar" />
+        <dex dex="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/build/intermediates/transforms/dex/debug/folders/1000/2/additionnal_021c071d6b63a61d178206aaffa31cca25afe9fc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/libs/activation.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/build/intermediates/transforms/dex/debug/folders/1000/2/activation_21c63114cee157696af9accd865dbe0592d54b78/classes.dex" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/abhmishr/.gradle/caches/modules-2/files-2.1/cn.trinea.android.view.autoscrollviewpager/android-auto-scroll-view-pager/1.1.2/8ad9237a8b0965696ea32ca9c1de173e082eaad4/android-auto-scroll-view-pager-1.1.2.jar"
+        jar="/Users/kumarpallav/.gradle/caches/modules-2/files-2.1/cn.trinea.android.view.autoscrollviewpager/android-auto-scroll-view-pager/1.1.2/8ad9237a8b0965696ea32ca9c1de173e082eaad4/android-auto-scroll-view-pager-1.1.2.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.2"
         sha1="8ad9237a8b0965696ea32ca9c1de173e082eaad4">
-        <dex dex="/Users/abhmishr/Desktop/neer24/neer24/app/build/intermediates/pre-dexed/debug/android-auto-scroll-view-pager-1.1.2_882c9d09c6806f953fb242edc55e373076cfbbfa.jar" />
+        <dex dex="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/build/intermediates/pre-dexed/release/android-auto-scroll-view-pager-1.1.2_41c86813a2512df460dd69571fee9e1693aec06b.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_7829a72a1b5a9e997eab85a8e406d23fba4f483d/classes.dex" />
     </item>
     <item
         is-multidex="false"
-        jar="/Users/abhmishr/.android/build-cache/7ec4edcc191274ce3d63c8a4fff14ee688fbf7a4/output/jars/classes.jar"
+        jar="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/libs/additionnal.jar"
         jumboMode="false"
         optimize="true"
         revision="26.0.2"
-        sha1="b4c808fc63023da9e556df8762bc1a35585bbedb">
-        <dex dex="/Users/abhmishr/Desktop/neer24/neer24/app/build/intermediates/pre-dexed/debug/classes_174a151b50f8a68c55543cdeeafc483926524a96.jar" />
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/build/intermediates/pre-dexed/release/additionnal_021c071d6b63a61d178206aaffa31cca25afe9fc.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/libs/activation.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/build/intermediates/pre-dexed/release/activation_21c63114cee157696af9accd865dbe0592d54b78.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.2"
+        sha1="a1a7cc6b7118434411a99a62cec34138c890eddd">
+        <dex dex="/Users/kumarpallav/Desktop/Facebook Integration/Neer24 V 1.0/neer24/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_5cd393b407e7ae1f93c8f754380eeb3b935874ab/classes.dex" />
     </item>
 
 </items>

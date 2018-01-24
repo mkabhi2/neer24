@@ -47,7 +47,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText firstNameEditText;
-    private EditText lastNameEditText;
     private EditText mobileEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -78,7 +77,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         registerActivityRL = (RelativeLayout) findViewById(R.id.register_activity_relative_layout);
         firstNameEditText = (EditText) findViewById(R.id.registerFirstNameEditText);
-        lastNameEditText = (EditText) findViewById(R.id.registerLastNameEditText);
         mobileEditText = (EditText) findViewById(R.id.registerMobileEditText);
         emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
         passwordEditText = (EditText) findViewById(R.id.registerPassworddEditText);
@@ -152,12 +150,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         String firstName = firstNameEditText.getText().toString();
-        String lastName = lastNameEditText.getText().toString();
         String mobileNumber = mobileEditText.getText().toString();
 
         if (UtilityClass.validate(email) && password != null && password.length() > 5 && firstName != null && mobileNumber != null && mobileNumber.length() == 10 && (mobileNumber.startsWith("9") || mobileNumber.startsWith("8") || mobileNumber.startsWith("7"))) {
 
-            saveEveryThingInSharePreferences(email, password, firstName, lastName, mobileNumber);
+            saveEveryThingInSharePreferences(email, password, firstName, mobileNumber);
             checkEmailAndMobileNumberIfALreadyRegistered(email,mobileNumber);
         } else {
             registerProgressBar.setVisibility(View.GONE);
@@ -251,9 +248,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
 
     }
-    public void saveEveryThingInSharePreferences(String emailID, String password, String firstName, String lastName, String mobileNumber) {
+    public void saveEveryThingInSharePreferences(String emailID, String password, String firstName, String mobileNumber) {
         sharedPreferenceUtility.setCustomerFirstNameRegisterActivity(firstName);
-        sharedPreferenceUtility.setCustomerLastNameRegisterActivity(lastName);
         sharedPreferenceUtility.setCustomerEmailRegisterActivity(emailID);
         sharedPreferenceUtility.setCustomerMobileNumberRegisterActivity(mobileNumber);
         sharedPreferenceUtility.setCustomerPasswordRegisterActivity(password);

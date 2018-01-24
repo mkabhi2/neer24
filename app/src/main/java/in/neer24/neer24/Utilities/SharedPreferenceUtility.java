@@ -97,15 +97,6 @@ public class SharedPreferenceUtility {
         return sharedPreferences.getString("FIRSTNAME", null);
     }
 
-    public void setCustomerLastName(String customerLastName) {
-        editor.putString("LASTNAME", customerLastName);
-        editor.commit();
-    }
-
-    public String getCustomerLastName() {
-        return sharedPreferences.getString("LASTNAME", null);
-    }
-
     public void setCustomerUniqueID(String customerUniqueID) {
         editor.putString("UNIQUEID", customerUniqueID);
         editor.commit();
@@ -123,17 +114,6 @@ public class SharedPreferenceUtility {
     public String getCustomerFirstNameRegisterActivity(){
         return sharedPreferences.getString("CustomerFirstNameRegisterActivity",null);
     }
-
-    public void setCustomerLastNameRegisterActivity(String name){
-        editor.putString("CustomerLastNameRegisterActivity", name);
-        editor.commit();
-    }
-
-    public String getCustomerLastNameRegisterActivity(){
-        return sharedPreferences.getString("CustomerLastNameRegisterActivity",null);
-    }
-
-
 
     public void setCustomerEmailRegisterActivity(String email){
         editor.putString("CustomerEmailRegisterActivity", email);

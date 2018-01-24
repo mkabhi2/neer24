@@ -158,18 +158,16 @@ public class OTPActivity extends AppCompatActivity {
         sharedPreferenceUtility.setCustomerID(customer.getCustomerID());
         sharedPreferenceUtility.setCustomerEmailID(customer.getCustomerEmail());
         sharedPreferenceUtility.setCustomerFirstName(customer.getCustomerFirstName());
-        sharedPreferenceUtility.setCustomerLastName(customer.getCustomerLastName());
         sharedPreferenceUtility.setCustomerUniqueID(customer.getCustomerUniqueID());
 
     }
 
     private Customer createCustomerObject(){
         String firstName=sharedPreferenceUtility.getCustomerFirstNameRegisterActivity();
-        String lastName=sharedPreferenceUtility.getCustomerLastNameRegisterActivity();
         String email=sharedPreferenceUtility.getCustomerEmailRegisterActivity();
         String password=sharedPreferenceUtility.getCustomerPasswordRegisterActivity();
         String mobileNumber=sharedPreferenceUtility.getCustomerMobileNumberRegisterActivity();
-        return new Customer(email,firstName,lastName,mobileNumber,password);
+        return new Customer(email,firstName,mobileNumber,password);
     }
 
     @Override

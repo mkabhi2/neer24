@@ -73,7 +73,7 @@ public class HomeScreenActivity extends AppCompatActivity
         customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
         customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
         checkoutButtonLinearLayout=(LinearLayout)findViewById(R.id.checkoutButtonHomeScreenLinearLayout);
-        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName()+" "+sharedPreferenceUtility.getCustomerLastName());
+        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
         customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
 
         checkoutButtonLinearLayout.setVisibility(View.GONE);

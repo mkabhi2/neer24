@@ -44,29 +44,6 @@
 
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/LastNameInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/rounded_corners_black_stroke"
-        android:textColorHint="#000000"
-        android:layout_below="@+id/firstNameInputLayout">
-
-        <EditText
-            android:id="@+id/registerLastNameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rounded_corners_balck_stroke_no_edge"
-            android:hint="Last Name"
-
-            android:textColor="#000000"/>
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
         android:id="@+id/mobileInputLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -75,7 +52,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_below="@+id/LastNameInputLayout"
+        android:layout_below="@+id/firstNameInputLayout"
         android:background="@drawable/rounded_corners_black_stroke">
 
         <EditText
