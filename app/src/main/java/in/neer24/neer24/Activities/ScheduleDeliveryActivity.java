@@ -25,9 +25,9 @@ import in.neer24.neer24.Utilities.RVItemDecoration;
 
 public class ScheduleDeliveryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    static RecyclerView recyclerView;
+    public static RecyclerView recyclerView;
     int warehouseID;
-    static ArrayList<Can> allCans = new ArrayList<Can>();
+    public static ArrayList<Can> allCans = new ArrayList<Can>();
     float currentLatitude, currentLongitude;
     boolean isNew = true;
 

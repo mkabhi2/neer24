@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.neer24.neer24.Activities.ChangeLocationActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/tv_comingSoon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:background="@color/app_color">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="We are Coming Soon"
+            android:textAlignment="center"
+            android:layout_marginBottom="16dp"
+            android:textStyle="bold"
+            android:textColor="@color/White"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="We have not reached at your current location yet. We will notify you when we are near you."/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose a location on map"/>
+
+    <Button
+        android:id="@+id/btn_selectLocationOnMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Location on Map "/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose a location from your saved addresses"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/address_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="LinearLayoutManager" />
+
+</LinearLayout>

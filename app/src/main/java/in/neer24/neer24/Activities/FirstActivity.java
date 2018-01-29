@@ -1,7 +1,6 @@
 package in.neer24.neer24.Activities;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -30,13 +30,19 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
+import in.neer24.neer24.Adapters.ChangeLocationAddressRVAdapter;
 import in.neer24.neer24.Adapters.HomeRVAdapter;
+import in.neer24.neer24.Adapters.UserAccountAddressRVAdapter;
 import in.neer24.neer24.BuildConfig;
 import in.neer24.neer24.CustomObjects.Can;
+import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.R;
+import in.neer24.neer24.Utilities.FetchLocationNameService;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,8 +54,6 @@ public class FirstActivity extends AppCompatActivity {
     private static String currentLongitude;
     private static String currentLatitude;
 
-    private static int TIME_OUT = 5000;
-
     private ProgressBar progressBar;
     private static final String TAG = FirstActivity.class.getSimpleName();
 
@@ -60,11 +64,8 @@ public class FirstActivity extends AppCompatActivity {
     private String mLatitudeLabel;
     private String mLongitudeLabel;
 
-
     Snackbar snackbar, retroCallFailSnackbar;
     private RelativeLayout relativeLayout;
-    private BroadcastReceiver mNetworkReceiver;
-
 
     SharedPreferenceUtility sharedPreferenceUtility;
 
@@ -85,6 +86,58 @@ public class FirstActivity extends AppCompatActivity {
         mLongitudeLabel = getResources().getString(R.string.longitude_label);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+        if (sharedPreferenceUtility.loggedIn()) {
+            getCustomerAddress();
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        doTheOperations();
+    }
+
+
+    public void getCustomerAddress() {
+        int customerid = sharedPreferenceUtility.getCustomerID();
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+        String unique = sharedPreferenceUtility.getCustomerUniqueID();
+
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<List<CustomerAddress>> call = retroFitNetworkClient.getAllCustomerAddress(customerid, unique);
+
+        call.enqueue(new Callback<List<CustomerAddress>>() {
+            @Override
+            public void onResponse(Call<List<CustomerAddress>> call, Response<List<CustomerAddress>> response) {
+                HomeScreenActivity.addressList = (ArrayList<CustomerAddress>) response.body();
+                if (UserAccountActivity.recyclerView != null) {
+                    UserAccountActivity.recyclerView.setAdapter(new UserAccountAddressRVAdapter(HomeScreenActivity.addressList,FirstActivity.this));
+                    UserAccountActivity.recyclerView.invalidate();
+                }
+
+                if(ChangeLocationActivity.addressRV != null) {
+                    ChangeLocationActivity.addressRV.setAdapter(new ChangeLocationAddressRVAdapter(HomeScreenActivity.addressList,FirstActivity.this));
+                    ChangeLocationActivity.addressRV.invalidate();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CustomerAddress>> call, Throwable t) {
+                Toast.makeText(FirstActivity.this, "Error loading address", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -100,17 +153,14 @@ public class FirstActivity extends AppCompatActivity {
 
 
         if (isNetworkAvailable()) {
-            warehouseID = sharedPreferenceUtility.getWareHouseID();
-            if (warehouseID == 0) {
-                if (!checkPermissions()) {
-                    requestPermissions();
-                } else {
-                    getLastLocation();
-                }
-                getWarehouseForLocation(Float.parseFloat("2.1"), Float.parseFloat("2.1"));
+
+            if (!checkPermissions()) {
+                requestPermissions();
             } else {
-                getCansListForWarehouse(warehouseID);
+                getLastLocation();
             }
+            //getWarehouseForLocation(Float.parseFloat("2.1"), Float.parseFloat("2.1"));
+
         } else {
             snackbar = Snackbar
                     .make(relativeLayout, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
@@ -124,22 +174,6 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        doTheOperations();
-    }
-
-    public void pauseActivityForTwoSeconds() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                launchNextActivity();
-            }
-        }, 2500);
-    }
-
     private void launchNextActivity() {
 
         progressBar.setVisibility(View.GONE);
@@ -151,22 +185,21 @@ public class FirstActivity extends AppCompatActivity {
 
         } else {
             if (sharedPreferenceUtility.loggedIn()) {
-                //take to home page
-                Intent intent = new Intent(FirstActivity.this, HomeScreenActivity.class);
-                startActivity(intent);
+
+                if (HomeScreenActivity.cansList.isEmpty()) {
+                    Intent intent = new Intent(FirstActivity.this, ChangeLocationActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    //take to home page
+                    Intent intent = new Intent(FirstActivity.this, HomeScreenActivity.class);
+                    startActivity(intent);
+                }
             } else {
                 Intent intent = new Intent(FirstActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         }
-    }
-
-    private void delayActivity() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-            }
-        }, TIME_OUT);
     }
 
     @SuppressWarnings("MissingPermission")
@@ -184,8 +217,18 @@ public class FirstActivity extends AppCompatActivity {
                                     mLastLocation.getLatitude());
                             currentLongitude = String.format(Locale.ENGLISH, "%f",
                                     mLastLocation.getLongitude());
-                            if (currentLongitude != null && currentLatitude != null)
+
+                            sharedPreferenceUtility.setLocationLatitude(currentLatitude);
+                            sharedPreferenceUtility.setLocationLongitude(currentLongitude);
+
+                            if (currentLongitude != null && currentLatitude != null) {
+
+                                FetchLocationNameService locationAddress = new FetchLocationNameService();
+                                locationAddress.getAddressFromLocation(Float.parseFloat(currentLatitude), Float.parseFloat(currentLongitude),
+                                        getApplicationContext(), new GeocoderHandler());
+
                                 getWarehouseForLocation(Float.parseFloat(currentLatitude), Float.parseFloat(currentLongitude));
+                            }
                         } else {
                             Toast.makeText(FirstActivity.this, "exception 2", Toast.LENGTH_SHORT);
                             Log.w(TAG, "getLastLocation:exception", task.getException());
@@ -198,6 +241,22 @@ public class FirstActivity extends AppCompatActivity {
         //pauseActivityForTwoSeconds();
 
 
+    }
+
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            HomeScreenActivity.locationName = locationAddress;
+        }
     }
 
     private void showSnackbar(final String text) {
@@ -318,16 +377,11 @@ public class FirstActivity extends AppCompatActivity {
 
                 if (response.body() != null) {
                     warehouseID = Integer.parseInt(response.body().toString());
-                    System.out.print(warehouseID);
                 }
 
-                if (warehouseID != 0)
+                if (warehouseID != 0) {
                     getCansListForWarehouse(warehouseID);
-                else {
-                    //TODO  CORRECT IT
-                    Intent intent = new Intent();
-                    intent.setClass(context, TempActivity.class);
-                    //startActivity(intent);
+                    sharedPreferenceUtility.setWareHouseID(warehouseID);
                 }
             }
 

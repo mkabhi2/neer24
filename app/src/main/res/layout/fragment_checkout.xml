@@ -35,18 +35,7 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:background="@color/Green">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:layout_weight="1.5"
-            android:text="Grand Total :"
-            android:textColor="@color/White"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/totalCheckoutFragmentTextView"
@@ -56,7 +45,7 @@
             android:layout_weight="1.5"
             android:text="Rs 100"
             android:textAlignment="viewEnd"
-            android:textColor="@color/White"
+            android:textColor="@color/Black"
             android:textSize="15sp"
             android:textStyle="bold" />
 

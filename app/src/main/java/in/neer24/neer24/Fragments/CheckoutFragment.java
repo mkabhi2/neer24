@@ -55,7 +55,7 @@ public class CheckoutFragment extends android.app.Fragment {
                     totalCost = totalCost + (c.getNewCanPrice() * quantity);
                 }
             }
-            totalCheckoutFragmentTextView.setText("\u20B9" + " " + String.valueOf(totalCost));
+            totalCheckoutFragmentTextView.setText("To Pay    :    " + "\u20B9" + " " + String.valueOf(totalCost));
 
         }
     }

@@ -2,12 +2,14 @@ package in.neer24.neer24.Activities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import in.neer24.neer24.CustomObjects.Can;
+import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.CustomObjects.NormalCart;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
@@ -35,6 +38,10 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private TextView cartSummaryTextView;
     public static Button proceedToPayButton;
+    public static View addressView;
+    private ImageView addressIconIV;
+    private TextView addressTitleTV, addressDescTV, addressChangeTV;
+    private Button selectAddressBtn, addAddressBtn;
 
     String returnedOrderID="";
     String isOrderDetailsInsertionSuccesFull;
@@ -43,15 +50,24 @@ public class CheckoutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+        sharedPreferenceUtility=new SharedPreferenceUtility(this);
 
         cartSummaryTextView = (TextView) findViewById(R.id.checkoutActivityCartSummaryTextView);
+        addressView = findViewById(R.id.adressSelector);
+        addressIconIV = (ImageView) findViewById(R.id.addressIconIV);
+        addressTitleTV = (TextView) findViewById(R.id.addressTitleTV);
+        addressDescTV = (TextView) findViewById(R.id.addressDescTV);
+        addressChangeTV = (TextView) findViewById(R.id.addressChangeTV);
+        selectAddressBtn = (Button) findViewById(R.id.selectAddressBtn);
+        addAddressBtn = (Button) findViewById(R.id.addAddressBtn);
+        proceedToPayButton = (Button) findViewById(R.id.proceedToPayCheckoutActivity);
         //checkoutActivityTotalCartValueTextView=(TextView)findViewById(R.id.checkoutActivityTotalCartValueTextView);
         cartSummaryTextView.setGravity(Gravity.CENTER_VERTICAL);
 
-        proceedToPayButton = (Button) findViewById(R.id.proceedToPayCheckoutActivity);
-        sharedPreferenceUtility=new SharedPreferenceUtility(this);
+        setAddressSelector();
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -77,6 +93,66 @@ public class CheckoutActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    void setAddressSelector() {
+
+        int warehouseID = sharedPreferenceUtility.getWareHouseID();
+
+        ArrayList<CustomerAddress> addressesInCurrentLocation=new ArrayList<CustomerAddress>();
+
+        if(HomeScreenActivity.addressList!=null && !HomeScreenActivity.addressList.isEmpty()) {
+            for(CustomerAddress address : HomeScreenActivity.addressList) {
+
+                if(address.getWarehouseID() == warehouseID) {
+                    addressesInCurrentLocation.add(address);
+                }
+
+            }
+        }
+
+        switch(addressesInCurrentLocation.size()) {
+
+            case 0 : addressTitleTV.setText("No address present for current location");
+                     addressDescTV.setText("");
+                     selectAddressBtn.setVisibility(View.GONE);
+                     addAddressBtn.setVisibility(View.VISIBLE);
+                     addAddressBtn.setTextColor(Color.WHITE);
+                     addAddressBtn.setText("ADD ADDRESS TO PROCEED");
+                     addAddressBtn.setBackgroundColor(getResources().getColor(R.color.app_color));
+                     addressIconIV.setImageResource(R.drawable.no_address);
+                     addressChangeTV.setVisibility(View.GONE);
+                     proceedToPayButton.setVisibility(View.GONE);
+                     break;
+
+            case 1 : addressTitleTV.setText("Deliver to " + addressesInCurrentLocation.get(0).getAddressNickName());
+                     String savedAddress = addressesInCurrentLocation.get(0).getAddress();
+                     int addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
+                     addressDescTV.setText(savedAddress.substring(0,addressStripCount));
+                     selectAddressBtn.setVisibility(View.GONE);
+                     addAddressBtn.setVisibility(View.GONE);
+                     addressIconIV.setImageResource(R.drawable.address_location_icon);
+                     proceedToPayButton.setVisibility(View.VISIBLE);
+                     break;
+
+            default : addressTitleTV.setText("Multiple addresses in current location");
+                      String addressNickNames = "";
+                      for(CustomerAddress address : addressesInCurrentLocation) {
+                          addressNickNames = addressNickNames + address.getAddressNickName() + ".";
+                      }
+                      int nickNameStripCount = (30 > addressNickNames.length() ? addressNickNames.length() : 30);
+                      addressDescTV.setText(addressNickNames.substring(0,nickNameStripCount));
+                      selectAddressBtn.setVisibility(View.VISIBLE);
+                      addAddressBtn.setVisibility(View.VISIBLE);
+                      addAddressBtn.setText("ADD ADDRESS");
+                      selectAddressBtn.setText("SELECT ADDRESS");
+                      addAddressBtn.setTextColor(getResources().getColor(R.color.app_color));
+                      addAddressBtn.setBackgroundColor(R.drawable.checkout_item_total_border);
+                      addressIconIV.setImageResource(R.drawable.multiple_addres_icon);
+                      addressChangeTV.setVisibility(View.GONE);
+                      proceedToPayButton.setVisibility(View.GONE);
+
+        }
     }
 
 

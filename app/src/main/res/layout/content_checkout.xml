@@ -23,19 +23,117 @@
         android:layout_height="wrap_content"
 
         android:layout_below="@+id/checkoutActivityCartSummaryTextView"
-        android:layout_above="@+id/proceedToPayCheckoutActivity"
+        android:layout_above="@+id/adressSelector"
         android:id="@+id/cartFragmentContainer">
 
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/proceedToPayCheckoutActivity"
+
+    <RelativeLayout
+        android:id="@+id/adressSelector"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:text="Proceed To Pay"
-        android:padding="10dp"
         android:layout_height="wrap_content"
-        android:background="@color/app_color"/>
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp">
+
+        <View
+            android:id="@+id/singleLine"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black_overlay"
+            android:layout_marginBottom="16dp"/>
+
+        <ImageView
+            android:layout_below="@+id/singleLine"
+            android:id="@+id/addressIconIV"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_alignBottom="@+id/adressInfoTV"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/address_location_icon"
+            android:layout_marginLeft="16dp"/>
+
+        <LinearLayout
+            android:layout_below="@+id/singleLine"
+            android:id="@+id/adressInfoTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@+id/addressIconIV"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <TextView
+                android:id="@+id/addressTitleTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deliver to Home"
+                android:textColor="@color/Black"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/addressDescTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home, Office, Native" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_below="@+id/singleLine"
+            android:id="@+id/addressChangeTV"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CHANGE"
+            android:textColor="@color/app_color"
+            android:layout_alignParentRight="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/adressInfoTV"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:id="@+id/addressButtons"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/addAddressBtn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="ADD ADDRESS"
+                android:textColor="@color/app_color"
+                android:background="@drawable/checkout_item_total_border"
+                android:layout_marginRight="8dp" />
+
+            <Button
+                android:id="@+id/selectAddressBtn"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:text="SELECT ADDRESS"
+                android:background="@color/app_color"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/White" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/proceedToPayCheckoutActivity"
+            android:layout_width="match_parent"
+            android:text="Proceed To Pay"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:background="@color/app_color"
+            android:layout_below="@+id/addressButtons" />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

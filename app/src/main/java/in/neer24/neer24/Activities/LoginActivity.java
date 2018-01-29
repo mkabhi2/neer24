@@ -42,14 +42,18 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import in.neer24.neer24.Adapters.ChangeLocationAddressRVAdapter;
+import in.neer24.neer24.Adapters.UserAccountAddressRVAdapter;
 import in.neer24.neer24.CustomObjects.Customer;
+import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.BlurImage;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
-import in.neer24.neer24.Utilities.UtilityClass;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -305,10 +309,59 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String firsName = sharedPreferenceUtility.getCustomerFirstName();
 
                     Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
-                    startActivity(intent);
+                    getCustomerAddress();
+
+                    if (HomeScreenActivity.cansList.isEmpty()) {
+                        Intent intent = new Intent(LoginActivity.this, ChangeLocationActivity.class);
+                        startActivity(intent);
+                    }
+                    else {
+                        Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                        startActivity(intent);
+                    }
                 }
 
+            }
+
+            void getCustomerAddress(){
+                int customerid = sharedPreferenceUtility.getCustomerID();
+
+                OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                        .connectTimeout(1, TimeUnit.MINUTES)
+                        .readTimeout(30, TimeUnit.SECONDS)
+                        .writeTimeout(15, TimeUnit.SECONDS)
+                        .build();
+
+                Retrofit.Builder builder = new Retrofit.Builder()
+                        .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
+                        .addConverterFactory(GsonConverterFactory.create());
+
+                Retrofit retrofit = builder.build();
+                String unique = sharedPreferenceUtility.getCustomerUniqueID();
+
+                RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+                Call<List<CustomerAddress>> call = retroFitNetworkClient.getAllCustomerAddress(customerid, unique);
+
+                call.enqueue(new Callback<List<CustomerAddress>>() {
+                    @Override
+                    public void onResponse(Call<List<CustomerAddress>> call, Response<List<CustomerAddress>> response) {
+                        HomeScreenActivity.addressList = (ArrayList<CustomerAddress>) response.body();
+                        if (UserAccountActivity.recyclerView != null) {
+                            UserAccountActivity.recyclerView.setAdapter(new UserAccountAddressRVAdapter(HomeScreenActivity.addressList,LoginActivity.this));
+                            UserAccountActivity.recyclerView.invalidate();
+                        }
+
+                        if(ChangeLocationActivity.addressRV != null) {
+                            ChangeLocationActivity.addressRV.setAdapter(new ChangeLocationAddressRVAdapter(HomeScreenActivity.addressList,LoginActivity.this));
+                            ChangeLocationActivity.addressRV.invalidate();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<CustomerAddress>> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, "Error loading address", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override

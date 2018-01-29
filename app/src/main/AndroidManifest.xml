@@ -103,9 +103,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.HomeScreenActivity" />
         </activity>
-        <activity android:name=".Activities.UserAccountActivity"
+        <activity
+            android:name=".Activities.UserAccountActivity"
             android:label="@string/title_activity_user_account"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.ChangeLocationActivity"></activity>
     </application>
 
 </manifest>

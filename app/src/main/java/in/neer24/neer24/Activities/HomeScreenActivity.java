@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,13 +24,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import in.neer24.neer24.Adapters.CustomPagerAdapter;
 import in.neer24.neer24.Adapters.HomeRVAdapter;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.CustomObjects.NormalCart;
 import in.neer24.neer24.R;
-import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import in.neer24.neer24.Utilities.RVItemDecoration;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
@@ -43,17 +44,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static ArrayList<CustomerAddress> addressList=new ArrayList<CustomerAddress>();
-    static ArrayList<Can> cansList = new ArrayList<Can>();
-    boolean isLoggedIn;
-    int warehouseID;
-    double currentLatitude, currentLongitude;
-    static RecyclerView recyclerView;
+    public static ArrayList<CustomerAddress> addressList = new ArrayList<CustomerAddress>();
+    public static ArrayList<Can> cansList = new ArrayList<Can>();
+    public static RecyclerView recyclerView;
     AutoScrollViewPager viewPager;
     CustomPagerAdapter pagerAdapter;
     private static Button checkoutButton;
     private static LinearLayout checkoutButtonLinearLayout;
     private static TextView cartSummary;
+    public static String locationName;
     boolean isNew = true;
 
     private TextView customerEmailTextViewNavigationHeader;
@@ -77,6 +76,7 @@ public class HomeScreenActivity extends AppCompatActivity
         customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
 
         checkoutButtonLinearLayout.setVisibility(View.GONE);
+
         getCustomerAddress();
 
         headerview.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +121,9 @@ public class HomeScreenActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+        toolbar.setTitle("");
+        toolbar.setSubtitle(locationName);
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.White));
         setSupportActionBar(toolbar);
 
         setUpNavigationDrawer(toolbar);
@@ -167,32 +170,9 @@ public class HomeScreenActivity extends AppCompatActivity
         pagerAdapter=new CustomPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
         viewPager.startAutoScroll();
-        viewPager.setInterval(3000);
+        viewPager.setInterval(5000);
         viewPager.setStopScrollWhenTouch(true);
-
-//        Timer timer;
-//        final long DELAY_MS = 2000;//delay in milliseconds before task is to be executed
-//        final long PERIOD_MS = 4000;
-//
-//        final Handler handler = new Handler();
-//        final Runnable Update = new Runnable() {
-//            int currentPage = 0;
-//            public void run() {
-//                if (currentPage == pagerAdapter.getCount()) {
-//                    currentPage = 0;
-//                }
-//                viewPager.setCurrentItem(currentPage++, true);
-//            }
-//        };
-//
-//        timer = new Timer(); // This will create a new Thread
-//        timer .schedule(new TimerTask() { // task to be scheduled
-//
-//            @Override
-//            public void run() {
-//                handler.post(Update);
-//            }
-//        }, DELAY_MS, PERIOD_MS);
+        viewPager.setBorderAnimation(false);
     }
 
     public void setUpRecyclerView(RecyclerView recyclerView){
@@ -282,7 +262,9 @@ public class HomeScreenActivity extends AppCompatActivity
                 totalQuantity += quantity;
             }
 
-            String message = "(" + totalQuantity+")" +"\n" + "Rs " + totalCost;
+            String rupeeSymbol = Character.toString((char)'\u20B9');
+
+            String message = "(" + totalQuantity+")" +"\n" + rupeeSymbol + " " + totalCost;
             cartSummary.setText(message);
             cartSummary.setGravity(Gravity.CENTER_VERTICAL);
             checkoutButtonLinearLayout.setVisibility(View.VISIBLE);
@@ -329,7 +311,32 @@ public class HomeScreenActivity extends AppCompatActivity
         super.onPause();
         isNew = false;
     }
+
     public static ArrayList<CustomerAddress> getaddressList(){
         return addressList;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home_screen, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_change_location) {
+            Intent intent = new Intent(HomeScreenActivity.this, ChangeLocationActivity.class);
+            intent.putExtra("isFromHomeScreen",true);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

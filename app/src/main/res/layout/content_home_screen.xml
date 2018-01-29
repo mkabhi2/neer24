@@ -35,9 +35,9 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_weight="0.5"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/cart_icon"
-            />
+            android:layout_height="32dp"
+            app:srcCompat="@drawable/bag_blue"
+            android:layout_gravity="center_vertical"/>
         <TextView
             android:id="@+id/dishActivityCartSummaryTextView"
             android:layout_width="0dp"
@@ -53,19 +53,17 @@
         <Button
             android:id="@+id/dishActivityCheckoutButton"
             android:layout_width="0dp"
-            android:layout_height="35dp"
-            android:text="checkout"
-            android:layout_marginStart="15dp"
+            android:layout_height="40dp"
+            android:text="View Cart"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginRight="10dp"
             android:textColor="@color/White"
             android:layout_weight="2.0"
             android:layout_gravity="center_vertical"
             android:background="@drawable/checkout_button_rounded_corners"
             android:layout_alignBottom="@id/home_screen_content"
             android:layout_toRightOf="@id/dishActivityCartSummaryTextView"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
     </LinearLayout>
 
 

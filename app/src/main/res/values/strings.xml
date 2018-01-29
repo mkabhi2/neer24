@@ -57,7 +57,7 @@
 
     <string name="slide_3_title">Brands You Love</string>
     <string name="slide_3_desc">Find the purified water brand you love on Neer24</string>
-    <string name="slide_3_details"/>
+    <string name="slide_3_details" />
 
     <string name="slide_4_title">Tested Quality</string>
     <string name="slide_4_desc">Know the water quality of each individual product</string>
@@ -69,5 +69,5 @@
 
     <string name="slide_6_title">Recurring Delivery</string>
     <string name="slide_6_desc">Know the water quality of each individual product</string>
-    <string name="slide_6_details"/>
+    <string name="slide_6_details" />
 </resources>

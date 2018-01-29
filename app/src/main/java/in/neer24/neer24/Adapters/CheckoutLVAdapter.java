@@ -70,7 +70,8 @@ public class CheckoutLVAdapter extends BaseAdapter {
         final TextView showAmountCheckoutListView = (TextView) view.findViewById(R.id.showAmountCheckoutListView);
         final ImageView photoIV = (ImageView) view.findViewById(R.id.iv_productImage);
         final TextView priceTV = (TextView) view.findViewById(R.id.tv_productPrice);
-        final SwitchCompat newCanSwitch = (SwitchCompat) view.findViewById(R.id.switch_new_can);
+        final SwitchCompat newCanSwitch = (SwitchCompat) view.findViewById(R.id.switch_new_cans);
+        final TextView switchTV = (TextView) view.findViewById(R.id.switchTV);
 
 
         String canName = can.getName().toLowerCase();
@@ -94,22 +95,16 @@ public class CheckoutLVAdapter extends BaseAdapter {
 
         final String rupeeSymbol = context.getResources().getString(R.string.Rs);
 
-        newCanSwitch.setText("New Can ( " + rupeeSymbol + " " + can.getNewCanPrice() + " )  ");
+        switchTV.setText("I don't have a can to replace ( " + rupeeSymbol + " " + can.getNewCanPrice() + " / new can )  ");
 
-        showAmountCheckoutListView.setText(rupeeSymbol + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(NormalCart.getCanByPosition(position))));
+        showAmountCheckoutListView.setText("Total    :    " + rupeeSymbol + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(NormalCart.getCanByPosition(position))));
         dishNameCheckoutListView.setText(NormalCart.getCanNameByPosition(position));
 
         Double price = new Double(NormalCart.getCanPriceByPosition(position));
-        priceTV.setText(rupeeSymbol + " " + price.toString());
+        priceTV.setText(rupeeSymbol + " " + price.toString() + " / unit");
 
         Integer count = new Integer(NormalCart.getQuantityForSelectedItem(can));
         quantityCheckoutListView.setText(count.toString());
-
-        if (count == 1) {
-            newCanSwitch.setText("New Can ( " + rupeeSymbol + " " + can.getNewCanPrice() + " )  ");
-        } else {
-            newCanSwitch.setText("New Cans ( " + rupeeSymbol + " " + can.getNewCanPrice() + " )  ");
-        }
 
         showAmountCheckoutListView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
         dishNameCheckoutListView.setGravity(Gravity.CENTER_VERTICAL);
@@ -123,10 +118,10 @@ public class CheckoutLVAdapter extends BaseAdapter {
 
                 if (NormalCart.getQuantityForSelectedItem(can) == 0) {
                     newCanSwitch.setVisibility(View.VISIBLE);
-                    newCanSwitch.setText("New Can ( " + rupeeSymbol + " " + can.getNewCanPrice() + " )  ");
+                    switchTV.setText("I don't have a can to replace ( " + rupeeSymbol + " " + can.getNewCanPrice() + " / new can )  ");
                 }
                 else {
-                    newCanSwitch.setText("New Cans ( " + rupeeSymbol + " " + can.getNewCanPrice() + " )  ");
+                    switchTV.setText("I don't have a can to replace ( " + rupeeSymbol + " " + can.getNewCanPrice() + " / new can )  ");
                 }
 
                 NormalCart.addItemsToCarts(can);
@@ -139,7 +134,7 @@ public class CheckoutLVAdapter extends BaseAdapter {
 
                 Integer count = new Integer(NormalCart.getQuantityForSelectedItem(can));
                 quantityCheckoutListView.setText(count.toString());
-                showAmountCheckoutListView.setText(context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(can)));
+                showAmountCheckoutListView.setText("Total    :    " + context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(can)));
 
                 showAmountCheckoutListView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
                 CheckoutFragment.updateTotalValueOfCart();
@@ -155,10 +150,6 @@ public class CheckoutLVAdapter extends BaseAdapter {
                     can.setUserWantsNewCan(0);
                 }
 
-                if (NormalCart.getQuantityForSelectedItem(can) == 2) {
-                    newCanSwitch.setText("New Can ( " + rupeeSymbol + " " + can.getNewCanPrice() + " )  ");
-                }
-
                 NormalCart.deleteItemsToCartsFromCheckoutPage(can);
                 notifyDataSetChanged();
                 if(NormalCart.getCartList().size() == 0) {
@@ -168,7 +159,7 @@ public class CheckoutLVAdapter extends BaseAdapter {
 
                 Integer count = new Integer(NormalCart.getQuantityForSelectedItem(can));
                 quantityCheckoutListView.setText(count.toString());
-                showAmountCheckoutListView.setText(context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(can)));
+                showAmountCheckoutListView.setText("Total    :    " + context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(can)));
                 showAmountCheckoutListView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
                 CheckoutFragment.updateTotalValueOfCart();
             }
@@ -186,7 +177,7 @@ public class CheckoutLVAdapter extends BaseAdapter {
                                 @Override
                                 public void onClick(DialogInterface arg0, int arg1) {
                                     can.setUserWantsNewCan(1);
-                                    showAmountCheckoutListView.setText(context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(NormalCart.getCanByPosition(position1))));
+                                    showAmountCheckoutListView.setText("Total    :    " + context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(NormalCart.getCanByPosition(position1))));
                                     showAmountCheckoutListView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
                                     CheckoutFragment.updateTotalValueOfCart();
                                 }
@@ -206,7 +197,7 @@ public class CheckoutLVAdapter extends BaseAdapter {
 
                 } else {
                     can.setUserWantsNewCan(0);
-                    showAmountCheckoutListView.setText(context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(NormalCart.getCanByPosition(position1))));
+                    showAmountCheckoutListView.setText("Total    :    " + context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(NormalCart.getCanByPosition(position1))));
                     showAmountCheckoutListView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
                     CheckoutFragment.updateTotalValueOfCart();
                 }

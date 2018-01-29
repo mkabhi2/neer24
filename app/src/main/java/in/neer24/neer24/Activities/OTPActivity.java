@@ -150,8 +150,15 @@ public class OTPActivity extends AppCompatActivity {
     }
     public void takeUserToHomeScreen(){
         progressBarOTPActivity.setVisibility(View.GONE);
-        Intent intent=new Intent(OTPActivity.this,HomeScreenActivity.class);
-        startActivity(intent);
+
+        if (HomeScreenActivity.cansList.isEmpty()) {
+            Intent intent = new Intent(OTPActivity.this, ChangeLocationActivity.class);
+            startActivity(intent);
+        }
+        else {
+            Intent intent=new Intent(OTPActivity.this,HomeScreenActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void saveAlltheInfromationTosharedPreferences(Customer customer){

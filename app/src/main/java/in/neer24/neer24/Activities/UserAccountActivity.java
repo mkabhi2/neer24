@@ -1,12 +1,12 @@
 package in.neer24.neer24.Activities;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,30 +14,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import in.neer24.neer24.Adapters.OrdersRVAdapter;
 import in.neer24.neer24.Adapters.UserAccountAddressRVAdapter;
 import in.neer24.neer24.CustomObjects.Customer;
-import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RVItemDecoration;
-import in.neer24.neer24.Utilities.RetroFitNetworkClient;
-import okhttp3.OkHttpClient;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserAccountActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     public static ArrayList<Customer> addressList = new ArrayList<Customer>();
-    private RecyclerView recyclerView;
+    public static RecyclerView recyclerView;
     private ImageView editUserPersonalInformation;
     private TextView changePasswordUserAcountActivity;
     private TextView addNewAddressUserAccountActivity;

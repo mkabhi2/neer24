@@ -7,12 +7,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,13 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -267,8 +258,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             editor.putBoolean("isLoggedIn", true);
             editor.commit();
-            Intent intent = new Intent(RegisterActivity.this, HomeScreenActivity.class);
-            startActivity(intent);
+
+            if (HomeScreenActivity.cansList.isEmpty()) {
+                Intent intent = new Intent(RegisterActivity.this, ChangeLocationActivity.class);
+                startActivity(intent);
+            }
+
+            else {
+                Intent intent = new Intent(RegisterActivity.this, HomeScreenActivity.class);
+                startActivity(intent);
+            }
 
             Toast.makeText(RegisterActivity.this, "Succesfully registerd", Toast.LENGTH_SHORT).show();
         } else {
