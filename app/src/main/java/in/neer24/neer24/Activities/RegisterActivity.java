@@ -14,6 +14,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -62,7 +63,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     SharedPreferenceUtility sharedPreferenceUtility;
 
     String flag = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,12 +131,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     showPasswordButton.setText("HIDE");
                     passwordEditText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     passwordEditText.setSelection(passwordEditText.getText().length());
-                    break;
                 }
+                break;
 
             case R.id.signUpButton:
                 try {
                     registerProgressBar.setVisibility(View.VISIBLE);
+                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     validateSignUpFields();
                 } catch (Exception e) {
 
@@ -158,46 +160,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             checkEmailAndMobileNumberIfALreadyRegistered(email,mobileNumber);
         } else {
             registerProgressBar.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             Toast.makeText(RegisterActivity.this,"Error in filled Fields",Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void requestOTPFromServer(final String mobileNumber, final String emailID) {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(15, TimeUnit.SECONDS)
-                .build();
-
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create());
-
-
-        Retrofit retrofit = builder.build();
-
-        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<String> call = retroFitNetworkClient.requestOTPFromServer(mobileNumber);
-
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                registerProgressBar.setVisibility(View.GONE);
-                String generatedOTP = response.body();
-                sharedPreferenceUtility.setCustomerOTPRegisterActivity(generatedOTP);
-                sharedPreferenceUtility.setOTPStopwatch(new Date().getTime());
-                Intent intent = new Intent(RegisterActivity.this, OTPActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                registerProgressBar.setVisibility(View.GONE);
-                Toast.makeText(RegisterActivity.this, "Error in generating OTP", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
 
     public void checkEmailAndMobileNumberIfALreadyRegistered(final String emailID,final String mobileNumber){
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -207,7 +174,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
+                .baseUrl("http://192.168.0.2:8080/")        //.baseUrl("http://18.220.28.118:8080/")      //
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
 
@@ -229,25 +197,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 String res=response.body();
                 if(res.contains("true")){
                     if(flag.equals("mobilenumber")) {
-                        registerProgressBar.setVisibility(View.GONE);
                         Toast.makeText(RegisterActivity.this, "Enail ID already registered", Toast.LENGTH_SHORT);
                     }else {
-                        registerProgressBar.setVisibility(View.GONE);
                         Toast.makeText(RegisterActivity.this, "Mobile Number already registered", Toast.LENGTH_SHORT);
-
                     }
+                    registerProgressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }else {
-                    requestOTPFromServer(mobileNumber,emailID);
+                    registerProgressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    Intent intent = new Intent(RegisterActivity.this, OTPActivity.class);
+                    startActivity(intent);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                registerProgressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Toast.makeText(RegisterActivity.this,"Enail verifying Mobile Number Or EmailID",Toast.LENGTH_SHORT);
             }
         });
 
     }
+
+
     public void saveEveryThingInSharePreferences(String emailID, String password, String firstName, String mobileNumber) {
         sharedPreferenceUtility.setCustomerFirstNameRegisterActivity(firstName);
         sharedPreferenceUtility.setCustomerEmailRegisterActivity(emailID);

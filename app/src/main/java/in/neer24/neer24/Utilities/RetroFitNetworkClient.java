@@ -7,6 +7,7 @@ import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.Customer;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.CustomObjects.CustomerOrder;
+import in.neer24.neer24.CustomObjects.Offer;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
 import retrofit2.Call;
@@ -36,10 +37,12 @@ public interface RetroFitNetworkClient {
 
 
 
-
     @POST("/neer/webapi/customers/logincustomerusingemail")
     Call<Customer> authenticateUserAndLoginUsingEmail(@Body Customer customer);
 
+
+    @GET("/neer/webapi/customers/socialaccountlogin")
+    Call<Customer> checkIfUserHasSignedInUsingSocialAccount(@Query("emailid") String emailID);
 
 
     @POST("/neer/webapi/customers/logincustomerusingmobile")
@@ -50,7 +53,7 @@ public interface RetroFitNetworkClient {
     Call<Customer> registerUser(@Body Customer customer);
 
 
-    @GET("/messenger/webapi/restraunt/specificrest")
+    @GET("/neer/webapi/restraunt/specificrest")
     Call<List<Can>> getCansListForLocation(@Query("latitude") String latitude, @Query("longitude") String longitude);
 
 
@@ -63,7 +66,7 @@ public interface RetroFitNetworkClient {
     Call<List<Can>> getCansListForWarehouse(@Query("warehouseid") int warehouseID);
 
 
-    @GET("/messenger/webapi/restraunt/specificrest")
+    @GET("/neer/webapi/restraunt/specificrest")
     Call<List<Can>> getAllCansListForWarehouse(@Query("warehouseID") int warehouseID);
 
     @POST("/neer/webapi/ordertable/insertordertable")
@@ -84,4 +87,17 @@ public interface RetroFitNetworkClient {
 
     @GET("/neer/webapi/warehousecan/warehousecanbywarehouseid")
     Call<OrderDetails> getOrderDetailsForOrderID(@Query("orderID") int orderID);
+
+
+    @GET("/neer/webapi/customers/updatepassword")
+    Call<String> updatePasswordOnServer(@Query("emailid")String emailID,@Query("oldpassword")String oldPassword, @Query("newpassword") String newPassword);
+
+    @GET("/neer/webapi/offers/verifycoupon")
+    Call<Offer> verifyIfCouponIsValidFromServer(@Query("coupon")String coupon);
+
+    @GET("/neer/webapi/offers/validateforfreecan")
+    Call<String> checkIfUserIsEligibleForFreeCanOrNot(@Query("emailID")String emailID);
+
+    @GET("/neer/webapi/customers/sendemailforpassword")
+    Call<String> sendEmailWithNewPassword(@Query("emailid")String email,@Query("mobilenumber")String mobileNumber);
 }

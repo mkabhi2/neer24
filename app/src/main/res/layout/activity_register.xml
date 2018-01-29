@@ -32,6 +32,7 @@
         android:layout_below="@+id/registerActivityLogoImageView">
 
         <EditText
+            android:maxLines="1"
             android:id="@+id/registerFirstNameEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -56,6 +57,7 @@
         android:background="@drawable/rounded_corners_black_stroke">
 
         <EditText
+            android:maxLines="1"
             android:id="@+id/registerMobileEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -78,6 +80,7 @@
         android:background="@drawable/rounded_corners_black_stroke">
 
         <EditText
+            android:maxLines="1"
             android:id="@+id/registerEmailEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -99,6 +102,7 @@
         android:background="@drawable/rounded_corners_black_stroke">
 
         <EditText
+            android:maxLines="1"
             android:id="@+id/registerPassworddEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

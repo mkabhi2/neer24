@@ -61,7 +61,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
         headerview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(OrdersActivity.this,UserProfileActivity.class);
+                Intent intent=new Intent(OrdersActivity.this,UserAccountActivity.class);
                 startActivity(intent);
             }
         });
@@ -89,7 +89,8 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .build();
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
+                .baseUrl("http://192.168.0.2:8080/")     //.baseUrl("http://18.220.28.118:8080/")
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();

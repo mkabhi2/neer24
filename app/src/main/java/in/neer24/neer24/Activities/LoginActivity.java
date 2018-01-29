@@ -1,6 +1,7 @@
 package in.neer24.neer24.Activities;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -8,11 +9,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,16 +23,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessTokenTracker;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -41,7 +44,9 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.CustomObjects.Customer;
@@ -59,9 +64,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
+
+    private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final int RC_SIGN_IN = 007;
+
+    private GoogleApiClient mGoogleApiClient;
+    private SignInButton btnSignIn;
+
     private RelativeLayout loginActivityRL;
     private RelativeLayout innerRelativeLayoutForPassword;
     private Button nextButton;
+
+    private TextView forgotPasswordTextViewLoginActivity;
 
     private EditText passwordEditText;
     private EditText emailEditText;
@@ -71,14 +85,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CallbackManager callbackManager;
     private Button facebookButton;
     private LoginButton facebookLoginButton;
-    private AccessTokenTracker accessTokenTracker;
-    private ProfileTracker profileTracker;
+
     private boolean checkUserExistanceFlag = false;
     private ProgressBar progressBar;
     private Button gmailButton;
-    private SignInButton signInButton;
 
-
+    private static final String EMAIL = "email";
 
     String email = "";
     String mobileNumber = "";
@@ -87,16 +99,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
-
-    //Signing Options
-    private GoogleSignInOptions gso;
-
-    //google api client
-    private GoogleApiClient mGoogleApiClient;
-
-    //Signin constant to check the activity result
-    private int RC_SIGN_IN = 100;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
+
         callbackManager = CallbackManager.Factory.create();
 
         setContentView(R.layout.activity_login);
@@ -120,9 +122,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         showPasswordButton = (Button) findViewById(R.id.loginShowPasswordButton);
-
         welcomeMessageEditText = (EditText) findViewById(R.id.welocmeMessageEditText);
+        forgotPasswordTextViewLoginActivity = (TextView) findViewById(R.id.forgotPasswordTextViewLoginActivity);
+
         facebookLoginButton = (LoginButton) findViewById(R.id.facebookLoginButton);
+        facebookLoginButton.setReadPermissions(Arrays.asList(
+                "public_profile", "email", "user_birthday", "user_friends"));
+
+
+        btnSignIn = (SignInButton) findViewById(R.id.sign_in_button);
+        btnSignIn.setOnClickListener(this);
+
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+
         gmailButton = (Button) findViewById(R.id.gmailButton);
         facebookButton = (Button) findViewById(R.id.facebookButton);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
@@ -131,12 +152,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         innerRelativeLayoutForPassword.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
 
+
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
-
+        forgotPasswordTextViewLoginActivity.setOnClickListener(this);
         nextButton.setOnClickListener(this);
         facebookButton.setOnClickListener(this);
-        facebookLoginButton.setOnClickListener(this);
         gmailButton.setOnClickListener(this);
         showPasswordButton.setOnClickListener(this);
 
@@ -147,85 +171,161 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         loginActivityRL.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 
-
-        facebookLoginButton.setReadPermissions("email");
         facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                boolean loggedIn = AccessToken.getCurrentAccessToken() == null;
                 getUserDetails(loginResult);
             }
 
             @Override
             public void onCancel() {
-                // App code
+                progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                String text = "vijay";
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
+                progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                Log.d("facebook", exception.toString());
+            }
+        });
+    }
+
+
+    public void sendEmailWithNewPassword() {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.2:8080/")  //.baseUrl("http://18.220.28.118:8080/")
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
+
+
+        Retrofit retrofit = builder.build();
+
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<String> call = null;
+        if (email != null)
+            call = retroFitNetworkClient.sendEmailWithNewPassword(email, null);
+        else if (mobileNumber != null)
+            call = retroFitNetworkClient.sendEmailWithNewPassword(null, mobileNumber);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String res=response.body();
+                if (response.body().length() > 0) {
+                    Toast.makeText(LoginActivity.this, "Password is Sent to you mail id", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Error in generating password", Toast.LENGTH_SHORT).show();
+                }
+                progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                Toast.makeText(LoginActivity.this, "Error in generating password", Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        signInButton.setScopes(gso.getScopeArray());
-
-        //Initializing google api client
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)  {
         int id = v.getId();
 
         switch (id) {
 
+            case R.id.forgotPasswordTextViewLoginActivity:
+                if (emailEditText.getText().toString() != null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setMessage("An email with new password will be sent to you Email ID")
+                            .setCancelable(true)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    sendEmailWithNewPassword();
+                                    dialog.cancel();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Please Enter an Email Address", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
             case R.id.gmailButton:
+                progressBar.setVisibility(View.VISIBLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 signIn();
                 break;
 
 
             case R.id.facebookButton:
+                progressBar.setVisibility(View.VISIBLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 facebookLoginButton.performClick();
                 break;
 
 
             case R.id.nextButton:
+                progressBar.setVisibility(View.VISIBLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                 String emailOrMobileNumber = emailEditText.getText().toString();
                 if (innerRelativeLayoutForPassword.getVisibility() == View.GONE) {
 
                     if (isEmailValid(emailOrMobileNumber)) {
                         email = emailOrMobileNumber;
-                        progressBar.setVisibility(View.VISIBLE);
-                        takeUserToLoginOrRegisterPage(email,null,"email");
+                        takeUserToLoginOrRegisterPage(email, null, "email");
                     } else {
                         if (emailOrMobileNumber.length() == 10) {
                             mobileNumber = emailOrMobileNumber;
-                            progressBar.setVisibility(View.VISIBLE);
-                            takeUserToLoginOrRegisterPage(null,mobileNumber,"mobilenumber");
+                            takeUserToLoginOrRegisterPage(null, mobileNumber, "mobilenumber");
                         } else if (emailOrMobileNumber.contains("@")) {
+                            progressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             Toast.makeText(LoginActivity.this, "Email Address Invalid", Toast.LENGTH_SHORT).show();
                         } else {
+                            progressBar.setVisibility(View.GONE);
+                            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             Toast.makeText(LoginActivity.this, "Mobile Number Invalid", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                 } else {
                     String password = passwordEditText.getText().toString();
-                    if (password == null || password.length() < 3)
+                    if (password == null || password.length() < 3) {
+                        progressBar.setVisibility(View.GONE);
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         Toast.makeText(LoginActivity.this, "please enter a valid password", Toast.LENGTH_SHORT).show();
-                    else {
-                        if(email.length()>5) {
-                            authenticateUserAndLogin(email, password,mobileNumber,"email");
-                        }else {
-                            authenticateUserAndLogin(email,password,mobileNumber,"mobilenumber");
+                    } else {
+                        if (email.length() > 5) {
+                            authenticateUserAndLogin(email, password, mobileNumber, "email");
+                        } else {
+                            authenticateUserAndLogin(email, password, mobileNumber, "mobilenumber");
                         }
                     }
                 }
@@ -253,11 +353,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void authenticateUserAndLogin(String email, String password, String mobileNumber, String flag) {
-        progressBar.setVisibility(View.VISIBLE);
-
-
-
-        Customer customer =null;
+        Customer customer = null;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
@@ -266,19 +362,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
+                .baseUrl("http://192.168.0.2:8080/")  //.baseUrl("http://18.220.28.118:8080/")
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<Customer> call=null;
+        Call<Customer> call = null;
 
-        if(flag.contains("email")){
-            customer= createCustomerObject(email,null,password);
+        if (flag.contains("email")) {
+            customer = createCustomerObject(email, null, password);
             call = retroFitNetworkClient.authenticateUserAndLoginUsingEmail(customer);
-        }else if(flag.contains("mobilenumber")){
-            customer= createCustomerObject(null,mobileNumber ,password);
+        } else if (flag.contains("mobilenumber")) {
+            customer = createCustomerObject(null, mobileNumber, password);
             call = retroFitNetworkClient.authenticateUserAndLoginUsingMobileNumber(customer);
         }
 
@@ -286,23 +383,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         call.enqueue(new Callback<Customer>() {
             @Override
             public void onResponse(Call<Customer> call, Response<Customer> response) {
-                progressBar.setVisibility(View.GONE);
                 Customer customer = (Customer) response.body();
                 if (customer.getOutputValue().equals("false")) {
+                    progressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
                 } else {
-
-                    sharedPreferenceUtility.setLoggedIn(true);
-
-                    sharedPreferenceUtility.setCustomerID(customer.getCustomerID());
-                    sharedPreferenceUtility.setCustomerEmailID(customer.getCustomerEmail());
-                    sharedPreferenceUtility.setCustomerFirstName(customer.getCustomerFirstName());
-                    sharedPreferenceUtility.setCustomerUniqueID(customer.getCustomerUniqueID());
-
-
-                    Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
-                    startActivity(intent);
+                    saveUserInforamtionInSharedPreferences(customer, "normal");
                 }
 
             }
@@ -310,17 +397,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onFailure(Call<Customer> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Toast.makeText(LoginActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    public void saveUserInforamtionInSharedPreferences(Customer customer, String loggedInVia) {
+        sharedPreferenceUtility.setLoggedIn(true);
+        sharedPreferenceUtility.setLoggediInVia(loggedInVia);
+        sharedPreferenceUtility.setCustomerID(customer.getCustomerID());
+        sharedPreferenceUtility.setCustomerEmailID(customer.getCustomerEmail());
+        sharedPreferenceUtility.setCustomerFirstName(customer.getCustomerFirstName());
+        sharedPreferenceUtility.setCustomerUniqueID(customer.getCustomerUniqueID());
+        sharedPreferenceUtility.setCustomerMobileNumber(customer.getCustomerMobileNumber());
 
-    public Customer createCustomerObject(String email,String mobileNumber,String password) {
-        return new Customer(email,mobileNumber, password);
+        progressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
+        startActivity(intent);
     }
 
-    public void takeUserToLoginOrRegisterPage(final String email,final String mobileNumber, final String flag) {
+    public Customer createCustomerObject(String email, String mobileNumber, String password) {
+        return new Customer(email, mobileNumber, password);
+    }
+
+    public void takeUserToLoginOrRegisterPage(final String email, final String mobileNumber, final String flag) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -328,50 +431,52 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
+                .baseUrl("http://192.168.0.2:8080/")      //.baseUrl("http://18.220.28.118:8080/")
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
 
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<String> call=null;
+        Call<String> call = null;
 
-        if(flag.equals("email")){
-            call= retroFitNetworkClient.checkIfUserIsRegisterdUserOrNotUsingEmail(email);
+        if (flag.equals("email")) {
+            call = retroFitNetworkClient.checkIfUserIsRegisterdUserOrNotUsingEmail(email);
 
-        }else if(flag.equals("mobilenumber")){
-            call= retroFitNetworkClient.checkIfUserIsRegisterdUserOrNotUsingMobileNumber(mobileNumber);
+        } else if (flag.equals("mobilenumber")) {
+            call = retroFitNetworkClient.checkIfUserIsRegisterdUserOrNotUsingMobileNumber(mobileNumber);
         }
 
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 String result = response.body();
                 if (response.body().toString().contains("true")) {
                     innerRelativeLayoutForPassword.setVisibility(View.VISIBLE);
                 } else {
-                    showToastANdTakeUSerToRegisterPage(email,mobileNumber);
+                    showToastANdTakeUSerToRegisterPage(email, mobileNumber);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Toast.makeText(LoginActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
-    public void showToastANdTakeUSerToRegisterPage(String email,String mobileNumber) {
+    public void showToastANdTakeUSerToRegisterPage(String email, String mobileNumber) {
         Toast.makeText(LoginActivity.this, "Email id not registerd", Toast.LENGTH_SHORT).show();
         Intent registerActivityIntent = new Intent(LoginActivity.this, RegisterActivity.class);
-        if(email!=null) {
+        if (email != null) {
             registerActivityIntent.putExtra("email", email.toString());
             registerActivityIntent.putExtra("flag", "email");
-        }else if(mobileNumber!=null){
+        } else if (mobileNumber != null) {
             registerActivityIntent.putExtra("mobilenumber", mobileNumber.toString());
             registerActivityIntent.putExtra("flag", "mobilenumber");
         }
@@ -379,51 +484,157 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(registerActivityIntent);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            //Calling a new function to handle signin
             handleSignInResult(result);
         }
+
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
-
-        //If the login succeed
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            //Getting google account
+            // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
-            Toast.makeText(this, "Login Succesfull", Toast.LENGTH_SHORT).show();
-
+            String email = acct.getEmail();
+            hasUserLoggedInUsingSocailNetworking(email, acct, null);
         } else {
-            //If login fails
-            Toast.makeText(this, "Login Failed", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    public boolean hasUserLoggedInUsingSocailNetworking(String email, final GoogleSignInAccount account, final JSONObject object) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.2:8080/")      //.baseUrl("http://18.220.28.118:8080/")
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
+
+
+        Retrofit retrofit = builder.build();
+
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<Customer> call = retroFitNetworkClient.checkIfUserHasSignedInUsingSocialAccount(email);
+
+        call.enqueue(new Callback<Customer>() {
+            @Override
+            public void onResponse(Call<Customer> call, Response<Customer> response) {
+                Customer customer = response.body();
+                if (customer.getOutputValue().equals("true")) {
+                    if (object != null) {
+                        saveUserInforamtionInSharedPreferences(customer, "facebook");
+                    } else if (account != null) {
+                        saveUserInforamtionInSharedPreferences(customer, "gmail");
+                    }
+                } else {
+                    if (account != null) {
+                        sharedPreferenceUtility.setCustomerEmailRegisterActivity(account.getEmail());
+                        sharedPreferenceUtility.setCustomerFirstNameRegisterActivity(account.getDisplayName());
+                        Log.e(TAG, "display name: " + account.getDisplayName());
+                    } else if (object != null) {
+                        try {
+                            sharedPreferenceUtility.setCustomerEmailRegisterActivity(object.getString("email"));
+                            sharedPreferenceUtility.setCustomerFirstNameRegisterActivity(object.getString("name"));
+                        } catch (Exception e) {
+
+                        }
+                    }
+                    progressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    Intent intent = new Intent(LoginActivity.this, FacebookLoginSupportActivity.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Customer> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
+        });
+
+        return true;
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mGoogleApiClient.stopAutoManage(LoginActivity.this);
+        mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.stopAutoManage(LoginActivity.this);
+            mGoogleApiClient.disconnect();
         }
     }
 
     protected void getUserDetails(LoginResult loginResult) {
-        GraphRequest data_request = GraphRequest.newMeRequest(
-                loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(
-                            JSONObject json_object,
-                            GraphResponse response) {
-                        Intent intent = new Intent(LoginActivity.this, UserProfileActivity.class);
-                        intent.putExtra("userProfile", json_object.toString());
-                        startActivity(intent);
-                    }
 
-                });
-        Bundle permission_param = new Bundle();
-        permission_param.putString("fields", "id,name,email,picture.width(120).height(120)");
-        data_request.setParameters(permission_param);
-        data_request.executeAsync();
+        try {
+            GraphRequest request = GraphRequest.newMeRequest(
+                    loginResult.getAccessToken(),
+                    new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(JSONObject object, GraphResponse response) {
+                            Log.v("LoginActivity", response.toString());
+                            try {
+                                // Application code
+                                String email = object.getString("email");
+                                hasUserLoggedInUsingSocailNetworking(email, null, object);
+                            } catch (Exception e) {
+                                Log.d("excep", e.toString());
+                            }
+                        }
+                    });
 
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id,name,email,gender,birthday");
+            request.setParameters(parameters);
+            request.executeAsync();
+        } catch (Exception e) {
+            Log.d("Exce", e.toString());
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//
+//        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+//        if (opr.isDone()) {
+//            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+//            // and the GoogleSignInResult will be available instantly.
+//            Log.d(TAG, "Got cached sign-in");
+//            GoogleSignInResult result = opr.get();
+//            handleSignInResult(result);
+//        } else {
+//            // If the user has not previously signed in on this device or the sign-in has expired,
+//            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+//            // single sign-on will occur in this branch.
+//            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+//                @Override
+//                public void onResult(GoogleSignInResult googleSignInResult) {
+//                    handleSignInResult(googleSignInResult);
+//                }
+//            });
+//        }
     }
 
     @Override
@@ -454,12 +665,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         innerRelativeLayoutForPassword.setVisibility(View.GONE);
     }
 
-
     private void signIn() {
-        //Creating an intent
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-
-        //Starting intent for result
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -473,6 +680,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        progressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 }

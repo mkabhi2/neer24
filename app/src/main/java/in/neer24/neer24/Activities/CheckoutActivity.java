@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +26,7 @@ import in.neer24.neer24.Fragments.CheckoutFragment;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
+import in.neer24.neer24.Utilities.UtilityClass;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,7 +38,7 @@ public class CheckoutActivity extends AppCompatActivity {
     private TextView cartSummaryTextView;
     public static Button proceedToPayButton;
 
-    String returnedOrderID="";
+    String returnedOrderID = "";
     String isOrderDetailsInsertionSuccesFull;
     SharedPreferenceUtility sharedPreferenceUtility;
     // private TextView checkoutActivityTotalCartValueTextView;
@@ -51,7 +53,7 @@ public class CheckoutActivity extends AppCompatActivity {
         cartSummaryTextView.setGravity(Gravity.CENTER_VERTICAL);
 
         proceedToPayButton = (Button) findViewById(R.id.proceedToPayCheckoutActivity);
-        sharedPreferenceUtility=new SharedPreferenceUtility(this);
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -80,51 +82,59 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
 
-    public ArrayList<OrderDetails> createObjectForOrderDetails(String orderID){
-        ArrayList<OrderDetails> al=new ArrayList<OrderDetails>();
-        HashMap<Can,Integer> cans= NormalCart.getCartList();
-        for (Can can:cans.keySet()) {
-            int canID=can.getCanID();
-            int isNew=0;
-            int isNewDespenser=0;
-            int orderIDs=Integer.parseInt(orderID);
-            int quantity= cans.get(can);
-            OrderDetails orderDetails=new OrderDetails(canID,isNew,isNewDespenser,orderIDs,quantity,sharedPreferenceUtility.getCustomerUniqueID());
+    public ArrayList<OrderDetails> createObjectForOrderDetails(String orderID) {
+        ArrayList<OrderDetails> al = new ArrayList<OrderDetails>();
+        HashMap<Can, Integer> cans = NormalCart.getCartList();
+        for (Can can : cans.keySet()) {
+            int canID = can.getCanID();
+            int isNew = 0;
+            int isNewDespenser = 0;
+            int orderIDs = Integer.parseInt(orderID);
+            int quantity = cans.get(can);
+            OrderDetails orderDetails = new OrderDetails(canID, isNew, isNewDespenser, orderIDs, quantity, sharedPreferenceUtility.getCustomerUniqueID());
             al.add(orderDetails);
         }
         return al;
     }
-    public OrderTable createObjectForOrderTable(Can can){
+
+    public OrderTable createObjectForOrderTable(Can can) {
         Date oDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         Calendar cal = Calendar.getInstance(); // creates calendar
         cal.setTime(new Date()); // sets calendar time/date
         cal.add(Calendar.HOUR_OF_DAY, 1); // adds one hour
-        Date dTime=cal.getTime();
+        Date dTime = cal.getTime();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        int customerID=sharedPreferenceUtility.getCustomerID();
-        int warehouseID=can.getWarehouseID();
-        int deliveryBoyID=1;
-        double totalAmount= HomeScreenActivity.calculateTotalCostOfCart();
+        int customerID = sharedPreferenceUtility.getCustomerID();
+        int warehouseID = can.getWarehouseID();
+        int deliveryBoyID = 1;
+        double totalAmount = HomeScreenActivity.calculateTotalCostOfCart();
 
-        String orderDate= sdf.format(oDate);
-        String deliveryTime=sdf1.format(dTime);
+        String orderDate = sdf.format(oDate);
+        String deliveryTime = sdf1.format(dTime);
 
-        int orderPaymentID=1;
-        int isNormalDelivery=1;
-        int isNightDelivery=0;
-        int isScheduleDelivery=0;
-        int isRecurringDelivery=0;
-        OrderTable orderTable=new OrderTable(customerID,warehouseID,deliveryBoyID,totalAmount,orderDate,deliveryTime,orderPaymentID,isNormalDelivery,isNightDelivery,isScheduleDelivery,isRecurringDelivery,sharedPreferenceUtility.getCustomerUniqueID());
+        int orderPaymentID = 1;
+        int isNormalDelivery = 1;
+        int isNightDelivery = 0;
+        int isScheduleDelivery = 0;
+        int isRecurringDelivery = 0;
+
+        if (UtilityClass.checkIfOrderIsNightDeliveryOrNot(deliveryTime)) {
+            isNightDelivery = 1;
+        } else {
+            isNightDelivery = 0;
+        }
+
+        OrderTable orderTable = new OrderTable(customerID, warehouseID, deliveryBoyID, totalAmount, orderDate, deliveryTime, orderPaymentID, isNormalDelivery, isNightDelivery, isScheduleDelivery, isRecurringDelivery, sharedPreferenceUtility.getCustomerUniqueID());
         return orderTable;
     }
 
-    public void insertDataIntoOrderTable(OrderTable orderTable){
+    public void insertDataIntoOrderTable(OrderTable orderTable) {
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:8080/")
+                .baseUrl("http://192.168.0.2:8080/")            // .baseUrl("http://18.220.28.118:8080/")      //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -135,9 +145,9 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
 
-                if(response.body()!=null){
+                if (response.body() != null) {
                     returnedOrderID = response.body().toString();
-                    if(!returnedOrderID.equals("0")){
+                    if (!returnedOrderID.equals("0")) {
                         insertIntoOrderDetailsTable(returnedOrderID);
                         //updateWarehouseCansTable(c.getCanID(),c.getWarehouseID());
                     }
@@ -151,10 +161,10 @@ public class CheckoutActivity extends AppCompatActivity {
         });
     }
 
-    public void insertIntoOrderDetailsTable(String returnedOrderID){
-        ArrayList<OrderDetails> orderDetails=createObjectForOrderDetails(returnedOrderID);
+    public void insertIntoOrderDetailsTable(String returnedOrderID) {
+        ArrayList<OrderDetails> orderDetails = createObjectForOrderDetails(returnedOrderID);
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:8080/")
+                .baseUrl("http://192.168.0.2:8080/")                //.baseUrl("http://18.220.28.118:8080/")      //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -164,40 +174,39 @@ public class CheckoutActivity extends AppCompatActivity {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if(response.body()!=null){
+                if (response.body() != null) {
                     isOrderDetailsInsertionSuccesFull = response.body().toString();
-                    if(isOrderDetailsInsertionSuccesFull.contains("true")){
-                        Toast.makeText(CheckoutActivity.this,"Insertion Succesfull Order Details",Toast.LENGTH_SHORT);
-                    }else {
-                        Toast.makeText(CheckoutActivity.this,"Data Completly not inserter into Order Details",Toast.LENGTH_SHORT);
+                    if (isOrderDetailsInsertionSuccesFull.contains("true")) {
+                        Toast.makeText(CheckoutActivity.this, "Insertion Succesfull Order Details", Toast.LENGTH_SHORT);
+                    } else {
+                        Toast.makeText(CheckoutActivity.this, "Data Completly not inserter into Order Details", Toast.LENGTH_SHORT);
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(CheckoutActivity.this,"Insertion Failed Due to Server Error",Toast.LENGTH_SHORT);
+                Toast.makeText(CheckoutActivity.this, "Insertion Failed Due to Server Error", Toast.LENGTH_SHORT);
             }
         });
     }
 
-
-    public void updateWarehouseCansTable(int canID, int warehouseID){
+    public void updateWarehouseCansTable(int canID, int warehouseID) {
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:8080")
+                .baseUrl("http://192.168.0.2:8080/")        //.baseUrl("http://18.220.28.118:8080")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
 
-        Call<String> call = retroFitNetworkClient.updateWarehouseCanTable(canID,warehouseID);
+        Call<String> call = retroFitNetworkClient.updateWarehouseCanTable(canID, warehouseID);
 
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if(response.body()!=null){
+                if (response.body() != null) {
                     returnedOrderID = response.body().toString();
-                    if(response.body().toString().contains("true")){
+                    if (response.body().toString().contains("true")) {
                         Toast.makeText(CheckoutActivity.this, " data updated", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -210,8 +219,11 @@ public class CheckoutActivity extends AppCompatActivity {
         });
     }
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        HomeScreenActivity.showCartDetailsSummary();
+    }
 //    public void updateTotalValueOfCart() {
 //        HashMap<Dish, Integer> cart = NormalCart.getCartList();
 //        double price = 0;
@@ -228,14 +240,5 @@ public class CheckoutActivity extends AppCompatActivity {
 //
 //        }
 //    }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        HomeScreenActivity.showCartDetailsSummary();
-    }
-
-
 
 }

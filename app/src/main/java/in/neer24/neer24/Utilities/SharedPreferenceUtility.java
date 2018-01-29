@@ -26,6 +26,15 @@ public class SharedPreferenceUtility {
         editor.commit();
     }
 
+    public void setLoggediInVia(String logInMode) {
+        editor.putString("loginmode", logInMode);
+        editor.commit();
+    }
+
+    public String getLoggediInVia(){
+        return sharedPreferences.getString("loginmode",null);
+    }
+
     public boolean loggedIn() {
         return sharedPreferences.getBoolean("loggedinmode", false);
 
@@ -106,57 +115,66 @@ public class SharedPreferenceUtility {
         return sharedPreferences.getString("UNIQUEID", null);
     }
 
-    public void setCustomerFirstNameRegisterActivity(String name){
+    public void setCustomerFirstNameRegisterActivity(String name) {
         editor.putString("CustomerFirstNameRegisterActivity", name);
         editor.commit();
     }
 
-    public String getCustomerFirstNameRegisterActivity(){
-        return sharedPreferences.getString("CustomerFirstNameRegisterActivity",null);
+    public String getCustomerFirstNameRegisterActivity() {
+        return sharedPreferences.getString("CustomerFirstNameRegisterActivity", null);
     }
 
-    public void setCustomerEmailRegisterActivity(String email){
+    public void setCustomerEmailRegisterActivity(String email) {
         editor.putString("CustomerEmailRegisterActivity", email);
         editor.commit();
     }
 
-    public String getCustomerEmailRegisterActivity(){
-        return sharedPreferences.getString("CustomerEmailRegisterActivity",null);
+    public String getCustomerEmailRegisterActivity() {
+        return sharedPreferences.getString("CustomerEmailRegisterActivity", null);
     }
 
-    public void setCustomerMobileNumberRegisterActivity(String mobileNumber){
+    public void setCustomerMobileNumberRegisterActivity(String mobileNumber) {
         editor.putString("CustomerMobileNumberRegisterActivity", mobileNumber);
         editor.commit();
     }
 
-    public String getCustomerMobileNumberRegisterActivity(){
-        return sharedPreferences.getString("CustomerMobileNumberRegisterActivity",null);
+    public String getCustomerMobileNumberRegisterActivity() {
+        return sharedPreferences.getString("CustomerMobileNumberRegisterActivity", null);
     }
 
-    public void setCustomerPasswordRegisterActivity(String password){
+    public void setCustomerPasswordRegisterActivity(String password) {
         editor.putString("CustomerPasswordRegisterActivity", password);
         editor.commit();
     }
 
-    public String getCustomerPasswordRegisterActivity(){
-        return sharedPreferences.getString("CustomerPasswordRegisterActivity",null);
+    public String getCustomerPasswordRegisterActivity() {
+        return sharedPreferences.getString("CustomerPasswordRegisterActivity", null);
     }
 
-    public void setCustomerOTPRegisterActivity(String otp){
-        editor.putString("CustomerOTPRegisterActivity",otp);
+    public void setCustomerOTPRegisterActivity(String otp) {
+        editor.putString("CustomerOTPRegisterActivity", otp);
         editor.commit();
     }
 
-    public String getCustomerOTPRegisterActivity(){
-        return sharedPreferences.getString("CustomerOTPRegisterActivity",null);
+    public String getCustomerOTPRegisterActivity() {
+        return sharedPreferences.getString("CustomerOTPRegisterActivity", null);
     }
 
-    public void setOTPStopwatch(long time){
-        editor.putLong("OTPWATCH",time);
+    public void setOTPStopwatch(long time) {
+        editor.putLong("OTPWATCH", time);
         editor.commit();
     }
 
-    public long getOTPStopwatch(){
-        return sharedPreferences.getLong("OTPWATCH",0);
+    public long getOTPStopwatch() {
+        return sharedPreferences.getLong("OTPWATCH", 0);
+    }
+
+    public void setCustomerMobileNumber(String customerMobileNumber) {
+        editor.putString("MOBILENUMBER", customerMobileNumber);
+        editor.commit();
+    }
+
+    public String getCustomerMobileNumber() {
+        return sharedPreferences.getString("MOBILENUMBER", null);
     }
 }

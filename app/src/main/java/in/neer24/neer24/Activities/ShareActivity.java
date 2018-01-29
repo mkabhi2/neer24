@@ -52,7 +52,7 @@ public class ShareActivity extends AppCompatActivity implements NavigationView.O
         headerview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ShareActivity.this,UserProfileActivity.class);
+                Intent intent=new Intent(ShareActivity.this,UserAccountActivity.class);
                 startActivity(intent);
             }
         });

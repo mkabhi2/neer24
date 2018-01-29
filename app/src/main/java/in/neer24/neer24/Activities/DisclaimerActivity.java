@@ -41,7 +41,7 @@ public class DisclaimerActivity extends AppCompatActivity implements NavigationV
         headerview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(DisclaimerActivity.this,UserProfileActivity.class);
+                Intent intent=new Intent(DisclaimerActivity.this,UserAccountActivity.class);
                 startActivity(intent);
             }
         });
