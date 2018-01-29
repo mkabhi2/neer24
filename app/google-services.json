@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "790091913729",
+    "project_id": "neer24-1516996184696"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790091913729:android:12035af1095fda5a",
+        "android_client_info": {
+          "package_name": "in.neer24.neer24"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790091913729-l3320miolj0l0iblipgh24iju19utafj.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "790091913729-d27r7t9piua3dvfrehkve03kqtutp8bg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.neer24.neer24",
+            "certificate_hash": "b01b13ebbeb0fd4a42b5e583849a5f339e84548d"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1c6GR1crgCJ6PG4nFOVS4od0mbJthpgQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

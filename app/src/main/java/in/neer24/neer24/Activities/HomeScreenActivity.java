@@ -72,7 +72,7 @@ public class HomeScreenActivity extends AppCompatActivity
         customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
         customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
         checkoutButtonLinearLayout=(LinearLayout)findViewById(R.id.checkoutButtonHomeScreenLinearLayout);
-        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName()+" "+sharedPreferenceUtility.getCustomerLastName());
+        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
         customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
 
         checkoutButtonLinearLayout.setVisibility(View.GONE);
@@ -140,7 +140,8 @@ public class HomeScreenActivity extends AppCompatActivity
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
+                .baseUrl("http://192.168.0.2:8080/")        //.baseUrl("http://18.220.28.118:8080/")  //
+                .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();

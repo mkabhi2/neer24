@@ -28,7 +28,7 @@ public class Customer {
         this.password=password;
     }
 
-    public Customer(String customerEmail, String customerFirstName, String customerLastName, String customerMobileNumber, String password) {
+    public Customer(String customerEmail, String customerFirstName,String customerMobileNumber, String password) {
         this.customerEmail = customerEmail;
         this.customerFirstName = customerFirstName;
         this.customerLastName = customerLastName;
@@ -36,7 +36,7 @@ public class Customer {
         this.password = password;
     }
 
-    public Customer(int customerID, String address, String customerEmail, String customerFirstName, String customerLastName, String customerMobileNumber, String customerPhotoPath, String customerUniqueID) {
+    public Customer(int customerID, String address, String customerEmail, String customerFirstName, String customerMobileNumber, String customerPhotoPath, String customerUniqueID) {
         this.customerID = customerID;
         this.address = address;
         this.customerEmail = customerEmail;

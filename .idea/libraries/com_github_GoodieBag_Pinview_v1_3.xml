@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="com.github.GoodieBag:Pinview-v1.3">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/e8f70167127c0295f6d214199512efa652a05c4b/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/e8f70167127c0295f6d214199512efa652a05c4b/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -20,6 +20,9 @@ public class OrderTable {
     private int isScheduleDelivery;
     private int isRecurringDelivery;
     private String customerUniqueID;
+    private int isCouponCodeUsed;
+    private int couponCodeID;
+
 
     public OrderTable(){
 

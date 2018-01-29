@@ -1,8 +1,6 @@
 package in.neer24.neer24.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +11,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import in.neer24.neer24.Activities.OrderDetailsActivity;
-import in.neer24.neer24.CustomObjects.Customer;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
-import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.R;
 
 /**
@@ -84,6 +79,9 @@ public class UserAccountAddressRVAdapter extends RecyclerView.Adapter<UserAccoun
 
     @Override
     public int getItemCount() {
-        return addressList.size();
+        if(addressList!=null)
+            return addressList.size();
+        else
+            return 0;
     }
 }

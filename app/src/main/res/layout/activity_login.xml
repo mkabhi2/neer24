@@ -48,6 +48,7 @@
                 android:background="@drawable/rounded_corners"
                 android:ems="10"
                 android:hint="Email"
+                android:maxLines="1"
                 android:inputType="textEmailAddress"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
@@ -64,6 +65,7 @@
                     android:layout_height="50dp"
                     android:ems="10"
                     android:hint="Password"
+                    android:maxLines="1"
                     android:textAlignment="center"
                     android:inputType="textPassword"
                     android:background="@drawable/rounded_corners"
@@ -79,6 +81,14 @@
                     android:layout_alignParentRight="true"
                     android:text="SHOW"
                     android:background="@drawable/show_password_button_login"/>
+                <TextView
+                    android:id="@+id/forgotPasswordTextViewLoginActivity"
+                    android:text="FORGOT PASSWORD"
+                    android:layout_below="@id/passwordEditText"
+                    android:clickable="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </RelativeLayout>
 
@@ -149,6 +159,7 @@
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:background="@android:color/white" />
+
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/sign_in_button"

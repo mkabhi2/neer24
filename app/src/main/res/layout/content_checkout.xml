@@ -21,7 +21,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_below="@+id/checkoutActivityCartSummaryTextView"
         android:layout_above="@+id/adressSelector"
         android:id="@+id/cartFragmentContainer">

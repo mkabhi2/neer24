@@ -46,13 +46,13 @@ public class ShareActivity extends AppCompatActivity implements NavigationView.O
         customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
         customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
 
-        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName()+" "+sharedPreferenceUtility.getCustomerLastName());
+        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
         customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
 
         headerview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ShareActivity.this,UserProfileActivity.class);
+                Intent intent=new Intent(ShareActivity.this,UserAccountActivity.class);
                 startActivity(intent);
             }
         });
