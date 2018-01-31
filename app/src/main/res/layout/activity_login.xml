@@ -5,20 +5,25 @@
     android:id="@+id/loginActivityRL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="in.neer24.neer24.Activities.LoginActivity">
+    tools:context="in.neer24.neer24.Activities.LoginActivity"
+    android:paddingTop="16dp">
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_above="@+id/linearLayoutBottom">
+        android:layout_above="@+id/linearLayoutBottom"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:descendantFocusability="beforeDescendants"
+            android:focusableInTouchMode="true">
 
             <ImageView
                 android:id="@+id/logoImageView"
@@ -81,6 +86,7 @@
                     android:layout_alignParentRight="true"
                     android:text="SHOW"
                     android:background="@drawable/show_password_button_login"/>
+
                 <TextView
                     android:id="@+id/forgotPasswordTextViewLoginActivity"
                     android:text="FORGOT PASSWORD"
@@ -88,7 +94,9 @@
                     android:clickable="true"
                     android:layout_alignParentRight="true"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/White"
+                    android:layout_marginTop="5dp"/>
 
             </RelativeLayout>
 
@@ -98,7 +106,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/rounded_corners"
-                android:text="Next" />
+                android:text="Next"
+                android:textColor="@color/White"/>
 
             <ProgressBar
                 android:id="@+id/progressBar1"
@@ -153,12 +162,15 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/facebook_button"
-                android:text="Facebook" />
+                android:text="Facebook"
+                android:textColor="@color/White"
+                android:textStyle="bold"/>
 
             <View
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@android:color/white" />
+                android:background="@android:color/white"
+                android:visibility="gone"/>
 
 
             <com.google.android.gms.common.SignInButton
@@ -178,7 +190,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/gmail_button"
-                android:text="Gmail" />
+                android:text="Gmail"
+                android:textColor="@color/White"
+                android:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>
 

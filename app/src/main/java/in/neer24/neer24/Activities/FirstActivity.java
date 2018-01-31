@@ -51,25 +51,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FirstActivity extends AppCompatActivity {
 
+    private static final String TAG = FirstActivity.class.getSimpleName();
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+
+    SharedPreferenceUtility sharedPreferenceUtility;
     private static String currentLongitude;
     private static String currentLatitude;
+    int warehouseID;
 
     private ProgressBar progressBar;
-    private static final String TAG = FirstActivity.class.getSimpleName();
-
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-    private FusedLocationProviderClient mFusedLocationClient;
-    protected Location mLastLocation;
-
-    private String mLatitudeLabel;
-    private String mLongitudeLabel;
-
     Snackbar snackbar, retroCallFailSnackbar;
     private RelativeLayout relativeLayout;
 
-    SharedPreferenceUtility sharedPreferenceUtility;
+    private FusedLocationProviderClient mFusedLocationClient;
+    protected Location mLastLocation;
 
-    int warehouseID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +77,6 @@ public class FirstActivity extends AppCompatActivity {
         relativeLayout = (RelativeLayout) findViewById(R.id.main_activity_container);
         progressBar = (ProgressBar) findViewById(R.id.firstActivityProgressBar);
 
-
-        mLatitudeLabel = getResources().getString(R.string.latitude_label);
-        mLongitudeLabel = getResources().getString(R.string.longitude_label);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         if (sharedPreferenceUtility.loggedIn()) {
@@ -98,9 +91,9 @@ public class FirstActivity extends AppCompatActivity {
         doTheOperations();
     }
 
-
     public void getCustomerAddress() {
-        int customerid = sharedPreferenceUtility.getCustomerID();
+
+        int customerID = sharedPreferenceUtility.getCustomerID();
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
@@ -116,11 +109,13 @@ public class FirstActivity extends AppCompatActivity {
         String unique = sharedPreferenceUtility.getCustomerUniqueID();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<List<CustomerAddress>> call = retroFitNetworkClient.getAllCustomerAddress(customerid, unique);
+        Call<List<CustomerAddress>> call = retroFitNetworkClient.getAllCustomerAddress(customerID, unique);
 
         call.enqueue(new Callback<List<CustomerAddress>>() {
+
             @Override
             public void onResponse(Call<List<CustomerAddress>> call, Response<List<CustomerAddress>> response) {
+
                 HomeScreenActivity.addressList = (ArrayList<CustomerAddress>) response.body();
                 if (UserAccountActivity.recyclerView != null) {
                     UserAccountActivity.recyclerView.setAdapter(new UserAccountAddressRVAdapter(HomeScreenActivity.addressList,FirstActivity.this));
@@ -141,16 +136,8 @@ public class FirstActivity extends AppCompatActivity {
 
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
 
     public void doTheOperations() {
-
 
         if (isNetworkAvailable()) {
 
@@ -159,7 +146,6 @@ public class FirstActivity extends AppCompatActivity {
             } else {
                 getLastLocation();
             }
-            //getWarehouseForLocation(Float.parseFloat("2.1"), Float.parseFloat("2.1"));
 
         } else {
             snackbar = Snackbar
@@ -174,104 +160,12 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
-    private void launchNextActivity() {
 
-        progressBar.setVisibility(View.GONE);
-
-        if (sharedPreferenceUtility.getFirstTimeLaunch()) {
-            sharedPreferenceUtility.setFirstTimeLaunch(false);
-            Intent intent = new Intent(FirstActivity.this, WelcomeActivity.class);
-            startActivity(intent);
-
-        } else {
-            if (sharedPreferenceUtility.loggedIn()) {
-
-                if (HomeScreenActivity.cansList.isEmpty()) {
-                    Intent intent = new Intent(FirstActivity.this, ChangeLocationActivity.class);
-                    startActivity(intent);
-                }
-                else {
-                    //take to home page
-                    Intent intent = new Intent(FirstActivity.this, HomeScreenActivity.class);
-                    startActivity(intent);
-                }
-            } else {
-                Intent intent = new Intent(FirstActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        }
-    }
-
-    @SuppressWarnings("MissingPermission")
-    private void getLastLocation() {
-        mFusedLocationClient.getLastLocation()
-                .addOnCompleteListener(this, new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            Toast.makeText(FirstActivity.this, "exception 1", Toast.LENGTH_SHORT);
-                            progressBar.setVisibility(View.VISIBLE);
-                            mLastLocation = task.getResult();
-
-                            currentLatitude = String.format(Locale.ENGLISH, "%f",
-                                    mLastLocation.getLatitude());
-                            currentLongitude = String.format(Locale.ENGLISH, "%f",
-                                    mLastLocation.getLongitude());
-
-                            sharedPreferenceUtility.setLocationLatitude(currentLatitude);
-                            sharedPreferenceUtility.setLocationLongitude(currentLongitude);
-
-                            if (currentLongitude != null && currentLatitude != null) {
-
-                                FetchLocationNameService locationAddress = new FetchLocationNameService();
-                                locationAddress.getAddressFromLocation(Float.parseFloat(currentLatitude), Float.parseFloat(currentLongitude),
-                                        getApplicationContext(), new GeocoderHandler());
-
-                                getWarehouseForLocation(Float.parseFloat(currentLatitude), Float.parseFloat(currentLongitude));
-                            }
-                        } else {
-                            Toast.makeText(FirstActivity.this, "exception 2", Toast.LENGTH_SHORT);
-                            Log.w(TAG, "getLastLocation:exception", task.getException());
-                            showSnackbar(getString(R.string.no_location_detected));
-                        }
-
-                    }
-                });
-
-        //pauseActivityForTwoSeconds();
-
-
-    }
-
-    private class GeocoderHandler extends Handler {
-        @Override
-        public void handleMessage(Message message) {
-            String locationAddress;
-            switch (message.what) {
-                case 1:
-                    Bundle bundle = message.getData();
-                    locationAddress = bundle.getString("address");
-                    break;
-                default:
-                    locationAddress = null;
-            }
-            HomeScreenActivity.locationName = locationAddress;
-        }
-    }
-
-    private void showSnackbar(final String text) {
-        View container = findViewById(R.id.main_activity_container);
-        if (container != null) {
-            Snackbar.make(container, text, Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    private void showSnackbar(final int mainTextStringId, final int actionStringId,
-                              View.OnClickListener listener) {
-        Snackbar.make(findViewById(android.R.id.content),
-                getString(mainTextStringId),
-                Snackbar.LENGTH_INDEFINITE)
-                .setAction(getString(actionStringId), listener).show();
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     private boolean checkPermissions() {
@@ -279,21 +173,13 @@ public class FirstActivity extends AppCompatActivity {
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(FirstActivity.this,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_PERMISSIONS_REQUEST_CODE);
-    }
-
     private void requestPermissions() {
+
         boolean shouldProvideRationale =
                 ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.ACCESS_FINE_LOCATION);
 
-        // Provide an additional rationale to the user. This would happen if the user denied the
-        // request previously, but didn't check the "Don't ask again" checkbox.
         if (shouldProvideRationale) {
-            Log.i(TAG, "Displaying permission rationale to provide additional context.");
 
             showSnackbar(R.string.permission_rationale, android.R.string.ok,
                     new View.OnClickListener() {
@@ -303,90 +189,98 @@ public class FirstActivity extends AppCompatActivity {
                             startLocationPermissionRequest();
                         }
                     });
-
         } else {
-            Log.i(TAG, "Requesting permission");
-            // Request permission. It's possible this can be auto answered if device policy
-            // sets the permission in a given state or the user denied the permission
-            // previously and checked "Never ask again".
+
             startLocationPermissionRequest();
         }
     }
 
+    private void startLocationPermissionRequest() {
+        ActivityCompat.requestPermissions(FirstActivity.this,
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                REQUEST_PERMISSIONS_REQUEST_CODE);
+    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        Log.i(TAG, "onRequestPermissionResult");
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.length <= 0) {
-                // If user interaction was interrupted, the permission request is cancelled and you
-                // receive empty arrays.
-                progressBar.setVisibility(View.INVISIBLE);
-                Log.i(TAG, "User interaction was cancelled.");
-            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted.
-                getLastLocation();
+    @SuppressWarnings("MissingPermission")
+    private void getLastLocation() {
 
-            } else {
-                // Permission denied.
+        mFusedLocationClient.getLastLocation()
+                .addOnCompleteListener(this, new OnCompleteListener<Location>() {
 
-                // Notify the user via a SnackBar that they have rejected a core permission for the
-                // app, which makes the Activity useless. In a real app, core permissions would
-                // typically be best requested during a welcome-screen flow.
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
 
-                // Additionally, it is important to remember that a permission might have been
-                // rejected without asking the user for permission (device policy or "Never ask
-                // again" prompts). Therefore, a user interface affordance is typically implemented
-                // when permissions are denied. Otherwise, your app could appear unresponsive to
-                // touches or interactions which have required permissions.
-                progressBar.setVisibility(View.INVISIBLE);
-                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                // Build intent that displays the App settings screen.
-                                Intent intent = new Intent();
-                                intent.setAction(
-                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package",
-                                        BuildConfig.APPLICATION_ID, null);
-                                intent.setData(uri);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
+                        if (task.isSuccessful() && task.getResult() != null) {
+
+                            progressBar.setVisibility(View.VISIBLE);
+                            mLastLocation = task.getResult();
+
+                            currentLatitude = String.format(Locale.ENGLISH, "%f", mLastLocation.getLatitude());
+                            currentLongitude = String.format(Locale.ENGLISH, "%f", mLastLocation.getLongitude());
+
+                            sharedPreferenceUtility.setLocationLatitude(currentLatitude);
+                            sharedPreferenceUtility.setLocationLongitude(currentLongitude);
+
+                            if (currentLongitude != null && currentLatitude != null) {
+
+                                //Fetch the name of the location to show on the app bar
+                                FetchLocationNameService.getAddressFromLocation(Float.parseFloat(currentLatitude), Float.parseFloat(currentLongitude),
+                                        getApplicationContext(), new GeocoderHandler());
+
+                                getWarehouseForLocation(Float.parseFloat(currentLatitude), Float.parseFloat(currentLongitude));
                             }
-                        });
-            }
-        }
+
+                        } else {
+
+                            progressBar.setVisibility(View.GONE);
+                            Log.w(TAG, "getLastLocation:exception", task.getException());
+                            Snackbar.make(relativeLayout, "Failed to detect location.", Snackbar.LENGTH_INDEFINITE)
+                                    .setAction("RETRY", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            getLastLocation();
+                                        }
+                                    }).show();
+                        }
+
+                    }
+                });
     }
 
     public void getWarehouseForLocation(double latitude, double longitude) {
+
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080")    //  .baseUrl("http://18.220.28.118:8080")       //
+                //.baseUrl("http://192.168.0.2:8080")
+                .baseUrl("http://18.220.28.118:8080")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<Integer> call = retroFitNetworkClient.getWarehouseForLocation("12.948568", "77.704373");
+        //Call<Integer> call = retroFitNetworkClient.getWarehouseForLocation("12.948568", "77.704373");
+        Call<Integer> call = retroFitNetworkClient.getWarehouseForLocation(Double.toString(latitude), Double.toString(longitude));
 
         call.enqueue(new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
 
-                Context context = FirstActivity.this;
-
                 if (response.body() != null) {
                     warehouseID = Integer.parseInt(response.body().toString());
                 }
 
+                //Warehouse ID 0 means no warehouse found for current location
                 if (warehouseID != 0) {
                     getCansListForWarehouse(warehouseID);
                     sharedPreferenceUtility.setWareHouseID(warehouseID);
+                }
+                else {
+                    launchNextActivity();
                 }
             }
 
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
+
+                progressBar.setVisibility(View.GONE);
                 retroCallFailSnackbar = Snackbar
                         .make(relativeLayout, "Failed to load data. No Internet Connection.", Snackbar.LENGTH_INDEFINITE)
                         .setAction("RETRY", new View.OnClickListener() {
@@ -402,7 +296,8 @@ public class FirstActivity extends AppCompatActivity {
 
     public void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")        //.baseUrl("http://18.220.28.118:8080")
+                //.baseUrl("http://192.168.0.2:8080/")
+                .baseUrl("http://18.220.28.118:8080")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -441,6 +336,99 @@ public class FirstActivity extends AppCompatActivity {
                 retroCallFailSnackbar.show();
             }
         });
+    }
+
+    private void launchNextActivity() {
+
+        progressBar.setVisibility(View.GONE);
+
+        if (sharedPreferenceUtility.getFirstTimeLaunch()) {
+
+            sharedPreferenceUtility.setFirstTimeLaunch(false);
+            Intent intent = new Intent(FirstActivity.this, WelcomeActivity.class);
+            startActivity(intent);
+
+        } else {
+            if (sharedPreferenceUtility.loggedIn()) {
+
+                if (HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty()) {
+                    Intent intent = new Intent(FirstActivity.this, ChangeLocationActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    //take to home page
+                    Intent intent = new Intent(FirstActivity.this, HomeScreenActivity.class);
+                    startActivity(intent);
+                }
+            } else {
+                Intent intent = new Intent(FirstActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        }
+    }
+
+    private void showSnackbar(final int mainTextStringId, final int actionStringId,
+                              View.OnClickListener listener) {
+        Snackbar.make(findViewById(android.R.id.content),
+                getString(mainTextStringId),
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(actionStringId), listener).show();
+    }
+
+
+    private static class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+            HomeScreenActivity.locationName = locationAddress;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        Log.i(TAG, "onRequestPermissionResult");
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length <= 0) {
+
+                // If user interaction was interrupted, the permission request is cancelled and you
+                // receive empty arrays.
+                progressBar.setVisibility(View.INVISIBLE);
+                Log.i(TAG, "User interaction was cancelled.");
+
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted.
+                getLastLocation();
+
+            } else {
+                // Permission denied.
+
+                progressBar.setVisibility(View.INVISIBLE);
+                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // Build intent that displays the App settings screen.
+                                Intent intent = new Intent();
+                                intent.setAction(
+                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package",
+                                        BuildConfig.APPLICATION_ID, null);
+                                intent.setData(uri);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
+            }
+        }
     }
 
 

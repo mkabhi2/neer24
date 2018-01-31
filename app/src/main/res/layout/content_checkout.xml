@@ -16,7 +16,7 @@
         android:layout_alignParentStart="true"
         android:paddingLeft="8dp"
         android:text="Cart Summary"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:textColor="@color/colorPrimaryDark" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,8 +32,7 @@
         android:id="@+id/adressSelector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="16dp">
+        android:layout_alignParentBottom="true">
 
         <View
             android:id="@+id/singleLine"

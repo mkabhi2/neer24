@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -16,8 +15,6 @@ import com.goodiebag.pinview.Pinview;
 import com.stfalcon.smsverifycatcher.OnSmsCatchListener;
 import com.stfalcon.smsverifycatcher.SmsVerifyCatcher;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -191,7 +188,8 @@ public class OTPActivity extends AppCompatActivity {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")  //.baseUrl("http://18.220.28.118:8080/")
+                //.baseUrl("http://192.168.0.2:8080/")  //
+                .baseUrl("http://18.220.28.118:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -273,7 +271,8 @@ public class OTPActivity extends AppCompatActivity {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")        //.baseUrl("http://18.220.28.118:8080/")
+                //.baseUrl("http://192.168.0.2:8080/")
+                .baseUrl("http://18.220.28.118:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 

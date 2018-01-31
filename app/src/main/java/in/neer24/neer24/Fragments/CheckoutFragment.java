@@ -1,8 +1,6 @@
 package in.neer24.neer24.Fragments;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
@@ -52,17 +48,20 @@ public class CheckoutFragment extends android.app.Fragment {
         sharedPreferenceUtility = new SharedPreferenceUtility(view.getContext());
         chekoutListView = (ListView) view.findViewById(R.id.checkoutFragmentListViews);
         noItemsInCart = (TextView) view.findViewById(R.id.noItemsInCart);
-        applyCouponEditTextCheckoutActivity = (EditText) view.findViewById(R.id.applyCouponEditTextCheckoutActivity);
-        applyCouponButtonCheckoutActivity = (Button) view.findViewById(R.id.applyCouponButtonCheckoutActivity);
+        //applyCouponEditTextCheckoutActivity = (EditText) view.findViewById(R.id.applyCouponEditTextCheckoutActivity);
+        //applyCouponButtonCheckoutActivity = (Button) view.findViewById(R.id.applyCouponButtonCheckoutActivity);
         CheckoutLVAdapter customAdapter = new CheckoutLVAdapter(getActivity(), noItemsInCart);
         chekoutListView.setAdapter(customAdapter);
+
+        View footerView = inflater.inflate(R.layout.cart_bill_layout, container, false);
+        chekoutListView.addFooterView(footerView);
 
         totalCheckoutFragmentTextView = (TextView) view.findViewById(R.id.totalCheckoutFragmentTextView);
 
         updateTotalValueOfCart();
 
 
-        applyCouponButtonCheckoutActivity.setOnClickListener(new View.OnClickListener() {
+        /*applyCouponButtonCheckoutActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 isOfferApplicable = false;
@@ -74,9 +73,9 @@ public class CheckoutFragment extends android.app.Fragment {
                 }
             }
         });
+*/
 
-
-        applyCouponEditTextCheckoutActivity.addTextChangedListener(new TextWatcher() {
+        /*applyCouponEditTextCheckoutActivity.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 isOfferApplicable = false;
@@ -96,7 +95,7 @@ public class CheckoutFragment extends android.app.Fragment {
                     applyCouponButtonCheckoutActivity.setEnabled(false);
                 }
             }
-        });
+        });*/
 
         return view;
     }
@@ -109,7 +108,8 @@ public class CheckoutFragment extends android.app.Fragment {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")  //.baseUrl("http://18.220.28.118:8080/")
+                //.baseUrl("http://192.168.0.2:8080/")
+                .baseUrl("http://18.220.28.118:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -147,7 +147,8 @@ public class CheckoutFragment extends android.app.Fragment {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")  //.baseUrl("http://18.220.28.118:8080/")
+                //.baseUrl("http://192.168.0.2:8080/")
+                .baseUrl("http://18.220.28.118:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 

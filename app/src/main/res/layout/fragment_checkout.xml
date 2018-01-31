@@ -17,13 +17,14 @@
         android:textStyle="bold"
         android:textSize="20dp"/>
 
+
     <!-- TODO: Update blank fragment layout -->
     <ListView
         android:layout_alignParentTop="true"
         android:id="@+id/checkoutFragmentListViews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:dividerHeight="10.0dp"
+        android:dividerHeight="5.0dp"
         android:scrollbars="none"
         android:layout_above="@+id/ll1"/>
 
@@ -31,29 +32,57 @@
         android:id="@+id/ll1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
         android:layout_above="@+id/grandTotalLL"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:background="#E1F5FE">
 
-        <Button
-            android:id="@+id/applyCouponButtonCheckoutActivity"
-            android:layout_width="0dp"
-            android:layout_weight=".7"
-            android:layout_height="match_parent"
-            android:enabled="false"
-            android:text="APPLY"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/grandTotalLL"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp">
 
-        <EditText
-            android:maxLines="1"
-            android:id="@+id/applyCouponEditTextCheckoutActivity"
-            android:layout_weight="1.3"
-            android:layout_width="0dp"
-            android:textAlignment="viewEnd"
-            android:layout_gravity="end"
-            android:hint="Enter Coupon Code"
-            android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/couponImage"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/discount"
+                android:layout_alignParentLeft="true"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toRightOf="@+id/couponImage"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="APPLY COUPON"
+                    android:textStyle="bold"
+                    android:textColor="@color/Black" />
+                <TextView
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="applied"/>
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/right_arrow"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/grandTotalLL"
         android:layout_width="match_parent"
@@ -61,7 +90,6 @@
         android:layout_marginBottom="1dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
         android:padding="10dp">
 
         <TextView

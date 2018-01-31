@@ -7,8 +7,7 @@
     android:paddingRight="16dp"
     android:paddingTop="5dp"
     android:background="@drawable/shadow"
-    android:id="@+id/lineraLayout1"
-    android:backgroundTint="#FFFDE7">
+    android:id="@+id/lineraLayout1">
 
     <RelativeLayout
         android:layout_width="match_parent"

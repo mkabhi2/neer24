@@ -113,6 +113,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
+
         callbackManager = CallbackManager.Factory.create();
 
         setContentView(R.layout.activity_login);
@@ -168,7 +169,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         showPasswordButton.setOnClickListener(this);
 
 
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.firstactivityimage);
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.nav_bg);
         Bitmap blurredBitmap = BlurImage.blur(this, originalBitmap);
 
 
@@ -206,7 +207,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")  //.baseUrl("http://18.220.28.118:8080/")
+                //.baseUrl("http://192.168.0.2:8080/")
+                .baseUrl("http://18.220.28.118:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -365,7 +367,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")  //.baseUrl("http://18.220.28.118:8080/")
+                //.baseUrl("http://192.168.0.2:8080/")
+                .baseUrl("http://18.220.28.118:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -391,19 +394,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     progressBar.setVisibility(View.GONE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
+
                 } else {
 
-                    /*Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-                    getCustomerAddress();
-
-                    if (HomeScreenActivity.cansList.isEmpty()) {
-                        Intent intent = new Intent(LoginActivity.this, ChangeLocationActivity.class);
-                        startActivity(intent);
-                    }
-                    else {
-                        Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
-                        startActivity(intent);
-                    }*/
                     getCustomerAddress();
                     saveUserInforamtionInSharedPreferences(customer, "normal");
                 }
@@ -472,7 +465,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressBar.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
-        if (HomeScreenActivity.cansList.isEmpty()) {
+
+        if (HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty()) {
             Intent intent = new Intent(LoginActivity.this, ChangeLocationActivity.class);
             startActivity(intent);
         }
@@ -494,7 +488,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")      //.baseUrl("http://18.220.28.118:8080/")
+                //.baseUrl("http://192.168.0.2:8080/")
+                .baseUrl("http://18.220.28.118:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -580,7 +575,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:8080/")      //.baseUrl("http://18.220.28.118:8080/")
+                //.baseUrl("http://192.168.0.2:8080/")
+                .baseUrl("http://18.220.28.118:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
