@@ -43,11 +43,12 @@ public class CheckoutActivity extends AppCompatActivity {
     private ImageView addressIconIV;
     private TextView addressTitleTV, addressDescTV, addressChangeTV;
     private Button selectAddressBtn, addAddressBtn;
+    private Toolbar toolbar;
+    public static boolean isCouponApplied;
 
     String returnedOrderID = "";
-    String isOrderDetailsInsertionSuccesFull;
+    String isOrderDetailsInsertionSuccessFull;
     SharedPreferenceUtility sharedPreferenceUtility;
-    // private TextView checkoutActivityTotalCartValueTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,21 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
         sharedPreferenceUtility=new SharedPreferenceUtility(this);
+
+        Bundle bundle = getIntent().getExtras();
+        isCouponApplied = bundle.getBoolean("isCouponApplied");
+
+        instantiateViewObjects();
+        setViewObjects();
+        setUpFragment();
+        setAddressSelector();
+        setUpOnClickListeners();
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+
+    private void instantiateViewObjects() {
 
         cartSummaryTextView = (TextView) findViewById(R.id.checkoutActivityCartSummaryTextView);
         addressView = findViewById(R.id.adressSelector);
@@ -65,23 +81,28 @@ public class CheckoutActivity extends AppCompatActivity {
         selectAddressBtn = (Button) findViewById(R.id.selectAddressBtn);
         addAddressBtn = (Button) findViewById(R.id.addAddressBtn);
         proceedToPayButton = (Button) findViewById(R.id.proceedToPayCheckoutActivity);
-        //checkoutActivityTotalCartValueTextView=(TextView)findViewById(R.id.checkoutActivityTotalCartValueTextView);
-        cartSummaryTextView.setGravity(Gravity.CENTER_VERTICAL);
-
-        setAddressSelector();
-
         proceedToPayButton = (Button) findViewById(R.id.proceedToPayCheckoutActivity);
-        sharedPreferenceUtility = new SharedPreferenceUtility(this);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
+    }
+
+    private void setViewObjects() {
+
+        cartSummaryTextView.setGravity(Gravity.CENTER_VERTICAL);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+
+    }
+
+    private void setUpFragment() {
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         CheckoutFragment checkoutFragment = new CheckoutFragment();
         fragmentTransaction.add(R.id.cartFragmentContainer, checkoutFragment, "checkoutFragment");
         fragmentTransaction.commit();
+    }
 
-        //updateTotalValueOfCart();
-
+    private void setUpOnClickListeners() {
 
         proceedToPayButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,13 +113,8 @@ public class CheckoutActivity extends AppCompatActivity {
             }
         });
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
 
     void setAddressSelector() {
 
@@ -256,8 +272,8 @@ public class CheckoutActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.body() != null) {
-                    isOrderDetailsInsertionSuccesFull = response.body().toString();
-                    if (isOrderDetailsInsertionSuccesFull.contains("true")) {
+                    isOrderDetailsInsertionSuccessFull = response.body().toString();
+                    if (isOrderDetailsInsertionSuccessFull.contains("true")) {
                         Toast.makeText(CheckoutActivity.this, "Insertion Succesfull Order Details", Toast.LENGTH_SHORT);
                     } else {
                         Toast.makeText(CheckoutActivity.this, "Data Completly not inserter into Order Details", Toast.LENGTH_SHORT);
@@ -306,6 +322,10 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onBackPressed();
         HomeScreenActivity.showCartDetailsSummary();
     }
+
+
+
+
 //    public void updateTotalValueOfCart() {
 //        HashMap<Dish, Integer> cart = NormalCart.getCartList();
 //        double price = 0;

@@ -88,7 +88,7 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void setUpRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setAdapter(new UserAccountAddressRVAdapter(HomeScreenActivity.getaddressList(), this));
+        recyclerView.setAdapter(new UserAccountAddressRVAdapter(HomeScreenActivity.getAddressList(), this));
         recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
     }
 

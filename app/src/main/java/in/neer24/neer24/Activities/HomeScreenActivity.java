@@ -46,40 +46,84 @@ public class HomeScreenActivity extends AppCompatActivity
 
     public static ArrayList<CustomerAddress> addressList = new ArrayList<CustomerAddress>();
     public static ArrayList<Can> cansList = new ArrayList<Can>();
-    public static RecyclerView recyclerView;
+
     AutoScrollViewPager viewPager;
     CustomPagerAdapter pagerAdapter;
+    SharedPreferenceUtility sharedPreferenceUtility;
+
+    public static RecyclerView recyclerView;
     private static Button checkoutButton;
     private static LinearLayout checkoutButtonLinearLayout;
     private static TextView cartSummary;
     public static String locationName;
-    boolean isNew = true;
 
+    private View headerView;
+    private Toolbar toolbar;
     private TextView customerEmailTextViewNavigationHeader;
     private TextView customerNameTextViewNavigationHeader;
     private NavigationView navigationView;
-    SharedPreferenceUtility sharedPreferenceUtility;
+
+    boolean isNew = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-
         sharedPreferenceUtility=new SharedPreferenceUtility(this);
+
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            cansList = savedInstanceState.getParcelableArrayList("savedCansList");
+            addressList = savedInstanceState.getParcelableArrayList("savedAddressList");
+        }
+
+        if(addressList==null || addressList.isEmpty() && (sharedPreferenceUtility.loggedIn())) {
+
+            getCustomerAddress();
+        }
+
+        initialiseViewObjects();
+        setViewObjects();
+        setClickListeners();
+        setUpRecyclerView(recyclerView);
+        setUpViewPager();
+        //getCustomerAddress();
+
+    }
+
+
+
+    private void initialiseViewObjects() {
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View headerview = navigationView.getHeaderView(0);
-        customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
-        customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
+        headerView = navigationView.getHeaderView(0);
+        customerNameTextViewNavigationHeader = (TextView)headerView.findViewById(R.id.customerNameTextViewNavigationHeader);
+        customerEmailTextViewNavigationHeader=(TextView)headerView.findViewById(R.id.customerEmailTextViewNavigationHeader);
         checkoutButtonLinearLayout=(LinearLayout)findViewById(R.id.checkoutButtonHomeScreenLinearLayout);
         customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
         customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
+        checkoutButton=(Button)findViewById(R.id.dishActivityCheckoutButton);
+        cartSummary=(TextView)findViewById(R.id.dishActivityCartSummaryTextView);
+        recyclerView = (RecyclerView) findViewById(R.id.rv);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+    }
+
+    private void setViewObjects() {
 
         checkoutButtonLinearLayout.setVisibility(View.GONE);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+        toolbar.setTitle("");
+        toolbar.setSubtitle(locationName);
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.White));
+        setSupportActionBar(toolbar);
+        setUpNavigationDrawer(toolbar);
+    }
 
-        getCustomerAddress();
+    private void setClickListeners() {
 
-        headerview.setOnClickListener(new View.OnClickListener() {
+        headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(HomeScreenActivity.this,UserAccountActivity.class);
@@ -87,8 +131,6 @@ public class HomeScreenActivity extends AppCompatActivity
             }
         });
 
-
-        checkoutButton=(Button)findViewById(R.id.dishActivityCheckoutButton);
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,39 +138,8 @@ public class HomeScreenActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-
-        cartSummary=(TextView)findViewById(R.id.dishActivityCartSummaryTextView);
-//        cartSummary.setBackgroundColor(getResources().getColor(R.color.app_color));
-//        cartSummary.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent=new Intent(HomeScreenActivity.this,CheckoutActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-        if (savedInstanceState != null) {
-            // Restore value of members from saved state
-            cansList = savedInstanceState.getParcelableArrayList("savedCansList");
-        }
-
-        recyclerView = findViewById(R.id.rv);
-
-        RecyclerView recyclerView = findViewById(R.id.rv);
-        setUpRecyclerView(recyclerView);
-
-        setUpViewPager();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
-        toolbar.setTitle("");
-        toolbar.setSubtitle(locationName);
-        toolbar.setSubtitleTextColor(getResources().getColor(R.color.White));
-        setSupportActionBar(toolbar);
-
-        setUpNavigationDrawer(toolbar);
-
     }
+
 
     public void getCustomerAddress(){
         int customerid=sharedPreferenceUtility.getCustomerID();
@@ -194,16 +205,6 @@ public class HomeScreenActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -240,6 +241,63 @@ public class HomeScreenActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home_screen, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_change_location) {
+            Intent intent = new Intent(HomeScreenActivity.this, ChangeLocationActivity.class);
+            intent.putExtra("isFromHomeScreen",true);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putParcelableArrayList("savedCansList",cansList);
+        savedInstanceState.putParcelableArrayList("savedAddressList", addressList);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        if(!isNew) {
+            recyclerView.swapAdapter(new HomeRVAdapter(cansList, this),false);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isNew = false;
     }
 
     public static void showCartDetailsSummary(){
@@ -293,52 +351,8 @@ public class HomeScreenActivity extends AppCompatActivity
             return totalCost;
         }
     }
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
 
-        savedInstanceState.putParcelableArrayList("savedCansList",cansList);
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        if(!isNew) {
-            recyclerView.swapAdapter(new HomeRVAdapter(cansList, this),false);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        isNew = false;
-    }
-
-    public static ArrayList<CustomerAddress> getaddressList(){
+    public static ArrayList<CustomerAddress> getAddressList(){
         return addressList;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home_screen, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_change_location) {
-            Intent intent = new Intent(HomeScreenActivity.this, ChangeLocationActivity.class);
-            intent.putExtra("isFromHomeScreen",true);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

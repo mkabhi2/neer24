@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/main_activity_container"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@drawable/firstactivityimage"
+android:background="@drawable/first_activiy_new"
 tools:context="in.neer24.neer24.Activities.FirstActivity">
 
 

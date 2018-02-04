@@ -7,11 +7,9 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -35,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 import in.neer24.neer24.Adapters.ChangeLocationAddressRVAdapter;
 import in.neer24.neer24.Adapters.HomeRVAdapter;
 import in.neer24.neer24.Adapters.UserAccountAddressRVAdapter;
-import in.neer24.neer24.BuildConfig;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.R;
@@ -376,7 +373,7 @@ public class FirstActivity extends AppCompatActivity {
     }
 
 
-    private static class GeocoderHandler extends Handler {
+    public static class GeocoderHandler extends Handler {
         @Override
         public void handleMessage(Message message) {
             String locationAddress;
@@ -392,44 +389,8 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        Log.i(TAG, "onRequestPermissionResult");
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            if (grantResults.length <= 0) {
 
-                // If user interaction was interrupted, the permission request is cancelled and you
-                // receive empty arrays.
-                progressBar.setVisibility(View.INVISIBLE);
-                Log.i(TAG, "User interaction was cancelled.");
-
-            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted.
-                getLastLocation();
-
-            } else {
-                // Permission denied.
-
-                progressBar.setVisibility(View.INVISIBLE);
-                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                // Build intent that displays the App settings screen.
-                                Intent intent = new Intent();
-                                intent.setAction(
-                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package",
-                                        BuildConfig.APPLICATION_ID, null);
-                                intent.setData(uri);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                            }
-                        });
-            }
-        }
-    }
 
 
 }

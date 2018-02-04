@@ -10,14 +10,20 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDIYuFUQ8bVT3w88OG_PdJJoi5BhoLq9Wk" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
@@ -123,9 +129,26 @@
             android:name=".Activities.UserAccountActivity"
             android:label="@string/title_activity_user_account"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.ChangeLocationActivity"></activity>
+        <activity
+            android:name=".Activities.ChangeLocationActivity"
+            android:label="Change Location"
+            android:parentActivityName=".Activities.HomeScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.neer24.neer24.Activities.HomeScreenActivity" />
+        </activity>
         <activity android:name=".Activities.FacebookLoginSupportActivity" />
-        <activity android:name=".Activities.ChangePasswordActivity"></activity>
+        <activity android:name=".Activities.ChangePasswordActivity" />
+        <activity
+            android:name=".Activities.CouponActivity"
+            android:label="@string/title_activity_coupon"
+            android:parentActivityName=".Activities.CheckoutActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.neer24.neer24.Activities.CheckoutActivity" />
+        </activity>
     </application>
 
 </manifest>

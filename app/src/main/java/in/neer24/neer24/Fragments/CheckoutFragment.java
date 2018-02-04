@@ -1,12 +1,16 @@
 package in.neer24.neer24.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -14,6 +18,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import in.neer24.neer24.Activities.CheckoutActivity;
+import in.neer24.neer24.Activities.CouponActivity;
 import in.neer24.neer24.Adapters.CheckoutLVAdapter;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.NormalCart;
@@ -31,49 +37,65 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CheckoutFragment extends android.app.Fragment {
 
-    ListView chekoutListView;
+    ListView checkoutListView;
     TextView noItemsInCart;
     private static TextView totalCheckoutFragmentTextView;
     private EditText applyCouponEditTextCheckoutActivity;
     private Button applyCouponButtonCheckoutActivity;
+    View view, footerView;
+    RelativeLayout couponLayout;
+    TextView applyCouponTV, applyCouponSubTextTV;
+    ImageView couponApplyArrowIV, couponCancelIconIV;
+    TextView billItemTotalTV, billOffersTV, billDeliveryChargesTV, billGrandTotalTV;
+    LinearLayout billOffersLL;
+
     private static boolean isOfferApplicable = false;
     private double discountedAmount;
     SharedPreferenceUtility sharedPreferenceUtility;
 
+    public static int numOfFreeCans;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        view = inflater.inflate(R.layout.fragment_checkout, container, false);
+        footerView = inflater.inflate(R.layout.cart_bill_layout, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_checkout, container, false);
-        sharedPreferenceUtility = new SharedPreferenceUtility(view.getContext());
-        chekoutListView = (ListView) view.findViewById(R.id.checkoutFragmentListViews);
-        noItemsInCart = (TextView) view.findViewById(R.id.noItemsInCart);
-        //applyCouponEditTextCheckoutActivity = (EditText) view.findViewById(R.id.applyCouponEditTextCheckoutActivity);
-        //applyCouponButtonCheckoutActivity = (Button) view.findViewById(R.id.applyCouponButtonCheckoutActivity);
-        CheckoutLVAdapter customAdapter = new CheckoutLVAdapter(getActivity(), noItemsInCart);
-        chekoutListView.setAdapter(customAdapter);
-
-        View footerView = inflater.inflate(R.layout.cart_bill_layout, container, false);
-        chekoutListView.addFooterView(footerView);
-
-        totalCheckoutFragmentTextView = (TextView) view.findViewById(R.id.totalCheckoutFragmentTextView);
-
+        getFreeCansNum();
+        instantiateViewObjects();
+        setViewObjects();
+        setUpOnClickListeners();
         updateTotalValueOfCart();
 
+        if(CheckoutActivity.isCouponApplied) {
 
-        /*applyCouponButtonCheckoutActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isOfferApplicable = false;
-                String coupon = applyCouponEditTextCheckoutActivity.getText().toString();
-                if (coupon.equals("FREE")) {
-                    checkIfUserIsEligibleForFreeCanOrNot(sharedPreferenceUtility.getCustomerEmailID());
-                } else {
-                    verifyIfCouponIsValidFromServer(coupon);
+            couponApplyArrowIV.setVisibility(View.GONE);
+            couponCancelIconIV.setVisibility(View.VISIBLE);
+            applyCouponTV.setText("NEERFREE");
+            applyCouponSubTextTV.setText("Offer applied on the bill");
+            applyCouponSubTextTV.setVisibility(View.VISIBLE);
+            billOffersLL.setVisibility(View.VISIBLE);
+            int numNeerCans = 0;
+            double neerCanPrice = 0;
+
+            for (Can c: NormalCart.getCartList().keySet()) {
+                if(c.getCanID() == 1){
+                    numNeerCans=NormalCart.getCartList().get(c);
+                    neerCanPrice = c.getPrice();
                 }
             }
-        });
-*/
+
+            if(numNeerCans!=0 && CouponActivity.numFreeCans!=0) {
+
+                discountedAmount = (numNeerCans > CouponActivity.numFreeCans) ? ( CouponActivity.numFreeCans * neerCanPrice ) : (numNeerCans * neerCanPrice);
+
+            }
+
+
+        }
+
+        return view;
+
 
         /*applyCouponEditTextCheckoutActivity.addTextChangedListener(new TextWatcher() {
             @Override
@@ -96,8 +118,61 @@ public class CheckoutFragment extends android.app.Fragment {
                 }
             }
         });*/
+    }
 
-        return view;
+    private void getFreeCansNum() {
+        //TODO
+    }
+
+    private void instantiateViewObjects() {
+
+        sharedPreferenceUtility = new SharedPreferenceUtility(view.getContext());
+        checkoutListView = (ListView) view.findViewById(R.id.checkoutFragmentListViews);
+        noItemsInCart = (TextView) view.findViewById(R.id.noItemsInCart);
+        totalCheckoutFragmentTextView = (TextView) view.findViewById(R.id.totalCheckoutFragmentTextView);
+        couponLayout = (RelativeLayout) view.findViewById(R.id.couponLayout);
+        couponApplyArrowIV = (ImageView) view.findViewById(R.id.couponApplyArrowIV);
+        couponCancelIconIV = (ImageView) view.findViewById(R.id.couponCancelIconIV);
+        applyCouponTV = (TextView) view.findViewById(R.id.applyCouponTV);
+        applyCouponSubTextTV = (TextView) view.findViewById(R.id.applyCouponSubTextTV);
+        billOffersLL = (LinearLayout) footerView.findViewById(R.id.billOffersLL);
+        //applyCouponEditTextCheckoutActivity = (EditText) view.findViewById(R.id.applyCouponEditTextCheckoutActivity);
+        //applyCouponButtonCheckoutActivity = (Button) view.findViewById(R.id.applyCouponButtonCheckoutActivity);
+    }
+
+    private void setViewObjects() {
+
+        CheckoutLVAdapter customAdapter = new CheckoutLVAdapter(getActivity(), noItemsInCart);
+        checkoutListView.setAdapter(customAdapter);
+        checkoutListView.addFooterView(footerView);
+    }
+
+    private void setUpOnClickListeners() {
+
+
+        couponLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(getActivity().getApplicationContext(), CouponActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        /*applyCouponButtonCheckoutActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isOfferApplicable = false;
+                String coupon = applyCouponEditTextCheckoutActivity.getText().toString();
+                if (coupon.equals("FREE")) {
+                    checkIfUserIsEligibleForFreeCanOrNot(sharedPreferenceUtility.getCustomerEmailID());
+                } else {
+                    verifyIfCouponIsValidFromServer(coupon);
+                }
+            }
+        });*/
+
+
     }
 
     public void checkIfUserIsEligibleForFreeCanOrNot(String emailID) {
@@ -140,6 +215,7 @@ public class CheckoutFragment extends android.app.Fragment {
     }
 
     public void verifyIfCouponIsValidFromServer(String coupon) {
+
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -252,7 +328,7 @@ public class CheckoutFragment extends android.app.Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        chekoutListView.invalidate();
+        checkoutListView.invalidate();
     }
 }
 

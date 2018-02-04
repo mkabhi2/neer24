@@ -62,8 +62,8 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
 
             super(itemView);
 
-            name = (TextView) itemView.findViewById(R.id.rvAddressTextView);
-            image = (ImageView) itemView.findViewById(R.id.rvAddressImageView);
+            name = (TextView) itemView.findViewById(R.id.addressTV);
+            image = (ImageView) itemView.findViewById(R.id.locIcon);
 
         }
     }
@@ -74,7 +74,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        addressView = inflater.inflate(R.layout.rv_address_items, parent, false);
+        addressView = inflater.inflate(R.layout.rv_change_location, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(addressView);
 
@@ -186,7 +186,11 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
 
     @Override
     public int getItemCount() {
-        return addressList.size();
+
+        if(addressList!=null)
+            return addressList.size();
+        else
+            return 0;
     }
 
     private class GeocoderHandler extends Handler {

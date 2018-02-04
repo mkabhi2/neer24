@@ -37,6 +37,7 @@
         android:background="#E1F5FE">
 
         <RelativeLayout
+            android:id="@+id/couponLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/grandTotalLL"
@@ -50,7 +51,8 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/discount"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -60,12 +62,14 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="16dp">
                 <TextView
+                    android:id="@+id/applyCouponTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="APPLY COUPON"
                     android:textStyle="bold"
                     android:textColor="@color/Black" />
                 <TextView
+                    android:id="@+id/applyCouponSubTextTV"
                     android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -73,9 +77,19 @@
             </LinearLayout>
 
             <ImageView
+                android:id="@+id/couponApplyArrowIV"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/right_arrow"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/couponCancelIconIV"
+                android:visibility="gone"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/cancel_icon"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"/>
 
