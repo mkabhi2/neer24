@@ -19,7 +19,7 @@
 
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/firstNameInputLayout"
+        android:id="@+id/houseNoLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -33,7 +33,7 @@
 
         <EditText
             android:maxLines="1"
-            android:id="@+id/registerFirstNameEditText"
+            android:id="@+id/houseNoET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_corners_balck_stroke_no_edge"
@@ -45,7 +45,7 @@
 
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/mobileInputLayout"
+        android:id="@+id/landmarkLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="10dp"
@@ -53,12 +53,12 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_below="@+id/firstNameInputLayout"
+        android:layout_below="@+id/houseNoLayout"
         android:background="@drawable/rounded_corners_black_stroke">
 
         <EditText
             android:maxLines="1"
-            android:id="@+id/registerMobileEditText"
+            android:id="@+id/landmarkET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Mobile"
@@ -76,7 +76,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         app:hintTextAppearance="@style/TextAppearance.App.TextInputLayout"
-        android:layout_below="@+id/mobileInputLayout"
+        android:layout_below="@+id/landmarkLayout"
         android:background="@drawable/rounded_corners_black_stroke">
 
         <EditText
@@ -121,7 +121,7 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:id="@+id/signUpButton"
+        android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
@@ -137,7 +137,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/signUpButton"
+        android:layout_alignBottom="@+id/saveButton"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

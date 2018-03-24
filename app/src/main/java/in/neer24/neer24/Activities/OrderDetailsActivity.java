@@ -10,8 +10,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import in.neer24.neer24.Adapters.OrderDetailsRVAdapter;
-import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.CustomObjects.OrderDetails;
+import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import retrofit2.Call;
@@ -24,7 +24,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     TextView orderIDTV, orderDateTV, orderStatusTV, orderTypeTV, grandTotalTV, deliveryAddressTV;
     RecyclerView orderItemsRV;
-    CustomerOrder order;
+    OrderTable order;
     OrderDetails orderDetails;
 
     @Override
@@ -60,7 +60,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         orderTypeTV = (TextView) findViewById(R.id.orderType);
 
         grandTotalTV = (TextView) findViewById(R.id.grandTotalTV);
-        grandTotalTV.setText("" + order.getCanPrice());
+        grandTotalTV.setText("" + order.getAmountPaid());
 
         deliveryAddressTV = (TextView) findViewById(R.id.deliveryAddress);
 
@@ -75,7 +75,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080")
-                .baseUrl("http://18.220.28.118:8080")       //
+                .baseUrl("http://18.220.28.118")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

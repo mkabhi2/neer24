@@ -1,8 +1,6 @@
 package in.neer24.neer24.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,8 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import in.neer24.neer24.Activities.OrderDetailsActivity;
-import in.neer24.neer24.CustomObjects.CustomerOrder;
+import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
 
 /**
@@ -22,11 +19,11 @@ import in.neer24.neer24.R;
 
 public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.ViewHolder>{
 
-    private final List<CustomerOrder> orders;
+    private final List<OrderTable> orders;
     private final Context mContext;
 
 
-    public OrdersRVAdapter(List<CustomerOrder> orders, Context context) {
+    public OrdersRVAdapter(List<OrderTable> orders, Context context) {
         this.orders = orders;
         mContext = context;
     }
@@ -34,7 +31,7 @@ public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView orderIDTV, totalAmountTV, orderDateTV, paymentModeTV, orderedTV, dispatchedTV, deliveredTV;
+        TextView orderIDTV, totalAmountTV, orderDateTV, paymentModeTV, orderedTV, dispatchedTV, deliveredTV, cancelledTV ;
         Button cancelOrderBtn, viewOrderBtn;
 
         public ViewHolder(View itemView) {
@@ -47,15 +44,14 @@ public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.ViewHo
             orderedTV = (TextView) itemView.findViewById(R.id.tv_ordered);
             dispatchedTV = (TextView) itemView.findViewById(R.id.tv_dispatched);
             deliveredTV = (TextView) itemView.findViewById(R.id.tv_delivered);
-
-            cancelOrderBtn = (Button) itemView.findViewById(R.id.cancelOrderBtn);
-            viewOrderBtn = (Button) itemView.findViewById(R.id.viewOrderBtn);
+            cancelledTV = (TextView) itemView.findViewById(R.id.tv_cancelled);
 
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -70,37 +66,44 @@ public class OrdersRVAdapter extends RecyclerView.Adapter<OrdersRVAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder,final int position) {
 
-        final CustomerOrder customerOrder = orders.get(position);
+        final OrderTable customerOrder = orders.get(position);
         String rupeeSymbol = mContext.getResources().getString(R.string.Rs);
 
-        holder.orderIDTV.setText("ORDER ID : " + customerOrder.getOrderID());
-        holder.totalAmountTV.setText("Total Amount : " + rupeeSymbol + " " + customerOrder.getCanPrice());
+        if(customerOrder.getIsNormalDelivery()==1)
+            holder.orderIDTV.setText("ORDER ID : " + customerOrder.getOrderID());
+        if(customerOrder.getIsRecurringDelivery()==1)
+            holder.orderIDTV.setText("RECURRING ORDER ID : " + customerOrder.getOrderID());
+        if(customerOrder.getIsScheduleDelivery()==1)
+            holder.orderIDTV.setText("SCHEDULED ORDER ID : " + customerOrder.getOrderID());
+
+        holder.totalAmountTV.setText("Total Amount Paid : " + rupeeSymbol + " " + customerOrder.getAmountPaid());
         holder.orderDateTV.setText(customerOrder.getOrderDate().toString().substring(0,16));
 
+        if(customerOrder.getIsDispatched()==1){
+            holder.dispatchedTV.setBackgroundColor(mContext.getResources().getColor(R.color.Green));
+        }
+        if(customerOrder.getIsDelivered()==1) {
+            holder.dispatchedTV.setVisibility(View.GONE);
+            holder.orderedTV.setVisibility(View.GONE);
+            holder.deliveredTV.setVisibility(View.VISIBLE);
+            holder.deliveredTV.setBackgroundColor(mContext.getResources().getColor(R.color.Green));
+        }
 
-        holder.viewOrderBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(mContext, OrderDetailsActivity.class);
-                intent.putExtra("order", customerOrder);
-                ContextCompat.startActivity(mContext,intent,null);
-            }
-        });
+        if(customerOrder.getIsCancelled()==1){
+            holder.dispatchedTV.setVisibility(View.GONE);
+            holder.orderedTV.setVisibility(View.GONE);
+            holder.cancelledTV.setVisibility(View.VISIBLE);
+            holder.cancelledTV.setBackgroundColor(mContext.getResources().getColor(R.color.Red));
+        }
 
-        holder.cancelOrderBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(mContext, OrderDetailsActivity.class);
-                ContextCompat.startActivity(mContext,intent,null);
-            }
-        });
-
-
-
+        holder.paymentModeTV.setText(customerOrder.getPaymentMode());
 
     }
     @Override
     public int getItemCount() {
-        return orders.size();
+        if(orders!=null)
+            return orders.size();
+        else
+            return 0;
     }
 }

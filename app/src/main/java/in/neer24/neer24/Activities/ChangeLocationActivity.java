@@ -69,7 +69,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
     LinearLayout comingSoonTV;
     private Toolbar toolbar;
     private LinearLayout linearLayout;
-    ProgressDialog dialog;
+    public static ProgressDialog dialog;
 
     int PLACE_PICKER_REQUEST = 1;
     int warehouseID = 0;
@@ -105,6 +105,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
 
     private void initialiseViewObjects() {
 
+        dialog = new ProgressDialog(this);
         linearLayout = (LinearLayout) findViewById(R.id.changeLocation_container);
         comingSoonTV = (LinearLayout) findViewById(R.id.tv_comingSoon);
         addressRV = (RecyclerView) findViewById(R.id.address_rv);
@@ -175,7 +176,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080")
-                .baseUrl("http://18.220.28.118:8080")       //
+                .baseUrl("http://18.220.28.118:")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -219,7 +220,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
     public void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080")
+                .baseUrl("http://18.220.28.118")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

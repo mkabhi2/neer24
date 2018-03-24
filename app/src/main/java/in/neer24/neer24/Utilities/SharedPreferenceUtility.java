@@ -81,6 +81,7 @@ public class SharedPreferenceUtility {
 
     public void setWareHouseID(int wareHouseID) {
         editor.putInt("warehouseID", wareHouseID);
+        editor.commit();
     }
 
     public int getWareHouseID() {

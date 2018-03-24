@@ -6,7 +6,6 @@ import java.util.List;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.Customer;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
-import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.CustomObjects.Offer;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
@@ -75,8 +74,8 @@ public interface RetroFitNetworkClient {
     @POST("/neer/webapi/orderdetailstable/insertorderdetailstable")
     Call<String> insertIntoOrderDetailsTable(@Body ArrayList<OrderDetails> orderDetails);
 
-    @GET("/neer/webapi/customerorder/customerorderbycustomerid")
-    Call<List<CustomerOrder>> getAllCustomerOrders(@Query("customerid") int customerid,@Query("customeruniqueid") String customerUniqueId);
+    @GET("/neer/webapi/ordertable/orderbycustomerid")
+    Call<List<OrderTable>> getAllCustomerOrders(@Query("customerid") int customerid);
 
     @GET("/neer/webapi/warehousecan/updatecanquantity")
     Call<String> updateWarehouseCanTable(@Query("canid") int canID, @Query("warehouseid") int warehouseID);
@@ -100,4 +99,11 @@ public interface RetroFitNetworkClient {
 
     @GET("/neer/webapi/customers/sendemailforpassword")
     Call<String> sendEmailWithNewPassword(@Query("emailid")String email,@Query("mobilenumber")String mobileNumber);
+
+    @POST("/neer/webapi/customeraddress/addcustomeraddress")
+    Call<String> addCustomerAddressToServer(@Body CustomerAddress customerAddress);
+
+    @GET("/neer/webapi/customers/freecans")
+    Call<Integer> getFreeCanNumForUser(@Query("emailid")String email);
+
 }

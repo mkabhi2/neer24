@@ -14,26 +14,26 @@ public class Customer {
     private String customerMobileNumber;
     private String customerPhotoPath;
     private String customerUniqueID;
-    private String password;
+    private String customerPassword;
     private String outputValue;
 
 
 
-    public Customer(String email, String customerMobileNumber, String password){
+    public Customer(String email, String customerMobileNumber, String customerPassword){
         if(customerMobileNumber==null){
             this.customerEmail=email;
         }else if(email==null){
             this.customerMobileNumber=customerMobileNumber;
         }
-        this.password=password;
+        this.customerPassword = customerPassword;
     }
 
-    public Customer(String customerEmail, String customerFirstName,String customerMobileNumber, String password) {
+    public Customer(String customerEmail, String customerFirstName,String customerMobileNumber, String customerPassword) {
         this.customerEmail = customerEmail;
         this.customerFirstName = customerFirstName;
         this.customerLastName = customerLastName;
         this.customerMobileNumber = customerMobileNumber;
-        this.password = password;
+        this.customerPassword = customerPassword;
     }
 
     public Customer(int customerID, String address, String customerEmail, String customerFirstName, String customerMobileNumber, String customerPhotoPath, String customerUniqueID) {
@@ -55,12 +55,12 @@ public class Customer {
         this.outputValue = outputValue;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCustomerPassword() {
+        return customerPassword;
     }
 
     public void setCustomerPassword(String Password) {
-        this.password = Password;
+        this.customerPassword = Password;
     }
 
 

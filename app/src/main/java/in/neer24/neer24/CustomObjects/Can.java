@@ -17,10 +17,11 @@ public class Can implements Parcelable {
     String canQuantity;
     double newCanPrice;
     int userWantsNewCan;
+    int isReplacable;
 
     public Can(){}
 
-    public Can(int canID, int warehouseID, String name, String photo, double price, String quantity, double newCanPrice, int userWantsNewCan) {
+    public Can(int canID, int warehouseID, String name, String photo, double price, String quantity, double newCanPrice, int userWantsNewCan, int isReplacable) {
         this.canID = canID;
         this.warehouseID = warehouseID;
         this.canName = name;
@@ -29,6 +30,7 @@ public class Can implements Parcelable {
         this.canQuantity = quantity;
         this.newCanPrice = newCanPrice;
         this.userWantsNewCan = userWantsNewCan;
+        this.isReplacable = isReplacable;
     }
 
     //Functions to implement parcelable
@@ -47,6 +49,7 @@ public class Can implements Parcelable {
         parcel.writeString(canQuantity);
         parcel.writeDouble(newCanPrice);
         parcel.writeInt(userWantsNewCan);
+        parcel.writeInt(isReplacable);
     }
 
     public static final Parcelable.Creator<Can> CREATOR = new Parcelable.Creator<Can>() {
@@ -70,6 +73,7 @@ public class Can implements Parcelable {
         canQuantity = in.readString();
         newCanPrice = in.readDouble();
         userWantsNewCan = in.readInt();
+        isReplacable = in.readInt();
     }
 
     public int getCanID() {
@@ -134,5 +138,13 @@ public class Can implements Parcelable {
 
     public void setUserWantsNewCan(int userWantsNewCan) {
         this.userWantsNewCan = userWantsNewCan;
+    }
+
+    public int getIsReplacable() {
+        return isReplacable;
+    }
+
+    public void setIsReplacable(int isReplacable) {
+        this.isReplacable = isReplacable;
     }
 }

@@ -33,6 +33,7 @@ public class UserAccountAddressRVAdapter extends RecyclerView.Adapter<UserAccoun
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView name;
+        public TextView nickName;
         public ImageView image;
 
         public ViewHolder(View itemView) {
@@ -40,6 +41,7 @@ public class UserAccountAddressRVAdapter extends RecyclerView.Adapter<UserAccoun
             super(itemView);
 
             name = (TextView) itemView.findViewById(R.id.rvAddressTextView);
+            nickName = (TextView) itemView.findViewById(R.id.addressNickName);
             image = (ImageView) itemView.findViewById(R.id.rvAddressImageView);
 
         }
@@ -64,8 +66,10 @@ public class UserAccountAddressRVAdapter extends RecyclerView.Adapter<UserAccoun
         final CustomerAddress customerAddress = addressList.get(position);
 
         TextView nameTV = holder.name;
+        TextView nickNameTV = holder.nickName;
         ImageView imageView = holder.image;
-        nameTV.setText(customerAddress.getAddress());
+        nameTV.setText(customerAddress.getFullAddress());
+        nickNameTV.setText(customerAddress.getAddressNickName());
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

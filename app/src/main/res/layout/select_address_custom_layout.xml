@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+
+
+
+    <ImageView
+        android:id="@+id/addressIcon"
+        android:layout_width="20dp"
+        android:layout_height="18dp"
+        android:src="@drawable/home"
+        android:layout_marginRight="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/nickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textStyle="bold"
+            android:textColor="#1360CF"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/addressDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="center_vertical"
+            android:text="Home- Flat No 3-/40, Muniyapa Buiding, ANand Nagar, 1st Main, Opposite Kala Mandir, Marathahalli, Aswath Nagar(Marathahalli) Banaglore"
+            />
+
+        <View
+            android:id="@+id/seperatorView"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/LightGrey"/>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

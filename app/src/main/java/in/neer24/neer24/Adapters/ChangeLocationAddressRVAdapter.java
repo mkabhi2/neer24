@@ -1,6 +1,5 @@
 package in.neer24.neer24.Adapters;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,6 +55,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView name;
+        public TextView nickName;
         public ImageView image;
 
         public ViewHolder(View itemView) {
@@ -63,6 +63,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
             super(itemView);
 
             name = (TextView) itemView.findViewById(R.id.addressTV);
+            nickName = (TextView) itemView.findViewById(R.id.addressNickNameTV);
             image = (ImageView) itemView.findViewById(R.id.locIcon);
 
         }
@@ -88,7 +89,10 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
 
         TextView nameTV = holder.name;
         ImageView imageView = holder.image;
-        nameTV.setText(customerAddress.getAddress());
+        TextView nickNameTV = holder.nickName;
+
+        nickNameTV.setText(customerAddress.getAddressNickName());
+        nameTV.setText(customerAddress.getFullAddress());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,14 +100,12 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
                 sharedPreferenceUtility.setLocationLatitude(customerAddress.getLatitude());
                 sharedPreferenceUtility.setLocationLongitude(customerAddress.getLongitude());
 
-                final ProgressDialog progress = new ProgressDialog(mContext);
-                progress.setTitle("Loading");
-                progress.setMessage("Wait while loading...");
-                progress.setCancelable(false); // disable dismiss by tapping outside of the dialog
-                progress.show();
+                ChangeLocationActivity.dialog.setMessage("Loading. Please wait...");
+                ChangeLocationActivity.dialog.setCancelable(false); // disable dismiss by tapping outside of the dialog
+                ChangeLocationActivity.dialog.show();
 
                 Retrofit.Builder builder1 = new Retrofit.Builder()
-                        .baseUrl("http://18.220.28.118:8080")
+                        .baseUrl("http://18.220.28.118")
                         .addConverterFactory(GsonConverterFactory.create());
                 Retrofit retrofit1 = builder1.build();
 
@@ -127,7 +129,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
                                     mContext, new GeocoderHandler());
 
                             Retrofit.Builder builder = new Retrofit.Builder()
-                                    .baseUrl("http://18.220.28.118:8080")
+                                    .baseUrl("http://18.220.28.118")
                                     .addConverterFactory(GsonConverterFactory.create());
                             Retrofit retrofit = builder.build();
 
@@ -150,7 +152,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
                                         ScheduleDeliveryActivity.recyclerView.setAdapter(new HomeRVAdapter(ScheduleDeliveryActivity.allCans, mContext));
                                         ScheduleDeliveryActivity.recyclerView.invalidate();
                                     }
-                                    progress.cancel();
+                                    ChangeLocationActivity.dialog.cancel();
                                     Intent intent = new Intent(mContext, HomeScreenActivity.class);
                                     mContext.startActivity(intent);
 
@@ -166,7 +168,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
 
                         }
                         else {
-                            progress.cancel();
+                            ChangeLocationActivity.dialog.cancel();
                             Intent intent = new Intent(mContext, ChangeLocationActivity.class);
                             mContext.startActivity(intent);
                         }

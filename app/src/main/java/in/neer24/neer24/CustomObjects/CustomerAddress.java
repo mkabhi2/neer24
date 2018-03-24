@@ -12,14 +12,21 @@ public class CustomerAddress implements Parcelable {
     private int customerID, warehouseID;
     private int customerAddressID;
     private String latitude, longitude, addressNickName;
-    String address;
+    String fullAddress;
+    String mapAddress;
+    String landmark;
+    String houseAddress;
 
-    public CustomerAddress(int customerID, int customerAddressID, String latitude, String longitude, String address) {
+    public CustomerAddress(int customerID, int warehouseID, String latitude, String longitude, String addressNickName, String mapAddress, String landmark, String houseAddress) {
         this.customerID = customerID;
-        this.customerAddressID = customerAddressID;
+        this.warehouseID = warehouseID;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.address = address;
+        this.addressNickName = addressNickName;
+        this.mapAddress = mapAddress;
+        this.landmark = landmark;
+        this.houseAddress = houseAddress;
+        this.fullAddress = houseAddress + mapAddress;
     }
 
     public int getCustomerID() {
@@ -38,12 +45,12 @@ public class CustomerAddress implements Parcelable {
         this.customerAddressID = customerAddressID;
     }
 
-    public String getAddress() {
-        return address;
+    public String getFullAddress() {
+        return houseAddress + mapAddress;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setFullAddress(String fullAddress) {
+        this.fullAddress = fullAddress;
     }
 
     public String getLatitude() {
@@ -78,6 +85,29 @@ public class CustomerAddress implements Parcelable {
         this.addressNickName = addressNickName;
     }
 
+    public String getHouseAddress() {
+        return houseAddress;
+    }
+
+    public void setHouseAddress(String houseAddress) {
+        this.houseAddress = houseAddress;
+    }
+
+    public String getMapAddress() {
+        return mapAddress;
+    }
+
+    public void setMapAddress(String mapAddress) {
+        this.mapAddress = mapAddress;
+    }
+
+    public String getLandmark() {
+        return landmark;
+    }
+
+    public void setLandmark(String landmark) {
+        this.landmark = landmark;
+    }
 
     //Functions to implement parcelable
     @Override
@@ -93,7 +123,10 @@ public class CustomerAddress implements Parcelable {
         parcel.writeString(latitude);
         parcel.writeString(longitude);
         parcel.writeString(addressNickName);
-        parcel.writeString(address);
+        parcel.writeString(fullAddress);
+        parcel.writeString(houseAddress);
+        parcel.writeString(mapAddress);
+        parcel.writeString(landmark);
     }
 
     public static final Parcelable.Creator<CustomerAddress> CREATOR = new Parcelable.Creator<CustomerAddress>() {
@@ -115,6 +148,9 @@ public class CustomerAddress implements Parcelable {
         latitude = in.readString();
         longitude = in.readString();
         addressNickName = in.readString();
-        address = in.readString();
+        fullAddress = in.readString();
+        houseAddress = in.readString();
+        mapAddress = in.readString();
+        landmark = in.readString();
     }
 }

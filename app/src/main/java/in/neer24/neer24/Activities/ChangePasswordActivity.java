@@ -56,7 +56,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080/")
+                .baseUrl("http://18.220.28.118/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 

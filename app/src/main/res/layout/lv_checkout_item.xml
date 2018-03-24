@@ -147,14 +147,14 @@
             android:layout_height="wrap_content"
             android:text="I don't have a can to replace  "
             android:textColor="@color/Green"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/switch_new_cans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </LinearLayout>
 
     <View
@@ -164,7 +164,7 @@
         android:id="@+id/straightLine"
         android:layout_below="@id/switchView"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

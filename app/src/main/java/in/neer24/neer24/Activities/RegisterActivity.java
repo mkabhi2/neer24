@@ -19,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -67,12 +66,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
         registerActivityRL = (RelativeLayout) findViewById(R.id.register_activity_relative_layout);
-        firstNameEditText = (EditText) findViewById(R.id.registerFirstNameEditText);
-        mobileEditText = (EditText) findViewById(R.id.registerMobileEditText);
+        firstNameEditText = (EditText) findViewById(R.id.houseNoET);
+        mobileEditText = (EditText) findViewById(R.id.landmarkET);
         emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
         passwordEditText = (EditText) findViewById(R.id.registerPassworddEditText);
         showPasswordButton = (Button) findViewById(R.id.registerShowPasswordButton);
-        signUpButton = (Button) findViewById(R.id.signUpButton);
+        signUpButton = (Button) findViewById(R.id.saveButton);
         registerProgressBar = (ProgressBar) findViewById(R.id.registerProgressBar);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
@@ -125,7 +124,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
 
-            case R.id.signUpButton:
+            case R.id.saveButton:
                 try {
                     registerProgressBar.setVisibility(View.VISIBLE);
                     getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -166,7 +165,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080/")      //
+                .baseUrl("http://18.220.28.118/")      //
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 

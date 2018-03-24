@@ -5,29 +5,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalTime;
+
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.Activities.CheckoutActivity;
 import in.neer24.neer24.Activities.CouponActivity;
 import in.neer24.neer24.Adapters.CheckoutLVAdapter;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.NormalCart;
-import in.neer24.neer24.CustomObjects.Offer;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,17 +35,15 @@ public class CheckoutFragment extends android.app.Fragment {
     ListView checkoutListView;
     TextView noItemsInCart;
     private static TextView totalCheckoutFragmentTextView;
-    private EditText applyCouponEditTextCheckoutActivity;
-    private Button applyCouponButtonCheckoutActivity;
-    View view, footerView;
-    RelativeLayout couponLayout;
-    TextView applyCouponTV, applyCouponSubTextTV;
-    ImageView couponApplyArrowIV, couponCancelIconIV;
-    TextView billItemTotalTV, billOffersTV, billDeliveryChargesTV, billGrandTotalTV;
-    LinearLayout billOffersLL;
-
-    private static boolean isOfferApplicable = false;
-    private double discountedAmount;
+    static View view, footerView;
+    static TextView applyCouponTV, applyCouponSubTextTV;
+    static ImageView couponApplyArrowIV, couponCancelIconIV;
+    static TextView  billOffersTV, billGrandTotalTV;
+    static LinearLayout billOffersLL, couponLayout;
+    static LinearLayout staticCouponLayout;
+    static TextView billItemTotalTV;
+    static TextView billDeliveryChargesDetailTV, billDeliveryChargesTV;
+    public static double discountedAmount = 0, deliveryCharge = 0, toPay = 0;
     SharedPreferenceUtility sharedPreferenceUtility;
 
     public static int numOfFreeCans;
@@ -60,12 +53,20 @@ public class CheckoutFragment extends android.app.Fragment {
 
         view = inflater.inflate(R.layout.fragment_checkout, container, false);
         footerView = inflater.inflate(R.layout.cart_bill_layout, container, false);
+        sharedPreferenceUtility = new SharedPreferenceUtility(view.getContext());
 
         getFreeCansNum();
         instantiateViewObjects();
         setViewObjects();
         setUpOnClickListeners();
-        updateTotalValueOfCart();
+        updateBill();
+        updateCouponLayout();
+
+        return view;
+    }
+
+
+    private static void updateCouponLayout(){
 
         if(CheckoutActivity.isCouponApplied) {
 
@@ -74,70 +75,58 @@ public class CheckoutFragment extends android.app.Fragment {
             applyCouponTV.setText("NEERFREE");
             applyCouponSubTextTV.setText("Offer applied on the bill");
             applyCouponSubTextTV.setVisibility(View.VISIBLE);
-            billOffersLL.setVisibility(View.VISIBLE);
-            int numNeerCans = 0;
-            double neerCanPrice = 0;
-
-            for (Can c: NormalCart.getCartList().keySet()) {
-                if(c.getCanID() == 1){
-                    numNeerCans=NormalCart.getCartList().get(c);
-                    neerCanPrice = c.getPrice();
-                }
-            }
-
-            if(numNeerCans!=0 && CouponActivity.numFreeCans!=0) {
-
-                discountedAmount = (numNeerCans > CouponActivity.numFreeCans) ? ( CouponActivity.numFreeCans * neerCanPrice ) : (numNeerCans * neerCanPrice);
-
-            }
-
-
         }
 
-        return view;
-
-
-        /*applyCouponEditTextCheckoutActivity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                isOfferApplicable = false;
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                isOfferApplicable = false;
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                isOfferApplicable = false;
-                if (applyCouponEditTextCheckoutActivity.getText().toString().length() > 2) {
-                    applyCouponButtonCheckoutActivity.setEnabled(true);
-                } else {
-                    applyCouponButtonCheckoutActivity.setEnabled(false);
-                }
-            }
-        });*/
+        else {
+            couponApplyArrowIV.setVisibility(View.VISIBLE);
+            couponCancelIconIV.setVisibility(View.GONE);
+            applyCouponTV.setText("APPLY COUPON");
+            applyCouponSubTextTV.setVisibility(View.GONE);
+        }
     }
 
     private void getFreeCansNum() {
-        //TODO
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://18.220.28.118:80")       //
+                .addConverterFactory(GsonConverterFactory.create());
+        Retrofit retrofit = builder.build();
+
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<Integer> call = retroFitNetworkClient.getFreeCanNumForUser(sharedPreferenceUtility.getCustomerEmailID());
+
+        call.enqueue(new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+
+                if (response.body() != null) {
+                    numOfFreeCans = Integer.parseInt(response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {}
+        });
     }
 
     private void instantiateViewObjects() {
 
-        sharedPreferenceUtility = new SharedPreferenceUtility(view.getContext());
+
         checkoutListView = (ListView) view.findViewById(R.id.checkoutFragmentListViews);
         noItemsInCart = (TextView) view.findViewById(R.id.noItemsInCart);
         totalCheckoutFragmentTextView = (TextView) view.findViewById(R.id.totalCheckoutFragmentTextView);
-        couponLayout = (RelativeLayout) view.findViewById(R.id.couponLayout);
+        couponLayout = (LinearLayout) view.findViewById(R.id.ll1);
+        staticCouponLayout = couponLayout;
         couponApplyArrowIV = (ImageView) view.findViewById(R.id.couponApplyArrowIV);
         couponCancelIconIV = (ImageView) view.findViewById(R.id.couponCancelIconIV);
         applyCouponTV = (TextView) view.findViewById(R.id.applyCouponTV);
         applyCouponSubTextTV = (TextView) view.findViewById(R.id.applyCouponSubTextTV);
         billOffersLL = (LinearLayout) footerView.findViewById(R.id.billOffersLL);
-        //applyCouponEditTextCheckoutActivity = (EditText) view.findViewById(R.id.applyCouponEditTextCheckoutActivity);
-        //applyCouponButtonCheckoutActivity = (Button) view.findViewById(R.id.applyCouponButtonCheckoutActivity);
+        billItemTotalTV = (TextView) footerView.findViewById(R.id.bill_item_total_tv);
+        billDeliveryChargesDetailTV = (TextView) footerView.findViewById(R.id.bill_delivery_charges_details_tv);
+        billDeliveryChargesTV = (TextView) footerView.findViewById(R.id.bill_delivery_charges_tv);
+        billOffersTV = (TextView) footerView.findViewById(R.id.bill_discount_tv);
+        billGrandTotalTV = (TextView) footerView.findViewById(R.id.grand_total_tv);
     }
 
     private void setViewObjects() {
@@ -149,170 +138,39 @@ public class CheckoutFragment extends android.app.Fragment {
 
     private void setUpOnClickListeners() {
 
-
-        couponLayout.setOnClickListener(new View.OnClickListener() {
+            couponLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(getActivity().getApplicationContext(), CouponActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        /*applyCouponButtonCheckoutActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isOfferApplicable = false;
-                String coupon = applyCouponEditTextCheckoutActivity.getText().toString();
-                if (coupon.equals("FREE")) {
-                    checkIfUserIsEligibleForFreeCanOrNot(sharedPreferenceUtility.getCustomerEmailID());
-                } else {
-                    verifyIfCouponIsValidFromServer(coupon);
+                if(!CheckoutActivity.isCouponApplied) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity().getApplicationContext(), CouponActivity.class);
+                    startActivity(intent);
                 }
-            }
-        });*/
-
-
-    }
-
-    public void checkIfUserIsEligibleForFreeCanOrNot(String emailID) {
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(15, TimeUnit.SECONDS)
-                .build();
-
-        Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080/")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create());
-
-
-        Retrofit retrofit = builder.build();
-
-        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<String> call = retroFitNetworkClient.checkIfUserIsEligibleForFreeCanOrNot(emailID);
-
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.body().contains("true")) {
-                    isOfferApplicable = true;
-                    setDiscountAmount(35);
-                } else {
-                    isOfferApplicable = false;
-                    String error = "Sorry Not Eligible for discount";
+                else {
+                    CheckoutActivity.isCouponApplied = false;
+                    updateBill();
+                    updateCouponLayout();
                 }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-
-            }
-        });
-
-    }
-
-    public void verifyIfCouponIsValidFromServer(String coupon) {
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(15, TimeUnit.SECONDS)
-                .build();
-
-        Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080/")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create());
-
-
-        Retrofit retrofit = builder.build();
-
-        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<Offer> call = retroFitNetworkClient.verifyIfCouponIsValidFromServer(coupon);
-
-        call.enqueue(new Callback<Offer>() {
-            @Override
-            public void onResponse(Call<Offer> call, Response<Offer> response) {
-                Offer offer = response.body();
-                if (offer.getOutputValue().contains("true")) {
-                    calculateDiscountAsPerCouponCode(offer);
-                } else {
-                    String temp = "error";
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Offer> call, Throwable t) {
-                String temp = "error";
             }
         });
     }
 
-    public void setDiscountAmount(double discountAmount) {
-        discountedAmount = discountAmount;
-    }
+    public static void updateBill() {
 
-    public void calculateDiscountAsPerCouponCode(Offer offer) {
-        try {
-            double maximumDiscount = offer.getMaximumDiscount();
-            double percentageDiscount = offer.getPercentageDiscount();
-            String OfferVaildFrom = offer.getOfferVaildFrom();
-            String OfferVaildTo = offer.getOfferVaildTo();
-            double discountByPercentage;
-
-            SimpleDateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date d1 = df1.parse(OfferVaildFrom);
-            Date d2 = df1.parse(OfferVaildTo);
-
-
-            SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String time2 = getCurrentTimeStamp();
-            Date d3 = df2.parse(time2);
-
-
-            if (d3.compareTo(d1) == 0 && d3.compareTo(d2) == 0) {
-                isOfferApplicable = true;
-                double totalCartValue = getTotalCartValue();
-                discountByPercentage = (percentageDiscount * totalCartValue) / 100;
-                if (discountByPercentage < maximumDiscount) {
-                    setDiscountAmount(discountByPercentage);
-                } else {
-                    setDiscountAmount(maximumDiscount);
-                }
-                return;
-            } else {
-                isOfferApplicable = false;
-                return;
-            }
-        } catch (Exception e) {
-
-        }
-    }
-
-    private static boolean getIsOfferApplicable(){
-        return isOfferApplicable;
-    }
-
-    public double getTotalCartValue() {
-        return 0.0;
-    }
-
-    public String getCurrentTimeStamp() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
-    }
-
-    public static void updateTotalValueOfCart() {
         HashMap<Can, Integer> cart = NormalCart.getCartList();
-        double price = 0;
+        double price;
         double totalCost = 0;
         if (cart.size() == 0) {
-            totalCheckoutFragmentTextView.setText("\u20B9" + " 0");
+
+            footerView.setVisibility(View.GONE);
+            staticCouponLayout.setVisibility(View.GONE);
+            totalCheckoutFragmentTextView.setText("To Pay    :    " + "\u20B9" + " " + 0);
+            toPay = 0;
+
         } else {
+
             for (Can c : cart.keySet()) {
+
                 price = c.getPrice();
                 Integer quantity = cart.get(c);
                 totalCost = totalCost + (price * quantity);
@@ -320,7 +178,54 @@ public class CheckoutFragment extends android.app.Fragment {
                     totalCost = totalCost + (c.getNewCanPrice() * quantity);
                 }
             }
-            totalCheckoutFragmentTextView.setText("To Pay    :    " + "\u20B9" + " " + String.valueOf(totalCost));
+            footerView.setVisibility(View.VISIBLE);
+            staticCouponLayout.setVisibility(View.VISIBLE);
+            billItemTotalTV.setText("\u20B9" + " " + String.valueOf(totalCost));
+
+            if(getTime()){
+
+                billDeliveryChargesDetailTV.setText("Off Time Delivery Charge \n(11 PM - 6 AM)");
+                billDeliveryChargesTV.setText("\u20B9" + " " + "20");
+                deliveryCharge = 20;
+            }
+            else {
+                billDeliveryChargesDetailTV.setText("Delivery Charge");
+                billDeliveryChargesTV.setText("\u20B9" + " " + "0");
+                deliveryCharge = 0;
+            }
+
+            if(CheckoutActivity.isCouponApplied) {
+
+                billOffersLL.setVisibility(View.VISIBLE);
+
+                int numNeerCans = 0;
+                double neerCanPrice = 0;
+
+                for (Can c: NormalCart.getCartList().keySet()) {
+                    if(c.getCanID() == 402){
+                        numNeerCans=NormalCart.getCartList().get(c);
+                        neerCanPrice = c.getPrice();
+                    }
+                }
+
+                if(numNeerCans!=0 && numOfFreeCans!=0) {
+
+                    discountedAmount = (numNeerCans > numOfFreeCans) ? ( numOfFreeCans * neerCanPrice ) : (numNeerCans * neerCanPrice);
+
+                }
+
+
+            }
+
+            else {
+                billOffersLL.setVisibility(View.GONE);
+                discountedAmount = 0;
+            }
+
+            billOffersTV.setText("- " + "\u20B9" + " " + String.valueOf(discountedAmount));
+            toPay = totalCost - discountedAmount + deliveryCharge;
+            billGrandTotalTV.setText("\u20B9" + " " + String.valueOf(toPay));
+            totalCheckoutFragmentTextView.setText("To Pay    :    " + "\u20B9" + " " + String.valueOf(toPay));
 
         }
     }
@@ -329,6 +234,29 @@ public class CheckoutFragment extends android.app.Fragment {
     public void onResume() {
         super.onResume();
         checkoutListView.invalidate();
+        updateBill();
+        updateCouponLayout();
     }
+
+    static boolean getTime() {
+
+        DateTimeZone timeZone = DateTimeZone.forID( "Asia/Kolkata" );
+        LocalTime now = LocalTime.now( timeZone ); // Adjust computer/JVM time zone's current time to desired time zone's current time.
+        //LocalTime now = new LocalTime( "00:00:00" );
+
+        LocalTime six = new LocalTime( "06:00:01" );
+        LocalTime twelve = new LocalTime( "00:00:00" );
+        LocalTime midnight = new LocalTime("23:59:59");
+        LocalTime elevenPM = new LocalTime("22:59:59");
+
+        boolean isBeforeSix = now.isBefore(six);
+        boolean isAfterTwelve = now.isAfter(twelve);
+        boolean isBeforeTwelve = now.isBefore(midnight);
+        boolean isAfter11PM = now.isAfter(elevenPM);
+        boolean is12AM = now.isEqual(twelve);
+
+        return (isBeforeSix && isAfterTwelve) || (isBeforeTwelve && isAfter11PM) || is12AM;
+    }
+
 }
 

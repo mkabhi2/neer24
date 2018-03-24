@@ -108,6 +108,7 @@ public class HomeScreenActivity extends AppCompatActivity
         cartSummary=(TextView)findViewById(R.id.dishActivityCartSummaryTextView);
         recyclerView = (RecyclerView) findViewById(R.id.rv);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
     }
 
     private void setViewObjects() {
@@ -152,7 +153,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080/")  //
+                .baseUrl("http://18.220.28.118/")  //
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -219,9 +220,17 @@ public class HomeScreenActivity extends AppCompatActivity
         } else if (id == R.id.nav_schedule_delivery) {
             Intent intent = new Intent();
             intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","schedule");
             startActivity(intent);
 
-        } else if (id == R.id.nav_disclaimer) {
+        } else if (id == R.id.nav_recurring_delivery) {
+            Intent intent = new Intent();
+            intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","recurring");
+            startActivity(intent);
+
+
+        }else if (id == R.id.nav_disclaimer) {
             Intent intent = new Intent();
             intent.setClass(this,DisclaimerActivity.class);
             startActivity(intent);
@@ -355,4 +364,6 @@ public class HomeScreenActivity extends AppCompatActivity
     public static ArrayList<CustomerAddress> getAddressList(){
         return addressList;
     }
+
+
 }

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="com.razorpay:checkout-1.4.5">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/88113ea9c2d8270e68894b64ba3df6f70e201439/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/88113ea9c2d8270e68894b64ba3df6f70e201439/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

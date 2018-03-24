@@ -149,6 +149,19 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.CheckoutActivity" />
         </activity>
+        <activity
+            android:name=".Activities.AddAddressActivity"
+            android:parentActivityName=".Activities.CheckoutActivity"
+            android:label="Add New Address">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.neer24.neer24.Activities.CheckoutActivity" />
+        </activity>
+
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_M7F2GDnryqa8hs"
+            />
     </application>
 
 </manifest>

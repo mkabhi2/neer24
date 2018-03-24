@@ -25,9 +25,11 @@
             android:layout_height="wrap_content"
             android:text="Item Total "
             android:layout_gravity="start"
-            android:textAlignment="viewStart"/>
+            android:textAlignment="viewStart"
+            android:id="@+id/itemTotal"/>
 
         <TextView
+            android:id="@+id/bill_item_total_tv"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -52,6 +54,7 @@
             android:textAlignment="viewStart"/>
 
         <TextView
+            android:id="@+id/bill_discount_tv"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -66,6 +69,7 @@
         android:orientation="horizontal"
         android:layout_marginBottom="2dp">
         <TextView
+            android:id="@+id/bill_delivery_charges_details_tv"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -74,10 +78,11 @@
             android:textAlignment="viewStart"/>
 
         <TextView
+            android:id="@+id/bill_delivery_charges_tv"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Rs. 100"
+            android:text="Rs. 0"
             android:layout_gravity="end"
             android:textAlignment="viewEnd"/>
     </LinearLayout>
@@ -103,6 +108,7 @@
             android:textAlignment="viewStart"/>
 
         <TextView
+            android:id="@+id/grand_total_tv"
             android:textColor="@color/Black"
             android:textStyle="bold"
             android:layout_width="0dp"

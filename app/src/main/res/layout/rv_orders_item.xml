@@ -56,7 +56,8 @@
             android:paddingTop="5dp"
             android:text="DISPATCHED"
             android:textAlignment="center"
-            android:textColor="@color/White" />
+            android:textColor="@color/White"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/tv_delivered"
@@ -119,6 +120,9 @@
                 android:textColor="@color/DarkBlue"
                 android:textStyle="bold" />
 
+
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -145,57 +149,13 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:paddingBottom="5dp"
-                android:text="COD"
+                android:text="Normal"
                 android:textAlignment="center"
                 android:textColor="@color/DarkBlue"
                 android:textStyle="bold" />
+
+
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <Button
-                android:id="@+id/cancelOrderBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/rv_home_item_round_corner_button"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="CANCEL ORDER"
-                android:textColor="@color/White"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <Button
-                android:id="@+id/viewOrderBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_centerInParent="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/rv_home_item_round_corner_button"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="VIEW ORDER"
-                android:textColor="@color/White"
-                android:textStyle="bold" />
-        </RelativeLayout>
     </LinearLayout>
 
     <TextView

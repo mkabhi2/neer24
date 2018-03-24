@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -112,6 +111,13 @@ public class CheckoutLVAdapter extends BaseAdapter {
         decreaseByOneCheckoutListView.setGravity(Gravity.CENTER_VERTICAL);
         final int position1 = position;
 
+        if(can.getUserWantsNewCan()==1) {
+            newCanSwitch.setChecked(true);
+        }
+        else {
+            newCanSwitch.setChecked(false);
+        }
+
         increaseByOneCheckoutListView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +143,7 @@ public class CheckoutLVAdapter extends BaseAdapter {
                 showAmountCheckoutListView.setText("Total    :    " + context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(can)));
 
                 showAmountCheckoutListView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
-                CheckoutFragment.updateTotalValueOfCart();
+                CheckoutFragment.updateBill();
             }
         });
 
@@ -155,20 +161,21 @@ public class CheckoutLVAdapter extends BaseAdapter {
                 if(NormalCart.getCartList().size() == 0) {
                     noItemsInCart.setVisibility(View.VISIBLE);
                     CheckoutActivity.proceedToPayButton.setVisibility(View.GONE);
+                    CheckoutActivity.addressView.setVisibility(View.GONE);
                 }
 
                 Integer count = new Integer(NormalCart.getQuantityForSelectedItem(can));
                 quantityCheckoutListView.setText(count.toString());
                 showAmountCheckoutListView.setText("Total    :    " + context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(can)));
                 showAmountCheckoutListView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
-                CheckoutFragment.updateTotalValueOfCart();
+                CheckoutFragment.updateBill();
             }
         });
 
-        newCanSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        newCanSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
+            public void onClick(View view) {
+                if (newCanSwitch.isChecked()) {
 
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
                     alertDialogBuilder.setMessage("This option lets you order new can, if you don't already have a can to replace with the can we deliver. You will be charged a refundable security deposit for the new can. We assure you the security deposit will be refunded back to you once you return the can. Are you sure you want a new can ?");
@@ -179,7 +186,7 @@ public class CheckoutLVAdapter extends BaseAdapter {
                                     can.setUserWantsNewCan(1);
                                     showAmountCheckoutListView.setText("Total    :    " + context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(NormalCart.getCanByPosition(position1))));
                                     showAmountCheckoutListView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
-                                    CheckoutFragment.updateTotalValueOfCart();
+                                    CheckoutFragment.updateBill();
                                 }
                             });
 
@@ -199,10 +206,20 @@ public class CheckoutLVAdapter extends BaseAdapter {
                     can.setUserWantsNewCan(0);
                     showAmountCheckoutListView.setText("Total    :    " + context.getResources().getString(R.string.Rs) + " " + String.valueOf(NormalCart.getTotalCanPriceByPosition(NormalCart.getCanByPosition(position1))));
                     showAmountCheckoutListView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
-                    CheckoutFragment.updateTotalValueOfCart();
+                    CheckoutFragment.updateBill();
                 }
             }
         });
+
+        if(can.getIsReplacable()==0) {
+            switchTV.setVisibility(View.GONE);
+            newCanSwitch.setVisibility(View.GONE);
+        }
+        else {
+            switchTV.setVisibility(View.VISIBLE);
+            newCanSwitch.setVisibility(View.VISIBLE);
+        }
+
 
         return view;
 

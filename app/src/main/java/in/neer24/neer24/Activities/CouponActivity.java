@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.NormalCart;
+import in.neer24.neer24.Fragments.CheckoutFragment;
 import in.neer24.neer24.R;
 
 public class CouponActivity extends AppCompatActivity {
@@ -18,7 +19,6 @@ public class CouponActivity extends AppCompatActivity {
     RelativeLayout freeCanCouponRL;
     ImageView noCouponsFoundIV;
     TextView numFreeCansTV, titleTV;
-    public static int numFreeCans = 10;
     int numNeerCans = 0;
 
     @Override
@@ -34,15 +34,16 @@ public class CouponActivity extends AppCompatActivity {
         numFreeCansTV = (TextView) findViewById(R.id.numFreeCansTV);
         titleTV = (TextView) findViewById(R.id.titleTV);
 
-        if(numFreeCans < 2) {
-            numFreeCansTV.setText("" + numFreeCans + " free can left");
+        if(CheckoutFragment.numOfFreeCans < 2) {
+            numFreeCansTV.setText("" + CheckoutFragment.numOfFreeCans + " free can left");
         }
         else {
-            numFreeCansTV.setText("" + numFreeCans + " free cans left");
+            numFreeCansTV.setText("" + CheckoutFragment.numOfFreeCans + " free cans left");
         }
 
         for (Can c: NormalCart.getCartList().keySet()) {
-            if(c.getCanID() == 1){
+            String hello = c.getName();
+            if(c.getCanID()==402){
                 numNeerCans=NormalCart.getCartList().get(c);
             }
         }
@@ -55,7 +56,7 @@ public class CouponActivity extends AppCompatActivity {
             titleTV.setVisibility(View.GONE);
         }*///TODO
 
-        if(numFreeCans < 1 ) {
+        if(CheckoutFragment.numOfFreeCans < 1 || numNeerCans == 0) {
 
             freeCanCouponRL.setVisibility(View.GONE);
             noCouponsFoundIV.setVisibility(View.VISIBLE);

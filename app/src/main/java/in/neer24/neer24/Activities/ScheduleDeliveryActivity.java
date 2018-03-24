@@ -1,13 +1,11 @@
 package in.neer24.neer24.Activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,11 +28,15 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
     public static ArrayList<Can> allCans = new ArrayList<Can>();
     float currentLatitude, currentLongitude;
     boolean isNew = true;
+    String scheduleType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_delivery);
+
+        Intent intent = getIntent();
+        scheduleType = intent.getStringExtra("type");
 
         if (savedInstanceState != null) {
             // Restore value of members from saved state
@@ -64,26 +66,14 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
                         final Intent intent = new Intent();
                         intent.putExtra("item", allCans.get(position));
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ScheduleDeliveryActivity.this);
-                        builder.setMessage("Please select the type of scheduled delivery you want :")
-                                .setCancelable(true)
-                                .setPositiveButton("One Time", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        intent.setClass(ScheduleDeliveryActivity.this,SetOneTimeScheduleActivity.class);
-                                        startActivity(intent);
-                                    }
-                                })
-                                .setNegativeButton("Recurring", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                        intent.setClass(ScheduleDeliveryActivity.this,SetRecurringScheduleActivity.class);
-                                        startActivity(intent);
-
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        alert.show();
+                        if(scheduleType.equals("recurring")) {
+                            intent.setClass(ScheduleDeliveryActivity.this,SetRecurringScheduleActivity.class);
+                            startActivity(intent);
+                        }
+                        else {
+                            intent.setClass(ScheduleDeliveryActivity.this,SetOneTimeScheduleActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 })
         );
@@ -116,7 +106,19 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
             intent.setClass(this,OrdersActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_disclaimer) {
+        } else if (id == R.id.nav_schedule_delivery) {
+            Intent intent = new Intent();
+            intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","schedule");
+            startActivity(intent);
+
+        } else if (id == R.id.nav_recurring_delivery) {
+            Intent intent = new Intent();
+            intent.setClass(this, ScheduleDeliveryActivity.class);
+            intent.putExtra("type", "recurring");
+            startActivity(intent);
+
+        }else if (id == R.id.nav_disclaimer) {
             Intent intent = new Intent();
             intent.setClass(this,DisclaimerActivity.class);
             startActivity(intent);

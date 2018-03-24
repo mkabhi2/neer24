@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/addAddress_activity_relative_layout"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="in.neer24.neer24.Activities.AddAddressActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/registerActivityLogoImageView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/map_image" />
+
+        <Button
+            android:id="@+id/selectLocationBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="76dp"
+            android:background="@drawable/checkout_button_rounded_corners"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="SELECT LOCATION ON MAP"
+            android:textColor="@color/White"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/locationNameTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_below="@+id/registerActivityLogoImageView"
+            android:hint="Please select location on map"
+            android:textSize="14sp"
+            android:visibility="gone"
+            />
+
+        <View
+            android:id="@+id/locationNameLine"
+            android:layout_below="@+id/locationNameTV"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/Black"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:visibility="gone"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/houseNoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_below="@+id/locationNameLine">
+
+            <EditText
+                android:textSize="14sp"
+                android:id="@+id/houseNoET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="House No. / Flat No., Floor" />
+        </android.support.design.widget.TextInputLayout>
+
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/landmarkLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_below="@+id/houseNoLayout"
+            >
+
+            <EditText
+                android:textSize="14sp"
+                android:id="@+id/landmarkET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Landmark"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/labelLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_below="@+id/landmarkLayout"
+            >
+
+            <EditText
+                android:textSize="14sp"
+                android:id="@+id/labelET"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Address Label"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/checkout_button_rounded_corners"
+            android:text="SAVE AND PROCEED"
+            android:textColor="@color/White"
+            android:textStyle="bold"
+            android:layout_margin="16dp"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>
+

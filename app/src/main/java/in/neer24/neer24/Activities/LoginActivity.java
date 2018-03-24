@@ -32,7 +32,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -44,10 +43,10 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONObject;
-import org.w3c.dom.Text;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.Adapters.ChangeLocationAddressRVAdapter;
@@ -208,7 +207,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080/")
+                .baseUrl("http://18.220.28.118/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -225,8 +224,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                String res=response.body();
-                if (response.body().length() > 0) {
+                if (response.body()!=null && response.body().length() > 0) {
                     Toast.makeText(LoginActivity.this, "Password is Sent to you mail id", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(LoginActivity.this, "Error in generating password", Toast.LENGTH_SHORT).show();
@@ -368,7 +366,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080/")
+                .baseUrl("http://18.220.28.118:80")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -413,7 +411,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .build();
 
                 Retrofit.Builder builder = new Retrofit.Builder()
-                        .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
+                        .baseUrl("http://18.220.28.118/").client(okHttpClient)
                         .addConverterFactory(GsonConverterFactory.create());
 
                 Retrofit retrofit = builder.build();
@@ -489,7 +487,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080/")
+                .baseUrl("http://18.220.28.118/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -576,7 +574,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080/")
+                .baseUrl("http://18.220.28.118/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 

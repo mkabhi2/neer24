@@ -21,8 +21,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.Adapters.OrdersRVAdapter;
-import in.neer24.neer24.CustomObjects.CustomerOrder;
+import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
+import in.neer24.neer24.Utilities.RVItemClickListener;
 import in.neer24.neer24.Utilities.RVItemDecoration;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
@@ -40,7 +41,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
     private TextView customerNameTextViewNavigationHeader;
     private NavigationView navigationView;
     SharedPreferenceUtility sharedPreferenceUtility;
-    static ArrayList<CustomerOrder> ordersList = new ArrayList<CustomerOrder>();
+    static ArrayList<OrderTable> ordersList = new ArrayList<OrderTable>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,30 +90,31 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .build();
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080/")
+                .baseUrl("http://192.168.0.3:8080/")
+                //.baseUrl("http://18.220.28.118/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<List<CustomerOrder>> call = retroFitNetworkClient.getAllCustomerOrders(1,sharedPreferenceUtility.getCustomerUniqueID());
+        Call<List<OrderTable>> call = retroFitNetworkClient.getAllCustomerOrders(sharedPreferenceUtility.getCustomerID());
 
-        call.enqueue(new Callback<List<CustomerOrder>>() {
+        call.enqueue(new Callback<List<OrderTable>>() {
             @Override
-            public void onResponse(Call<List<CustomerOrder>> call, Response<List<CustomerOrder>> response) {
-                ordersList = (ArrayList<CustomerOrder>) response.body();
+            public void onResponse(Call<List<OrderTable>> call, Response<List<OrderTable>> response) {
+                ordersList = (ArrayList<OrderTable>) response.body();
                 progressBar.setVisibility(View.INVISIBLE);
                 setUpRecyclerView(recyclerView);
             }
 
             @Override
-            public void onFailure(Call<List<CustomerOrder>> call, Throwable t) {
-                Toast.makeText(OrdersActivity.this,"Error occured",Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<OrderTable>> call, Throwable t) {
+                Toast.makeText(OrdersActivity.this,"Error occurred",Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
+
 
 
     }
@@ -121,6 +123,18 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
 
         recyclerView.setAdapter(new OrdersRVAdapter(ordersList, this));
         recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 500));
+        recyclerView.addOnItemTouchListener(
+                new RVItemClickListener(this, new RVItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, final int position) {
+
+                        final Intent intent = new Intent();
+                        intent.putExtra("order", ordersList.get(position));
+
+                        intent.setClass(OrdersActivity.this, OrderDetailsActivity.class);
+                        startActivity(intent);
+                    }
+                })
+        );
     }
     public void setUpNavigationDrawer(Toolbar toolbar){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.order_drawer_layout);

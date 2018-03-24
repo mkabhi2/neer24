@@ -55,7 +55,6 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        editUserPersonalInformation = (ImageView) findViewById(R.id.editUserPersonalInformation);
         changePasswordUserAcountActivity = (TextView) findViewById(R.id.changePasswordUserAcountActivity);
         addNewAddressUserAccountActivity = (TextView) findViewById(R.id.addNewAddressUserAccountActivity);
         nameUserAccountActivity = (TextView) findViewById(R.id.nameUserAccountActivity);
@@ -73,7 +72,6 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         mobileNumberUserAccountActivity.setText(sharedPreferenceUtility.getCustomerMobileNumber());
         emailUserAccountActivity.setText(sharedPreferenceUtility.getCustomerEmailID());
 
-        editUserPersonalInformation.setOnClickListener(this);
         changePasswordUserAcountActivity.setOnClickListener(this);
         addNewAddressUserAccountActivity.setOnClickListener(this);
 
@@ -149,21 +147,21 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
+        Intent intent;
 
         int id = v.getId();
         switch (id) {
 
-            case R.id.editUserPersonalInformation:
-
-                break;
-
             case R.id.changePasswordUserAcountActivity:
-                Intent intent = new Intent(UserAccountActivity.this, ChangePasswordActivity.class);
+                intent = new Intent(UserAccountActivity.this, ChangePasswordActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.addNewAddressUserAccountActivity:
-
+                intent = new Intent();
+                intent.putExtra("className", "UserAccountActivity");
+                intent.setClass(UserAccountActivity.this, AddAddressActivity.class);
+                startActivity(intent);
                 break;
         }
     }

@@ -33,9 +33,11 @@ dependencies {
 
 
     compile 'com.android.support:support-v4:26.1.0'
+    compile 'com.razorpay:checkout:1.4.5'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.1.0'
+    compile 'commons-net:commons-net:3.6'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
@@ -52,6 +54,7 @@ dependencies {
     compile "com.hanks:htextview-base:0.1.2"
     compile "com.hanks:htextview-rainbow:0.1.2"
     compile 'com.facebook.android:facebook-login:[4,5)'
+    compile 'joda-time:joda-time:2.9.4'
     compile('cn.trinea.android.view.autoscrollviewpager:android-auto-scroll-view-pager:1.1.2') {
         exclude module: 'support-v4'
     }

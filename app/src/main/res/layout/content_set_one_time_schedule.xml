@@ -25,7 +25,7 @@
         android:id="@+id/wholeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/pay"
+        android:layout_above="@+id/addressSelector"
         android:layout_below="@+id/pageTitle"
         android:orientation="vertical">
 
@@ -97,7 +97,8 @@
                                 android:layout_marginRight="10dp"
                                 android:background="@drawable/rv_home_item_round_corner_button_add"
                                 android:text="-"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:textColor="@color/White"/>
 
                             <Button
                                 android:id="@+id/btn_order_or_qty"
@@ -106,8 +107,7 @@
                                 android:layout_marginRight="10dp"
                                 android:background="@drawable/rv_home_item_round_corner_button"
                                 android:text="ADD"
-
-                                />
+                                android:textColor="@color/White" />
 
                             <Button
                                 android:id="@+id/btn_qty_increase"
@@ -118,7 +118,8 @@
                                 android:layout_gravity="center_vertical"
                                 android:background="@drawable/rv_home_item_round_corner_button_add"
                                 android:text="+"
-                                android:textSize="17sp" />
+                                android:textSize="17sp"
+                                android:textColor="@color/White"/>
 
 
                         </LinearLayout>
@@ -137,13 +138,37 @@
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/switchView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/switchTV"
+                        android:layout_height="wrap_content"
+                        android:text="I don't have a neer24 can to replace  "
+                        android:textColor="@color/DarkBlue"
+                        android:textSize="13sp"
+                        android:textStyle="bold"/>
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch_new_cans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/dateAndTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="20dp"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -169,9 +194,9 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/rv_home_item_round_corner_button_add"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:text="SET DATE"
+                            android:paddingLeft="35dp"
+                            android:paddingRight="35dp"
+                            android:text="SET END DATE"
                             android:textColor="#FFF"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -200,13 +225,21 @@
                             android:background="@drawable/rv_home_item_round_corner_button_add"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
-                            android:text="SET TIME"
+                            android:text="SET DELIVERY TIME"
                             android:textColor="#FFF"
                             android:textSize="14sp" />
 
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <include
+                    layout="@layout/cart_bill_layout"
+                    android:id="@+id/bill"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -280,117 +313,13 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/pay"
+    <include
+        layout="@layout/address_and_pay_layout"
+        android:layout_marginTop="10dp"
+        android:id="@+id/addressSelector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/calculationView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/Green"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/totalTetxView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_gravity="start"
-                    android:text="Total"
-                    android:textAlignment="viewStart"
-                    android:textColor="#FFF"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/price_details"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:text="Totalfsdffgfsdfsdfsdfsdfs"
-                    android:textAlignment="center"
-                    android:textColor="#FFF"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/totalCost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="end"
-                    android:layout_toRightOf="@id/price_details"
-                    android:text="1433ew"
-                    android:textAlignment="viewEnd"
-                    android:textColor="#FFF"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-            <!--<LinearLayout
-                android:id="@+id/calculationView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:layout_marginTop="32dp"
-                android:orientation="horizontal"
-                android:background="@color/Green"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="start"
-                    android:layout_weight="1"
-                    android:text="Total"
-                    android:textAlignment="viewStart"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFF"/>
-
-                <TextView
-                    android:id="@+id/price_details"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Total"
-                    android:textAlignment="center"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFF"/>
-
-                <TextView
-                    android:id="@+id/totalCost"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end"
-                    android:layout_weight="1"
-                    android:text="143"
-                    android:textAlignment="viewEnd"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFF"/>
-            </LinearLayout>-->
-
-            <Button
-                android:id="@+id/submit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="#36ABE1"
-                android:text="ORDER"
-                android:textColor="#FFF" />
-        </LinearLayout>
-
-    </LinearLayout>
 </RelativeLayout>

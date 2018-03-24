@@ -7,9 +7,11 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -33,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 import in.neer24.neer24.Adapters.ChangeLocationAddressRVAdapter;
 import in.neer24.neer24.Adapters.HomeRVAdapter;
 import in.neer24.neer24.Adapters.UserAccountAddressRVAdapter;
+import in.neer24.neer24.BuildConfig;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.R;
@@ -99,7 +102,7 @@ public class FirstActivity extends AppCompatActivity {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:8080/").client(okHttpClient)
+                .baseUrl("http://18.220.28.118").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -198,6 +201,63 @@ public class FirstActivity extends AppCompatActivity {
                 REQUEST_PERMISSIONS_REQUEST_CODE);
     }
 
+   /* @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS_REQUEST_CODE: getLastLocation();
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }*/
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        Log.i(TAG, "onRequestPermissionResult");
+        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+            if (grantResults.length <= 0) {
+                // If user interaction was interrupted, the permission request is cancelled and you
+                // receive empty arrays.
+                progressBar.setVisibility(View.INVISIBLE);
+                Log.i(TAG, "User interaction was cancelled.");
+            } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted.
+                getLastLocation();
+
+            } else {
+                // Permission denied.
+
+                // Notify the user via a SnackBar that they have rejected a core permission for the
+                // app, which makes the Activity useless. In a real app, core permissions would
+                // typically be best requested during a welcome-screen flow.
+
+                // Additionally, it is important to remember that a permission might have been
+                // rejected without asking the user for permission (device policy or "Never ask
+                // again" prompts). Therefore, a user interface affordance is typically implemented
+                // when permissions are denied. Otherwise, your app could appear unresponsive to
+                // touches or interactions which have required permissions.
+                progressBar.setVisibility(View.INVISIBLE);
+                showSnackbar(R.string.permission_denied_explanation, R.string.settings,
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                // Build intent that displays the App settings screen.
+                                Intent intent = new Intent();
+                                intent.setAction(
+                                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package",
+                                        BuildConfig.APPLICATION_ID, null);
+                                intent.setData(uri);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        });
+            }
+        }
+    }
+
     @SuppressWarnings("MissingPermission")
     private void getLastLocation() {
 
@@ -248,7 +308,7 @@ public class FirstActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080")
-                .baseUrl("http://18.220.28.118:8080")       //
+                .baseUrl("http://18.220.28.118")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -293,8 +353,9 @@ public class FirstActivity extends AppCompatActivity {
 
     public void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:8080")
+                //HEY DUDE
+                //.baseUrl("http://192.168.0.3:8080/")
+                .baseUrl("http://18.220.28.118")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
