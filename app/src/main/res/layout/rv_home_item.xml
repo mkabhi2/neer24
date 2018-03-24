@@ -50,7 +50,8 @@
             android:layout_height="wrap_content"
             android:text="TDS : 0.01 ppm"
             android:textSize="13sp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:textColor="@color/Gray"/>
 
         <TextView
             android:id="@+id/tv_productPrice"

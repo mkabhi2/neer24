@@ -2,6 +2,7 @@ package in.neer24.neer24.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -62,6 +63,7 @@ public class HomeScreenActivity extends AppCompatActivity
     private TextView customerEmailTextViewNavigationHeader;
     private TextView customerNameTextViewNavigationHeader;
     private NavigationView navigationView;
+    private CollapsingToolbarLayout homeScreenCollapsingToolbarLayout;
 
     boolean isNew = true;
 
@@ -106,6 +108,8 @@ public class HomeScreenActivity extends AppCompatActivity
         customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
         checkoutButton=(Button)findViewById(R.id.dishActivityCheckoutButton);
         cartSummary=(TextView)findViewById(R.id.dishActivityCartSummaryTextView);
+        homeScreenCollapsingToolbarLayout=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar_layout);
+        homeScreenCollapsingToolbarLayout.setTitleEnabled(false);
         recyclerView = (RecyclerView) findViewById(R.id.rv);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
