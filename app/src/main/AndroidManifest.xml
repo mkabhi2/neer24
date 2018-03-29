@@ -103,7 +103,6 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.RegisterActivity"
-            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activities.OTPActivity" />
         <activity android:name=".Activities.UserProfileActivity" />

@@ -16,24 +16,25 @@ public class Customer {
     private String customerUniqueID;
     private String customerPassword;
     private String outputValue;
+    private String referedBy;
 
 
-
-    public Customer(String email, String customerMobileNumber, String customerPassword){
-        if(customerMobileNumber==null){
-            this.customerEmail=email;
-        }else if(email==null){
-            this.customerMobileNumber=customerMobileNumber;
+    public Customer(String email, String customerMobileNumber, String customerPassword) {
+        if (customerMobileNumber == null) {
+            this.customerEmail = email;
+        } else if (email == null) {
+            this.customerMobileNumber = customerMobileNumber;
         }
         this.customerPassword = customerPassword;
     }
 
-    public Customer(String customerEmail, String customerFirstName,String customerMobileNumber, String customerPassword) {
+    public Customer(String customerEmail, String customerFirstName, String customerMobileNumber, String customerPassword, String referedBy) {
         this.customerEmail = customerEmail;
         this.customerFirstName = customerFirstName;
         this.customerLastName = customerLastName;
         this.customerMobileNumber = customerMobileNumber;
         this.customerPassword = customerPassword;
+        this.referedBy = referedBy;
     }
 
     public Customer(int customerID, String address, String customerEmail, String customerFirstName, String customerMobileNumber, String customerPhotoPath, String customerUniqueID) {
@@ -46,6 +47,15 @@ public class Customer {
         this.customerPhotoPath = customerPhotoPath;
         this.customerUniqueID = customerUniqueID;
     }
+
+    public String getReferedBy() {
+        return referedBy;
+    }
+
+    public void setReferedBy(String referedBy) {
+        this.referedBy = referedBy;
+    }
+
 
     public String getOutputValue() {
         return outputValue;

@@ -1,11 +1,13 @@
 package in.neer24.neer24.Activities;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -112,11 +115,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 
-
         callbackManager = CallbackManager.Factory.create();
 
         setContentView(R.layout.activity_login);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
@@ -149,11 +156,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         gmailButton = (Button) findViewById(R.id.gmailButton);
         facebookButton = (Button) findViewById(R.id.facebookButton);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         innerRelativeLayoutForPassword = (RelativeLayout) findViewById(R.id.innerRelativeLayout);
 
         innerRelativeLayoutForPassword.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
 
 
         getWindow().setSoftInputMode(
@@ -224,7 +229,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                if (response.body()!=null && response.body().length() > 0) {
+                if (response.body() != null && response.body().length() > 0) {
                     Toast.makeText(LoginActivity.this, "Password is Sent to you mail id", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(LoginActivity.this, "Error in generating password", Toast.LENGTH_SHORT).show();
@@ -245,7 +250,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onClick(View v)  {
+    public void onClick(View v) {
         int id = v.getId();
 
         switch (id) {
@@ -293,6 +298,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
             case R.id.nextButton:
+                hideKeyboard(this);
                 progressBar.setVisibility(View.VISIBLE);
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -351,6 +357,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
     boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -401,7 +418,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             }
 
-            void getCustomerAddress(){
+            void getCustomerAddress() {
                 int customerid = sharedPreferenceUtility.getCustomerID();
 
                 OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -425,12 +442,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     public void onResponse(Call<List<CustomerAddress>> call, Response<List<CustomerAddress>> response) {
                         HomeScreenActivity.addressList = (ArrayList<CustomerAddress>) response.body();
                         if (UserAccountActivity.recyclerView != null) {
-                            UserAccountActivity.recyclerView.setAdapter(new UserAccountAddressRVAdapter(HomeScreenActivity.addressList,LoginActivity.this));
+                            UserAccountActivity.recyclerView.setAdapter(new UserAccountAddressRVAdapter(HomeScreenActivity.addressList, LoginActivity.this));
                             UserAccountActivity.recyclerView.invalidate();
                         }
 
-                        if(ChangeLocationActivity.addressRV != null) {
-                            ChangeLocationActivity.addressRV.setAdapter(new ChangeLocationAddressRVAdapter(HomeScreenActivity.addressList,LoginActivity.this));
+                        if (ChangeLocationActivity.addressRV != null) {
+                            ChangeLocationActivity.addressRV.setAdapter(new ChangeLocationAddressRVAdapter(HomeScreenActivity.addressList, LoginActivity.this));
                             ChangeLocationActivity.addressRV.invalidate();
                         }
                     }
@@ -464,13 +481,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
 
-        if (HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty()) {
+        if (HomeScreenActivity.cansList == null || HomeScreenActivity.cansList.isEmpty()) {
             Intent intent = new Intent(LoginActivity.this, ChangeLocationActivity.class);
             startActivity(intent);
-        }
-        else {
+            finish();
+        } else {
             Intent intent = new Intent(LoginActivity.this, HomeScreenActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -561,7 +579,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             String email = acct.getEmail();
             hasUserLoggedInUsingSocailNetworking(email, acct, null);
         } else {
-
+            progressBar.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
     }
 
@@ -673,6 +692,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onStart() {
         super.onStart();
+        progressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
 //
 //        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
 //        if (opr.isDone()) {
