@@ -17,19 +17,68 @@
         android:visibility="invisible"
         android:layout_centerVertical="true" />
 
+
     <ScrollView
         android:id="@+id/hello1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/checkoutButtons"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:id="@+id/mainContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <include layout="@layout/rating_layout"
+                android:id="@+id/ratings_layout"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/tv_border2"
+                android:layout_marginBottom="32dp"
+                android:id="@+id/delivery_boy_contact">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp">
+
+                    <ImageView
+                        android:id="@+id/phoneImage"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/discount"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_toRightOf="@+id/phoneImage"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Contact your delivery executive"
+                            android:textStyle="bold"
+                            android:textColor="@color/Black" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
 
             <LinearLayout
@@ -102,7 +151,9 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:text="Dispatched"
-                        android:textAlignment="viewEnd" />
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/Green"
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
@@ -124,6 +175,52 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:text="Recurring"
+                        android:textAlignment="viewEnd" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/recurrencesLeftLayout">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Recurrences Left" />
+
+                    <TextView
+                        android:id="@+id/recurrencesLeft"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="4"
+                        android:textAlignment="viewEnd" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Payment Mode" />
+
+                    <TextView
+                        android:id="@+id/paymentMode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Debit Card"
                         android:textAlignment="viewEnd" />
 
                 </LinearLayout>
@@ -178,6 +275,85 @@
                     app:layoutManager="LinearLayoutManager" />
 
                 <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shadow"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="start"
+                        android:text="Delivery Charge"
+                        android:textAlignment="viewStart"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/offTimeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:text="Off Time"
+                        android:textAlignment="center"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/deliveryCharge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="end"
+                        android:text="Rs 0"
+                        android:textAlignment="viewEnd"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shadow"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="start"
+                        android:text="Discount"
+                        android:textAlignment="viewStart"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+
+                    <TextView
+                        android:id="@+id/discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="end"
+                        android:text="- Rs 0"
+                        android:textAlignment="viewEnd"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/grandTotalRL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -190,7 +366,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_gravity="start"
-                        android:text="Grand Total"
+                        android:text="Total Amount"
                         android:textAlignment="viewStart"
                         android:textColor="#FFF"
                         android:textSize="15sp"
@@ -213,6 +389,51 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/freeNeer24Cans"
+                android:layout_marginTop="32dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#E1F5FE">
+
+                <RelativeLayout
+                    android:id="@+id/couponLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp">
+
+                    <ImageView
+                        android:id="@+id/couponImage"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/discount"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_toRightOf="@+id/couponImage"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp">
+                        <TextView
+                            android:id="@+id/numFreeCansTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="3 Free Neer24 cans availed"
+                            android:textStyle="bold"
+                            android:textColor="@color/Black" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -231,6 +452,49 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Flat No. 7, 2nd Floor, Building No. 86, 4th cross road, 1st main road, Kalamadir, Marathahalli, Bangalore 560037" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/tv_border2"
+                android:layout_marginTop="32dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp">
+
+                    <ImageView
+                        android:id="@+id/phoneImage2"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/discount"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_toRightOf="@+id/phoneImage2"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Need help?  Call us :-)"
+                            android:textStyle="bold"
+                            android:textColor="@color/Black" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
             </LinearLayout>
 
 

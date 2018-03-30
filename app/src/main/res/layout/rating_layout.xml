@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rate Your Delivery"
+        android:textColor="@color/colorAccent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/star_empty"
+            android:layout_margin="10dp"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/star_empty"
+            android:layout_margin="10dp"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/star_empty"
+            android:layout_margin="10dp"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/star_empty"
+            android:layout_margin="10dp"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/star_empty"
+            android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/houseNoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_below="@+id/locationNameLine">
+
+        <EditText
+            android:textSize="14sp"
+            android:id="@+id/houseNoET"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Leave a comment" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:layout_gravity="center"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/checkout_button_rounded_corners"
+        android:textColor="@color/White"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"/>
+
+
+</LinearLayout>
