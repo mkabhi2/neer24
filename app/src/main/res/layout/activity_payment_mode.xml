@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="in.neer24.neer24.Activities.PaymentModeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/radioButtonParent"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/cashOnDeliveryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/home_screen_icons_shadow"
+            android:padding="16dp"
+            android:text="Cash On Delivery"
+            android:textColor="@color/Black"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/paytmOnDeliveryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/home_screen_icons_shadow"
+            android:padding="16dp"
+            android:text="PAYTM on Delivery"
+            android:textColor="@color/Black"
+            android:textSize="16sp" />
+
+        <RadioButton
+            android:id="@+id/onlinePaymentDeliveryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/home_screen_icons_shadow"
+            android:padding="16dp"
+            android:text="Online Payment"
+            android:textColor="@color/Black"
+            android:textSize="16sp" />
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/proccedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@color/app_color"
+        android:text="Proceed"
+        android:textColor="@color/White" />
+</RelativeLayout>

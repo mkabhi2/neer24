@@ -54,6 +54,7 @@ public class OTPActivity extends AppCompatActivity {
         progressBarOTPActivity = (ProgressBar) findViewById(R.id.progressBarOTPActivity);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
+        resendOTPButton.setAlpha(.5f);
         resendOTPButton.setEnabled(false);
 
         new Thread(new Runnable() {
@@ -189,7 +190,7 @@ public class OTPActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")  //
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -203,13 +204,20 @@ public class OTPActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Customer> call, Response<Customer> response) {
                 Customer returnedCustomerObject = (Customer) response.body();
-                saveAlltheInfromationTosharedPreferences(returnedCustomerObject);
-                takeUserToHomeScreen();
+                if (returnedCustomerObject == null || returnedCustomerObject.getOutputValue() == null && returnedCustomerObject.getOutputValue().contains("false")) {
+                    progressBarOTPActivity.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    Toast.makeText(OTPActivity.this, "Error in registering customer", Toast.LENGTH_SHORT).show();
+                } else {
+                    saveAlltheInfromationTosharedPreferences(returnedCustomerObject);
+                    takeUserToHomeScreen();
+                }
             }
 
             @Override
             public void onFailure(Call<Customer> call, Throwable t) {
                 progressBarOTPActivity.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Toast.makeText(OTPActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
             }
         });
@@ -225,9 +233,8 @@ public class OTPActivity extends AppCompatActivity {
         if (HomeScreenActivity.cansList.isEmpty()) {
             Intent intent = new Intent(OTPActivity.this, ChangeLocationActivity.class);
             startActivity(intent);
-        }
-        else {
-            Intent intent=new Intent(OTPActivity.this,HomeScreenActivity.class);
+        } else {
+            Intent intent = new Intent(OTPActivity.this, HomeScreenActivity.class);
             startActivity(intent);
         }
 
@@ -240,15 +247,17 @@ public class OTPActivity extends AppCompatActivity {
         sharedPreferenceUtility.setCustomerFirstName(customer.getCustomerFirstName());
         sharedPreferenceUtility.setCustomerUniqueID(customer.getCustomerUniqueID());
         sharedPreferenceUtility.setCustomerMobileNumber(customer.getCustomerMobileNumber());
+        sharedPreferenceUtility.setCustomerReferralCode(sharedPreferenceUtility.getCustomerReferralCodeRegisterActivity());
 
     }
 
     private Customer createCustomerObject() {
         String firstName = sharedPreferenceUtility.getCustomerFirstNameRegisterActivity();
         String email = sharedPreferenceUtility.getCustomerEmailRegisterActivity();
-        String password = (sharedPreferenceUtility.getCustomerPasswordRegisterActivity()==null?" ":sharedPreferenceUtility.getCustomerPasswordRegisterActivity());
+        String password = (sharedPreferenceUtility.getCustomerPasswordRegisterActivity() == null ? " " : sharedPreferenceUtility.getCustomerPasswordRegisterActivity());
         String mobileNumber = sharedPreferenceUtility.getCustomerMobileNumberRegisterActivity();
-        return new Customer(email, firstName, mobileNumber, password);
+        String referedBy = sharedPreferenceUtility.getCustomerReferralCodeRegisterActivity();
+        return new Customer(email, firstName, mobileNumber, password, referedBy);
     }
 
     @Override
@@ -272,7 +281,7 @@ public class OTPActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 

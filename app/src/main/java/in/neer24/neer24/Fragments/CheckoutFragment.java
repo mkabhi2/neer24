@@ -43,7 +43,7 @@ public class CheckoutFragment extends android.app.Fragment {
     static LinearLayout staticCouponLayout;
     static TextView billItemTotalTV;
     static TextView billDeliveryChargesDetailTV, billDeliveryChargesTV;
-    public static double discountedAmount = 0, deliveryCharge = 0, toPay = 0;
+    public static double discountedAmount = 0, deliveryCharge = 0, toPay = 0, totalAmount=0;
     SharedPreferenceUtility sharedPreferenceUtility;
 
     public static int numOfFreeCans;
@@ -180,6 +180,7 @@ public class CheckoutFragment extends android.app.Fragment {
             }
             footerView.setVisibility(View.VISIBLE);
             staticCouponLayout.setVisibility(View.VISIBLE);
+            totalAmount=totalCost;
             billItemTotalTV.setText("\u20B9" + " " + String.valueOf(totalCost));
 
             if(getTime()){
@@ -258,5 +259,28 @@ public class CheckoutFragment extends android.app.Fragment {
         return (isBeforeSix && isAfterTwelve) || (isBeforeTwelve && isAfter11PM) || is12AM;
     }
 
+    public static double getToPay() {
+        return toPay;
+    }
+
+    public static void setToPay(double toPay) {
+        CheckoutFragment.toPay = toPay;
+    }
+
+    public static double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public static void setTotalAmount(double totalAmount) {
+        CheckoutFragment.totalAmount = totalAmount;
+    }
+
+    public static double getDiscountedAmount() {
+        return discountedAmount;
+    }
+
+    public static void setDiscountedAmount(double discountedAmount) {
+        CheckoutFragment.discountedAmount = discountedAmount;
+    }
 }
 

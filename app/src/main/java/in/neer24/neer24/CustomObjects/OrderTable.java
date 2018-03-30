@@ -49,8 +49,7 @@ public class OrderTable implements Parcelable{
     }
 
 
-    public OrderTable(int orderID, int customerID, int warehouseID, int deliveryBoyID, String orderPaymentID, String orderDate, String deliveryTime, double totalAmount, double discountedAmount, double amountPaid, String paymentMode, String couponCode, int numberOfFreeCansAvailed, int customerAddressID, int isNormalDelivery, int isNightDelivery, int isScheduleDelivery, int isRecurringDelivery, String customerUniqueID, int isOrdered, int isDispatched, int isDelivered, int isCancelled, String endDate, int deliveryLeft, int recuringOrderFrequency, int totalCansOrdered) {
-        this.orderID = orderID;
+    public OrderTable(int customerID, int warehouseID, int deliveryBoyID, String orderPaymentID, String orderDate, String deliveryTime, double totalAmount, double discountedAmount, double amountPaid, String paymentMode, String couponCode, int numberOfFreeCansAvailed, int customerAddressID, int isNormalDelivery, int isNightDelivery, int isScheduleDelivery, int isRecurringDelivery, String customerUniqueID, int isOrdered, int isDispatched, int isDelivered, int isCancelled, String endDate, int deliveryLeft, int recuringOrderFrequency, int totalCansOrdered) {
         this.customerID = customerID;
         this.warehouseID = warehouseID;
         this.deliveryBoyID = deliveryBoyID;

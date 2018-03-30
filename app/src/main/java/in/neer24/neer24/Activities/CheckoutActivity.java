@@ -51,7 +51,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class CheckoutActivity extends AppCompatActivity implements PaymentResultListener {
+public class CheckoutActivity extends AppCompatActivity {
 
     private TextView cartSummaryTextView;
     public static Button proceedToPayButton;
@@ -69,16 +69,18 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
     String isOrderDetailsInsertionSuccessFull;
     SharedPreferenceUtility sharedPreferenceUtility;
 
+    OrderTable orderTable = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
-        sharedPreferenceUtility=new SharedPreferenceUtility(this);
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
         Bundle bundle = getIntent().getExtras();
 
-        if(bundle != null){
+        if (bundle != null) {
             isCouponApplied = bundle.getBoolean("isCouponApplied");
         }
 
@@ -127,10 +129,11 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
         proceedToPayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap.Entry<Can, Integer> entry = NormalCart.getCartList().entrySet().iterator().next();
-                Can can = entry.getKey();
-                //insertDataIntoOrderTable(createObjectForOrderTable());
-                startPayment();
+                //createObjectForOrderTable();
+                Intent intent = new Intent(CheckoutActivity.this, PaymentModeActivity.class);
+                //intent.putExtra("ORDERTABLE", orderTable);
+                intent.putExtra("ORDERTYPE","NORMALORDER");
+                startActivity(intent);
             }
         });
 
@@ -148,7 +151,7 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
             @Override
             public void onClick(View view) {
 
-                if(addressesInCurrentLocation.size() == 1) {
+                if (addressesInCurrentLocation.size() == 1) {
                     Intent intent = new Intent();
                     intent.putExtra("className", "CheckoutActivity");
                     intent.setClass(CheckoutActivity.this, AddAddressActivity.class);
@@ -175,12 +178,12 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
     private void showAddressSelectionDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setAdapter(new SetAddressSelectorDialogAdapter(this,R.layout.select_address_custom_layout, addressesInCurrentLocation), new DialogInterface.OnClickListener() {
+        builder.setAdapter(new SetAddressSelectorDialogAdapter(this, R.layout.select_address_custom_layout, addressesInCurrentLocation), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int itemIndex) {
 
 
-                if(itemIndex == addressesInCurrentLocation.size()) {
+                if (itemIndex == addressesInCurrentLocation.size()) {
                     Intent intent = new Intent();
                     intent.setClass(CheckoutActivity.this, AddAddressActivity.class);
                     startActivity(intent);
@@ -203,87 +206,17 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
     }
 
 
-    private void startPayment() {
-        Checkout checkout = new Checkout();
-        checkout.setImage(R.drawable.logo);
-        final Activity activity = this;
-        try {
-            JSONObject options = new JSONObject();
-            options.put("name", "Neer24");
-            options.put("description", "Order #123456");
-            options.put("currency", "INR");
-            options.put("amount", "100");
-            checkout.open(activity, options);
-        } catch (Exception e) {
-            Log.e("error", "Error in starting Razorpay Checkout", e);
-        }
-    }
-
-    @Override
-    public void onPaymentSuccess(String s) {
-        insertDataIntoOrderTable(createObjectForOrderTable());
-        Log.d("payment",s);
-        Toast.makeText(CheckoutActivity.this, "Success", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onPaymentError(int i, String s) {
-        Log.d("error", s);
-        Toast.makeText(CheckoutActivity.this, "Error", Toast.LENGTH_SHORT).show();
-    }
-
-    public void insertDataIntoOrderTable(OrderTable orderTable) {
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .build();
-
-        Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://192.168.0.3:8080/")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit = builder.build();
-
-        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-
-        Call<String> call = retroFitNetworkClient.insertIntoOrderTable(orderTable);
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-
-                if (response.body() != null) {
-                    returnedOrderID = response.body().toString();
-                    if (!returnedOrderID.equals("0")) {
-                        Toast.makeText(CheckoutActivity.this,"Order Succesfull",Toast.LENGTH_SHORT).show();
-                        //insertIntoOrderDetailsTable(returnedOrderID);
-                        //updateWarehouseCansTable(c.getCanID(),c.getWarehouseID());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(CheckoutActivity.this, "Error loading data", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
-
 
     void setAddressSelector() {
 
         int warehouseID = sharedPreferenceUtility.getWareHouseID();
 
-        addressesInCurrentLocation=new ArrayList<CustomerAddress>();
+        addressesInCurrentLocation = new ArrayList<CustomerAddress>();
 
-        if(HomeScreenActivity.addressList!=null && !HomeScreenActivity.addressList.isEmpty()) {
-            for(CustomerAddress address : HomeScreenActivity.addressList) {
+        if (HomeScreenActivity.addressList != null && !HomeScreenActivity.addressList.isEmpty()) {
+            for (CustomerAddress address : HomeScreenActivity.addressList) {
 
-                if(address.getWarehouseID() == warehouseID) {
+                if (address.getWarehouseID() == warehouseID) {
                     addressesInCurrentLocation.add(address);
                 }
 
@@ -291,56 +224,58 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
         }
         //
 
-        switch(addressesInCurrentLocation.size()) {
+        switch (addressesInCurrentLocation.size()) {
 
-            case 0 : addressTitleTV.setText("No address present for current location");
-                     addressDescTV.setText("");
-                     selectAddressBtn.setVisibility(View.GONE);
-                     addAddressBtn.setVisibility(View.VISIBLE);
-                     addAddressBtn.setTextColor(Color.WHITE);
-                     addAddressBtn.setText("ADD ADDRESS TO PROCEED");
-                     addAddressBtn.setBackgroundColor(getResources().getColor(R.color.app_color));
-                     addressIconIV.setImageResource(R.drawable.no_address);
-                     addressChangeTV.setVisibility(View.GONE);
-                     proceedToPayButton.setVisibility(View.GONE);
-                     break;
+            case 0:
+                addressTitleTV.setText("No address present for current location");
+                addressDescTV.setText("");
+                selectAddressBtn.setVisibility(View.GONE);
+                addAddressBtn.setVisibility(View.VISIBLE);
+                addAddressBtn.setTextColor(Color.WHITE);
+                addAddressBtn.setText("ADD ADDRESS TO PROCEED");
+                addAddressBtn.setBackgroundColor(getResources().getColor(R.color.app_color));
+                addressIconIV.setImageResource(R.drawable.no_address);
+                addressChangeTV.setVisibility(View.GONE);
+                proceedToPayButton.setVisibility(View.GONE);
+                break;
 
-            case 1 : addressTitleTV.setText("Deliver to " + addressesInCurrentLocation.get(0).getAddressNickName());
-                     selectedAddressID = addressesInCurrentLocation.get(0).getCustomerAddressID();
-                     String savedAddress = addressesInCurrentLocation.get(0).getFullAddress();
-                     int addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
-                     addressDescTV.setText(savedAddress.substring(0,addressStripCount));
-                     selectAddressBtn.setVisibility(View.GONE);
-                     addAddressBtn.setVisibility(View.GONE);
-                     addressIconIV.setImageResource(R.drawable.address_location_icon);
-                     proceedToPayButton.setVisibility(View.VISIBLE);
-                     addressChangeTV.setText("ADD ADDRESS");
-                     break;
+            case 1:
+                addressTitleTV.setText("Deliver to " + addressesInCurrentLocation.get(0).getAddressNickName());
+                selectedAddressID = addressesInCurrentLocation.get(0).getCustomerAddressID();
+                String savedAddress = addressesInCurrentLocation.get(0).getFullAddress();
+                int addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
+                addressDescTV.setText(savedAddress.substring(0, addressStripCount));
+                selectAddressBtn.setVisibility(View.GONE);
+                addAddressBtn.setVisibility(View.GONE);
+                addressIconIV.setImageResource(R.drawable.address_location_icon);
+                proceedToPayButton.setVisibility(View.VISIBLE);
+                addressChangeTV.setText("ADD ADDRESS");
+                break;
 
-            default :
-                      addressTitleTV.setText("Multiple addresses in current location");
-                      String addressNickNames = "";
-                      for(CustomerAddress address : addressesInCurrentLocation) {
-                          addressNickNames = addressNickNames + address.getAddressNickName() + " . ";
-                      }
-                      int nickNameStripCount = (30 > addressNickNames.length() ? addressNickNames.length() : 30);
-                      addressDescTV.setText(addressNickNames.substring(0,nickNameStripCount));
-                      selectAddressBtn.setVisibility(View.VISIBLE);
-                      addAddressBtn.setVisibility(View.VISIBLE);
-                      addAddressBtn.setText("ADD ADDRESS");
-                      selectAddressBtn.setText("SELECT ADDRESS");
-                      addAddressBtn.setTextColor(getResources().getColor(R.color.app_color));
-                      addressIconIV.setImageResource(R.drawable.multiple_addres_icon);
-                      addressChangeTV.setVisibility(View.GONE);
-                      proceedToPayButton.setVisibility(View.GONE);
+            default:
+                addressTitleTV.setText("Multiple addresses in current location");
+                String addressNickNames = "";
+                for (CustomerAddress address : addressesInCurrentLocation) {
+                    addressNickNames = addressNickNames + address.getAddressNickName() + " . ";
+                }
+                int nickNameStripCount = (30 > addressNickNames.length() ? addressNickNames.length() : 30);
+                addressDescTV.setText(addressNickNames.substring(0, nickNameStripCount));
+                selectAddressBtn.setVisibility(View.VISIBLE);
+                addAddressBtn.setVisibility(View.VISIBLE);
+                addAddressBtn.setText("ADD ADDRESS");
+                selectAddressBtn.setText("SELECT ADDRESS");
+                addAddressBtn.setTextColor(getResources().getColor(R.color.app_color));
+                addressIconIV.setImageResource(R.drawable.multiple_addres_icon);
+                addressChangeTV.setVisibility(View.GONE);
+                proceedToPayButton.setVisibility(View.GONE);
 
-                if(selectedAddressID!=0) {
-                    for(CustomerAddress address : addressesInCurrentLocation){
-                        if(address.getCustomerAddressID() == selectedAddressID) {
+                if (selectedAddressID != 0) {
+                    for (CustomerAddress address : addressesInCurrentLocation) {
+                        if (address.getCustomerAddressID() == selectedAddressID) {
                             addressTitleTV.setText("Deliver to " + address.getAddressNickName());
                             savedAddress = address.getFullAddress();
                             addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
-                            addressDescTV.setText(savedAddress.substring(0,addressStripCount));
+                            addressDescTV.setText(savedAddress.substring(0, addressStripCount));
                             selectAddressBtn.setVisibility(View.GONE);
                             addAddressBtn.setVisibility(View.GONE);
                             addressIconIV.setImageResource(R.drawable.address_location_icon);
@@ -371,7 +306,11 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
         return al;
     }
 
-    public OrderTable createObjectForOrderTable() {
+    public void createObjectForOrderTable() {
+        String paymentMode = null;
+        String paymentID = null;
+        double amountPaid = 0;
+
         Date oDate = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -380,41 +319,35 @@ public class CheckoutActivity extends AppCompatActivity implements PaymentResult
         cal.add(Calendar.HOUR_OF_DAY, 1); // adds one hour
         Date dTime = cal.getTime();
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+        String deliveryTime = sdf1.format(dTime);
 
         int customerID = sharedPreferenceUtility.getCustomerID();
         int warehouseID = sharedPreferenceUtility.getWareHouseID();
-        int orderPaymentID = 1001;
-
+        int deliveryBoyID = 0;
+        double totalAmount = CheckoutFragment.getTotalAmount();
         String orderDate = sdf.format(oDate);
-        String deliveryTime = sdf1.format(dTime);
 
-        double totalAmount = 100;
-        double discountedAmount = 100;
-        double amountPaid = 50;
-
-        String paymentMode = "Debit Card";
-
-        String couponCode = "NEER24";
-        int numberOfFreeCansAvailed = 2;
-
-        int customerAddressID = 2;
 
         int isNormalDelivery = 1;
-        int isNightDelivery = 0;
+        int isNightDelivery = (UtilityClass.checkIfOrderIsNightDeliveryOrNot(deliveryTime) == true ? 1 : 0);
         int isScheduleDelivery = 0;
         int isRecurringDelivery = 0;
+        int isOrdered = 1;
+        int isDispatched = 0;
+        int isDelivered = 0;
+        int recurringOrderFrequency = 0;
+        String recurringOrderEndDate = null;
+        int freeCansInOrder = (int) CheckoutFragment.getDiscountedAmount() / 35;
+        int customerAddressID = 1;
+        double discountedAmount = CheckoutFragment.getDiscountedAmount();
+        String couponCode = (CheckoutFragment.getDiscountedAmount() > 0 ? "NEER@24" : null);
+        int deliveryLeft = 0;
+        int isCancelled = 0;
+        String refundID = null;
+        int totalCansOrdered = 10;
 
+        orderTable = new OrderTable(customerID, warehouseID, deliveryBoyID, paymentID, orderDate, deliveryTime, totalAmount, discountedAmount, amountPaid, paymentMode, couponCode, freeCansInOrder, customerAddressID, isNormalDelivery, isNightDelivery, isScheduleDelivery, isRecurringDelivery, sharedPreferenceUtility.getCustomerUniqueID(), isOrdered, isDispatched, isDelivered, isCancelled, recurringOrderEndDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered);
 
-        if (UtilityClass.checkIfOrderIsNightDeliveryOrNot(deliveryTime)) {
-            isNightDelivery = 1;
-        } else {
-            isNightDelivery = 0;
-        }
-
-        OrderTable orderTable = null;
-        //= new OrderTable(customerID, warehouseID, orderPaymentID, orderDate, deliveryTime, totalAmount, discountedAmount, amountPaid, paymentMode, couponCode, numberOfFreeCansAvailed, customerAddressID, isNormalDelivery, isNightDelivery, isScheduleDelivery, isRecurringDelivery, sharedPreferenceUtility.getCustomerUniqueID(),1,0,0,0,null,0,0,1);
-        return orderTable;
     }
 
     public void insertIntoOrderDetailsTable(String returnedOrderID) {

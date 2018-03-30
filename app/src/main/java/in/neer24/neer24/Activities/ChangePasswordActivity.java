@@ -1,5 +1,6 @@
 package in.neer24.neer24.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -31,16 +32,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
-        oldPasswordChangePasswordActivity=(EditText)findViewById(R.id.oldPasswordChangePasswordActivity);
-        newPasswordChangePasswordActivity=(EditText)findViewById(R.id.newPasswordChangePasswordActivity);
-        updatePasswordChangePasswordActivity=(Button)findViewById(R.id.updatePasswordChangePasswordActivity);
-        sharedPreferenceUtility=new SharedPreferenceUtility(this);
+        oldPasswordChangePasswordActivity = (EditText) findViewById(R.id.oldPasswordChangePasswordActivity);
+        newPasswordChangePasswordActivity = (EditText) findViewById(R.id.newPasswordChangePasswordActivity);
+        updatePasswordChangePasswordActivity = (Button) findViewById(R.id.updatePasswordChangePasswordActivity);
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
         updatePasswordChangePasswordActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                updatePasswordOnServer(oldPasswordChangePasswordActivity.getText().toString(),newPasswordChangePasswordActivity.getText().toString());
+                updatePasswordOnServer(oldPasswordChangePasswordActivity.getText().toString(), newPasswordChangePasswordActivity.getText().toString());
             }
         });
 
@@ -64,22 +65,28 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
 
-        Call<String> call=retroFitNetworkClient.updatePasswordOnServer(sharedPreferenceUtility.getCustomerEmailID(),oldPassword,newPassword);
+        Call<String> call = retroFitNetworkClient.updatePasswordOnServer(sharedPreferenceUtility.getCustomerEmailID(), oldPassword, newPassword);
 
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                String result=response.body();
-                if(result.contains("true")){
-
-                }else {
-                    Toast.makeText(ChangePasswordActivity.this,"Error in changing password",Toast.LENGTH_SHORT);
+                String result = response.body();
+                if (result.contains("true")) {
+                    Intent intent = new Intent();
+                    intent.putExtra("UPDATE_PASSWORD", "TRUE");
+                    setResult(1, intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent();
+                    intent.putExtra("UPDATE_PASSWORD", "FALSE");
+                    setResult(1, intent);
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(ChangePasswordActivity.this,"Error in Server",Toast.LENGTH_SHORT);
+                Toast.makeText(ChangePasswordActivity.this, "Error in Server", Toast.LENGTH_SHORT);
             }
         });
     }

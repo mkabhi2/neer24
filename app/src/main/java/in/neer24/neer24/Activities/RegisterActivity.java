@@ -6,19 +6,31 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.internal.Utility;
+
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +41,7 @@ import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 import in.neer24.neer24.Utilities.UtilityClass;
 import okhttp3.OkHttpClient;
+import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,11 +50,23 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private ScrollView register_activity_scroll_view;
+
+    private TextView firstNameErrorMessageTextView;
+    private TextView mobileNumberErrorMessageTextView;
+    private TextView emailErrorMessageTextView;
+    private TextView passwordErrorMessageTextView;
+    private TextView referralCodeErrorMessageTextView;
+
+
     private EditText firstNameEditText;
     private EditText mobileEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
-    private RelativeLayout registerActivityRL;
+    private LinearLayout registerActivityRL;
+    private CheckBox referalCodeCheckBox;
+    private EditText referalCodeEditText;
+    private TextInputLayout referralCodeInputLayout;
     Button showPasswordButton;
     private Button signUpButton;
     ProgressBar registerProgressBar;
@@ -54,44 +79,71 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     String flag = "";
 
+    private boolean isEmailValid = false;
+    private boolean isFirstNameValid = false;
+    private boolean isMobileNumberValid = false;
+    private boolean isPasswordValid = false;
+    private boolean isCouponCodeValid = true;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setContentView(R.layout.activity_register);
+
+        registerProgressBar = (ProgressBar) findViewById(R.id.registerProgressBar);
+        registerProgressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
+        registerProgressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
 
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
 
-        registerActivityRL = (RelativeLayout) findViewById(R.id.register_activity_relative_layout);
-        firstNameEditText = (EditText) findViewById(R.id.houseNoET);
-        mobileEditText = (EditText) findViewById(R.id.landmarkET);
+        register_activity_scroll_view = (ScrollView) findViewById(R.id.register_activity_scroll_view);
+
+        firstNameErrorMessageTextView = (TextView) findViewById(R.id.firstNameErrorMessageTextView);
+        mobileNumberErrorMessageTextView = (TextView) findViewById(R.id.mobileNumberErrorMessageTextView);
+        emailErrorMessageTextView = (TextView) findViewById(R.id.emailErrorMessageTextView);
+        passwordErrorMessageTextView = (TextView) findViewById(R.id.passwordErrorMessageTextView);
+        referralCodeErrorMessageTextView = (TextView) findViewById(R.id.referralCodeErrorMessageTextView);
+
+
+        registerActivityRL = (LinearLayout) findViewById(R.id.register_activity_relative_layout);
+        firstNameEditText = (EditText) findViewById(R.id.registerFirstNameEditText);
+        mobileEditText = (EditText) findViewById(R.id.registerMobileEditText);
         emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
         passwordEditText = (EditText) findViewById(R.id.registerPassworddEditText);
         showPasswordButton = (Button) findViewById(R.id.registerShowPasswordButton);
-        signUpButton = (Button) findViewById(R.id.saveButton);
-        registerProgressBar = (ProgressBar) findViewById(R.id.registerProgressBar);
+        signUpButton = (Button) findViewById(R.id.signUpButton);
+        referalCodeCheckBox = (CheckBox) findViewById(R.id.referalCodeCheckBox);
+        referalCodeEditText = (EditText) findViewById(R.id.referalCodeEditText);
+        referralCodeInputLayout = (TextInputLayout) findViewById(R.id.referralCodeInputLayout);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
-        registerProgressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.signup_img);
+        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.nav_bg);
         Bitmap blurredBitmap = BlurImage.blur(this, originalBitmap);
+//        register_activity_scroll_view.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 
+        firstNameEditText.addTextChangedListener(new GenericTextWatcher(firstNameEditText));
+        mobileEditText.addTextChangedListener(new GenericTextWatcher(mobileEditText));
+        emailEditText.addTextChangedListener(new GenericTextWatcher(emailEditText));
+        passwordEditText.addTextChangedListener(new GenericTextWatcher(passwordEditText));
+        referalCodeEditText.addTextChangedListener(new GenericTextWatcher(referalCodeEditText));
 
-        registerActivityRL.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
-
-
-        registerProgressBar.setVisibility(View.GONE);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
         showPasswordButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
+        referalCodeCheckBox.setOnClickListener(this);
 
         passwordEditText.setTransformationMethod(new AsteriskTransformationMethod());
 
-
+        passwordErrorMessageTextView.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
         flag = bundle.getString("flag");
 
@@ -99,12 +151,27 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             emailID = bundle.getString("email");
             emailEditText.setText(emailID);
             emailEditText.setEnabled(false);
+            emailEditText.setTextColor(Color.GRAY);
         } else if (flag.equals("mobilenumber")) {
             mobileNumber = bundle.getString("mobilenumber");
             mobileEditText.setText(mobileNumber);
             mobileEditText.setEnabled(false);
+            mobileEditText.setTextColor(Color.GRAY);
         }
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerProgressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -124,7 +191,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
 
-            case R.id.saveButton:
+            case R.id.signUpButton:
                 try {
                     registerProgressBar.setVisibility(View.VISIBLE);
                     getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
@@ -133,7 +200,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 } catch (Exception e) {
 
                 }
+                break;
 
+            case R.id.referalCodeCheckBox:
+                if (referalCodeCheckBox.isChecked()) {
+                    referralCodeInputLayout.setVisibility(View.VISIBLE);
+                } else {
+                    referralCodeInputLayout.setVisibility(View.GONE);
+                }
+                break;
         }
     }
 
@@ -143,20 +218,39 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String password = passwordEditText.getText().toString();
         String firstName = firstNameEditText.getText().toString();
         String mobileNumber = mobileEditText.getText().toString();
+        String referralCode = "";
 
-        if (UtilityClass.validate(email) && password != null && password.length() > 5 && firstName != null && mobileNumber != null && mobileNumber.length() == 10 && (mobileNumber.startsWith("9") || mobileNumber.startsWith("8") || mobileNumber.startsWith("7"))) {
+        if (referralCodeInputLayout.getVisibility() == View.VISIBLE)
+            referralCode = referalCodeEditText.getText().toString();
 
-            saveEveryThingInSharePreferences(email, password, firstName, mobileNumber);
-            checkEmailAndMobileNumberIfALreadyRegistered(email,mobileNumber);
+        if (isEmailValid && isMobileNumberValid && isCouponCodeValid && isFirstNameValid && isPasswordValid && (mobileNumber.startsWith("9") || mobileNumber.startsWith("8") || mobileNumber.startsWith("7"))) {
+            saveEveryThingInSharePreferences(email, password, firstName, mobileNumber, referralCode);
+            checkEmailAndMobileNumberIfALreadyRegistered(email, mobileNumber);
         } else {
             registerProgressBar.setVisibility(View.GONE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            Toast.makeText(RegisterActivity.this,"Error in filled Fields",Toast.LENGTH_SHORT).show();
+
+            if(!isEmailValid)
+                emailErrorMessageTextView.setVisibility(View.VISIBLE);
+
+            if(!isPasswordValid)
+                passwordErrorMessageTextView.setVisibility(View.VISIBLE);
+
+            if(!isMobileNumberValid)
+                mobileNumberErrorMessageTextView.setVisibility(View.VISIBLE);
+
+            if (!isFirstNameValid)
+                firstNameErrorMessageTextView.setVisibility(View.VISIBLE);
+
+            if(!isCouponCodeValid)
+                referralCodeErrorMessageTextView.setVisibility(View.VISIBLE);
+
+
         }
     }
 
 
-    public void checkEmailAndMobileNumberIfALreadyRegistered(final String emailID,final String mobileNumber){
+    public void checkEmailAndMobileNumberIfALreadyRegistered(final String emailID, final String mobileNumber) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -165,7 +259,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118/")      //
+                .baseUrl("http://18.220.28.118:80/")      //
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -173,11 +267,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<String> call=null;
-        if(flag.equals("mobilenumber")) {
+        Call<String> call = null;
+        if (flag.equals("mobilenumber")) {
             call = retroFitNetworkClient.checkIfUserIsRegisterdUserOrNotUsingEmail(emailID);
 
-        }else if(flag.equals("email")){
+        } else if (flag.equals("email")) {
             call = retroFitNetworkClient.checkIfUserIsRegisterdUserOrNotUsingMobileNumber(mobileNumber);
         }
 
@@ -185,16 +279,16 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
-                String res=response.body();
-                if(res.contains("true")){
-                    if(flag.equals("mobilenumber")) {
-                        Toast.makeText(RegisterActivity.this, "Enail ID already registered", Toast.LENGTH_SHORT);
-                    }else {
+                String res = response.body();
+                if (res.contains("true")) {
+                    if (flag.equals("mobilenumber")) {
+                        Toast.makeText(RegisterActivity.this, "Email ID already registered", Toast.LENGTH_SHORT);
+                    } else {
                         Toast.makeText(RegisterActivity.this, "Mobile Number already registered", Toast.LENGTH_SHORT);
                     }
                     registerProgressBar.setVisibility(View.GONE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                }else {
+                } else {
                     registerProgressBar.setVisibility(View.GONE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Intent intent = new Intent(RegisterActivity.this, OTPActivity.class);
@@ -206,18 +300,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             public void onFailure(Call<String> call, Throwable t) {
                 registerProgressBar.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                Toast.makeText(RegisterActivity.this,"Enail verifying Mobile Number Or EmailID",Toast.LENGTH_SHORT);
+                Toast.makeText(RegisterActivity.this, "Email verifying Mobile Number Or EmailID", Toast.LENGTH_SHORT);
             }
         });
 
     }
 
 
-    public void saveEveryThingInSharePreferences(String emailID, String password, String firstName, String mobileNumber) {
+    public void saveEveryThingInSharePreferences(String emailID, String password, String firstName, String mobileNumber, String referralCode) {
         sharedPreferenceUtility.setCustomerFirstNameRegisterActivity(firstName);
         sharedPreferenceUtility.setCustomerEmailRegisterActivity(emailID);
         sharedPreferenceUtility.setCustomerMobileNumberRegisterActivity(mobileNumber);
         sharedPreferenceUtility.setCustomerPasswordRegisterActivity(password);
+        sharedPreferenceUtility.setCustomerReferralCodeRegisterActivity(referralCode);
 
     }
 
@@ -232,9 +327,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             if (HomeScreenActivity.cansList.isEmpty()) {
                 Intent intent = new Intent(RegisterActivity.this, ChangeLocationActivity.class);
                 startActivity(intent);
-            }
-
-            else {
+            } else {
                 Intent intent = new Intent(RegisterActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
             }
@@ -244,4 +337,75 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(RegisterActivity.this, "Please Fill mandatory fields", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    public class GenericTextWatcher implements TextWatcher {
+        private View view;
+
+        private GenericTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            String text = editable.toString();
+            switch (view.getId()) {
+                case R.id.registerEmailEditText:
+                    if (!UtilityClass.validateEmail(emailEditText.getText().toString())) {
+                        emailErrorMessageTextView.setVisibility(View.VISIBLE);
+                        isEmailValid = false;
+                    } else {
+                        emailErrorMessageTextView.setVisibility(View.GONE);
+                        isEmailValid = true;
+                    }
+                    break;
+
+                case R.id.registerFirstNameEditText:
+                    if (!UtilityClass.validateFirstName(firstNameEditText.getText().toString())) {
+                        firstNameErrorMessageTextView.setVisibility(View.VISIBLE);
+                        isFirstNameValid = false;
+                    } else {
+                        firstNameErrorMessageTextView.setVisibility(View.GONE);
+                        isFirstNameValid = true;
+                    }
+                    break;
+
+                case R.id.registerMobileEditText:
+                    if (!UtilityClass.validateMobile(mobileEditText.getText().toString())) {
+                        mobileNumberErrorMessageTextView.setVisibility(View.VISIBLE);
+                        isMobileNumberValid = false;
+                    } else {
+                        mobileNumberErrorMessageTextView.setVisibility(View.GONE);
+                        isMobileNumberValid = true;
+                    }
+                    break;
+
+                case R.id.registerPassworddEditText:
+                    if (!UtilityClass.validatePassword(passwordEditText.getText().toString())) {
+                        passwordErrorMessageTextView.setVisibility(View.VISIBLE);
+                        isPasswordValid = false;
+                    } else {
+                        passwordErrorMessageTextView.setVisibility(View.GONE);
+                        isPasswordValid = true;
+                    }
+                    break;
+
+                case R.id.referalCodeEditText:
+                    if (!UtilityClass.validateReferalCdde(referalCodeEditText.getText().toString())) {
+                        referralCodeErrorMessageTextView.setVisibility(View.VISIBLE);
+                        isCouponCodeValid = false;
+                    } else {
+                        referralCodeErrorMessageTextView.setVisibility(View.GONE);
+                        isCouponCodeValid = true;
+                    }
+                    break;
+            }
+        }
+    }
+
 }

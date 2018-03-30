@@ -178,4 +178,23 @@ public class SharedPreferenceUtility {
     public String getCustomerMobileNumber() {
         return sharedPreferences.getString("MOBILENUMBER", null);
     }
+
+    public void setCustomerReferralCode(String customerReferralCode){
+        editor.putString("REFERRALCODE",customerReferralCode);
+        editor.commit();
+    }
+
+    public String  getCustomerReferralCode(){
+        return sharedPreferences.getString("REFERRALCODE",null);
+    }
+
+    public void setCustomerReferralCodeRegisterActivity(String customerReferralCode) {
+        editor.putString("CustomerReferralCodeRegisterActivity", customerReferralCode);
+        editor.commit();
+    }
+
+
+    public String getCustomerReferralCodeRegisterActivity() {
+        return sharedPreferences.getString("CustomerReferralCodeRegisterActivity", null);
+    }
 }

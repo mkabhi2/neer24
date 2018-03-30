@@ -10,43 +10,73 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+
     tools:context="in.neer24.neer24.Activities.OTPActivity">
+
+
+    <ImageView
+        android:id="@+id/displayImageOTPActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/verify_otp_icon" />
+
+    <TextView
+        android:id="@+id/displayMessageOTPActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Sit back and Relax while we verify your mobile number "
+        android:textAlignment="center"
+        android:textColor="@color/app_color" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Enter the received OTP" />
+        android:text="Enter the received OTP"
+        android:textAlignment="center"
+        android:textColor="@color/app_color" />
 
     <com.goodiebag.pinview.Pinview
         android:id="@+id/pinViewOTPActivty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="40dp"
-        app:cursorVisible="true"
+        android:minHeight="35dp"
+        app:cursorVisible="false"
         app:forceKeyboard="true"
         app:inputType="number"
         app:pinLength="6"
-        app:pinWidth="35dp">
+        app:pinWidth="37dp">
 
     </com.goodiebag.pinview.Pinview>
 
-    <Button
-        android:id="@+id/resendOTPButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingTop="16dp"
-        android:text="Resend OTP"
-        android:textSize="10sp" />
-
-    <Button
-        android:id="@+id/verifyOTPButton"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:text="VERIFY"
-        android:textSize="16sp" />
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/verifyOTPButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_corners_signup_button"
+            android:text="VERIFY"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/resendOTPButton"
+            android:layout_width="90dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="7dp"
+            android:layout_below="@id/verifyOTPButton"
+            android:background="@drawable/rounded_corners"
+            android:text="Resend OTP"
+            android:textColor="@color/Red"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/progressBarOTPActivity"

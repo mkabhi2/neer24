@@ -3,6 +3,8 @@ package in.neer24.neer24.Utilities;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by abhmishr on 12/7/17.
@@ -50,5 +52,30 @@ public class UtilityClass {
         }
 
         return false;
+    }
+
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    public static boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+        return matcher.find();
+    }
+
+    public static boolean validateFirstName(String name){
+        return (name!=null && name.length()>3);
+    }
+
+    public static boolean validateMobile(String mobile) {
+        return mobile.matches("\\d{10}");
+    }
+
+
+    public static boolean validatePassword(String password) {
+        return password.length()>3;
+    }
+
+    public static boolean validateReferalCdde(String referralCode) {
+        return referralCode.length()==6;
     }
 }
