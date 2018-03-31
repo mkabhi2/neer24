@@ -1,39 +1,63 @@
 package in.neer24.neer24.CustomObjects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by vijaysingh on 12/23/2017.
  */
 
-public class OrderDetails {
+public class OrderDetails implements Parcelable{
 
     private int canID;
     private int isNew;
-    private int isNewDespenser;
     private int orderDetailsID;
     private int orderID;
     private int orderQuantity;
-    private String customerUniqueID;
-
-    Can cansList[];
-    int canQuantity[];
 
 
-    public OrderDetails(int canID, int isNew, int isNewDespenser, int orderID, int orderQuantity,String customerUniqueID) {
+
+    public OrderDetails(int canID, int isNew, int orderDetailsID, int orderID, int orderQuantity) {
         this.canID = canID;
         this.isNew = isNew;
-        this.isNewDespenser = isNewDespenser;
+        this.orderDetailsID = orderDetailsID;
         this.orderID = orderID;
         this.orderQuantity = orderQuantity;
-        this.customerUniqueID=customerUniqueID;
-    }
-
-    public String getCustomerUniqueID(){
-        return this.customerUniqueID;
     }
 
 
-    public void setCustomerUniqueID(String customerUniqueID){
-        this.customerUniqueID=customerUniqueID;
+    public static final Parcelable.Creator<OrderDetails> CREATOR = new Parcelable.Creator<OrderDetails>() {
+
+        @Override
+        public OrderDetails createFromParcel(Parcel parcel) {
+            return new OrderDetails(parcel);
+        }
+
+        public OrderDetails[] newArray(int size){
+            return new OrderDetails[size];
+        }
+    };
+
+    private OrderDetails(Parcel in){
+        canID = in.readInt();
+        isNew = in.readInt();
+        orderDetailsID = in.readInt();
+        orderID = in.readInt();
+        orderQuantity = in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(canID);
+        parcel.writeInt(isNew);
+        parcel.writeInt(orderDetailsID);
+        parcel.writeInt(orderID);
+        parcel.writeInt(orderQuantity);
     }
 
     public int getCanID() {
@@ -50,14 +74,6 @@ public class OrderDetails {
 
     public void setIsNew(int isNew) {
         this.isNew = isNew;
-    }
-
-    public int getIsNewDespenser() {
-        return isNewDespenser;
-    }
-
-    public void setIsNewDespenser(int isNewDespenser) {
-        this.isNewDespenser = isNewDespenser;
     }
 
     public int getOrderDetailsID() {
@@ -82,21 +98,5 @@ public class OrderDetails {
 
     public void setOrderQuantity(int orderQuantity) {
         this.orderQuantity = orderQuantity;
-    }
-
-    public Can[] getCansList() {
-        return cansList;
-    }
-
-    public void setCansList(Can[] cansList) {
-        this.cansList = cansList;
-    }
-
-    public int[] getCanQuantity() {
-        return canQuantity;
-    }
-
-    public void setCanQuantity(int[] canQuantity) {
-        this.canQuantity = canQuantity;
     }
 }

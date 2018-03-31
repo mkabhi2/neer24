@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import in.neer24.neer24.Adapters.OrderDetailsRVAdapter;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
@@ -182,7 +181,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
             public void onResponse(Call<OrderDetails> call, Response<OrderDetails> response) {
 
                 orderDetails = (OrderDetails) response.body();
-                orderItemsRV.setAdapter(new OrderDetailsRVAdapter(orderDetails.getCansList(), orderDetails.getCanQuantity(), OrderDetailsActivity.this));
+                //TODO FETCHING ORDER DETAILS
+                // orderItemsRV.setAdapter(new OrderDetailsRVAdapter(orderDetails.getCansList(), orderDetails.getCanQuantity(), OrderDetailsActivity.this));
                 progressBar.setVisibility(View.INVISIBLE);
             }
 

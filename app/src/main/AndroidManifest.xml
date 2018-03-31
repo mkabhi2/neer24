@@ -156,6 +156,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.CheckoutActivity" />
         </activity>
+        <activity
+            android:name=".Activities.PaymentModeActivity"
+            android:parentActivityName=".Activities.CheckoutActivity"
+            android:label="Payment">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.neer24.neer24.Activities.CheckoutActivity" />
+        </activity>
+
 
         <meta-data
             android:name="com.razorpay.ApiKey"

@@ -1,13 +1,14 @@
 package in.neer24.neer24.Activities;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.razorpay.Checkout;
@@ -15,17 +16,12 @@ import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.CustomObjects.OrderTable;
-import in.neer24.neer24.Fragments.CheckoutFragment;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
-import in.neer24.neer24.Utilities.UtilityClass;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,10 +34,13 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
     SharedPreferenceUtility sharedPreferenceUtility;
     Button proceedButton;
     OrderTable orderTable = null;
-    String orderType = "";
+    //String orderType = "";
+    OrderTable order;
     String modeOfPayment="";
+    LinearLayout payOnDeliveryLL, onlinePaymentLL;
+    ImageView selectCirclePOD, selectCheckBoxPOD, selectCircleOP, selectCheckBoxOP;
+    ProgressDialog dialog;
 
-    RadioGroup parentRadioButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,44 +48,62 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         setContentView(R.layout.activity_payment_mode);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
-        parentRadioButton = (RadioGroup) findViewById(R.id.radioButtonParent);
+        initialiseViewObjects();
+        setUpOnClickListeners();
 
-        parentRadioButton.clearCheck();
+
+        Bundle bundle = getIntent().getExtras();
+        order = bundle.getParcelable("order");
 
 
-        parentRadioButton.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+    }
+
+    public void initialiseViewObjects() {
+        proceedButton = (Button) findViewById(R.id.proccedButton);
+        payOnDeliveryLL = (LinearLayout) findViewById(R.id.payOnDeliveryLL);
+        onlinePaymentLL = (LinearLayout) findViewById(R.id.onlinePaymentLL);
+        selectCheckBoxOP = (ImageView) findViewById(R.id.selectCheckBoxOP);
+        selectCheckBoxPOD = (ImageView) findViewById(R.id.selectCheckBoxPOD);
+        selectCircleOP = (ImageView) findViewById(R.id.selectCircleOP);
+        selectCirclePOD = (ImageView) findViewById(R.id.selectCirclePOD);
+
+    }
+
+    public void setUpOnClickListeners() {
+
+        payOnDeliveryLL.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton rb = (RadioButton) group.findViewById(checkedId);
-                if (null != rb && checkedId > -1) {
-                    if (rb.getText() == "Cash On Delivery") {
-                        modeOfPayment="COD";
-                    } else if (rb.getText() == "PAYTM on Delivery") {
-                        modeOfPayment="POD";
-                    } else if (rb.getText() == "Online Payment") {
-                        modeOfPayment="ONLINEPAYMENT";
-                    }
-
-                }
-
+            public void onClick(View view) {
+                modeOfPayment = "POD";
+                selectCirclePOD.setVisibility(View.GONE);
+                selectCheckBoxPOD.setVisibility(View.VISIBLE);
+                selectCircleOP.setVisibility(View.VISIBLE);
+                selectCheckBoxOP.setVisibility(View.GONE);
             }
         });
 
-
-        proceedButton = (Button) findViewById(R.id.proccedButton);
-        Bundle bundle = getIntent().getExtras();
-        orderType = bundle.getString("ORDERTYPE");
+        onlinePaymentLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modeOfPayment = "ONLINEPAYMENT";
+                selectCirclePOD.setVisibility(View.VISIBLE);
+                selectCheckBoxPOD.setVisibility(View.GONE);
+                selectCircleOP.setVisibility(View.GONE);
+                selectCheckBoxOP.setVisibility(View.VISIBLE);
+            }
+        });
 
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (modeOfPayment.equals("COD")){
-                    createObjectForOrderTable("COD");
-                    insertDataIntoOrderTable(orderTable);
-                }else if(modeOfPayment.equals("POD")) {
-                    createObjectForOrderTable("POD");
-                    insertDataIntoOrderTable(orderTable);
-                } else if (modeOfPayment.equals("ONLINEPAYMENT")) {
+                if (modeOfPayment.equals("POD")){
+
+                    order.setPaymentMode("COD");
+                    dialog = ProgressDialog.show(PaymentModeActivity.this, "",
+                            "Placing order. Please wait...", true);
+                    insertDataIntoOrderTable(order);
+                }
+                else if (modeOfPayment.equals("ONLINEPAYMENT")) {
                     startPayment();
                 }
             }
@@ -119,8 +136,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                     String returnedOrderID = response.body().toString();
                     if (!returnedOrderID.equals("0")) {
                         Toast.makeText(PaymentModeActivity.this, "Order Succesfull", Toast.LENGTH_SHORT).show();
-                        //insertIntoOrderDetailsTable(returnedOrderID);
-                        //updateWarehouseCansTable(c.getCanID(),c.getWarehouseID());
+                        dialog.cancel();
                     }
                 }
             }
@@ -128,6 +144,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(PaymentModeActivity.this, "Error loading data", Toast.LENGTH_SHORT).show();
+                dialog.cancel();
             }
         });
     }
@@ -136,7 +153,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
     private void startPayment() {
         Checkout checkout = new Checkout();
         checkout.setImage(R.drawable.logo);
-        String toPay = Double.valueOf(CheckoutFragment.getToPay()).toString();
+        String toPay = Double.valueOf(order.getAmountPaid()*100).toString();
         final Activity activity = this;
         try {
             JSONObject options = new JSONObject();
@@ -159,65 +176,18 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
 
     @Override
     public void onPaymentSuccess(String s) {
-        try {
-            orderTable.setAmountPaid(10);
-            orderTable.setOrderPaymentID("hello");
-            orderTable.setPaymentMode("Credit Card");
-            insertDataIntoOrderTable(orderTable);
-            Toast.makeText(PaymentModeActivity.this, "Payment is Successful", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            //take to some error page
-            Toast.makeText(PaymentModeActivity.this, "Payment is Successful", Toast.LENGTH_SHORT).show();
-        }
+
+        //TODO UPDATE ORDER OBJECT
+        dialog = ProgressDialog.show(PaymentModeActivity.this, "",
+                "Placing order. Please wait...", true);
+        insertDataIntoOrderTable(order);
     }
 
     @Override
     public void onPaymentError(int i, String s) {
+
         Log.d("error", s);
-        Toast.makeText(PaymentModeActivity.this, "Error", Toast.LENGTH_SHORT).show();
-    }
-
-
-    public void createObjectForOrderTable(String paymentModes) {
-        String paymentID = null;
-        double amountPaid = 0;
-
-        Date oDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        Calendar cal = Calendar.getInstance(); // creates calendar
-        cal.setTime(new Date()); // sets calendar time/date
-        cal.add(Calendar.HOUR_OF_DAY, 1); // adds one hour
-        Date dTime = cal.getTime();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String deliveryTime = sdf1.format(dTime);
-
-        int customerID = sharedPreferenceUtility.getCustomerID();
-        int warehouseID = sharedPreferenceUtility.getWareHouseID();
-        int deliveryBoyID = 0;
-        double totalAmount = CheckoutFragment.getTotalAmount();
-        String orderDate = sdf.format(oDate);
-
-        int isNormalDelivery = (orderType.equals("NORMAL")?1:0);
-        int isNightDelivery = (UtilityClass.checkIfOrderIsNightDeliveryOrNot(deliveryTime) == true ? 1 : 0);
-        int isScheduleDelivery = (orderType.equals("SCHEDULED")?1:0);;
-        int isRecurringDelivery = (orderType.equals("RECURRING")?1:0);
-        int isOrdered = 1;
-        int isDispatched = 0;
-        int isDelivered = 0;
-        int recurringOrderFrequency = 0;
-        String recurringOrderEndDate = null;
-        int freeCansInOrder = (int) CheckoutFragment.getDiscountedAmount() / 35;
-        int customerAddressID = 1;
-        double discountedAmount = CheckoutFragment.getDiscountedAmount();
-        String couponCode = (CheckoutFragment.getDiscountedAmount() > 0 ? "NEER@24" : null);
-        int deliveryLeft = 0;
-        int isCancelled = 0;
-        String refundID = null;
-        int totalCansOrdered = 10;
-
-        orderTable = new OrderTable(customerID, warehouseID, deliveryBoyID, paymentID, orderDate, deliveryTime, totalAmount, discountedAmount, amountPaid, paymentModes, couponCode, freeCansInOrder, customerAddressID, isNormalDelivery, isNightDelivery, isScheduleDelivery, isRecurringDelivery, sharedPreferenceUtility.getCustomerUniqueID(), isOrdered, isDispatched, isDelivered, isCancelled, recurringOrderEndDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered);
-
+        Toast.makeText(PaymentModeActivity.this, "Error : "+s, Toast.LENGTH_LONG).show();
     }
 
 }

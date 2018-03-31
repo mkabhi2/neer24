@@ -44,6 +44,7 @@ public class CheckoutFragment extends android.app.Fragment {
     static TextView billItemTotalTV;
     static TextView billDeliveryChargesDetailTV, billDeliveryChargesTV;
     public static double discountedAmount = 0, deliveryCharge = 0, toPay = 0, totalAmount=0;
+    public static int freeCansAvailed = 0, isNightDelivery = 0;
     SharedPreferenceUtility sharedPreferenceUtility;
 
     public static int numOfFreeCans;
@@ -188,6 +189,7 @@ public class CheckoutFragment extends android.app.Fragment {
                 billDeliveryChargesDetailTV.setText("Off Time Delivery Charge \n(11 PM - 6 AM)");
                 billDeliveryChargesTV.setText("\u20B9" + " " + "20");
                 deliveryCharge = 20;
+                isNightDelivery = 1;
             }
             else {
                 billDeliveryChargesDetailTV.setText("Delivery Charge");
@@ -211,7 +213,8 @@ public class CheckoutFragment extends android.app.Fragment {
 
                 if(numNeerCans!=0 && numOfFreeCans!=0) {
 
-                    discountedAmount = (numNeerCans > numOfFreeCans) ? ( numOfFreeCans * neerCanPrice ) : (numNeerCans * neerCanPrice);
+                    freeCansAvailed = (numNeerCans > numOfFreeCans) ? numOfFreeCans : numNeerCans;
+                    discountedAmount = freeCansAvailed * neerCanPrice;
 
                 }
 

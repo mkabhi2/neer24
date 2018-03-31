@@ -44,6 +44,8 @@ public class OrderTable implements Parcelable{
     private int recuringOrderFrequency;
     private int totalCansOrdered;
 
+    OrderDetails orderContents[];
+
     public OrderTable() {
 
     }
@@ -118,6 +120,10 @@ public class OrderTable implements Parcelable{
         deliveryLeft = in.readInt();
         recuringOrderFrequency = in.readInt();
         totalCansOrdered = in.readInt();
+        if(orderContents!=null){
+            in.readTypedArray(orderContents, OrderDetails.CREATOR);
+        }
+
     }
 
     @Override
@@ -154,6 +160,7 @@ public class OrderTable implements Parcelable{
         parcel.writeInt(deliveryLeft);
         parcel.writeInt(recuringOrderFrequency);
         parcel.writeInt(totalCansOrdered);
+        parcel.writeTypedArray(orderContents, 0);
     }
 
     public int getIsOrdered() {
@@ -372,4 +379,11 @@ public class OrderTable implements Parcelable{
         this.isRecurringDelivery = isRecurringDelivery;
     }
 
+    public OrderDetails[] getOrderContents() {
+        return orderContents;
+    }
+
+    public void setOrderContents(OrderDetails[] orderContents) {
+        this.orderContents = orderContents;
+    }
 }

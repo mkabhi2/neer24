@@ -1,6 +1,5 @@
 package in.neer24.neer24.Activities;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -11,7 +10,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,17 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.razorpay.Checkout;
-import com.razorpay.PaymentResultListener;
-
-import org.json.JSONObject;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.Adapters.SetAddressSelectorDialogAdapter;
 import in.neer24.neer24.CustomObjects.Can;
@@ -44,7 +36,6 @@ import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 import in.neer24.neer24.Utilities.UtilityClass;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -129,10 +120,10 @@ public class CheckoutActivity extends AppCompatActivity {
         proceedToPayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //createObjectForOrderTable();
+
+                OrderTable order = createOrderObject();
                 Intent intent = new Intent(CheckoutActivity.this, PaymentModeActivity.class);
-                //intent.putExtra("ORDERTABLE", orderTable);
-                intent.putExtra("ORDERTYPE","NORMALORDER");
+                intent.putExtra("order",order);
                 startActivity(intent);
             }
         });
@@ -300,8 +291,8 @@ public class CheckoutActivity extends AppCompatActivity {
             int isNewDespenser = 0;
             int orderIDs = Integer.parseInt(orderID);
             int quantity = cans.get(can);
-            OrderDetails orderDetails = new OrderDetails(canID, isNew, isNewDespenser, orderIDs, quantity, sharedPreferenceUtility.getCustomerUniqueID());
-            al.add(orderDetails);
+            //OrderDetails orderDetails = new OrderDetails(canID, isNew, isNewDespenser, orderIDs, quantity, sharedPreferenceUtility.getCustomerUniqueID());
+            //al.add(orderDetails);
         }
         return al;
     }
@@ -408,6 +399,73 @@ public class CheckoutActivity extends AppCompatActivity {
                 Toast.makeText(CheckoutActivity.this, "Error loading data", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public OrderTable createOrderObject() {
+
+        HashMap<Can, Integer> cart = NormalCart.getCartList();
+
+        OrderDetails orderDetailsArray[] = new OrderDetails[cart.size()];
+
+        int i = 0, totalCansOrdered = 0;
+
+        for (Can c : cart.keySet()) {
+
+            orderDetailsArray[i] = new OrderDetails(c.getCanID(), c.getUserWantsNewCan(), 0, 0, Integer.parseInt(c.getQuantity()));
+            totalCansOrdered = totalCansOrdered + Integer.parseInt(c.getQuantity());
+            i++;
+        }
+
+        int customerID = sharedPreferenceUtility.getCustomerID();
+        int warehouseID = sharedPreferenceUtility.getWareHouseID();
+        int deliveryBoyID = 0;
+        String orderPaymentID = null;
+        String orderDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        Calendar cal = Calendar.getInstance(); // creates calendar
+        cal.setTime(new Date()); // sets calendar time/date
+        cal.add(Calendar.HOUR_OF_DAY, 1); // adds one hour
+        Date dTime = cal.getTime();
+        String deliveryTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dTime);
+        double totalAmount = CheckoutFragment.totalAmount;
+        double discountedAmount = CheckoutFragment.discountedAmount;
+        double amountPaid = CheckoutFragment.toPay;
+        String paymentMode = null;
+
+        String couponCode;
+        if(isCouponApplied) {
+            couponCode = "NEERFREE";
+        }
+        else {
+            couponCode = null;
+        }
+
+        int numberOfFreeCansAvailed = CheckoutFragment.freeCansAvailed;
+        int customerAddressID = selectedAddressID;
+        int isNormalDelivery = 1;
+        int isNightDelivery = CheckoutFragment.isNightDelivery;
+        int isScheduleDelivery = 0;
+        int isRecurringDelivery = 0;
+        String customerUniqueID = sharedPreferenceUtility.getCustomerUniqueID();
+        int isOrdered = 1;
+        int isDispatched = 0;
+        int isDelivered = 0;
+        int isCancelled = 0;
+        String endDate = deliveryTime;
+        int deliveryLeft = 0;
+        int recurringOrderFrequency = 0;
+
+        OrderTable order = new OrderTable(customerID, warehouseID, deliveryBoyID, orderPaymentID, orderDate,
+                            deliveryTime, totalAmount, discountedAmount, amountPaid, paymentMode, couponCode,
+                            numberOfFreeCansAvailed, customerAddressID, isNormalDelivery, isNightDelivery,
+                            isScheduleDelivery, isRecurringDelivery, customerUniqueID, isOrdered, isDispatched,
+                            isDelivered, isCancelled, endDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered);
+
+        order.setOrderContents(orderDetailsArray);
+        return order;
+
+
+
     }
 
     @Override
