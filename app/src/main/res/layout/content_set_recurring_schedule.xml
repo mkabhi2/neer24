@@ -207,7 +207,7 @@
                         <TextView
                             android:id="@+id/in_time"
                             android:layout_width="wrap_content"
-                            android:layout_height="16dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="16dp"
                             android:text="No time selected"
@@ -237,7 +237,7 @@
                         <TextView
                             android:id="@+id/in_date"
                             android:layout_width="wrap_content"
-                            android:layout_height="16dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="16dp"
                             android:text="No date Selected"
@@ -316,10 +316,13 @@
                 <include
                     layout="@layout/cart_bill_layout"
                     android:id="@+id/bill"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="50dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

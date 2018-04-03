@@ -35,7 +35,6 @@ import in.neer24.neer24.Fragments.CheckoutFragment;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
-import in.neer24.neer24.Utilities.UtilityClass;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -124,6 +123,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 OrderTable order = createOrderObject();
                 Intent intent = new Intent(CheckoutActivity.this, PaymentModeActivity.class);
                 intent.putExtra("order",order);
+
                 startActivity(intent);
             }
         });
@@ -281,97 +281,6 @@ public class CheckoutActivity extends AppCompatActivity {
         }
     }
 
-
-    public ArrayList<OrderDetails> createObjectForOrderDetails(String orderID) {
-        ArrayList<OrderDetails> al = new ArrayList<OrderDetails>();
-        HashMap<Can, Integer> cans = NormalCart.getCartList();
-        for (Can can : cans.keySet()) {
-            int canID = can.getCanID();
-            int isNew = 0;
-            int isNewDespenser = 0;
-            int orderIDs = Integer.parseInt(orderID);
-            int quantity = cans.get(can);
-            //OrderDetails orderDetails = new OrderDetails(canID, isNew, isNewDespenser, orderIDs, quantity, sharedPreferenceUtility.getCustomerUniqueID());
-            //al.add(orderDetails);
-        }
-        return al;
-    }
-
-    public void createObjectForOrderTable() {
-        String paymentMode = null;
-        String paymentID = null;
-        double amountPaid = 0;
-
-        Date oDate = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        Calendar cal = Calendar.getInstance(); // creates calendar
-        cal.setTime(new Date()); // sets calendar time/date
-        cal.add(Calendar.HOUR_OF_DAY, 1); // adds one hour
-        Date dTime = cal.getTime();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String deliveryTime = sdf1.format(dTime);
-
-        int customerID = sharedPreferenceUtility.getCustomerID();
-        int warehouseID = sharedPreferenceUtility.getWareHouseID();
-        int deliveryBoyID = 0;
-        double totalAmount = CheckoutFragment.getTotalAmount();
-        String orderDate = sdf.format(oDate);
-
-
-        int isNormalDelivery = 1;
-        int isNightDelivery = (UtilityClass.checkIfOrderIsNightDeliveryOrNot(deliveryTime) == true ? 1 : 0);
-        int isScheduleDelivery = 0;
-        int isRecurringDelivery = 0;
-        int isOrdered = 1;
-        int isDispatched = 0;
-        int isDelivered = 0;
-        int recurringOrderFrequency = 0;
-        String recurringOrderEndDate = null;
-        int freeCansInOrder = (int) CheckoutFragment.getDiscountedAmount() / 35;
-        int customerAddressID = 1;
-        double discountedAmount = CheckoutFragment.getDiscountedAmount();
-        String couponCode = (CheckoutFragment.getDiscountedAmount() > 0 ? "NEER@24" : null);
-        int deliveryLeft = 0;
-        int isCancelled = 0;
-        String refundID = null;
-        int totalCansOrdered = 10;
-
-        orderTable = new OrderTable(customerID, warehouseID, deliveryBoyID, paymentID, orderDate, deliveryTime, totalAmount, discountedAmount, amountPaid, paymentMode, couponCode, freeCansInOrder, customerAddressID, isNormalDelivery, isNightDelivery, isScheduleDelivery, isRecurringDelivery, sharedPreferenceUtility.getCustomerUniqueID(), isOrdered, isDispatched, isDelivered, isCancelled, recurringOrderEndDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered);
-
-    }
-
-    public void insertIntoOrderDetailsTable(String returnedOrderID) {
-        ArrayList<OrderDetails> orderDetails = createObjectForOrderDetails(returnedOrderID);
-        Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://192.168.0.3:8080")      //
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit = builder.build();
-
-        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-
-        Call<String> call = retroFitNetworkClient.insertIntoOrderDetailsTable(orderDetails);
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.body() != null) {
-                    isOrderDetailsInsertionSuccessFull = response.body().toString();
-                    if (isOrderDetailsInsertionSuccessFull.contains("true")) {
-                        Toast.makeText(CheckoutActivity.this, "Insertion Successfull Order Details", Toast.LENGTH_SHORT);
-                    } else {
-                        Toast.makeText(CheckoutActivity.this, "Data Completely not inserter into Order Details", Toast.LENGTH_SHORT);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(CheckoutActivity.this, "Insertion Failed Due to Server Error", Toast.LENGTH_SHORT);
-            }
-        });
-    }
-
     public void updateWarehouseCansTable(int canID, int warehouseID) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
@@ -412,7 +321,7 @@ public class CheckoutActivity extends AppCompatActivity {
         for (Can c : cart.keySet()) {
 
             orderDetailsArray[i] = new OrderDetails(c.getCanID(), c.getUserWantsNewCan(), 0, 0, Integer.parseInt(c.getQuantity()));
-            totalCansOrdered = totalCansOrdered + Integer.parseInt(c.getQuantity());
+            totalCansOrdered = totalCansOrdered + cart.get(c);
             i++;
         }
 
@@ -464,9 +373,8 @@ public class CheckoutActivity extends AppCompatActivity {
         order.setOrderContents(orderDetailsArray);
         return order;
 
-
-
     }
+
 
     @Override
     public void onBackPressed() {

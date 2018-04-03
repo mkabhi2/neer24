@@ -27,7 +27,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import org.joda.time.LocalTime;
+
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,14 +39,16 @@ import java.util.List;
 import in.neer24.neer24.Adapters.SetAddressSelectorDialogAdapter;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
+import in.neer24.neer24.CustomObjects.OrderDetails;
+import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 
 public class SetRecurringScheduleActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    Button btnDatePicker, btnTimePicker, btnCart, increaseByOne, decreaseByOne, displayItemCount, selectAddressBtn, addAddressBtn;
+    Button btnDatePicker, btnTimePicker, increaseByOne, decreaseByOne, displayItemCount, selectAddressBtn, addAddressBtn;
     TextView endDateTV, deliveryTimeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV, addressTitleTV, addressDescTV,
-            addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, couponTextTV, grandTotalTV, switchTV;
+            addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, couponTextTV, grandTotalTV, switchTV, deliveryChargesTV;
     ImageView productImage, addressIconIV;
     public static Button proceedToPayButton;
     public static View addressView, billView;
@@ -51,6 +56,11 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
     LinearLayout billOffersLL;
     RelativeLayout couponLayout;
     SwitchCompat newCanSwitch;
+    int deliveryCharge=0, freeCans = 0;
+    double toPay = 0, discount = 0;
+    int numberOfDeliveries;
+
+    boolean isDateSelected = false, isTimeSelected = false;
 
     Date date;
     Can can;
@@ -95,7 +105,6 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
     void instantiateViewObjects(){
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         btnTimePicker=(Button)findViewById(R.id.btn_time);
-        btnCart = (Button) findViewById(R.id.submit);
         endDateTV =(TextView) findViewById(R.id.in_date);
         deliveryTimeTV =(TextView) findViewById(R.id.in_time);
         productImage = (ImageView) findViewById(R.id.productImage);
@@ -126,6 +135,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         billItemTotalTV = (TextView) findViewById(R.id.bill_item_total_tv);
         newCanSwitch = (SwitchCompat) findViewById(R.id.switch_new_cans);
         switchTV = (TextView) findViewById(R.id.switchTV);
+        deliveryChargesTV = (TextView) findViewById(R.id.bill_delivery_charges_tv);
     }
 
     void setUpViewObjects() {
@@ -200,7 +210,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 
-        numOfCans = position+1;
+        recurrenceInterval = position + 1;
         updateOrderValue();
     }
 
@@ -237,11 +247,13 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                             showDay = Integer.valueOf(selectedDay).toString();
                             showYear = Integer.valueOf(selectedYear).toString();
 
-                            if(selectedDay < 9) {
+                            if(selectedDay < 10) {
                                 showDay = "0" + showDay;
                             }
 
                             endDateTV.setText(showDay + " - " + monthName[selectedMonth] + " - " + showYear);
+                            isDateSelected = true;
+                            updateOrderValue();
 
                         }
                     }, currentYear, currentMonth, currentDay);
@@ -294,35 +306,11 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                             else {
                                 deliveryTimeTV.setText(showHour + " : " + showMinute + " PM");
                             }
+                            isTimeSelected=true;
+                            updateOrderValue();
                         }
                     }, currentHour, currentMinute, false);
             timePickerDialog.show();
-        }
-
-        if( v == btnCart ){
-            //TODO CREATE INTENT FOR GOING TO CART PAGE WITH DETAILS
-            if(selectedDay == 0 || (selectedHour == 0 && selectedMinute ==0)){
-                if (toast != null) {
-                    toast.cancel();
-                }
-                toast = Toast.makeText(this, "Please select starting date and Time", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-            else {
-                date = new Date(selectedYear, selectedMonth, selectedDay);
-                Date startDate = new Date(currentYear, currentMonth, currentDay);
-
-                long diff = date.getTime() - startDate.getTime();
-                float days = (diff / (1000*60*60*24));
-
-
-                time = new Time(selectedHour, selectedMinute, 0);
-                date.setHours(selectedHour);
-                date.setMinutes(selectedMinute);
-                Intent intent = new Intent();
-                intent.putExtra("dateTime",date);
-            }
-
         }
 
         if( v == increaseByOne ) {
@@ -344,30 +332,63 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         }
     }
 
+    public boolean isNightDelivery() {
+
+        LocalTime now = new LocalTime(selectedHour, selectedMinute);
+
+        LocalTime six = new LocalTime( "06:00:01" );
+        LocalTime twelve = new LocalTime( "00:00:00" );
+        LocalTime midnight = new LocalTime("23:59:59");
+        LocalTime elevenPM = new LocalTime("22:59:59");
+
+        boolean isBeforeSix = now.isBefore(six);
+        boolean isAfterTwelve = now.isAfter(twelve);
+        boolean isBeforeTwelve = now.isBefore(midnight);
+        boolean isAfter11PM = now.isAfter(elevenPM);
+        boolean is12AM = now.isEqual(twelve);
+
+        return (isBeforeSix && isAfterTwelve) || (isBeforeTwelve && isAfter11PM) || is12AM;
+    }
+
     void updateOrderValue(){
 
-        if( selectedDay != 0 && (selectedHour!=0 || selectedMinute!=0)) {
+        if(isDateSelected && isTimeSelected) {
 
             billView.setVisibility(View.VISIBLE);
             addressView.setVisibility(View.VISIBLE);
-            double discount = 0;
 
-            Date endDate = new Date(selectedYear, selectedMonth, selectedDay);
-            Date startDate = new Date(currentYear, currentMonth, currentDay);
+            numberOfDeliveries = calculateDeliveryCount();
 
-            long diff = endDate.getTime() - startDate.getTime();
-            int days = (int)(diff / (1000*60*60*24)) + 2;
+            String itemTotalText = "Item Total\n" + rupeeSymbol + " " + (int)can.getPrice() + " x " + numOfCans + " can(s)" + " x " + numberOfDeliveries + " time(s)";
 
-            itemTotalTV.setText("Item Total\n" + rupeeSymbol + " " + (int)can.getPrice() + " x " + numOfCans + " can(s)" + " x " + days + " times(s)");
-            total = can.getPrice() * numOfCans * days;
+            total = can.getPrice() * numOfCans * numberOfDeliveries;
+
+            if(can.getUserWantsNewCan()==1){
+                itemTotalText = itemTotalText + " + \n" + rupeeSymbol + " " + (int)can.getNewCanPrice() + " x " + numOfCans + " new can(s)";
+                total = total + (numOfCans * can.getNewCanPrice());
+            }
+
+            if(isNightDelivery()) {
+                deliveryChargesTV.setText(rupeeSymbol + " 20");
+                deliveryCharge = 20;
+            }
+            else {
+                deliveryChargesTV.setText(rupeeSymbol + " 0");
+                deliveryCharge = 0;
+            }
+
+
+
+            itemTotalTV.setText(itemTotalText);
+
             billItemTotalTV.setText(rupeeSymbol + " " + total);
 
             if(can.getName().equals("Neer24")) {
 
                 billOffersLL.setVisibility(View.VISIBLE);
 
-                int totalCansNum = numOfCans * days;
-                int freeCans = totalCansNum/3;
+                int totalCansNum = numOfCans * numberOfDeliveries;
+                freeCans = totalCansNum/10;
                 discount = freeCans*can.getPrice();
 
                 billDiscountTV.setText(rupeeSymbol + " " + discount);
@@ -376,13 +397,59 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
             }
 
-            double toPay = total-discount;
+            toPay = total - discount + deliveryCharge;
             grandTotalTV.setText(rupeeSymbol+ " " + toPay);
             proceedToPayButton.setText("Proceed To Pay " + rupeeSymbol + " " + toPay);
 
-
-
         }
+
+        else {
+            billView.setVisibility(View.GONE);
+            addressView.setVisibility(View.GONE);
+            billOffersLL.setVisibility(View.GONE);
+            couponLayout.setVisibility(View.GONE);
+        }
+    }
+
+    public int calculateDeliveryCount() {
+
+        Calendar cal1 = Calendar.getInstance(); // creates calendar
+        cal1.setTime(new Date());
+
+        cal1.add(Calendar.DATE,1);
+
+        currentDay = cal1.get(Calendar.DAY_OF_MONTH);
+        currentYear = cal1.get(Calendar.YEAR);
+        currentMonth = cal1.get(Calendar.MONTH);
+
+        Date startDate = new Date(currentYear, currentMonth, currentDay,0,0);
+
+        cal1.setTime(startDate); // sets calendar time/date
+
+        //
+        startDate = cal1.getTime();
+        System.out.print(startDate);
+        //
+
+        Calendar cal2 = Calendar.getInstance(); // creates calendar
+        Date endDate = new Date(selectedYear,selectedMonth,selectedDay,0,0);
+        cal2.setTime(endDate); // sets calendar time/date
+
+        int i = 0;
+
+        while((cal2.getTime().compareTo(cal1.getTime()))==0 || (cal2.getTime().compareTo(cal1.getTime()))>0) {
+            cal1.add(Calendar.DAY_OF_YEAR,recurrenceInterval);
+            //
+            startDate = cal1.getTime();
+            endDate = cal2.getTime();
+            System.out.print(startDate);
+            System.out.print(endDate);
+            //
+
+            i++;
+        }
+
+        return i;
     }
 
     void setAddressSelector() {
@@ -400,7 +467,6 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
             }
         }
-        //
 
         switch(addressesInCurrentLocation.size()) {
 
@@ -510,7 +576,13 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         proceedToPayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //TODO
+                OrderTable order = createOrderObject();
+                OrderDetails orderContents[] = createOrderContents();
+                Intent intent = new Intent(SetRecurringScheduleActivity.this, PaymentModeActivity.class);
+                intent.putExtra("order",order);
+                intent.putExtra("orderContents", orderContents);
+
+                startActivity(intent);
             }
         });
 
@@ -605,22 +677,6 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                 selectedAddressID = addressesInCurrentLocation.get(itemIndex).getCustomerAddressID();
                 setAddressSelector();
 
-               /* addressTitleTV.setText("Deliver to " + addressesInCurrentLocation.get(selectedAddressIndex).getAddressNickName());
-                String savedAddress = addressesInCurrentLocation.get(selectedAddressIndex).getFullAddress();
-                int addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
-                addressDescTV.setText(savedAddress.substring(0,addressStripCount));
-                selectAddressBtn.setVisibility(View.GONE);
-                addAddressBtn.setVisibility(View.GONE);
-                addressIconIV.setImageResource(R.drawable.address_location_icon);
-                proceedToPayButton.setVisibility(View.VISIBLE);
-                addressChangeTV.setVisibility(View.VISIBLE);
-                if(addressesInCurrentLocation.size()>1) {
-                    addressChangeTV.setText("CHANGE");
-                }
-                else {
-                    addressChangeTV.setText("ADD ADDRESS");
-                }*/
-
             }
         });
         builder.setIcon(R.drawable.saved_address_icon);
@@ -631,6 +687,67 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         builder.show();
 
 
+    }
+
+    public OrderTable createOrderObject() {
+
+        int customerID = sharedPreferenceUtility.getCustomerID();
+        int warehouseID = sharedPreferenceUtility.getWareHouseID();
+        int deliveryBoyID = 0;
+        String orderPaymentID = null;
+
+        String orderDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        Calendar cal = Calendar.getInstance(); // creates calendar
+        cal.setTime(new Date()); // sets calendar time/date
+        cal.add(Calendar.DAY_OF_YEAR, 1);
+
+
+        Date dTime = new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), selectedHour, selectedMinute);
+        String deliveryTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dTime);
+
+        double totalAmount = total + deliveryCharge;
+        double discountedAmount = discount;
+        double amountPaid = toPay;
+        String paymentMode = null;
+
+        String couponCode = null;
+        if(discount>0) {
+            couponCode = "NEERFREE";
+        }
+
+        int numberOfFreeCansAvailed = freeCans;
+        int customerAddressID = selectedAddressID;
+        int isNormalDelivery = 0;
+
+        int isNightDelivery = isNightDelivery() ? 1 : 0;
+        int isScheduleDelivery = 0;
+        int isRecurringDelivery = 1;
+        String customerUniqueID = sharedPreferenceUtility.getCustomerUniqueID();
+        int isOrdered = 1;
+        int isDispatched = 0;
+        int isDelivered = 0;
+        int isCancelled = 0;
+        String endDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute));
+        int deliveryLeft = numberOfDeliveries;
+        int recurringOrderFrequency = recurrenceInterval;
+
+        int totalCansOrdered = numOfCans;
+
+        OrderTable order = new OrderTable(customerID, warehouseID, deliveryBoyID, orderPaymentID, orderDate,
+                deliveryTime, totalAmount, discountedAmount, amountPaid, paymentMode, couponCode,
+                numberOfFreeCansAvailed, customerAddressID, isNormalDelivery, isNightDelivery,
+                isScheduleDelivery, isRecurringDelivery, customerUniqueID, isOrdered, isDispatched,
+                isDelivered, isCancelled, endDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered);
+
+        return order;
+
+    }
+
+    public OrderDetails[] createOrderContents() {
+        OrderDetails orderDetails[] = new OrderDetails[1];
+        orderDetails[0] = new OrderDetails(can.getCanID(), can.getUserWantsNewCan(), 0,0, numOfCans);
+        return  orderDetails;
     }
 
     @Override

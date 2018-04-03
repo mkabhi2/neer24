@@ -24,7 +24,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import org.joda.time.LocalTime;
+
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,6 +35,8 @@ import java.util.Date;
 import in.neer24.neer24.Adapters.SetAddressSelectorDialogAdapter;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
+import in.neer24.neer24.CustomObjects.OrderDetails;
+import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 
@@ -39,12 +44,14 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
     Button btnDatePicker, btnTimePicker, btnCart, increaseByOne, decreaseByOne, displayItemCount, selectAddressBtn, addAddressBtn;
     TextView dateTV, timeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV, addressTitleTV, addressDescTV,
-            addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, grandTotalTV, switchTV;
+            addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, grandTotalTV, switchTV, deliveryChargesTV;
+    int deliveryCharge=0;
     ImageView productImage, addressIconIV;
     public static Button proceedToPayButton;
     public static View addressView, billView;
     LinearLayout billOffersLL;
     SwitchCompat newCanSwitch;
+    double toPay = 0;
 
     Date date;
     Can can;
@@ -119,6 +126,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         billItemTotalTV = (TextView) findViewById(R.id.bill_item_total_tv);
         newCanSwitch = (SwitchCompat) findViewById(R.id.switch_new_cans);
         switchTV = (TextView) findViewById(R.id.switchTV);
+        deliveryChargesTV = (TextView) findViewById(R.id.bill_delivery_charges_tv);
     }
 
     void setUpViewObjects(){
@@ -209,7 +217,14 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         proceedToPayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO
+
+                OrderTable order = createOrderObject();
+                OrderDetails orderContents[] = createOrderContents();
+                Intent intent = new Intent(SetOneTimeScheduleActivity.this, PaymentModeActivity.class);
+                intent.putExtra("order",order);
+                intent.putExtra("orderContents", orderContents);
+
+                startActivity(intent);
             }
         });
 
@@ -303,22 +318,6 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                 selectedAddressID = addressesInCurrentLocation.get(itemIndex).getCustomerAddressID();
                 setAddressSelector();
 
-               /* addressTitleTV.setText("Deliver to " + addressesInCurrentLocation.get(selectedAddressIndex).getAddressNickName());
-                String savedAddress = addressesInCurrentLocation.get(selectedAddressIndex).getFullAddress();
-                int addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
-                addressDescTV.setText(savedAddress.substring(0,addressStripCount));
-                selectAddressBtn.setVisibility(View.GONE);
-                addAddressBtn.setVisibility(View.GONE);
-                addressIconIV.setImageResource(R.drawable.address_location_icon);
-                proceedToPayButton.setVisibility(View.VISIBLE);
-                addressChangeTV.setVisibility(View.VISIBLE);
-                if(addressesInCurrentLocation.size()>1) {
-                    addressChangeTV.setText("CHANGE");
-                }
-                else {
-                    addressChangeTV.setText("ADD ADDRESS");
-                }*/
-
             }
         });
         builder.setIcon(R.drawable.saved_address_icon);
@@ -375,7 +374,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                             showDay = Integer.valueOf(selectedDay).toString();
                             showYear = Integer.valueOf(selectedYear).toString();
 
-                            if(selectedDay < 9) {
+                            if(selectedDay < 10) {
                                 showDay = "0" + showDay;
                             }
 
@@ -399,7 +398,8 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
             // Get Current Time
             final Calendar c = Calendar.getInstance();
-            c.add(Calendar.HOUR,1);
+            c.setTime(new Date());
+            c.add(Calendar.HOUR_OF_DAY,2);
             currentHour = c.get(Calendar.HOUR_OF_DAY);
             currentMinute = c.get(Calendar.MINUTE);
 
@@ -411,6 +411,12 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
 
+                            Calendar cal = Calendar.getInstance();
+                            cal.setTime(new Date());
+                            cal.add(Calendar.HOUR_OF_DAY,2);
+                            currentHour = cal.get(Calendar.HOUR_OF_DAY);
+                            currentMinute = cal.get(Calendar.MINUTE);
+
                             selectedHour = hourOfDay;
                             selectedMinute = minute;
                             String showHour;
@@ -420,11 +426,12 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                             if (selectedYear == currentYear
                                     && selectedMonth == currentMonth
                                     && selectedDay == currentDay
-                                    && (selectedHour < currentHour || (selectedHour <= currentHour))) {
+                                    && ((selectedHour < currentHour) || ((selectedHour == currentHour) && (selectedMinute < currentMinute)))) {
 
                                 timeTV.setText("No Time Selected");
                                 isTimeSelected = false;
-                                Toast.makeText(SetOneTimeScheduleActivity.this, "Set date and time at least 1 hour from now", Toast.LENGTH_LONG).show();
+                                updateOrderValue();
+                                Toast.makeText(SetOneTimeScheduleActivity.this, "Set date and time at least 2 hours from now", Toast.LENGTH_LONG).show();
                             }
                             else {
                                 isTimeSelected = true;
@@ -581,31 +588,117 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
     void updateOrderValue(){
 
-        if( selectedDay != 0 && (selectedHour!=0 || selectedMinute!=0)) {
+        if( isTimeSelected && isDateSelected ) {
 
             billView.setVisibility(View.VISIBLE);
             addressView.setVisibility(View.VISIBLE);
             double discount = 0;
 
-            itemTotalTV.setText("Item Total\n" + rupeeSymbol + " " + (int)can.getPrice() + " x " + numOfCans + " can(s)");
-            total = can.getPrice() * numOfCans;
-            billItemTotalTV.setText(rupeeSymbol + " " + total);
+            String itemTotalText = "Item Total\n" + rupeeSymbol + " " + (int)can.getPrice() + " x " + numOfCans + " can(s)";
 
-            if(can.getName().equals("Neer24")) {
-
-                billOffersLL.setVisibility(View.VISIBLE);
-
-                billDiscountTV.setText(rupeeSymbol + " " + discount);
-
+            if(can.getUserWantsNewCan()==1) {
+                itemTotalText = itemTotalText + " + \n" + rupeeSymbol + " " + (int)can.getNewCanPrice() + " x " + numOfCans + " new can(s)";
             }
 
-            double toPay = total-discount;
+            itemTotalTV.setText(itemTotalText);
+            total = can.getPrice() * numOfCans;
+
+            if(can.getUserWantsNewCan()==1) {
+                total = total + (can.getNewCanPrice() * numOfCans);
+            }
+
+            billItemTotalTV.setText(rupeeSymbol + " " + total);
+
+            if(isNightDelivery()) {
+                deliveryChargesTV.setText(rupeeSymbol + " 20");
+                deliveryCharge = 20;
+            }
+            else {
+                deliveryChargesTV.setText(rupeeSymbol + " 0");
+                deliveryCharge = 0;
+            }
+
+            total = total + deliveryCharge;
+
+            toPay = total-discount;
             grandTotalTV.setText(rupeeSymbol+ " " + toPay);
             proceedToPayButton.setText("Proceed To Pay " + rupeeSymbol + " " + toPay);
 
-
-
         }
+        else {
+            billView.setVisibility(View.GONE);
+            addressView.setVisibility(View.GONE);
+            billOffersLL.setVisibility(View.GONE);
+        }
+    }
+
+    public boolean isNightDelivery() {
+
+        LocalTime now = new LocalTime(selectedHour, selectedMinute);
+
+        LocalTime six = new LocalTime( "06:00:01" );
+        LocalTime twelve = new LocalTime( "00:00:00" );
+        LocalTime midnight = new LocalTime("23:59:59");
+        LocalTime elevenPM = new LocalTime("22:59:59");
+
+        boolean isBeforeSix = now.isBefore(six);
+        boolean isAfterTwelve = now.isAfter(twelve);
+        boolean isBeforeTwelve = now.isBefore(midnight);
+        boolean isAfter11PM = now.isAfter(elevenPM);
+        boolean is12AM = now.isEqual(twelve);
+
+        return (isBeforeSix && isAfterTwelve) || (isBeforeTwelve && isAfter11PM) || is12AM;
+    }
+
+    public OrderTable createOrderObject() {
+
+
+        int customerID = sharedPreferenceUtility.getCustomerID();
+        int warehouseID = sharedPreferenceUtility.getWareHouseID();
+        int deliveryBoyID = 0;
+        String orderPaymentID = null;
+        String orderDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        Date dTime = new Date(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute);
+        String deliveryTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dTime);
+
+        double totalAmount = toPay;
+        double discountedAmount = 0;
+        double amountPaid = toPay;
+        String paymentMode = null;
+
+        String couponCode = null;
+
+        int numberOfFreeCansAvailed = 0;
+        int customerAddressID = selectedAddressID;
+        int isNormalDelivery = 0;
+        int isNightDelivery = isNightDelivery() ? 1 : 0;
+        int isScheduleDelivery = 1;
+        int isRecurringDelivery = 0;
+        String customerUniqueID = sharedPreferenceUtility.getCustomerUniqueID();
+        int isOrdered = 1;
+        int isDispatched = 0;
+        int isDelivered = 0;
+        int isCancelled = 0;
+        String endDate = deliveryTime;
+        int deliveryLeft = 0;
+        int recurringOrderFrequency = 0;
+
+        int totalCansOrdered = numOfCans;
+
+        OrderTable order = new OrderTable(customerID, warehouseID, deliveryBoyID, orderPaymentID, orderDate,
+                deliveryTime, totalAmount, discountedAmount, amountPaid, paymentMode, couponCode,
+                numberOfFreeCansAvailed, customerAddressID, isNormalDelivery, isNightDelivery,
+                isScheduleDelivery, isRecurringDelivery, customerUniqueID, isOrdered, isDispatched,
+                isDelivered, isCancelled, endDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered);
+
+        return order;
+    }
+
+    public OrderDetails[] createOrderContents() {
+        OrderDetails orderDetails[] = new OrderDetails[1];
+        orderDetails[0] = new OrderDetails(can.getCanID(), can.getUserWantsNewCan(), 0,0, numOfCans);
+        return  orderDetails;
     }
 
     @Override

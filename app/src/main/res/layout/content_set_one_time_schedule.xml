@@ -165,22 +165,24 @@
 
                 <LinearLayout
                     android:id="@+id/dateAndTime"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginRight="48dp">
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/in_date"
                             android:layout_width="wrap_content"
-                            android:layout_height="16dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="16dp"
                             android:text="No date Selected"
@@ -194,22 +196,23 @@
                             android:layout_gravity="center"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/rv_home_item_round_corner_button_add"
-                            android:paddingLeft="35dp"
-                            android:paddingRight="35dp"
-                            android:text="SET END DATE"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:text="SET DELIVERY DATE"
                             android:textColor="#FFF"
                             android:textSize="14sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_weight="1">
 
                         <TextView
                             android:id="@+id/in_time"
                             android:layout_width="wrap_content"
-                            android:layout_height="16dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="16dp"
                             android:text="No time selected"
@@ -236,10 +239,13 @@
                 <include
                     layout="@layout/cart_bill_layout"
                     android:id="@+id/bill"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="50dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="16dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -281,7 +287,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Please select a delivery date and time at least 1 hour from now"
+                        android:text="Please select a delivery date and time at least 2 hours from now"
                         android:textStyle="bold" />
                 </LinearLayout>
 

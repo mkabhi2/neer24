@@ -53,7 +53,7 @@ public class CheckoutFragment extends android.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_checkout, container, false);
-        footerView = inflater.inflate(R.layout.cart_bill_layout, container, false);
+        footerView = inflater.inflate(R.layout.checkout_bill_layout, container, false);
         sharedPreferenceUtility = new SharedPreferenceUtility(view.getContext());
 
         getFreeCansNum();
@@ -247,6 +247,8 @@ public class CheckoutFragment extends android.app.Fragment {
         DateTimeZone timeZone = DateTimeZone.forID( "Asia/Kolkata" );
         LocalTime now = LocalTime.now( timeZone ); // Adjust computer/JVM time zone's current time to desired time zone's current time.
         //LocalTime now = new LocalTime( "00:00:00" );
+
+
 
         LocalTime six = new LocalTime( "06:00:01" );
         LocalTime twelve = new LocalTime( "00:00:00" );
