@@ -84,8 +84,8 @@ public interface RetroFitNetworkClient {
     @GET("/neer/webapi/customeraddress/customeraddressbycustomerid")
     Call<List<CustomerAddress>> getAllCustomerAddress(@Query("customerid") int customerid, @Query("customeruniqueid") String customerUniqueId);
 
-    @GET("/neer/webapi/warehousecan/warehousecanbywarehouseid")
-    Call<OrderDetails> getOrderDetailsForOrderID(@Query("orderID") int orderID);
+    @GET("/neer/webapi/orderdetailstable/ordercompletedetails")
+    Call<List<OrderDetails>> getOrderDetailsForOrderID(@Query("orderid") int orderID);
 
 
     @GET("/neer/webapi/customers/updatepassword")

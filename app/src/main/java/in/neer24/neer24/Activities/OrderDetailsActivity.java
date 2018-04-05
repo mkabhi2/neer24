@@ -2,6 +2,7 @@ package in.neer24.neer24.Activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -11,9 +12,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import in.neer24.neer24.Adapters.OrderDetailsRVAdapter;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
+import in.neer24.neer24.Utilities.RVItemDecoration;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,7 +33,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
             offTimeTV, deliveryChargeTV, discountTV, numFreeCansTV;
     RecyclerView orderItemsRV;
     OrderTable order;
-    OrderDetails orderDetails;
+    ArrayList<OrderDetails> ordersDetailsList = new ArrayList<OrderDetails>();
     LinearLayout ratingLayout, deliveryBoyContact, recurrencesLeftLayout;
     String rupeeSymbol;
     RelativeLayout couponLayout;
@@ -55,7 +61,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
     public void initialiseViewComponents(){
 
         orderItemsRV = (RecyclerView) findViewById(R.id.orderItemsRV);
-        setUpOrderItemsRV();
+        fetchOrderDetails();
 
         ratingLayout = (LinearLayout) findViewById(R.id.ratings_layout);
         deliveryBoyContact = (LinearLayout) findViewById(R.id.delivery_boy_contact);
@@ -67,20 +73,12 @@ public class OrderDetailsActivity extends AppCompatActivity {
         discountTV = (TextView) findViewById(R.id.discount);
         couponLayout = (RelativeLayout) findViewById(R.id.couponLayout);
         numFreeCansTV = (TextView) findViewById(R.id.numFreeCansTV);
-
         orderIDTV = (TextView) findViewById(R.id.orderID);
-
-
         orderDateTV = (TextView) findViewById(R.id.orderDate);
-
-
         orderStatusTV = (TextView) findViewById(R.id.orderStatus);
-
         orderTypeTV = (TextView) findViewById(R.id.orderType);
-
         grandTotalTV = (TextView) findViewById(R.id.grandTotalTV);
         grandTotalTV.setText("" + order.getAmountPaid());
-
         deliveryAddressTV = (TextView) findViewById(R.id.deliveryAddress);
 
     }
@@ -160,7 +158,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     }
 
-    public void setUpOrderItemsRV(){
+    public void fetchOrderDetails(){
 
 
         final ProgressBar progressBar;
@@ -168,31 +166,37 @@ public class OrderDetailsActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.0.2:8080")
+                //.baseUrl("http://192.168.0.5:8080")
                 .baseUrl("http://18.220.28.118:80")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<OrderDetails> call = retroFitNetworkClient.getOrderDetailsForOrderID(order.getOrderID());
+        int orderID = order.getOrderID();
+        Call<List<OrderDetails>> call = retroFitNetworkClient.getOrderDetailsForOrderID(orderID);
 
-        call.enqueue(new Callback<OrderDetails>() {
+        call.enqueue(new Callback<List<OrderDetails>>() {
             @Override
-            public void onResponse(Call<OrderDetails> call, Response<OrderDetails> response) {
+            public void onResponse(Call<List<OrderDetails>> call, Response<List<OrderDetails>> response) {
 
-                orderDetails = (OrderDetails) response.body();
-                //TODO FETCHING ORDER DETAILS
-                // orderItemsRV.setAdapter(new OrderDetailsRVAdapter(orderDetails.getCansList(), orderDetails.getCanQuantity(), OrderDetailsActivity.this));
+                ordersDetailsList = (ArrayList<OrderDetails>) response.body();
+                setUpRecyclerView();
                 progressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
-            public void onFailure(Call<OrderDetails> call, Throwable t) {
+            public void onFailure(Call<List<OrderDetails>> call, Throwable t) {
                 Toast.makeText(OrderDetailsActivity.this, "Error loading data", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.INVISIBLE);
             }
 
         });
+    }
+
+    public void setUpRecyclerView(){
+
+        orderItemsRV.setAdapter(new OrderDetailsRVAdapter(ordersDetailsList, this));
+        orderItemsRV.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 500));
     }
 
 }

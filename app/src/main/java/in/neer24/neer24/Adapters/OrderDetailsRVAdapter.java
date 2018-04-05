@@ -7,7 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import in.neer24.neer24.CustomObjects.Can;
+import java.util.List;
+
+import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.R;
 
 /**
@@ -16,13 +18,11 @@ import in.neer24.neer24.R;
 
 public class OrderDetailsRVAdapter extends RecyclerView.Adapter<OrderDetailsRVAdapter.ViewHolder> {
 
-    private Can cansList[];
-    private int canQuantities[];
+    private final List<OrderDetails> orderDetailsList;
     private final Context mContext;
 
-    public OrderDetailsRVAdapter(Can[] cansList, int[] canQuantities, Context mContext) {
-        this.cansList = cansList;
-        this.canQuantities = canQuantities;
+    public OrderDetailsRVAdapter(List<OrderDetails> orderDetails, Context mContext) {
+       this.orderDetailsList = orderDetails;
         this.mContext = mContext;
     }
 
@@ -55,17 +55,25 @@ public class OrderDetailsRVAdapter extends RecyclerView.Adapter<OrderDetailsRVAd
 
         String rupeeSymbol = mContext.getResources().getString(R.string.Rs);
 
-        Can can = cansList[position];
-        int canQuantity = canQuantities[position];
+        OrderDetails orderDetails = orderDetailsList.get(position);
 
-        holder.itemNameTV.setText(can.getName());
-        holder.priceDetailsTV.setText(rupeeSymbol + " " + can.getPrice() + " x " + canQuantity + " (cans)");
-        holder.totalCostTV.setText(rupeeSymbol + (can.getPrice() * canQuantity));
+        holder.itemNameTV.setText(orderDetails.getCanName());
+
+        String priceDetailsString = rupeeSymbol + " " + orderDetails.getCanPrice() + " x " + orderDetails.getCanQuantity() + " can(s)";
+        int price = (int)(orderDetails.getCanPrice() * orderDetails.getCanQuantity());
+
+        if(orderDetails.getIsNewCan()==1){
+            priceDetailsString = priceDetailsString + "\n New can ( 150 x " + orderDetails.getCanQuantity() + ")";
+            price = price + (150 * orderDetails.getCanQuantity());
+        }
+
+        holder.priceDetailsTV.setText(priceDetailsString);
+        holder.totalCostTV.setText(rupeeSymbol + price);
 
     }
 
     @Override
     public int getItemCount() {
-        return cansList.length;
+        return orderDetailsList.size();
     }
 }
