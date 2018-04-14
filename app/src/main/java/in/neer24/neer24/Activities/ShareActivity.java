@@ -1,8 +1,8 @@
 package in.neer24.neer24.Activities;
 
+import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,12 +11,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.content.ClipboardManager;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
@@ -26,9 +26,10 @@ public class ShareActivity extends AppCompatActivity implements NavigationView.O
     private Button shareButtonShareActivity;
 
     private TextView customerEmailTextViewNavigationHeader;
-    private TextView customerNameTextViewNavigationHeader;
+    private TextView customerNameTextViewNavigationHeader, couponCodeTV;
     private NavigationView navigationView;
     SharedPreferenceUtility sharedPreferenceUtility;
+    Toast toast;
 
 
 
@@ -46,6 +47,8 @@ public class ShareActivity extends AppCompatActivity implements NavigationView.O
         customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
         customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
 
+        couponCodeTV = (TextView) findViewById(R.id.couponCodeTV);
+
         customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
         customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
 
@@ -62,6 +65,23 @@ public class ShareActivity extends AppCompatActivity implements NavigationView.O
         setSupportActionBar(toolbar);
 
         setUpNavigationDrawer(toolbar);
+
+        couponCodeTV.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Neer24 Coupon Code", couponCodeTV.getText().toString());
+                clipboard.setPrimaryClip(clip);
+
+                if (toast != null) {
+                    toast.cancel();
+                }
+
+                toast = Toast.makeText(ShareActivity.this, "Coupon code copied to clipboard", Toast.LENGTH_SHORT);
+                toast.show();
+                return true;
+            }
+        });
 
 
         shareButtonShareActivity.setOnClickListener(new View.OnClickListener() {

@@ -50,6 +50,13 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+
+        if(scheduleType.equals("schedule")) {
+            toolbar.setTitle("Schedule Delivery");
+        }
+        else {
+            toolbar.setTitle("Recurring Delivery");
+        }
         setSupportActionBar(toolbar);
 
         setUpNavigationDrawer(toolbar);

@@ -1,8 +1,12 @@
 package in.neer24.neer24.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +31,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
     EditText newPasswordChangePasswordActivity;
     Button updatePasswordChangePasswordActivity;
     SharedPreferenceUtility sharedPreferenceUtility;
+    private Toolbar toolbar;
+    ProgressDialog dialog;
+    Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +43,65 @@ public class ChangePasswordActivity extends AppCompatActivity {
         newPasswordChangePasswordActivity = (EditText) findViewById(R.id.newPasswordChangePasswordActivity);
         updatePasswordChangePasswordActivity = (Button) findViewById(R.id.updatePasswordChangePasswordActivity);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        oldPasswordChangePasswordActivity.setFocusable(false);
+        newPasswordChangePasswordActivity.setFocusable(false);
+
+        oldPasswordChangePasswordActivity.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                oldPasswordChangePasswordActivity.setFocusableInTouchMode(true);
+
+                return false;
+            }
+        });
+
+        newPasswordChangePasswordActivity.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                newPasswordChangePasswordActivity.setFocusableInTouchMode(true);
+
+                return false;
+            }
+        });
 
         updatePasswordChangePasswordActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                oldPasswordChangePasswordActivity.setFocusable(false);
+                newPasswordChangePasswordActivity.setFocusable(false);
+
+                if (oldPasswordChangePasswordActivity.getText().toString().trim().length() == 0) {
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(ChangePasswordActivity.this, "Please enter your old password", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+
+                if (newPasswordChangePasswordActivity.getText().toString().trim().length() == 0) {
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(ChangePasswordActivity.this, "Please enter your new password", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+
+                dialog = ProgressDialog.show(ChangePasswordActivity.this, "",
+                        "Updating. Please wait...", true);
+                dialog.show();
                 updatePasswordOnServer(oldPasswordChangePasswordActivity.getText().toString(), newPasswordChangePasswordActivity.getText().toString());
+
             }
         });
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -75,18 +133,38 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.putExtra("UPDATE_PASSWORD", "TRUE");
                     setResult(1, intent);
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(ChangePasswordActivity.this, "Password Updated", Toast.LENGTH_SHORT);
+                    toast.show();
                     finish();
                 } else {
+                    dialog.cancel();
                     Intent intent = new Intent();
                     intent.putExtra("UPDATE_PASSWORD", "FALSE");
                     setResult(1, intent);
-                    finish();
+                    if (toast != null) {
+                        toast.cancel();
+                    }
+                    toast = Toast.makeText(ChangePasswordActivity.this, "Old password IS WRONG. Please enter a correct old password", Toast.LENGTH_LONG);
+                    toast.show();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(ChangePasswordActivity.this, "Error in Server", Toast.LENGTH_SHORT);
+
+                dialog.cancel();
+
+                Snackbar.make(findViewById(R.id.changePasswordLL), "Failed to update password. No internet connection or error on server", Snackbar.LENGTH_INDEFINITE)
+                        .setAction("RETRY", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.show();
+                                updatePasswordOnServer(oldPasswordChangePasswordActivity.getText().toString(), newPasswordChangePasswordActivity.getText().toString());
+                            }
+                        }).show();
             }
         });
     }

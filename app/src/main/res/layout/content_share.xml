@@ -75,6 +75,7 @@
             android:text="Using your unique referral code" />
 
         <TextView
+            android:id="@+id/couponCodeTV"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="21dp"
@@ -85,7 +86,6 @@
             android:paddingLeft="15dp"
             android:padding="5dp"
             android:text="amit29020"
-
             android:textColor="@color/Black"
             android:background="@drawable/dotted"/>
 

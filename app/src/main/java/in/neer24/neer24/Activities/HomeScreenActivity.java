@@ -64,6 +64,7 @@ public class HomeScreenActivity extends AppCompatActivity
     private TextView customerNameTextViewNavigationHeader;
     private NavigationView navigationView;
     private CollapsingToolbarLayout homeScreenCollapsingToolbarLayout;
+    private LinearLayout scheduleOrderBtnLL, recurringOrderBtnLL, bulkOrderBtnLL;
 
     boolean isNew = true;
 
@@ -112,6 +113,9 @@ public class HomeScreenActivity extends AppCompatActivity
         homeScreenCollapsingToolbarLayout.setTitleEnabled(false);
         recyclerView = (RecyclerView) findViewById(R.id.rv);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        scheduleOrderBtnLL = (LinearLayout) findViewById(R.id.scheduleOrderBtnLL);
+        recurringOrderBtnLL = (LinearLayout) findViewById(R.id.recurringOrderBtnLL);
+        bulkOrderBtnLL = (LinearLayout) findViewById(R.id.bulkOrderBtnLL);
 
     }
 
@@ -140,6 +144,26 @@ public class HomeScreenActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(HomeScreenActivity.this,CheckoutActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        scheduleOrderBtnLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(HomeScreenActivity.this,ScheduleDeliveryActivity.class);
+                intent.putExtra("type","schedule");
+                startActivity(intent);
+            }
+        });
+
+        recurringOrderBtnLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(HomeScreenActivity.this,ScheduleDeliveryActivity.class);
+                intent.putExtra("type","recurring");
                 startActivity(intent);
             }
         });

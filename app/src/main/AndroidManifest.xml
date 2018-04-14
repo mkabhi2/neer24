@@ -138,7 +138,15 @@
                 android:value="in.neer24.neer24.Activities.HomeScreenActivity" />
         </activity>
         <activity android:name=".Activities.FacebookLoginSupportActivity" />
-        <activity android:name=".Activities.ChangePasswordActivity" />
+        <activity
+            android:name=".Activities.ChangePasswordActivity"
+            android:parentActivityName=".Activities.UserAccountActivity"
+            android:label="Change Password"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.neer24.neer24.Activities.UserAccountActivity" />
+        </activity>
         <activity
             android:name=".Activities.CouponActivity"
             android:label="@string/title_activity_coupon"
