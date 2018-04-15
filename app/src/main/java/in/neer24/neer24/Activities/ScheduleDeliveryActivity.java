@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,20 +21,28 @@ import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RVItemClickListener;
 import in.neer24.neer24.Utilities.RVItemDecoration;
+import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 
 public class ScheduleDeliveryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static RecyclerView recyclerView;
-    int warehouseID;
     public static ArrayList<Can> allCans = new ArrayList<Can>();
-    float currentLatitude, currentLongitude;
     boolean isNew = true;
     String scheduleType;
+    private View headerView;
+    private TextView customerEmailTextViewNavigationHeader;
+    private TextView customerNameTextViewNavigationHeader;
+    private NavigationView navigationView;
+
+    SharedPreferenceUtility sharedPreferenceUtility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_delivery);
+
+        sharedPreferenceUtility=new SharedPreferenceUtility(this);
 
         Intent intent = getIntent();
         scheduleType = intent.getStringExtra("type");
@@ -58,6 +67,13 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
             toolbar.setTitle("Recurring Delivery");
         }
         setSupportActionBar(toolbar);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        headerView = navigationView.getHeaderView(0);
+        customerNameTextViewNavigationHeader = (TextView)headerView.findViewById(R.id.customerNameTextViewNavigationHeader);
+        customerEmailTextViewNavigationHeader=(TextView)headerView.findViewById(R.id.customerEmailTextViewNavigationHeader);
+        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
+        customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
 
         setUpNavigationDrawer(toolbar);
     }

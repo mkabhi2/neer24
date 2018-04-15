@@ -7,22 +7,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 import in.neer24.neer24.Adapters.HelpRVAdapter;
-import in.neer24.neer24.Adapters.OrdersRVAdapter;
 import in.neer24.neer24.R;
-import in.neer24.neer24.Utilities.RVItemDecoration;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 
 public class HelpActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -135,6 +129,13 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_schedule_delivery) {
             Intent intent = new Intent();
             intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","schedule");
+            startActivity(intent);
+
+        } else if (id == R.id.nav_recurring_delivery) {
+            Intent intent = new Intent();
+            intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","recurring");
             startActivity(intent);
 
         } else if (id == R.id.nav_share) {

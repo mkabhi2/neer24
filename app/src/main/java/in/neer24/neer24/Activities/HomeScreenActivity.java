@@ -105,12 +105,9 @@ public class HomeScreenActivity extends AppCompatActivity
         customerNameTextViewNavigationHeader = (TextView)headerView.findViewById(R.id.customerNameTextViewNavigationHeader);
         customerEmailTextViewNavigationHeader=(TextView)headerView.findViewById(R.id.customerEmailTextViewNavigationHeader);
         checkoutButtonLinearLayout=(LinearLayout)findViewById(R.id.checkoutButtonHomeScreenLinearLayout);
-        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
-        customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
         checkoutButton=(Button)findViewById(R.id.dishActivityCheckoutButton);
         cartSummary=(TextView)findViewById(R.id.dishActivityCartSummaryTextView);
         homeScreenCollapsingToolbarLayout=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar_layout);
-        homeScreenCollapsingToolbarLayout.setTitleEnabled(false);
         recyclerView = (RecyclerView) findViewById(R.id.rv);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         scheduleOrderBtnLL = (LinearLayout) findViewById(R.id.scheduleOrderBtnLL);
@@ -121,6 +118,8 @@ public class HomeScreenActivity extends AppCompatActivity
 
     private void setViewObjects() {
 
+        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
+        customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
         checkoutButtonLinearLayout.setVisibility(View.GONE);
         toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
         toolbar.setTitle("");
@@ -128,6 +127,7 @@ public class HomeScreenActivity extends AppCompatActivity
         toolbar.setSubtitleTextColor(getResources().getColor(R.color.White));
         setSupportActionBar(toolbar);
         setUpNavigationDrawer(toolbar);
+        homeScreenCollapsingToolbarLayout.setTitleEnabled(false);
     }
 
     private void setClickListeners() {
@@ -199,7 +199,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<List<CustomerAddress>> call, Throwable t) {
-                Toast.makeText(HomeScreenActivity.this,"Error loading address",Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeScreenActivity.this,"Error loading addresses",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -369,23 +369,6 @@ public class HomeScreenActivity extends AppCompatActivity
             checkoutButton.setVisibility(View.VISIBLE);
 
 
-        }
-    }
-
-    public static double  calculateTotalCostOfCart(){
-        HashMap<Can,Integer> cart= NormalCart.getCartList();
-        int totalQuantity=0;
-        double price=0;
-        double totalCost=0;
-        if(cart.size()==0){
-            return 0.0;
-        }else {
-            for (Can c : cart.keySet()) {
-                price = c.getPrice();
-                Integer value = cart.get(c);
-                totalCost = totalCost + (price * value);
-            }
-            return totalCost;
         }
     }
 

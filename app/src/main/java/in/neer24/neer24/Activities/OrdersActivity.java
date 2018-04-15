@@ -161,6 +161,13 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_schedule_delivery) {
             Intent intent = new Intent();
             intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","schedule");
+            startActivity(intent);
+
+        } else if (id == R.id.nav_recurring_delivery) {
+            Intent intent = new Intent();
+            intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","recurring");
             startActivity(intent);
 
         } else if (id == R.id.nav_disclaimer) {
