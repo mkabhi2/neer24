@@ -181,7 +181,6 @@ public class CheckoutFragment extends android.app.Fragment {
             }
             footerView.setVisibility(View.VISIBLE);
             staticCouponLayout.setVisibility(View.VISIBLE);
-            totalAmount=totalCost;
             billItemTotalTV.setText("\u20B9" + " " + String.valueOf(totalCost));
 
             if(getTime()){

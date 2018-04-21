@@ -121,9 +121,10 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 OrderTable order = createOrderObject();
+                OrderDetails orderDetails[]=createOrderDetailsObject();
                 Intent intent = new Intent(CheckoutActivity.this, PaymentModeActivity.class);
                 intent.putExtra("order",order);
-
+                intent.putExtra("orderdetails",orderDetails);
                 startActivity(intent);
             }
         });
@@ -320,7 +321,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         for (Can c : cart.keySet()) {
 
-            orderDetailsArray[i] = new OrderDetails(c.getCanID(), c.getUserWantsNewCan(), 0, 0, Integer.parseInt(c.getQuantity()));
+            orderDetailsArray[i] = new OrderDetails(c.getCanID(), c.getUserWantsNewCan(), 0, 0, cart.get(c));
             totalCansOrdered = totalCansOrdered + cart.get(c);
             i++;
         }
@@ -370,11 +371,24 @@ public class CheckoutActivity extends AppCompatActivity {
                             isScheduleDelivery, isRecurringDelivery, customerUniqueID, isOrdered, isDispatched,
                             isDelivered, isCancelled, endDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered);
 
-        order.setOrderContents(orderDetailsArray);
+        //order.setOrderContents(orderDetailsArray);
         return order;
 
     }
 
+    public OrderDetails[] createOrderDetailsObject(){
+        HashMap<Can, Integer> cart = NormalCart.getCartList();
+        OrderDetails orderDetailsArray[] = new OrderDetails[cart.size()];
+        int i = 0, totalCansOrdered = 0;
+
+        for (Can c : cart.keySet()) {
+
+            orderDetailsArray[i] = new OrderDetails(c.getCanID(), c.getUserWantsNewCan(), 0, 0, cart.get(c));
+            i++;
+        }
+
+        return orderDetailsArray;
+    }
 
     @Override
     public void onBackPressed() {
@@ -395,3 +409,4 @@ public class CheckoutActivity extends AppCompatActivity {
         setUpOnClickListeners();
     }
 }
+
