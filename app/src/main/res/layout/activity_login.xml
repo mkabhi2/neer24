@@ -111,12 +111,13 @@
 
             <ProgressBar
                 android:id="@+id/progressBar1"
-                style="?android:attr/progressBarStyleLarge"
+                style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:visibility="gone"
                 android:layout_marginTop="4dp" />
+
 
         </LinearLayout>
     </ScrollView>
@@ -147,13 +148,13 @@
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/facebookLoginButton"
-                style="?attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="17dp"
+                android:paddingBottom="17dp"
+                android:paddingLeft="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/facebook_button"
-                android:text="Facebook"
-                android:visibility="gone" />
+                android:elevation="5dp"/>
 
             <Button
                 android:id="@+id/facebookButton"
@@ -164,7 +165,10 @@
                 android:background="@drawable/facebook_button"
                 android:text="Facebook"
                 android:textColor="@color/White"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:visibility="gone"/>
+
+
 
             <View
                 android:layout_width="2dp"
@@ -175,24 +179,40 @@
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/sign_in_button"
-                style="?attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/gmail_button"
-                android:visibility="gone" />
+                android:paddingRight="5dp"
+                android:background="#FFFFFF"
+                android:visibility="gone"/>
 
-
-            <Button
+            <LinearLayout
                 android:id="@+id/gmailButton"
-                style="?attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/gmail_button"
-                android:text="Gmail"
-                android:textColor="@color/White"
-                android:textStyle="bold"/>
+                android:orientation="horizontal"
+                android:paddingLeft="16dp"
+                android:background="#FFFFFF">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/g_logo"
+                    android:background="#FFFFFF"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Continue with Google"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    />
+
+            </LinearLayout>
+
         </LinearLayout>
     </LinearLayout>
 

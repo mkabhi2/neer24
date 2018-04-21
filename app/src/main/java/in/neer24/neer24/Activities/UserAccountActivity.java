@@ -14,10 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -37,7 +37,6 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
 
     public static ArrayList<Customer> addressList = new ArrayList<Customer>();
     public static RecyclerView recyclerView;
-    private ImageView editUserPersonalInformation;
     private TextView changePasswordUserAcountActivity;
     private TextView addNewAddressUserAccountActivity;
     private TextView nameUserAccountActivity;
@@ -46,6 +45,11 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
     SharedPreferenceUtility sharedPreferenceUtility;
     private ProgressBar progressBarUserAccountActivity;
     private GoogleApiClient mGoogleApiClient;
+
+    private View headerView;
+    private TextView customerEmailTextViewNavigationHeader;
+    private TextView customerNameTextViewNavigationHeader;
+    private NavigationView navigationView;
 
 
     @Override
@@ -62,10 +66,18 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         mobileNumberUserAccountActivity = (TextView) findViewById(R.id.mobileNumberUserAccountActivity);
         progressBarUserAccountActivity = (ProgressBar) findViewById(R.id.progressBarUserAccountActivity);
 
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        headerView = navigationView.getHeaderView(0);
+        customerNameTextViewNavigationHeader = (TextView)headerView.findViewById(R.id.customerNameTextViewNavigationHeader);
+        customerEmailTextViewNavigationHeader=(TextView)headerView.findViewById(R.id.customerEmailTextViewNavigationHeader);
+
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         recyclerView = (RecyclerView) findViewById(R.id.address_rv);
 
         toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+
+        customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
+        customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
 
 
         nameUserAccountActivity.setText(sharedPreferenceUtility.getCustomerFirstName());
@@ -126,7 +138,14 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
 
         } else if (id == R.id.nav_schedule_delivery) {
             Intent intent = new Intent();
-            intent.setClass(this, ScheduleDeliveryActivity.class);
+            intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","schedule");
+            startActivity(intent);
+
+        } else if (id == R.id.nav_recurring_delivery) {
+            Intent intent = new Intent();
+            intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","recurring");
             startActivity(intent);
 
         } else if (id == R.id.nav_share) {

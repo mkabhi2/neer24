@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -76,6 +77,7 @@ public class FirstActivity extends AppCompatActivity {
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         relativeLayout = (RelativeLayout) findViewById(R.id.main_activity_container);
         progressBar = (ProgressBar) findViewById(R.id.firstActivityProgressBar);
+        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.Gold), PorterDuff.Mode.MULTIPLY);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 

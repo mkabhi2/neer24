@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -93,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private boolean checkUserExistanceFlag = false;
     private ProgressBar progressBar;
-    private Button gmailButton;
+    private LinearLayout gmailButton;
 
     private static final String EMAIL = "email";
 
@@ -120,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
-        progressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
         progressBar.setVisibility(View.VISIBLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -154,7 +156,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
 
-        gmailButton = (Button) findViewById(R.id.gmailButton);
+        gmailButton = (LinearLayout) findViewById(R.id.gmailButton);
         facebookButton = (Button) findViewById(R.id.facebookButton);
         innerRelativeLayoutForPassword = (RelativeLayout) findViewById(R.id.innerRelativeLayout);
 
