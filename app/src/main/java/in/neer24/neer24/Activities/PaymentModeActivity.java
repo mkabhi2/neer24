@@ -3,6 +3,7 @@ package in.neer24.neer24.Activities;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 
 import java.util.concurrent.TimeUnit;
 
+import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
@@ -36,7 +38,8 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
     OrderTable orderTable = null;
     //String orderType = "";
     OrderTable order;
-    String modeOfPayment="";
+    OrderDetails orderDetails[];
+    String modeOfPayment = "";
     LinearLayout payOnDeliveryLL, onlinePaymentLL;
     ImageView selectCirclePOD, selectCheckBoxPOD, selectCircleOP, selectCheckBoxOP;
     ProgressDialog dialog;
@@ -54,6 +57,15 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
 
         Bundle bundle = getIntent().getExtras();
         order = bundle.getParcelable("order");
+
+        Parcelable[] parcels = bundle.getParcelableArray("orderdetails");
+        orderDetails = new OrderDetails[parcels.length];
+        int i = 0;
+        for (Parcelable par : parcels) {
+            orderDetails[i] = (OrderDetails) par;
+            i += 1;
+        }
+        order.setOrderContents(orderDetails);
 
 
     }
@@ -96,14 +108,12 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         proceedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (modeOfPayment.equals("POD")){
-
+                if (modeOfPayment.equals("POD")) {
                     order.setPaymentMode("COD");
                     dialog = ProgressDialog.show(PaymentModeActivity.this, "",
                             "Placing order. Please wait...", true);
                     insertDataIntoOrderTable(order);
-                }
-                else if (modeOfPayment.equals("ONLINEPAYMENT")) {
+                } else if (modeOfPayment.equals("ONLINEPAYMENT")) {
                     startPayment();
                 }
             }
@@ -153,7 +163,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
     private void startPayment() {
         Checkout checkout = new Checkout();
         checkout.setImage(R.drawable.logo);
-        String toPay = Double.valueOf(order.getAmountPaid()*100).toString();
+        String toPay = Double.valueOf(order.getAmountPaid() * 100).toString();
         final Activity activity = this;
         try {
             JSONObject options = new JSONObject();
@@ -187,7 +197,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
     public void onPaymentError(int i, String s) {
 
         Log.d("error", s);
-        Toast.makeText(PaymentModeActivity.this, "Error : "+s, Toast.LENGTH_LONG).show();
+        Toast.makeText(PaymentModeActivity.this, "Error : " + s, Toast.LENGTH_LONG).show();
     }
 
 }
