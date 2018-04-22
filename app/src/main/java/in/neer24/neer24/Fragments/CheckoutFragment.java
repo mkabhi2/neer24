@@ -226,6 +226,7 @@ public class CheckoutFragment extends android.app.Fragment {
             }
 
             billOffersTV.setText("- " + "\u20B9" + " " + String.valueOf(discountedAmount));
+            totalAmount=totalCost + deliveryCharge;
             toPay = totalCost - discountedAmount + deliveryCharge;
             billGrandTotalTV.setText("\u20B9" + " " + String.valueOf(toPay));
             totalCheckoutFragmentTextView.setText("To Pay    :    " + "\u20B9" + " " + String.valueOf(toPay));
