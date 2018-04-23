@@ -58,7 +58,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         Bundle bundle = getIntent().getExtras();
         order = bundle.getParcelable("order");
 
-        Parcelable[] parcels = bundle.getParcelableArray("orderdetails");
+        Parcelable[] parcels = bundle.getParcelableArray("orderContents");
         orderDetails = new OrderDetails[parcels.length];
         int i = 0;
         for (Parcelable par : parcels) {
@@ -129,8 +129,8 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://192.168.0.3:8080/")
+                .baseUrl("http://18.220.28.118:80")
+                //.baseUrl("http://192.168.0.3:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
@@ -145,7 +145,11 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                 if (response.body() != null) {
                     String returnedOrderID = response.body().toString();
                     if (!returnedOrderID.equals("0")) {
-                        Toast.makeText(PaymentModeActivity.this, "Order Succesfull", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PaymentModeActivity.this, "Order Successful", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                    else {
+                        Toast.makeText(PaymentModeActivity.this, "Unable to Place order at this time", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
                     }
                 }

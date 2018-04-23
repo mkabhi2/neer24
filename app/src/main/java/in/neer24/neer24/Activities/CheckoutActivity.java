@@ -124,7 +124,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 OrderDetails orderDetails[]=createOrderDetailsObject();
                 Intent intent = new Intent(CheckoutActivity.this, PaymentModeActivity.class);
                 intent.putExtra("order",order);
-                intent.putExtra("orderdetails",orderDetails);
+                intent.putExtra("orderContents",orderDetails);
                 startActivity(intent);
             }
         });
