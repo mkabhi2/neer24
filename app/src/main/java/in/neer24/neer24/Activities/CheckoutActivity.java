@@ -285,7 +285,7 @@ public class CheckoutActivity extends AppCompatActivity {
     public void updateWarehouseCansTable(int canID, int warehouseID) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118")       //
+                .baseUrl("http://18.220.28.118:80/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

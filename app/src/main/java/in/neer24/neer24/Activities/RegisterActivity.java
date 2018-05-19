@@ -1,15 +1,13 @@
 package in.neer24.neer24.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -20,17 +18,14 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.internal.Utility;
-
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -41,7 +36,6 @@ import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 import in.neer24.neer24.Utilities.UtilityClass;
 import okhttp3.OkHttpClient;
-import okhttp3.internal.Util;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     ProgressBar registerProgressBar;
     String emailID;
     String mobileNumber;
+    ProgressDialog dialog;
 
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
@@ -91,9 +86,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        registerProgressBar = (ProgressBar) findViewById(R.id.registerProgressBar);
-        registerProgressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
-        registerProgressBar.setVisibility(View.VISIBLE);
+        //registerProgressBar = (ProgressBar) findViewById(R.id.registerProgressBar);
+        //registerProgressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        //registerProgressBar.setVisibility(View.VISIBLE);
+        dialog = ProgressDialog.show(RegisterActivity.this, "",
+                "Saving your details. Please wait...", true);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
@@ -159,12 +157,28 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             mobileEditText.setTextColor(Color.GRAY);
         }
 
+
+        referalCodeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                                           @Override
+                                                           public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                               if (isChecked) {
+                                                                   if (isCouponCodeValid) {
+                                                                       referralCodeErrorMessageTextView.setVisibility(View.GONE);
+                                                                   } else {
+                                                                       referralCodeErrorMessageTextView.setVisibility(View.VISIBLE);
+                                                                   }
+                                                               } else {
+                                                                   referralCodeErrorMessageTextView.setVisibility(View.GONE);
+                                                               }
+                                                           }
+                                                       }
+        );
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        registerProgressBar.setVisibility(View.GONE);
+        dialog.cancel();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
     }
@@ -193,7 +207,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.signUpButton:
                 try {
-                    registerProgressBar.setVisibility(View.VISIBLE);
+                    dialog = ProgressDialog.show(RegisterActivity.this, "",
+                            "Sending your details. Please wait...", true);
                     getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     validateSignUpFields();
@@ -227,22 +242,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             saveEveryThingInSharePreferences(email, password, firstName, mobileNumber, referralCode);
             checkEmailAndMobileNumberIfALreadyRegistered(email, mobileNumber);
         } else {
-            registerProgressBar.setVisibility(View.GONE);
+            dialog.cancel();
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-            if(!isEmailValid)
+            if (!isEmailValid)
                 emailErrorMessageTextView.setVisibility(View.VISIBLE);
 
-            if(!isPasswordValid)
+            if (!isPasswordValid)
                 passwordErrorMessageTextView.setVisibility(View.VISIBLE);
 
-            if(!isMobileNumberValid)
+            if (!isMobileNumberValid)
                 mobileNumberErrorMessageTextView.setVisibility(View.VISIBLE);
 
             if (!isFirstNameValid)
                 firstNameErrorMessageTextView.setVisibility(View.VISIBLE);
 
-            if(!isCouponCodeValid)
+            if (!isCouponCodeValid)
                 referralCodeErrorMessageTextView.setVisibility(View.VISIBLE);
 
 
@@ -286,10 +301,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     } else {
                         Toast.makeText(RegisterActivity.this, "Mobile Number already registered", Toast.LENGTH_SHORT);
                     }
-                    registerProgressBar.setVisibility(View.GONE);
+                    dialog.cancel();
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 } else {
-                    registerProgressBar.setVisibility(View.GONE);
+                    dialog.cancel();
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Intent intent = new Intent(RegisterActivity.this, OTPActivity.class);
                     startActivity(intent);
@@ -298,7 +313,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                registerProgressBar.setVisibility(View.GONE);
+                dialog.cancel();
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Toast.makeText(RegisterActivity.this, "Email verifying Mobile Number Or EmailID", Toast.LENGTH_SHORT);
             }
@@ -318,7 +333,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     public void doRestOfTaks(String result) {
-        registerProgressBar.setVisibility(View.GONE);
+        dialog.cancel();
         if (result.contains("true")) {
 
             editor.putBoolean("isLoggedIn", true);

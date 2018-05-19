@@ -27,7 +27,8 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:padding="16dp"
-                android:background="#E1F5FE">
+                android:background="#E1F5FE"
+                android:elevation="2dp">
 
                 <TextView
                     android:layout_width="match_parent"

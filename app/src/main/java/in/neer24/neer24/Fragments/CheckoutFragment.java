@@ -89,7 +89,7 @@ public class CheckoutFragment extends android.app.Fragment {
     private void getFreeCansNum() {
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:80")       //
+                .baseUrl("http://18.220.28.118:80/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

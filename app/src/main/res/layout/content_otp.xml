@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="in.neer24.neer24.Activities.OTPActivity"
+    tools:showIn="@layout/activity_otp">
+
+
+    <ImageView
+        android:id="@+id/displayImageOTPActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/verify_otp_icon" />
+
+    <TextView
+        android:id="@+id/displayMessageOTPActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Sit back and relax while we verify your mobile number."
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/app_color" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="OR"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="@color/app_color" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textStyle="bold"
+        android:text="Enter the received OTP"
+        android:textAlignment="center"
+        android:textColor="@color/app_color" />
+
+    <com.goodiebag.pinview.Pinview
+        android:id="@+id/pinViewOTPActivty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="35dp"
+        app:cursorVisible="false"
+        android:layout_marginTop="25dp"
+        app:forceKeyboard="true"
+        app:inputType="number"
+        app:pinLength="6"
+        app:pinWidth="37dp">
+
+    </com.goodiebag.pinview.Pinview>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/verifyOTPButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/rounded_corners_signup_button"
+            android:text="VERIFY"
+            android:textStyle="bold"
+            android:textColor="@color/White"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/resendOTPButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="7dp"
+            android:layout_below="@id/verifyOTPButton"
+            android:text="Resend OTP"
+            android:background="#0000"
+            android:textColor="@color/Red"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarOTPActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+</LinearLayout>

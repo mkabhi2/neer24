@@ -102,16 +102,17 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
         orderIDTV.setText("" + order.getOrderID());
         orderDateTV.setText("" + order.getOrderDate().toString().substring(0,16));
-        String orderStatus = "Order Placed";
+        String orderStatus = "ORDER PLACED";
 
         if(order.getIsDispatched()==1){
-            orderStatus = "Dispatched";
+
+            orderStatus = "DISPATCHED";
         }
         if(order.getIsDelivered()==1){
-            orderStatus = "Delivered";
+            orderStatus = "DELIVERED";
         }
         if(order.getIsCancelled()==1){
-            orderStatus = "Cancelled";
+            orderStatus = "CANCELLED";
             orderStatusTV.setTextColor(getResources().getColor(R.color.Red));
         }
 
@@ -167,7 +168,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080")
-                .baseUrl("http://18.220.28.118:80")       //
+                .baseUrl("http://18.220.28.118:80/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

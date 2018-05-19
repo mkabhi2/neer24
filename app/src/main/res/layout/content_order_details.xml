@@ -34,7 +34,7 @@
             android:orientation="vertical">
 
             <include layout="@layout/rating_layout"
-                android:id="@+id/ratings_layout"/>
+                android:id="@+id/ratings_layout" />
 
 
             <LinearLayout
@@ -57,9 +57,10 @@
                         android:id="@+id/phoneImage"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/discount"
+                        android:src="@drawable/telephone"
                         android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"/>
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"/>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -87,12 +88,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/tv_border2"
                 android:orientation="vertical"
-                android:padding="8dp">
+                android:padding="16dp"
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="2dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -114,7 +117,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="2dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -136,7 +140,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="2dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -160,7 +165,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="2dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -184,7 +190,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:id="@+id/recurrencesLeftLayout">
+                    android:id="@+id/recurrencesLeftLayout"
+                    android:layout_marginBottom="2dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -240,10 +247,11 @@
                     android:id="@+id/orderItemsHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/Green"
+                    android:background="@drawable/tv_border"
                     android:padding="10dp">
 
                     <TextView
+                        android:layout_marginLeft="6dp"
                         android:id="@+id/totalTetxView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -265,7 +273,8 @@
                         android:textAlignment="viewEnd"
                         android:textColor="#FFF"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginRight="6dp"/>
                 </RelativeLayout>
 
                 <android.support.v7.widget.RecyclerView
@@ -281,6 +290,7 @@
                     android:padding="10dp">
 
                     <TextView
+                        android:layout_marginLeft="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -305,6 +315,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:layout_marginRight="6dp"
                         android:id="@+id/deliveryCharge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -335,7 +346,8 @@
                         android:textAlignment="viewStart"
                         android:textColor="#000"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginLeft="6dp"/>
 
 
                     <TextView
@@ -348,7 +360,8 @@
                         android:textAlignment="viewEnd"
                         android:textColor="#000"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginRight="6dp"/>
 
 
                 </RelativeLayout>
@@ -358,7 +371,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:background="@color/Green"
+                    android:background="@drawable/tv_border"
                     android:padding="10dp">
 
                     <TextView
@@ -370,7 +383,8 @@
                         android:textAlignment="viewStart"
                         android:textColor="#FFF"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginLeft="6dp"/>
 
                     <TextView
                         android:id="@+id/grandTotalTV"
@@ -382,7 +396,8 @@
                         android:textAlignment="viewEnd"
                         android:textColor="#FFF"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginRight="6dp"/>
                 </RelativeLayout>
 
 

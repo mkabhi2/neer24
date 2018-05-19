@@ -56,7 +56,7 @@ public interface RetroFitNetworkClient {
     Call<List<Can>> getCansListForLocation(@Query("latitude") String latitude, @Query("longitude") String longitude);
 
 
-    //http://18.220.28.118:8080//messenger/webapi/warehouse/specificwarehouse?latitude=12.948568&longitude=77.704373
+    //http://18.220.28.118//messenger/webapi/warehouse/specificwarehouse?latitude=12.948568&longitude=77.704373
     @GET("/neer/webapi/warehouse/specificwarehouse")
     Call<Integer> getWarehouseForLocation(@Query("latitude") String latitude, @Query("longitude") String longitude);
 

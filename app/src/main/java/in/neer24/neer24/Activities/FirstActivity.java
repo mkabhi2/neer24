@@ -77,7 +77,7 @@ public class FirstActivity extends AppCompatActivity {
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         relativeLayout = (RelativeLayout) findViewById(R.id.main_activity_container);
         progressBar = (ProgressBar) findViewById(R.id.firstActivityProgressBar);
-        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.Gold), PorterDuff.Mode.MULTIPLY);
+        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.Black), PorterDuff.Mode.MULTIPLY);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -104,7 +104,7 @@ public class FirstActivity extends AppCompatActivity {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118").client(okHttpClient)
+                .baseUrl("http://18.220.28.118:80/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -310,7 +310,7 @@ public class FirstActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080")
-                .baseUrl("http://18.220.28.118")       //
+                .baseUrl("http://18.220.28.118:80/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -356,8 +356,8 @@ public class FirstActivity extends AppCompatActivity {
     public void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 //HEY DUDE
-                //.baseUrl("http://192.168.0.3:8080/")
-                .baseUrl("http://18.220.28.118")
+                //.baseUrl("http://18.220.28.118:80/")
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

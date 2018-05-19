@@ -105,7 +105,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
                 ChangeLocationActivity.dialog.show();
 
                 Retrofit.Builder builder1 = new Retrofit.Builder()
-                        .baseUrl("http://18.220.28.118")
+                        .baseUrl("http://18.220.28.118:80/")
                         .addConverterFactory(GsonConverterFactory.create());
                 Retrofit retrofit1 = builder1.build();
 
@@ -129,7 +129,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
                                     mContext, new GeocoderHandler());
 
                             Retrofit.Builder builder = new Retrofit.Builder()
-                                    .baseUrl("http://18.220.28.118")
+                                    .baseUrl("http://18.220.28.118:80/")
                                     .addConverterFactory(GsonConverterFactory.create());
                             Retrofit retrofit = builder.build();
 

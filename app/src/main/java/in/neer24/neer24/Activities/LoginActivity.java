@@ -214,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -385,7 +385,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:80")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -430,7 +430,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .build();
 
                 Retrofit.Builder builder = new Retrofit.Builder()
-                        .baseUrl("http://18.220.28.118/").client(okHttpClient)
+                        .baseUrl("http://18.220.28.118:80/").client(okHttpClient)
                         .addConverterFactory(GsonConverterFactory.create());
 
                 Retrofit retrofit = builder.build();
@@ -507,7 +507,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -595,7 +595,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 

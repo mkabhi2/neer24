@@ -1,87 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-
     tools:context="in.neer24.neer24.Activities.OTPActivity">
 
-
-    <ImageView
-        android:id="@+id/displayImageOTPActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/verify_otp_icon" />
-
-    <TextView
-        android:id="@+id/displayMessageOTPActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Sit back and Relax while we verify your mobile number "
-        android:textAlignment="center"
-        android:textColor="@color/app_color" />
-
-    <TextView
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Enter the received OTP"
-        android:textAlignment="center"
-        android:textColor="@color/app_color" />
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-    <com.goodiebag.pinview.Pinview
-        android:id="@+id/pinViewOTPActivty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="35dp"
-        app:cursorVisible="false"
-        app:forceKeyboard="true"
-        app:inputType="number"
-        app:pinLength="6"
-        app:pinWidth="37dp">
-
-    </com.goodiebag.pinview.Pinview>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/verifyOTPButton"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rounded_corners_signup_button"
-            android:text="VERIFY"
-            android:textSize="16sp" />
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <Button
-            android:id="@+id/resendOTPButton"
-            android:layout_width="90dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="7dp"
-            android:layout_below="@id/verifyOTPButton"
-            android:background="@drawable/rounded_corners"
-            android:text="Resend OTP"
-            android:textColor="@color/Red"
-            android:textSize="10sp" />
+    </android.support.design.widget.AppBarLayout>
 
-    </RelativeLayout>
+    <include layout="@layout/content_otp" />
 
-    <ProgressBar
-        android:id="@+id/progressBarOTPActivity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

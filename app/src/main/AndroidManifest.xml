@@ -104,7 +104,7 @@
         <activity
             android:name=".Activities.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activities.OTPActivity" />
+
         <activity android:name=".Activities.UserProfileActivity" />
         <activity
             android:name=".Activities.OrderDetailsActivity"
@@ -155,6 +155,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.CheckoutActivity" />
+        </activity>
+        <activity
+            android:name=".Activities.OTPActivity"
+            android:parentActivityName=".Activities.RegisterActivity"
+            android:label="OTP"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.neer24.neer24.Activities.RegisterActivity" />
         </activity>
         <activity
             android:name=".Activities.AddAddressActivity"

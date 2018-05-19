@@ -28,7 +28,7 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
     public static RecyclerView recyclerView;
     public static ArrayList<Can> allCans = new ArrayList<Can>();
     boolean isNew = true;
-    String scheduleType;
+    static String scheduleType;
     private View headerView;
     private TextView customerEmailTextViewNavigationHeader;
     private TextView customerNameTextViewNavigationHeader;
@@ -45,7 +45,9 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
         sharedPreferenceUtility=new SharedPreferenceUtility(this);
 
         Intent intent = getIntent();
-        scheduleType = intent.getStringExtra("type");
+        if(intent.getStringExtra("type")!=null){
+            scheduleType = intent.getStringExtra("type");
+        }
 
         if (savedInstanceState != null) {
             // Restore value of members from saved state

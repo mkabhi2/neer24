@@ -1,10 +1,12 @@
 package in.neer24.neer24.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -41,17 +43,24 @@ public class OTPActivity extends AppCompatActivity {
     SmsVerifyCatcher smsVerifyCatcher;
     String enteredOTP;
     String generatedOTP;
+    Toolbar toolbar;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_otp);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         pinViewOTPActivity = (Pinview) findViewById(R.id.pinViewOTPActivty);
         resendOTPButton = (Button) findViewById(R.id.resendOTPButton);
         verifyOTPButton = (Button) findViewById(R.id.verifyOTPButton);
-        progressBarOTPActivity = (ProgressBar) findViewById(R.id.progressBarOTPActivity);
+        //progressBarOTPActivity = (ProgressBar) findViewById(R.id.progressBarOTPActivity);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
         resendOTPButton.setAlpha(.5f);
@@ -80,7 +89,7 @@ public class OTPActivity extends AppCompatActivity {
         }).start();
 
 
-        new CountDownTimer(10000, 1000) {
+        new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 resendOTPButton.setText(Long.valueOf(millisUntilFinished / 1000).toString());
@@ -99,7 +108,8 @@ public class OTPActivity extends AppCompatActivity {
         verifyOTPButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressBarOTPActivity.setVisibility(View.VISIBLE);
+                dialog = ProgressDialog.show(OTPActivity.this, "",
+                        "Signing you up. Please wait...", true);
                 getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 verifyWithSentOTP(enteredOTP);
@@ -120,7 +130,10 @@ public class OTPActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 resendOTPButton.setEnabled(false);
-
+                dialog = ProgressDialog.show(OTPActivity.this, "",
+                        "Generating OTP. Please wait...", true);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 new CountDownTimer(10000, 1000) {
 
                     public void onTick(long millisUntilFinished) {
@@ -130,12 +143,12 @@ public class OTPActivity extends AppCompatActivity {
 
                     public void onFinish() {
                         resendOTPButton.setText("Resend OTP!");
+                        dialog.cancel();
+                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     }
 
                 }.start();
-                progressBarOTPActivity.setVisibility(View.VISIBLE);
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                 requestOTPFromServer(sharedPreferenceUtility.getCustomerMobileNumberRegisterActivity(), sharedPreferenceUtility.getCustomerEmailRegisterActivity());
                 Timer buttonTimer = new Timer();
                 buttonTimer.schedule(new TimerTask() {
@@ -170,9 +183,8 @@ public class OTPActivity extends AppCompatActivity {
         if (generatedOTP.equals(otp)) {
             registerUserSuccesFully();
         } else {
-            progressBarOTPActivity.setVisibility(View.GONE);
+            dialog.cancel();
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-            progressBarOTPActivity.setVisibility(View.GONE);
             Toast.makeText(OTPActivity.this, "Invalid OTP,Try Again", Toast.LENGTH_SHORT).show();
         }
     }
@@ -205,7 +217,7 @@ public class OTPActivity extends AppCompatActivity {
             public void onResponse(Call<Customer> call, Response<Customer> response) {
                 Customer returnedCustomerObject = (Customer) response.body();
                 if (returnedCustomerObject == null || returnedCustomerObject.getOutputValue() == null && returnedCustomerObject.getOutputValue().contains("false")) {
-                    progressBarOTPActivity.setVisibility(View.GONE);
+                    dialog.cancel();
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Toast.makeText(OTPActivity.this, "Error in registering customer", Toast.LENGTH_SHORT).show();
                 } else {
@@ -216,7 +228,7 @@ public class OTPActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Customer> call, Throwable t) {
-                progressBarOTPActivity.setVisibility(View.GONE);
+                dialog.cancel();
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Toast.makeText(OTPActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
             }
@@ -227,7 +239,7 @@ public class OTPActivity extends AppCompatActivity {
 
     public void takeUserToHomeScreen() {
 
-        progressBarOTPActivity.setVisibility(View.GONE);
+        dialog.cancel();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
         if (HomeScreenActivity.cansList.isEmpty()) {
@@ -295,14 +307,15 @@ public class OTPActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 generatedOTP = response.body();
-                progressBarOTPActivity.setVisibility(View.GONE);
+                if(dialog!=null)
+                    dialog.cancel();
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(OTPActivity.this, "Error in generating OTP", Toast.LENGTH_SHORT).show();
-                progressBarOTPActivity.setVisibility(View.GONE);
+                dialog.cancel();
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
         });
