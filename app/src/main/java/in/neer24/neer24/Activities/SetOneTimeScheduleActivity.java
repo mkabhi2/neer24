@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -29,6 +30,7 @@ import org.joda.time.LocalTime;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -51,6 +53,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
     public static View addressView, billView;
     LinearLayout billOffersLL;
     SwitchCompat newCanSwitch;
+    TextView deliveryChargeText;
     double toPay = 0;
 
     Date date;
@@ -96,6 +99,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
     }
 
     void instantiateViewObjects(){
+        deliveryChargeText = (TextView) findViewById(R.id.bill_delivery_charges_details_tv);
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         btnTimePicker=(Button)findViewById(R.id.btn_time);
         btnCart = (Button) findViewById(R.id.submit);
@@ -219,10 +223,13 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
             public void onClick(View v) {
 
                 OrderTable order = createOrderObject();
-                OrderDetails orderContents[] = createOrderContents();
+                //OrderDetails orderContents[] = createOrderContents();
+                ArrayList<OrderDetails> orderContents = new ArrayList<OrderDetails>(Arrays.asList(createOrderContents()));
                 Intent intent = new Intent(SetOneTimeScheduleActivity.this, PaymentModeActivity.class);
+                intent.putExtra("parentClassName", "SetOneTimeScheduleActivity");
                 intent.putExtra("order",order);
-                intent.putExtra("orderContents", orderContents);
+                //intent.putExtra("orderContents", orderContents);
+                intent.putParcelableArrayListExtra("orderContents",orderContents);
 
                 startActivity(intent);
             }
@@ -311,6 +318,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                 if(itemIndex == addressesInCurrentLocation.size()) {
                     Intent intent = new Intent();
                     intent.setClass(SetOneTimeScheduleActivity.this, AddAddressActivity.class);
+                    intent.putExtra("className", "CheckoutActivity");
                     startActivity(intent);
                     return;
                 }
@@ -610,10 +618,12 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
             billItemTotalTV.setText(rupeeSymbol + " " + total);
 
             if(isNightDelivery()) {
+                deliveryChargeText.setText("Off Time Delivery Charge");
                 deliveryChargesTV.setText(rupeeSymbol + " 20");
                 deliveryCharge = 20;
             }
             else {
+                deliveryChargeText.setText("Delivery Charge");
                 deliveryChargesTV.setText(rupeeSymbol + " 0");
                 deliveryCharge = 0;
             }
@@ -706,6 +716,35 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         super.onResume();
         setAddressSelector();
         setUpOnClickListeners();
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(SetOneTimeScheduleActivity.this, FirstActivity.class);
+            startActivity(intent);
+        }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        final Intent intent = new Intent();
+        intent.setClass(SetOneTimeScheduleActivity.this, ScheduleDeliveryActivity.class);
+        intent.putExtra("type","schedule");
+        startActivity(intent);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
+    }
+
+
 
 }

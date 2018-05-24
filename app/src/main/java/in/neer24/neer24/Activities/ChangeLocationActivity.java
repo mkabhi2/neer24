@@ -176,7 +176,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080")
-                .baseUrl("http://18.220.28.118:80/")       //
+                .baseUrl("http://18.220.28.118/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -220,7 +220,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
     public void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:80/")
+                .baseUrl("http://18.220.28.118/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -274,6 +274,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
             else {
                 //take to home page
                 Intent intent = new Intent(ChangeLocationActivity.this, HomeScreenActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
         } else {
@@ -438,58 +439,5 @@ public class ChangeLocationActivity extends AppCompatActivity {
                 Snackbar.LENGTH_INDEFINITE)
                 .setAction(getString(actionStringId), listener).show();
     }
-
-    /*@Override
-    public void onBackPressed() {
-
-        if(comingSoonTV.getVisibility() == View.VISIBLE && (cansList==null || cansList.isEmpty())){
-
-            if (exit) {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_HOME);
-                intent.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NO_HISTORY);*Change Here***
-                startActivity(intent);
-                finish();
-                System.exit(0);
-
-            } else {
-                Toast.makeText(this, "Press Back again to Exit.",
-                        Toast.LENGTH_SHORT).show();
-                exit = true;
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        exit = false;
-                    }
-                }, 3 * 1000);
-
-            }
-
-
-            if (exit) {
-                finish(); // finish activity
-            }
-            else {
-                Toast.makeText(this, "Press Back again to Exit.",
-                        Toast.LENGTH_SHORT).show();
-                exit = true;
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        // TODO Auto-generated method stub
-                        Intent a = new Intent(Intent.ACTION_MAIN);
-                        a.addCategory(Intent.CATEGORY_HOME);
-                        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(a);
-                    }
-                }, 1000);
-
-        }}
-        else {
-
-            super.onBackPressed();
-        }
-    }*/
 
 }

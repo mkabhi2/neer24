@@ -89,8 +89,8 @@ public class ShareActivity extends AppCompatActivity implements NavigationView.O
             public void onClick(View v) {
                 Intent i=new Intent(android.content.Intent.ACTION_SEND);
                 i.setType("text/plain");
-                i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Subject test");
-                i.putExtra(android.content.Intent.EXTRA_TEXT, "extra text that you want to put");
+                i.putExtra(android.content.Intent.EXTRA_SUBJECT,"Neer24");
+                i.putExtra(android.content.Intent.EXTRA_TEXT, "Hey, Thirsty Bird!\n\n Install the Neer24 app to stop worrying about all your water needs. Get super fast pure, hygenic packaged water delivered to your home. Get all the brands you love.\n\n Register using my referral code ------------ and get your first neer24 packaged drinking water can free.\n\n #DrinkPureLivePure\n #Neer24YourWaterCompanion");
                 startActivity(Intent.createChooser(i,"Share via"));
             }
         });
@@ -116,16 +116,19 @@ public class ShareActivity extends AppCompatActivity implements NavigationView.O
         if (id == R.id.nav_home) {
             Intent intent = new Intent();
             intent.setClass(this,HomeScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
         } else if (id == R.id.nav_schedule_delivery) {
             Intent intent = new Intent();
             intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","schedule");
             startActivity(intent);
 
-        } else if (id == R.id.nav_disclaimer) {
+        } else if (id == R.id.nav_recurring_delivery) {
             Intent intent = new Intent();
-            intent.setClass(this,DisclaimerActivity.class);
+            intent.setClass(this,ScheduleDeliveryActivity.class);
+            intent.putExtra("type","recurring");
             startActivity(intent);
 
 
@@ -143,6 +146,33 @@ public class ShareActivity extends AppCompatActivity implements NavigationView.O
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.share_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.share_drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+            final Intent intent = new Intent();
+            intent.setClass(ShareActivity.this, HomeScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(ShareActivity.this, FirstActivity.class);
+            startActivity(intent);
+        }
     }
 
 }

@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -121,10 +123,12 @@ public class CheckoutActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 OrderTable order = createOrderObject();
-                OrderDetails orderDetails[]=createOrderDetailsObject();
+                //OrderDetails orderDetails[]=createOrderDetailsObject();
+                ArrayList<OrderDetails> orderDetails = new ArrayList<OrderDetails>(Arrays.asList(createOrderDetailsObject()));
                 Intent intent = new Intent(CheckoutActivity.this, PaymentModeActivity.class);
+                intent.putExtra("parentClassName", "CheckoutActivity");
                 intent.putExtra("order",order);
-                intent.putExtra("orderContents",orderDetails);
+                intent.putParcelableArrayListExtra("orderContents",orderDetails);
                 startActivity(intent);
             }
         });
@@ -178,6 +182,7 @@ public class CheckoutActivity extends AppCompatActivity {
                 if (itemIndex == addressesInCurrentLocation.size()) {
                     Intent intent = new Intent();
                     intent.setClass(CheckoutActivity.this, AddAddressActivity.class);
+                    intent.putExtra("className", "CheckoutActivity");
                     startActivity(intent);
                     return;
                 }
@@ -285,7 +290,7 @@ public class CheckoutActivity extends AppCompatActivity {
     public void updateWarehouseCansTable(int canID, int warehouseID) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:80/")       //
+                .baseUrl("http://18.220.28.118/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -394,7 +399,13 @@ public class CheckoutActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         HomeScreenActivity.showCartDetailsSummary();
+        final Intent intent = new Intent();
+
+        intent.setClass(CheckoutActivity.this, HomeScreenActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
+
 
     @Override
     protected void onPause() {
@@ -403,10 +414,26 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         setAddressSelector();
         setUpOnClickListeners();
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(CheckoutActivity.this, FirstActivity.class);
+            startActivity(intent);
+        }
     }
 }
 

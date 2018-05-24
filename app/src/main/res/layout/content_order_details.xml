@@ -8,15 +8,6 @@
     tools:context="in.neer24.neer24.Activities.OrderDetailsActivity"
     tools:showIn="@layout/activity_order_details">
 
-    <ProgressBar
-        android:id="@+id/orderDetailsActivityProgressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:layout_centerVertical="true" />
-
 
     <ScrollView
         android:id="@+id/hello1"
@@ -24,7 +15,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_above="@+id/checkoutButtons"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:scrollbars="none">
 
         <LinearLayout
@@ -101,7 +95,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Order ID" />
+                        android:text="Order ID"
+                        android:textColor="@color/DarkBlue"
+                        android:textStyle="bold"
+                        />
 
                     <TextView
                         android:id="@+id/orderID"
@@ -110,54 +107,8 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:text="12345"
-                        android:textAlignment="viewEnd" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="2dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Order Date" />
-
-                    <TextView
-                        android:id="@+id/orderDate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="Order Date"
-                        android:textAlignment="viewEnd" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="2dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Order Status" />
-
-                    <TextView
-                        android:id="@+id/orderStatus"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="Dispatched"
                         android:textAlignment="viewEnd"
-                        android:textColor="@color/Green"
+                        android:textColor="@color/Blue"
                         android:textStyle="bold"/>
 
                 </LinearLayout>
@@ -172,7 +123,63 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Order Type" />
+                        android:text="Order Date"
+                        android:textColor="@color/DarkBlue"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/orderDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Order Date"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/Blue"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="2dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Order Status"
+                        android:textColor="@color/DarkBlue"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/orderStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Dispatched"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/DarkGreen"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="2dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Order Type"
+                        android:textColor="@color/DarkBlue"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/orderType"
@@ -181,7 +188,9 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:text="Recurring"
-                        android:textAlignment="viewEnd" />
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/Blue"
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
@@ -197,7 +206,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Recurrences Left" />
+                        android:text="Recurrences Left"
+                        android:textColor="@color/DarkBlue"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/recurrencesLeft"
@@ -206,7 +217,9 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:text="4"
-                        android:textAlignment="viewEnd" />
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/Blue"
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
@@ -219,7 +232,9 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Payment Mode" />
+                        android:text="Payment Mode"
+                        android:textColor="@color/DarkBlue"
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/paymentMode"
@@ -228,7 +243,9 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:text="Debit Card"
-                        android:textAlignment="viewEnd" />
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/Blue"
+                        android:textStyle="bold"/>
 
                 </LinearLayout>
 
@@ -460,22 +477,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="DELIVERY ADDRESS"
-                    android:textAlignment="center" />
+                    android:textAlignment="center"
+                    android:padding="10dp"
+                    android:textColor="@color/Blue"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/deliveryAddress"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Flat No. 7, 2nd Floor, Building No. 86, 4th cross road, 1st main road, Kalamadir, Marathahalli, Bangalore 560037" />
+                    android:textColor="@color/DarkBlue"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"/>
             </LinearLayout>
 
 
             <LinearLayout
+                android:id="@+id/callCustomerCare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/tv_border2"
-                android:layout_marginTop="32dp">
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="15dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -489,7 +515,7 @@
                         android:id="@+id/phoneImage2"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:src="@drawable/discount"
+                        android:src="@drawable/customer_care"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"/>
 

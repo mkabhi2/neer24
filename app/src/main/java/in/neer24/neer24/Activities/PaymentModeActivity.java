@@ -2,10 +2,12 @@ package in.neer24.neer24.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,8 +19,11 @@ import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import in.neer24.neer24.CustomObjects.Can;
+import in.neer24.neer24.CustomObjects.NormalCart;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
@@ -43,6 +48,8 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
     LinearLayout payOnDeliveryLL, onlinePaymentLL;
     ImageView selectCirclePOD, selectCheckBoxPOD, selectCircleOP, selectCheckBoxOP;
     ProgressDialog dialog;
+    Toolbar toolbar;
+    String parentClassName;
 
 
     @Override
@@ -51,20 +58,22 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         setContentView(R.layout.activity_payment_mode);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         initialiseViewObjects();
         setUpOnClickListeners();
 
 
         Bundle bundle = getIntent().getExtras();
-        order = bundle.getParcelable("order");
 
-        Parcelable[] parcels = bundle.getParcelableArray("orderContents");
-        orderDetails = new OrderDetails[parcels.length];
-        int i = 0;
-        for (Parcelable par : parcels) {
-            orderDetails[i] = (OrderDetails) par;
-            i += 1;
-        }
+        order = bundle.getParcelable("order");
+        parentClassName = bundle.getString("parentClassName");
+
+        ArrayList<OrderDetails> orderDetail = bundle.getParcelableArrayList("orderContents");
+        orderDetails = orderDetail.toArray(new OrderDetails[orderDetail.size()]);
         order.setOrderContents(orderDetails);
 
 
@@ -120,7 +129,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         });
     }
 
-    public void insertDataIntoOrderTable(OrderTable orderTable) {
+    public void insertDataIntoOrderTable(final OrderTable orderTable) {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
@@ -129,8 +138,8 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:80/")
-                //.baseUrl("http://18.220.28.118:80/")
+                .baseUrl("http://18.220.28.118/")
+                //.baseUrl("http://18.220.28.118/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
@@ -147,6 +156,13 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                     if (!returnedOrderID.equals("0")) {
                         Toast.makeText(PaymentModeActivity.this, "Order Successful", Toast.LENGTH_SHORT).show();
                         dialog.cancel();
+                        NormalCart.getCartList().clear();
+                        final Intent intent = new Intent();
+                        orderTable.setOrderID(Integer.parseInt(returnedOrderID));
+                        intent.putExtra("order", orderTable);
+
+                        intent.setClass(PaymentModeActivity.this, OrderDetailsActivity.class);
+                        startActivity(intent);
                     }
                     else {
                         Toast.makeText(PaymentModeActivity.this, "Unable to Place order at this time", Toast.LENGTH_SHORT).show();
@@ -202,6 +218,54 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
 
         Log.d("error", s);
         Toast.makeText(PaymentModeActivity.this, "Error : " + s, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        final Intent intent = new Intent();
+
+        if(parentClassName.equals("CheckoutActivity")) {
+            intent.setClass(PaymentModeActivity.this, CheckoutActivity.class);
+        }
+        else {
+            for(Can can : HomeScreenActivity.cansList) {
+                if(can.getCanID() == orderDetails[0].getCanID()){
+                    intent.putExtra("item", can);
+                    break;
+                }
+            }
+            if(parentClassName.equals("SetOneTimeScheduleActivity")){
+                intent.setClass(PaymentModeActivity.this, SetOneTimeScheduleActivity.class);
+            }
+            else {
+                intent.setClass(PaymentModeActivity.this, SetRecurringScheduleActivity.class);
+            }
+        }
+
+        startActivity(intent);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(PaymentModeActivity.this, FirstActivity.class);
+            startActivity(intent);
+        }
     }
 
 }

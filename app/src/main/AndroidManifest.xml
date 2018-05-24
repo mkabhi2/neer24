@@ -7,9 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
-        android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon"
@@ -96,7 +96,8 @@
         </activity>
         <activity
             android:name=".Activities.WelcomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:noHistory="true"/>
         <activity
             android:name=".Activities.LoginActivity"
             android:launchMode="standard"
@@ -168,7 +169,8 @@
         <activity
             android:name=".Activities.AddAddressActivity"
             android:parentActivityName=".Activities.CheckoutActivity"
-            android:label="Add New Address">
+            android:label="Add New Address"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.CheckoutActivity" />
@@ -176,7 +178,8 @@
         <activity
             android:name=".Activities.PaymentModeActivity"
             android:parentActivityName=".Activities.CheckoutActivity"
-            android:label="Payment">
+            android:label="Payment"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.CheckoutActivity" />

@@ -119,6 +119,7 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             Intent intent = new Intent();
             intent.setClass(this,HomeScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
         } else if (id == R.id.nav_orders) {
@@ -152,6 +153,33 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.help_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.help_drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+            final Intent intent = new Intent();
+            intent.setClass(HelpActivity.this, HomeScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(HelpActivity.this, FirstActivity.class);
+            startActivity(intent);
+        }
     }
 
 

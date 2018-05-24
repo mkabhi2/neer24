@@ -104,7 +104,7 @@ public class FirstActivity extends AppCompatActivity {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:80/").client(okHttpClient)
+                .baseUrl("http://18.220.28.118/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -310,7 +310,7 @@ public class FirstActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080")
-                .baseUrl("http://18.220.28.118:80/")       //
+                .baseUrl("http://18.220.28.118/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -356,8 +356,8 @@ public class FirstActivity extends AppCompatActivity {
     public void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 //HEY DUDE
-                //.baseUrl("http://18.220.28.118:80/")
-                .baseUrl("http://18.220.28.118:80/")
+                //.baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -411,13 +411,14 @@ public class FirstActivity extends AppCompatActivity {
         } else {
             if (sharedPreferenceUtility.loggedIn()) {
 
-                if (HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty()) {
+                if (warehouseID==0) {
                     Intent intent = new Intent(FirstActivity.this, ChangeLocationActivity.class);
                     startActivity(intent);
                 }
                 else {
                     //take to home page
                     Intent intent = new Intent(FirstActivity.this, HomeScreenActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 }
             } else {

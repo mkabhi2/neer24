@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.goodiebag.pinview.Pinview;
@@ -38,7 +37,6 @@ public class OTPActivity extends AppCompatActivity {
     Pinview pinViewOTPActivity;
     Button resendOTPButton;
     Button verifyOTPButton;
-    ProgressBar progressBarOTPActivity;
     SharedPreferenceUtility sharedPreferenceUtility;
     SmsVerifyCatcher smsVerifyCatcher;
     String enteredOTP;
@@ -202,7 +200,7 @@ public class OTPActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")  //
-                .baseUrl("http://18.220.28.118:80/")
+                .baseUrl("http://18.220.28.118/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -247,6 +245,7 @@ public class OTPActivity extends AppCompatActivity {
             startActivity(intent);
         } else {
             Intent intent = new Intent(OTPActivity.this, HomeScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
         }
 
@@ -293,7 +292,7 @@ public class OTPActivity extends AppCompatActivity {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:80/")
+                .baseUrl("http://18.220.28.118/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -330,5 +329,16 @@ public class OTPActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         smsVerifyCatcher.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(OTPActivity.this, FirstActivity.class);
+            startActivity(intent);
+        }
     }
 }

@@ -31,7 +31,6 @@ import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.AsteriskTransformationMethod;
-import in.neer24.neer24.Utilities.BlurImage;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 import in.neer24.neer24.Utilities.UtilityClass;
@@ -122,7 +121,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
         Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.nav_bg);
-        Bitmap blurredBitmap = BlurImage.blur(this, originalBitmap);
 //        register_activity_scroll_view.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 
         firstNameEditText.addTextChangedListener(new GenericTextWatcher(firstNameEditText));
@@ -143,6 +141,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         passwordErrorMessageTextView.setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
+        flag = bundle.getString("flag");
         flag = bundle.getString("flag");
 
         if (flag.equals("email")) {
@@ -225,6 +224,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
         }
+
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(RegisterActivity.this, FirstActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void validateSignUpFields() throws ExecutionException, InterruptedException {
@@ -274,7 +280,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:80/")      //
+                .baseUrl("http://18.220.28.118/")      //
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -297,8 +303,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 String res = response.body();
                 if (res.contains("true")) {
                     if (flag.equals("mobilenumber")) {
+                        dialog.cancel();
                         Toast.makeText(RegisterActivity.this, "Email ID already registered", Toast.LENGTH_SHORT);
                     } else {
+                        dialog.cancel();
                         Toast.makeText(RegisterActivity.this, "Mobile Number already registered", Toast.LENGTH_SHORT);
                     }
                     dialog.cancel();
@@ -344,6 +352,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 startActivity(intent);
             } else {
                 Intent intent = new Intent(RegisterActivity.this, HomeScreenActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             }
 
@@ -422,5 +431,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             }
         }
     }
+
+
 
 }

@@ -124,6 +124,7 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
         if (id == R.id.nav_home) {
             Intent intent = new Intent();
             intent.setClass(this,HomeScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
         } else if (id == R.id.nav_orders) {
@@ -172,6 +173,11 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+
+            final Intent intent = new Intent();
+            intent.setClass(ScheduleDeliveryActivity.this, HomeScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
     }
 
@@ -187,6 +193,17 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
     protected void onPause() {
         super.onPause();
         isNew = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(ScheduleDeliveryActivity.this, FirstActivity.class);
+            startActivity(intent);
+        }
     }
 
 }

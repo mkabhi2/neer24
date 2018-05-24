@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,6 +39,7 @@ public class AddAddressActivity extends AppCompatActivity {
     SharedPreferenceUtility sharedPreferenceUtility;
     private EditText addressNickName, landmark, houseAddress;
     Toast toast;
+    Toolbar toolbar;
     ProgressDialog dialog;
 
     private int warehouseID, currentWarehouseID;
@@ -51,6 +54,11 @@ public class AddAddressActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         callingClass = intent.getStringExtra("className");
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sharedPreferenceUtility=new SharedPreferenceUtility(this);
         currentWarehouseID = sharedPreferenceUtility.getWareHouseID();
@@ -134,7 +142,7 @@ public class AddAddressActivity extends AppCompatActivity {
                 "Saving. Please wait...", true);
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080")
-                .baseUrl("http://18.220.28.118:80/")       //
+                .baseUrl("http://18.220.28.118/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -183,7 +191,7 @@ public class AddAddressActivity extends AppCompatActivity {
     public void saveAddressToServer(){
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:80/")       //
+                .baseUrl("http://18.220.28.118/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -275,6 +283,52 @@ public class AddAddressActivity extends AppCompatActivity {
                 locationNameLineView.setVisibility(View.VISIBLE);
                 selectLocationBtn.setText("CHANGE LOCATION");
             }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        final Intent intent = new Intent();
+
+        if(callingClass.equals("UserAccountActivity")){
+            intent.setClass(AddAddressActivity.this, UserAccountActivity.class);
+        }
+        else{
+            if(callingClass.equals("CheckoutActivity")){
+                intent.setClass(AddAddressActivity.this, CheckoutActivity.class);
+            }
+            else {
+                if(callingClass.equals("SetOneTimeScheduleActivity")){
+                    intent.setClass(AddAddressActivity.this, SetOneTimeScheduleActivity.class);
+                }
+                else{
+                    intent.setClass(AddAddressActivity.this, SetRecurringScheduleActivity.class);
+                }
+            }
+        }
+        startActivity(intent);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(AddAddressActivity.this, FirstActivity.class);
+            startActivity(intent);
         }
     }
 }

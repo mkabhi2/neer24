@@ -109,4 +109,7 @@ public interface RetroFitNetworkClient {
     @GET("/neer/webapi/offers/referralcode")
     Call<String> increaseNumberOfFreeCansReferral(@Query("referralcode")String referralCode);
 
+    @GET("/neer/webapi/deliveryboyapp/cancelorder/")
+    Call<String> cancelOrder(@Query("orderid")int orderID);
+
 }

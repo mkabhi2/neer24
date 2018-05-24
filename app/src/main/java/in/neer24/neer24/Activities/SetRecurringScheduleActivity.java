@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,7 @@ import org.joda.time.LocalTime;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -577,10 +579,13 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
             @Override
             public void onClick(View v) {
                 OrderTable order = createOrderObject();
-                OrderDetails orderContents[] = createOrderContents();
+                //OrderDetails orderContents[] = createOrderContents();
+                ArrayList<OrderDetails> orderContents = new ArrayList<OrderDetails>(Arrays.asList(createOrderContents()));
                 Intent intent = new Intent(SetRecurringScheduleActivity.this, PaymentModeActivity.class);
+                intent.putExtra("parentClassName", "SetRecurringScheduleActivity");
                 intent.putExtra("order",order);
-                intent.putExtra("orderContents", orderContents);
+                //intent.putExtra("orderContents", orderContents);
+                intent.putParcelableArrayListExtra("orderContents",orderContents);
 
                 startActivity(intent);
             }
@@ -670,6 +675,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                 if(itemIndex == addressesInCurrentLocation.size()) {
                     Intent intent = new Intent();
                     intent.setClass(SetRecurringScheduleActivity.this, AddAddressActivity.class);
+                    intent.putExtra("className", "CheckoutActivity");
                     startActivity(intent);
                     return;
                 }
@@ -755,7 +761,35 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         super.onResume();
         setAddressSelector();
         setUpOnClickListeners();
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(SetRecurringScheduleActivity.this, FirstActivity.class);
+            startActivity(intent);
+        }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        final Intent intent = new Intent();
+        intent.setClass(SetRecurringScheduleActivity.this, ScheduleDeliveryActivity.class);
+        intent.putExtra("type","recurring");
+        startActivity(intent);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return true;
+    }
+
 
 }
 

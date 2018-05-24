@@ -129,6 +129,7 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         if (id == R.id.nav_home) {
             Intent intent = new Intent();
             intent.setClass(this, HomeScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
 
         } else if (id == R.id.nav_orders) {
@@ -240,5 +241,32 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.user_account_drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+            final Intent intent = new Intent();
+            intent.setClass(UserAccountActivity.this, HomeScreenActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+
+            Intent intent  = new Intent();
+            intent.setClass(UserAccountActivity.this, FirstActivity.class);
+            startActivity(intent);
+        }
     }
 }

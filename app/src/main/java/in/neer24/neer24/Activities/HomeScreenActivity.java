@@ -1,9 +1,14 @@
 package in.neer24.neer24.Activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -47,6 +52,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
     public static ArrayList<CustomerAddress> addressList = new ArrayList<CustomerAddress>();
     public static ArrayList<Can> cansList = new ArrayList<Can>();
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 35;
 
     AutoScrollViewPager viewPager;
     CustomPagerAdapter pagerAdapter;
@@ -166,6 +172,63 @@ public class HomeScreenActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+        bulkOrderBtnLL.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!checkPermissions()) {
+                    requestPermissions();
+                } else {
+                    makeACall();
+                }
+            }
+        });
+    }
+
+    private boolean checkPermissions() {
+        int permissionState = ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermissions() {
+
+        boolean shouldProvideRationale =
+                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.CALL_PHONE);
+
+        if (shouldProvideRationale) {
+
+            showSnackbar(R.string.call_permission_rationale, android.R.string.ok,
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // Request permission
+                            stratPhonePermissionRequest();
+                        }
+                    });
+        } else {
+
+            stratPhonePermissionRequest();
+        }
+    }
+
+    private void showSnackbar(final int mainTextStringId, final int actionStringId,
+                              View.OnClickListener listener) {
+        Snackbar.make(findViewById(android.R.id.content),
+                getString(mainTextStringId),
+                Snackbar.LENGTH_INDEFINITE)
+                .setAction(getString(actionStringId), listener).show();
+    }
+
+    private void stratPhonePermissionRequest() {
+        ActivityCompat.requestPermissions(HomeScreenActivity.this,
+                new String[]{Manifest.permission.CALL_PHONE},
+                REQUEST_PERMISSIONS_REQUEST_CODE);
+    }
+
+    @SuppressWarnings("MissingPermission")
+    private void makeACall() {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "8867248261"));
+        startActivity(intent);
     }
 
 
@@ -180,7 +243,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 //.baseUrl("http://192.168.0.2:8080/")
-                .baseUrl("http://18.220.28.118:80/")  //
+                .baseUrl("http://18.220.28.118/")  //
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -311,6 +374,8 @@ public class HomeScreenActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            NormalCart.getCartList().clear();
+            HomeScreenActivity.cansList = null;
         }
     }
 

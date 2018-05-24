@@ -48,8 +48,8 @@
             android:id="@+id/tv_productQuality"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TDS : 0.01 ppm"
-            android:textSize="13sp"
+            android:text="TDS:0.01 PPM | pH:7"
+            android:textSize="12sp"
             android:layout_marginTop="10dp"
             android:textColor="@color/Gray"/>
 
