@@ -59,12 +59,12 @@ public class OrderDetailsRVAdapter extends RecyclerView.Adapter<OrderDetailsRVAd
 
         holder.itemNameTV.setText(orderDetails.getCanName());
 
-        String priceDetailsString = rupeeSymbol + " " + orderDetails.getCanPrice() + " x " + orderDetails.getCanQuantity() + " can(s)";
-        int price = (int)(orderDetails.getCanPrice() * orderDetails.getCanQuantity());
+        String priceDetailsString = rupeeSymbol + " " + orderDetails.getCanPrice() + " x " + orderDetails.getOrderQuantity() + " can(s)";
+        int price = (int)(orderDetails.getCanPrice() * orderDetails.getOrderQuantity());
 
-        if(orderDetails.getIsNewCan()==1){
-            priceDetailsString = priceDetailsString + "\n New can ( 150 x " + orderDetails.getCanQuantity() + ")";
-            price = price + (150 * orderDetails.getCanQuantity());
+        if(orderDetails.getIsNew()==1){
+            priceDetailsString = priceDetailsString + "\n New can ( 150 x " + orderDetails.getOrderQuantity() + ")";
+            price = price + (150 * orderDetails.getOrderQuantity());
         }
 
         holder.priceDetailsTV.setText(priceDetailsString);

@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +40,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
     RecyclerView recyclerView;
     private TextView customerEmailTextViewNavigationHeader;
     private TextView customerNameTextViewNavigationHeader;
+    private LinearLayout noOrdersFoundTV;
     private NavigationView navigationView;
     SharedPreferenceUtility sharedPreferenceUtility;
     static ArrayList<OrderTable> ordersList = new ArrayList<OrderTable>();
@@ -55,6 +57,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
         View headerview = navigationView.getHeaderView(0);
         customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
         customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
+        noOrdersFoundTV = (LinearLayout) findViewById(R.id.noOrdersFound);
 
         customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
         customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
@@ -90,8 +93,8 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .build();
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118/")
-                .baseUrl("http://18.220.28.118/")
+                //.baseUrl("http://192.168.43.202:8080/")
+                .baseUrl("http://192.168.43.202:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -121,20 +124,25 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
 
     public void setUpRecyclerView(RecyclerView recyclerView){
 
-        recyclerView.setAdapter(new OrdersRVAdapter(ordersList, this));
-        recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 500));
-        recyclerView.addOnItemTouchListener(
-                new RVItemClickListener(this, new RVItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, final int position) {
+        if(ordersList!=null && !ordersList.isEmpty()){
+            recyclerView.setAdapter(new OrdersRVAdapter(ordersList, this));
+            recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 500));
+            recyclerView.addOnItemTouchListener(
+                    new RVItemClickListener(this, new RVItemClickListener.OnItemClickListener() {
+                        @Override public void onItemClick(View view, final int position) {
 
-                        final Intent intent = new Intent();
-                        intent.putExtra("order", ordersList.get(position));
+                            final Intent intent = new Intent();
+                            intent.putExtra("order", ordersList.get(position));
 
-                        intent.setClass(OrdersActivity.this, OrderDetailsActivity.class);
-                        startActivity(intent);
-                    }
-                })
-        );
+                            intent.setClass(OrdersActivity.this, OrderDetailsActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+            );
+        }
+        else {
+            noOrdersFoundTV.setVisibility(View.VISIBLE);
+        }
     }
     public void setUpNavigationDrawer(Toolbar toolbar){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.order_drawer_layout);

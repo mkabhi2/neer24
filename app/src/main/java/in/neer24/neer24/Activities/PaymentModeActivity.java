@@ -138,8 +138,8 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118/")
-                //.baseUrl("http://18.220.28.118/")
+                .baseUrl("http://192.168.43.202:8080/")
+                //.baseUrl("http://192.168.43.202:8080/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();

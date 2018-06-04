@@ -10,22 +10,22 @@ import android.os.Parcelable;
 public class OrderDetails implements Parcelable{
 
     private int canID;
-    private int isNewCan;
+    private int isNew;
     private int orderDetailsID;
     private int orderID;
-    private int canQuantity;
+    private int orderQuantity;
 
     private String canName;
     private double canPrice;
 
 
 
-    public OrderDetails(int canID, int isNewCan, int orderDetailsID, int orderID, int canQuantity) {
+    public OrderDetails(int canID, int isNew, int orderDetailsID, int orderID, int orderQuantity) {
         this.canID = canID;
-        this.isNewCan = isNewCan;
+        this.isNew = isNew;
         this.orderDetailsID = orderDetailsID;
         this.orderID = orderID;
-        this.canQuantity = canQuantity;
+        this.orderQuantity = orderQuantity;
     }
 
 
@@ -43,10 +43,10 @@ public class OrderDetails implements Parcelable{
 
     private OrderDetails(Parcel in){
         canID = in.readInt();
-        isNewCan = in.readInt();
+        isNew = in.readInt();
         orderDetailsID = in.readInt();
         orderID = in.readInt();
-        canQuantity = in.readInt();
+        orderQuantity = in.readInt();
     }
 
     @Override
@@ -57,10 +57,10 @@ public class OrderDetails implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(canID);
-        parcel.writeInt(isNewCan);
+        parcel.writeInt(isNew);
         parcel.writeInt(orderDetailsID);
         parcel.writeInt(orderID);
-        parcel.writeInt(canQuantity);
+        parcel.writeInt(orderQuantity);
     }
 
     public int getCanID() {
@@ -71,12 +71,12 @@ public class OrderDetails implements Parcelable{
         this.canID = canID;
     }
 
-    public int getIsNewCan() {
-        return isNewCan;
+    public int getIsNew() {
+        return isNew;
     }
 
-    public void setIsNewCan(int isNewCan) {
-        this.isNewCan = isNewCan;
+    public void setIsNew(int isNew) {
+        this.isNew = isNew;
     }
 
     public int getOrderDetailsID() {
@@ -95,12 +95,12 @@ public class OrderDetails implements Parcelable{
         this.orderID = orderID;
     }
 
-    public int getCanQuantity() {
-        return canQuantity;
+    public int getOrderQuantity() {
+        return orderQuantity;
     }
 
-    public void setCanQuantity(int canQuantity) {
-        this.canQuantity = canQuantity;
+    public void setOrderQuantity(int orderQuantity) {
+        this.orderQuantity = orderQuantity;
     }
 
     public String getCanName() {
