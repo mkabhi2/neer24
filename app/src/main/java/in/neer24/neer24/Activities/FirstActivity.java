@@ -104,7 +104,7 @@ public class FirstActivity extends AppCompatActivity {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.43.202:8080/").client(okHttpClient)
+                .baseUrl("http://18.220.28.118:80/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -309,8 +309,7 @@ public class FirstActivity extends AppCompatActivity {
     public void getWarehouseForLocation(double latitude, double longitude) {
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.43.202:8080")
-                .baseUrl("http://192.168.43.202:8080/")       //
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -355,9 +354,7 @@ public class FirstActivity extends AppCompatActivity {
 
     public void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
-                //HEY DUDE
-                //.baseUrl("http://192.168.43.202:8080/")
-                .baseUrl("http://192.168.43.202:8080/")
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

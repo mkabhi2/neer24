@@ -80,7 +80,7 @@ public class HomeScreenActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
 
-        sharedPreferenceUtility=new SharedPreferenceUtility(this);
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
         if (savedInstanceState != null) {
             // Restore value of members from saved state
@@ -88,7 +88,7 @@ public class HomeScreenActivity extends AppCompatActivity
             addressList = savedInstanceState.getParcelableArrayList("savedAddressList");
         }
 
-        if(addressList==null || addressList.isEmpty() && (sharedPreferenceUtility.loggedIn())) {
+        if (addressList == null || addressList.isEmpty() && (sharedPreferenceUtility.loggedIn())) {
             getCustomerAddress();
         }
 
@@ -99,20 +99,107 @@ public class HomeScreenActivity extends AppCompatActivity
         setUpViewPager();
         //getCustomerAddress();
 
+        chekIfUserHasBeenRefered();
+
+    }
+
+    public void chekIfUserHasBeenRefered() {
+        String referalCode = sharedPreferenceUtility.getCustomerReferralCodeRegisterActivity();
+        if (referalCode != null || referalCode != "") {
+            validateReferalCodeFromServer(referalCode);
+        }
+
     }
 
 
+    public void validateReferalCodeFromServer(final String referalCode) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://18.220.28.118:80/")
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+
+        RetroFitNetworkClient
+                retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<String> call = retroFitNetworkClient.validateReferalCode(referalCode);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+
+
+            public void onResponse(Call<String> call, Response<String> response) {
+                String isCodeValid = response.body();
+
+                if (isCodeValid != null && isCodeValid != "" && isCodeValid.equals("true")) {
+                    increaseTotalNumberOfFreeCansByOne(referalCode);
+
+                }
+
+            }
+
+            @Override
+
+
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(HomeScreenActivity.this, "Server error", Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+
+    }
+
+    public void increaseTotalNumberOfFreeCansByOne(String referalCode) {
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://18.220.28.118:80/")
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
+
+        Retrofit retrofit = builder.build();
+
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<String> call = retroFitNetworkClient.increaseNumberOfFreeCansReferral(referalCode);
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                String result = response.body();
+                if (result != null && result != "" && result.equals("true")) {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(HomeScreenActivity.this, "Server error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     private void initialiseViewObjects() {
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         headerView = navigationView.getHeaderView(0);
-        customerNameTextViewNavigationHeader = (TextView)headerView.findViewById(R.id.customerNameTextViewNavigationHeader);
-        customerEmailTextViewNavigationHeader=(TextView)headerView.findViewById(R.id.customerEmailTextViewNavigationHeader);
-        checkoutButtonLinearLayout=(LinearLayout)findViewById(R.id.checkoutButtonHomeScreenLinearLayout);
-        checkoutButton=(Button)findViewById(R.id.dishActivityCheckoutButton);
-        cartSummary=(TextView)findViewById(R.id.dishActivityCartSummaryTextView);
-        homeScreenCollapsingToolbarLayout=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar_layout);
+        customerNameTextViewNavigationHeader = (TextView) headerView.findViewById(R.id.customerNameTextViewNavigationHeader);
+        customerEmailTextViewNavigationHeader = (TextView) headerView.findViewById(R.id.customerEmailTextViewNavigationHeader);
+        checkoutButtonLinearLayout = (LinearLayout) findViewById(R.id.checkoutButtonHomeScreenLinearLayout);
+        checkoutButton = (Button) findViewById(R.id.dishActivityCheckoutButton);
+        cartSummary = (TextView) findViewById(R.id.dishActivityCartSummaryTextView);
+        homeScreenCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
         recyclerView = (RecyclerView) findViewById(R.id.rv);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         scheduleOrderBtnLL = (LinearLayout) findViewById(R.id.scheduleOrderBtnLL);
@@ -140,7 +227,7 @@ public class HomeScreenActivity extends AppCompatActivity
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HomeScreenActivity.this,UserAccountActivity.class);
+                Intent intent = new Intent(HomeScreenActivity.this, UserAccountActivity.class);
                 startActivity(intent);
             }
         });
@@ -148,7 +235,7 @@ public class HomeScreenActivity extends AppCompatActivity
         checkoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HomeScreenActivity.this,CheckoutActivity.class);
+                Intent intent = new Intent(HomeScreenActivity.this, CheckoutActivity.class);
                 startActivity(intent);
             }
         });
@@ -157,8 +244,8 @@ public class HomeScreenActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(HomeScreenActivity.this,ScheduleDeliveryActivity.class);
-                intent.putExtra("type","schedule");
+                intent.setClass(HomeScreenActivity.this, ScheduleDeliveryActivity.class);
+                intent.putExtra("type", "schedule");
                 startActivity(intent);
             }
         });
@@ -167,8 +254,8 @@ public class HomeScreenActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(HomeScreenActivity.this,ScheduleDeliveryActivity.class);
-                intent.putExtra("type","recurring");
+                intent.setClass(HomeScreenActivity.this, ScheduleDeliveryActivity.class);
+                intent.putExtra("type", "recurring");
                 startActivity(intent);
             }
         });
@@ -232,8 +319,8 @@ public class HomeScreenActivity extends AppCompatActivity
     }
 
 
-    public void getCustomerAddress(){
-        int customerid=sharedPreferenceUtility.getCustomerID();
+    public void getCustomerAddress() {
+        int customerid = sharedPreferenceUtility.getCustomerID();
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
@@ -242,26 +329,25 @@ public class HomeScreenActivity extends AppCompatActivity
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.43.202:8080/")
-                .baseUrl("http://192.168.43.202:8080/")  //
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
-        String  unique=sharedPreferenceUtility.getCustomerUniqueID();
+        String unique = sharedPreferenceUtility.getCustomerUniqueID();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<List<CustomerAddress>> call=retroFitNetworkClient.getAllCustomerAddress(customerid,unique);
+        Call<List<CustomerAddress>> call = retroFitNetworkClient.getAllCustomerAddress(customerid, unique);
 
         call.enqueue(new Callback<List<CustomerAddress>>() {
             @Override
             public void onResponse(Call<List<CustomerAddress>> call, Response<List<CustomerAddress>> response) {
-                addressList=(ArrayList<CustomerAddress>)response.body();
+                addressList = (ArrayList<CustomerAddress>) response.body();
             }
 
             @Override
             public void onFailure(Call<List<CustomerAddress>> call, Throwable t) {
-                Toast.makeText(HomeScreenActivity.this,"Error loading addresses",Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeScreenActivity.this, "Error loading addresses", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -269,9 +355,9 @@ public class HomeScreenActivity extends AppCompatActivity
     }
 
 
-    public void setUpViewPager(){
-        viewPager=(AutoScrollViewPager)findViewById(R.id.viewPager);
-        pagerAdapter=new CustomPagerAdapter(this);
+    public void setUpViewPager() {
+        viewPager = (AutoScrollViewPager) findViewById(R.id.viewPager);
+        pagerAdapter = new CustomPagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
         viewPager.startAutoScroll();
         viewPager.setInterval(5000);
@@ -279,13 +365,13 @@ public class HomeScreenActivity extends AppCompatActivity
         viewPager.setBorderAnimation(false);
     }
 
-    public void setUpRecyclerView(RecyclerView recyclerView){
+    public void setUpRecyclerView(RecyclerView recyclerView) {
 
         recyclerView.setAdapter(new HomeRVAdapter(cansList, this));
         recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
     }
 
-    public void setUpNavigationDrawer(Toolbar toolbar){
+    public void setUpNavigationDrawer(Toolbar toolbar) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -304,36 +390,36 @@ public class HomeScreenActivity extends AppCompatActivity
 
         if (id == R.id.nav_orders) {
             Intent intent = new Intent();
-            intent.setClass(this,OrdersActivity.class);
+            intent.setClass(this, OrdersActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_schedule_delivery) {
             Intent intent = new Intent();
-            intent.setClass(this,ScheduleDeliveryActivity.class);
-            intent.putExtra("type","schedule");
+            intent.setClass(this, ScheduleDeliveryActivity.class);
+            intent.putExtra("type", "schedule");
             startActivity(intent);
 
         } else if (id == R.id.nav_recurring_delivery) {
             Intent intent = new Intent();
-            intent.setClass(this,ScheduleDeliveryActivity.class);
-            intent.putExtra("type","recurring");
+            intent.setClass(this, ScheduleDeliveryActivity.class);
+            intent.putExtra("type", "recurring");
             startActivity(intent);
 
 
-        }else if (id == R.id.nav_disclaimer) {
+        } else if (id == R.id.nav_disclaimer) {
             Intent intent = new Intent();
-            intent.setClass(this,DisclaimerActivity.class);
+            intent.setClass(this, DisclaimerActivity.class);
             startActivity(intent);
 
 
         } else if (id == R.id.nav_share) {
             Intent intent = new Intent();
-            intent.setClass(this,ShareActivity.class);
+            intent.setClass(this, ShareActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_help) {
             Intent intent = new Intent();
-            intent.setClass(this,HelpActivity.class);
+            intent.setClass(this, HelpActivity.class);
             startActivity(intent);
         }
 
@@ -360,7 +446,7 @@ public class HomeScreenActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_change_location) {
             Intent intent = new Intent(HomeScreenActivity.this, ChangeLocationActivity.class);
-            intent.putExtra("isFromHomeScreen",true);
+            intent.putExtra("isFromHomeScreen", true);
             startActivity(intent);
         }
 
@@ -382,7 +468,7 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
 
-        savedInstanceState.putParcelableArrayList("savedCansList",cansList);
+        savedInstanceState.putParcelableArrayList("savedCansList", cansList);
         savedInstanceState.putParcelableArrayList("savedAddressList", addressList);
         super.onSaveInstanceState(savedInstanceState);
     }
@@ -390,8 +476,8 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        if(!isNew) {
-            recyclerView.swapAdapter(new HomeRVAdapter(cansList, this),false);
+        if (!isNew) {
+            recyclerView.swapAdapter(new HomeRVAdapter(cansList, this), false);
         }
     }
 
@@ -401,31 +487,31 @@ public class HomeScreenActivity extends AppCompatActivity
         isNew = false;
     }
 
-    public static void showCartDetailsSummary(){
+    public static void showCartDetailsSummary() {
 
 
-        HashMap<Can,Integer> cart= NormalCart.getCartList();
-        int totalQuantity=0;
-        double price=0;
-        double totalCost=0;
-        if(cart.size()==0){
+        HashMap<Can, Integer> cart = NormalCart.getCartList();
+        int totalQuantity = 0;
+        double price = 0;
+        double totalCost = 0;
+        if (cart.size() == 0) {
             cartSummary.setVisibility(View.GONE);
             checkoutButton.setVisibility(View.GONE);
             checkoutButtonLinearLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             for (Can c : cart.keySet()) {
                 price = c.getPrice();
                 Integer quantity = cart.get(c);
                 totalCost = totalCost + (price * quantity);
-                if(c.getUserWantsNewCan() == 1){
+                if (c.getUserWantsNewCan() == 1) {
                     totalCost = totalCost + (c.getNewCanPrice() * quantity);
                 }
                 totalQuantity += quantity;
             }
 
-            String rupeeSymbol = Character.toString((char)'\u20B9');
+            String rupeeSymbol = Character.toString((char) '\u20B9');
 
-            String message = "(" + totalQuantity+")" +"\n" + rupeeSymbol + " " + totalCost;
+            String message = "(" + totalQuantity + ")" + "\n" + rupeeSymbol + " " + totalCost;
             cartSummary.setText(message);
             cartSummary.setGravity(Gravity.CENTER_VERTICAL);
             checkoutButtonLinearLayout.setVisibility(View.VISIBLE);
@@ -436,16 +522,16 @@ public class HomeScreenActivity extends AppCompatActivity
         }
     }
 
-    public static ArrayList<CustomerAddress> getAddressList(){
+    public static ArrayList<CustomerAddress> getAddressList() {
         return addressList;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if(cansList==null || cansList.isEmpty() || locationName==null || locationName.isEmpty()){
+        if (cansList == null || cansList.isEmpty() || locationName == null || locationName.isEmpty()) {
 
-            Intent intent  = new Intent();
+            Intent intent = new Intent();
             intent.setClass(HomeScreenActivity.this, FirstActivity.class);
             startActivity(intent);
         }

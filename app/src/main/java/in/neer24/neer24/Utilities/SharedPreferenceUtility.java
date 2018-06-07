@@ -31,8 +31,8 @@ public class SharedPreferenceUtility {
         editor.commit();
     }
 
-    public String getLoggediInVia(){
-        return sharedPreferences.getString("loginmode",null);
+    public String getLoggediInVia() {
+        return sharedPreferences.getString("loginmode", null);
     }
 
     public boolean loggedIn() {
@@ -179,13 +179,13 @@ public class SharedPreferenceUtility {
         return sharedPreferences.getString("MOBILENUMBER", null);
     }
 
-    public void setCustomerReferralCode(String customerReferralCode){
-        editor.putString("REFERRALCODE",customerReferralCode);
+    public void setCustomerReferralCode(String customerReferralCode) {
+        editor.putString("REFERRALCODE", customerReferralCode);
         editor.commit();
     }
 
-    public String  getCustomerReferralCode(){
-        return sharedPreferences.getString("REFERRALCODE",null);
+    public String getCustomerReferralCode() {
+        return sharedPreferences.getString("REFERRALCODE", null);
     }
 
     public void setCustomerReferralCodeRegisterActivity(String customerReferralCode) {
@@ -196,5 +196,14 @@ public class SharedPreferenceUtility {
 
     public String getCustomerReferralCodeRegisterActivity() {
         return sharedPreferences.getString("CustomerReferralCodeRegisterActivity", null);
+    }
+
+    public void setLoggedInViaTemporary(String loggedInViaTemporary) {
+        editor.putString("loggedinviatemp", loggedInViaTemporary);
+        editor.commit();
+    }
+
+    public String getLoggedInViaTemporary() {
+        return sharedPreferences.getString("loggedinviatemp", null);
     }
 }

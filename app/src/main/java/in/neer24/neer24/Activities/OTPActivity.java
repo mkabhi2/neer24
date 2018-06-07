@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.goodiebag.pinview.Pinview;
@@ -43,6 +44,7 @@ public class OTPActivity extends AppCompatActivity {
     String generatedOTP;
     Toolbar toolbar;
     ProgressDialog dialog;
+    TextView mobileNumberTextViewOTPActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class OTPActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mobileNumberTextViewOTPActivity = (TextView) findViewById(R.id.mobileNumberTextViewOTPActivity);
 
         pinViewOTPActivity = (Pinview) findViewById(R.id.pinViewOTPActivty);
         resendOTPButton = (Button) findViewById(R.id.resendOTPButton);
@@ -64,6 +67,7 @@ public class OTPActivity extends AppCompatActivity {
         resendOTPButton.setAlpha(.5f);
         resendOTPButton.setEnabled(false);
 
+        mobileNumberTextViewOTPActivity.setText("Enter the received OTP On " + sharedPreferenceUtility.getCustomerMobileNumberRegisterActivity() != null ? sharedPreferenceUtility.getCustomerMobileNumberRegisterActivity() : "");
         new Thread(new Runnable() {
 
             @Override
@@ -199,8 +203,7 @@ public class OTPActivity extends AppCompatActivity {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.43.202:8080/")  //
-                .baseUrl("http://192.168.43.202:8080/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -239,11 +242,19 @@ public class OTPActivity extends AppCompatActivity {
 
         dialog.cancel();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
+        String loggedInViaTemp = sharedPreferenceUtility.getLoggedInViaTemporary();
         if (HomeScreenActivity.cansList.isEmpty()) {
+            if (loggedInViaTemp != null) {
+                sharedPreferenceUtility.setLoggediInVia(loggedInViaTemp);
+                sharedPreferenceUtility.setLoggedIn(true);
+            }
             Intent intent = new Intent(OTPActivity.this, ChangeLocationActivity.class);
             startActivity(intent);
         } else {
+            if (loggedInViaTemp != null) {
+                sharedPreferenceUtility.setLoggediInVia(loggedInViaTemp);
+                sharedPreferenceUtility.setLoggedIn(true);
+            }
             Intent intent = new Intent(OTPActivity.this, HomeScreenActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -291,8 +302,7 @@ public class OTPActivity extends AppCompatActivity {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.43.202:8080/")
-                .baseUrl("http://192.168.43.202:8080/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -306,7 +316,7 @@ public class OTPActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 generatedOTP = response.body();
-                if(dialog!=null)
+                if (dialog != null)
                     dialog.cancel();
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             }
@@ -334,9 +344,9 @@ public class OTPActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+        if (HomeScreenActivity.cansList == null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName == null || HomeScreenActivity.locationName.isEmpty()) {
 
-            Intent intent  = new Intent();
+            Intent intent = new Intent();
             intent.setClass(OTPActivity.this, FirstActivity.class);
             startActivity(intent);
         }

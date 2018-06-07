@@ -196,8 +196,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 "Loading. Please wait...", true);
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.43.202:8080")
-                .baseUrl("http://192.168.43.202:8080/")       //
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -255,8 +254,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.43.202:8080/")
-                .baseUrl("http://192.168.43.202:8080/")       //
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

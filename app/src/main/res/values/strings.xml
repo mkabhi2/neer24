@@ -17,14 +17,14 @@
     <string name="longitude_label">Longitude</string>
     <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
     <string name="permission_rationale">Location permission is needed for core functionality</string>
-    <string name="call_permission_rationale">Phone call permission is needed for making a call to us</string>
+
 
     <string name="permission_denied_explanation">Permission was denied, but is needed for core functionality.</string>
     <string name="settings">Settings</string>
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
-
+    <string name="call_permission_rationale">Phone call permission is needed for making a call to us</string>
     <string name="facebook_app_id">329768747507198</string>
     <string name="fb_login_protocol_scheme">fb329768747507198</string>
     <string name="google_app_name">G+ Login</string>

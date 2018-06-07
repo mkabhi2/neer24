@@ -5,17 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="in.neer24.neer24.Activities.HelpActivity"
-    tools:showIn="@layout/activity_help">
+    tools:context="in.neer24.neer24.Activities.HelpActivitySecondLevel"
+    tools:showIn="@layout/activity_help_second_level">
 
-
-    <ListView
-        android:id="@+id/listViewTopLevel"
+    <WebView
+        android:id="@+id/webview"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:cacheColorHint="#00000000"
-        android:divider="#b5b5b5"
-        android:dividerHeight="1dp" />
+        android:layout_height="fill_parent" />
 </LinearLayout>
 
 
