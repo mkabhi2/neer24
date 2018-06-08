@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 
 
-public class OrderTable implements Parcelable{
+public class  OrderTable implements Parcelable{
 
     private int orderID;
     private int customerID;

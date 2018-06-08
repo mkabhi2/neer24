@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.R;
 
@@ -18,10 +19,10 @@ import in.neer24.neer24.R;
 
 public class OrderDetailsRVAdapter extends RecyclerView.Adapter<OrderDetailsRVAdapter.ViewHolder> {
 
-    private final List<OrderDetails> orderDetailsList;
+    private final List<CustomerOrder> orderDetailsList;
     private final Context mContext;
 
-    public OrderDetailsRVAdapter(List<OrderDetails> orderDetails, Context mContext) {
+    public OrderDetailsRVAdapter(List<CustomerOrder> orderDetails, Context mContext) {
        this.orderDetailsList = orderDetails;
         this.mContext = mContext;
     }
@@ -55,14 +56,14 @@ public class OrderDetailsRVAdapter extends RecyclerView.Adapter<OrderDetailsRVAd
 
         String rupeeSymbol = mContext.getResources().getString(R.string.Rs);
 
-        OrderDetails orderDetails = orderDetailsList.get(position);
+        CustomerOrder orderDetails = orderDetailsList.get(position);
 
         holder.itemNameTV.setText(orderDetails.getCanName());
 
         String priceDetailsString = rupeeSymbol + " " + orderDetails.getCanPrice() + " x " + orderDetails.getCanQuantity() + " can(s)";
         int price = (int)(orderDetails.getCanPrice() * orderDetails.getCanQuantity());
 
-        if(orderDetails.getIsNewCan()==1){
+        if(orderDetails.getIsNew()==1){
             priceDetailsString = priceDetailsString + "\n New can ( 150 x " + orderDetails.getCanQuantity() + ")";
             price = price + (150 * orderDetails.getCanQuantity());
         }

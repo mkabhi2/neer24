@@ -26,7 +26,9 @@ import java.util.List;
 
 import in.neer24.neer24.Adapters.OrderDetailsRVAdapter;
 import in.neer24.neer24.BuildConfig;
+import in.neer24.neer24.CustomObjects.Customer;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
+import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
@@ -46,7 +48,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
             offTimeTV, deliveryChargeTV, discountTV, numFreeCansTV;
     RecyclerView orderItemsRV;
     OrderTable order;
-    ArrayList<OrderDetails> ordersDetailsList = new ArrayList<OrderDetails>();
+    ArrayList<CustomerOrder> ordersDetailsList = new ArrayList<CustomerOrder>();
     LinearLayout ratingLayout, deliveryBoyContact, recurrencesLeftLayout, callCustomerCare;
     String rupeeSymbol;
     LinearLayout couponLayout;
@@ -196,25 +198,26 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 "Loading. Please wait...", true);
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:80/")
+                .baseUrl("http://192.168.0.2:8080/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
         int orderID = order.getOrderID();
-        Call<List<OrderDetails>> call = retroFitNetworkClient.getOrderDetailsForOrderID(orderID);
+        Call<List<CustomerOrder>> call = retroFitNetworkClient.getOrderDetailsForOrderID(orderID);
 
-        call.enqueue(new Callback<List<OrderDetails>>() {
+        call.enqueue(new Callback<List<CustomerOrder>>() {
             @Override
-            public void onResponse(Call<List<OrderDetails>> call, Response<List<OrderDetails>> response) {
+            public void onResponse(Call<List<CustomerOrder>> call, Response<List<CustomerOrder>> response) {
 
-                ordersDetailsList = (ArrayList<OrderDetails>) response.body();
+                ordersDetailsList = (ArrayList<CustomerOrder>) response.body();
+                setUpViewComponents();
                 setUpRecyclerView();
                 dialog.cancel();
             }
 
             @Override
-            public void onFailure(Call<List<OrderDetails>> call, Throwable t) {
+            public void onFailure(Call<List<CustomerOrder>> call, Throwable t) {
                 Toast.makeText(OrderDetailsActivity.this, "Error loading data", Toast.LENGTH_SHORT).show();
                 dialog.cancel();
             }

@@ -6,6 +6,7 @@ import java.util.List;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.Customer;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
+import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.CustomObjects.Offer;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
@@ -85,7 +86,7 @@ public interface RetroFitNetworkClient {
     Call<List<CustomerAddress>> getAllCustomerAddress(@Query("customerid") int customerid, @Query("customeruniqueid") String customerUniqueId);
 
     @GET("/neer/webapi/orderdetailstable/ordercompletedetails")
-    Call<List<OrderDetails>> getOrderDetailsForOrderID(@Query("orderid") int orderID);
+    Call<List<CustomerOrder>> getOrderDetailsForOrderID(@Query("orderid") int orderID);
 
 
     @GET("/neer/webapi/customers/updatepassword")

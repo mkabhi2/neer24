@@ -16,13 +16,14 @@ public class CustomerOrder implements Parcelable {
     private String orderDate;
     private String orderDetailsID;
     private int orderID;
-    private int orderQuantity;
+    private int canQuantity;
+    private int isNew;
 
     public CustomerOrder(){
 
     }
 
-    public CustomerOrder(int canID, String canName, String canPhoto, double canPrice, String orderDate, String orderDetailsID, int orderID, int orderQuantity) {
+    public CustomerOrder(int canID, String canName, String canPhoto, double canPrice, String orderDate, String orderDetailsID, int orderID, int canQuantity, int isNew) {
         this.canID = canID;
         this.canName = canName;
         this.canPhoto = canPhoto;
@@ -30,7 +31,16 @@ public class CustomerOrder implements Parcelable {
         this.orderDate = orderDate;
         this.orderDetailsID = orderDetailsID;
         this.orderID = orderID;
-        this.orderQuantity = orderQuantity;
+        this.canQuantity = canQuantity;
+        this.isNew=isNew;
+    }
+
+    public int getIsNew() {
+        return isNew;
+    }
+
+    public void setIsNew(int isNew) {
+       this.isNew = isNew;
     }
 
     public int getCanID() {
@@ -89,12 +99,12 @@ public class CustomerOrder implements Parcelable {
         this.orderID = orderID;
     }
 
-    public int getOrderQuantity() {
-        return orderQuantity;
+    public int getCanQuantity() {
+        return canQuantity;
     }
 
-    public void setOrderQuantity(int orderQuantity) {
-        this.orderQuantity = orderQuantity;
+    public void setCanQuantity(int canQuantity) {
+        this.canQuantity = canQuantity;
     }
 
 
@@ -109,12 +119,13 @@ public class CustomerOrder implements Parcelable {
 
         parcel.writeInt(canID);
         parcel.writeInt(orderID);
-        parcel.writeInt(orderQuantity);
+        parcel.writeInt(canQuantity);
         parcel.writeString(canName);
         parcel.writeString(canPhoto);
         parcel.writeString(orderDate);
         parcel.writeString(orderDetailsID);
         parcel.writeDouble(canPrice);
+        parcel.writeInt(isNew);
     }
 
     public static final Parcelable.Creator<CustomerOrder> CREATOR = new Parcelable.Creator<CustomerOrder>() {
@@ -132,12 +143,13 @@ public class CustomerOrder implements Parcelable {
     private CustomerOrder(Parcel in){
         canID = in.readInt();
         orderID = in.readInt();
-        orderQuantity = in.readInt();
+        canQuantity = in.readInt();
         canName = in.readString();
         canPhoto = in.readString();
         orderDate = in.readString();
         orderDetailsID = in.readString();
         canPrice = in.readDouble();
+        isNew=in.readInt();
     }
 
 }
