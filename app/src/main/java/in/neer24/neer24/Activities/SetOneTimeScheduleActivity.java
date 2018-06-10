@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import org.joda.time.LocalTime;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,8 +45,10 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
     Button btnDatePicker, btnTimePicker, btnCart, increaseByOne, decreaseByOne, displayItemCount, selectAddressBtn, addAddressBtn;
     TextView dateTV, timeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV, addressTitleTV, addressDescTV,
-            addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, grandTotalTV, switchTV, deliveryChargesTV;
+            addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, grandTotalTV, switchTV, deliveryChargesTV, floorChargesTV;
     int deliveryCharge=0;
+    int hasFloorCharge = 0;
+    int floorCharge = 0;
     ImageView productImage, addressIconIV;
     public static Button proceedToPayButton;
     public static View addressView, billView;
@@ -59,7 +60,6 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
     Date date;
     Can can;
     Toast checkoutToast, timeTVToast;
-    Time time;
 
     static int numOfCans = 1, selectedAddressID, currentYear, currentMonth, currentDay, currentHour, currentMinute,
             selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute, selectedAddressIndex;
@@ -128,9 +128,10 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         billOffersLL = (LinearLayout) findViewById(R.id.billOffersLL);
         grandTotalTV = (TextView) findViewById(R.id.grand_total_tv);
         billItemTotalTV = (TextView) findViewById(R.id.bill_item_total_tv);
-        newCanSwitch = (SwitchCompat) findViewById(R.id.switch_new_cans);
+        newCanSwitch = (SwitchCompat) findViewById(R.id.switch_has_lift);
         switchTV = (TextView) findViewById(R.id.switchTV);
         deliveryChargesTV = (TextView) findViewById(R.id.bill_delivery_charges_tv);
+        floorChargesTV = (TextView) findViewById(R.id.bill_floor_charges_tv);
     }
 
     void setUpViewObjects(){
@@ -324,6 +325,10 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                 }
                 selectedAddressIndex = itemIndex;
                 selectedAddressID = addressesInCurrentLocation.get(itemIndex).getCustomerAddressID();
+                if(Integer.parseInt(addressesInCurrentLocation.get(itemIndex).getFloorNumber())>2 && addressesInCurrentLocation.get(itemIndex).getHasLift()==0){
+                    hasFloorCharge = 1;
+                    updateOrderValue();
+                }
                 setAddressSelector();
 
             }
@@ -546,6 +551,10 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
             case 1 : addressTitleTV.setText("Deliver to " + addressesInCurrentLocation.get(0).getAddressNickName());
                 selectedAddressID = addressesInCurrentLocation.get(0).getCustomerAddressID();
+                if(Integer.parseInt(addressesInCurrentLocation.get(0).getFloorNumber())>2 && addressesInCurrentLocation.get(0).getHasLift()==0){
+                    hasFloorCharge = 1;
+                    updateOrderValue();
+                }
                 String savedAddress = addressesInCurrentLocation.get(0).getFullAddress();
                 int addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
                 addressDescTV.setText(savedAddress.substring(0,addressStripCount));
@@ -628,7 +637,12 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                 deliveryCharge = 0;
             }
 
-            total = total + deliveryCharge;
+            if(hasFloorCharge==1){
+                floorChargesTV.setText(rupeeSymbol + " 5");
+                floorCharge = 5;
+            }
+
+            total = total + deliveryCharge + floorCharge;
 
             toPay = total-discount;
             grandTotalTV.setText(rupeeSymbol+ " " + toPay);

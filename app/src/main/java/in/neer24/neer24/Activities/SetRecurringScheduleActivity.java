@@ -30,7 +30,6 @@ import android.widget.Toast;
 
 import org.joda.time.LocalTime;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,10 +63,9 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
     boolean isDateSelected = false, isTimeSelected = false;
 
-    Date date;
+
     Can can;
     Toast toast;
-    Time time;
 
     static int numOfCans = 1, recurrenceInterval, selectedAddressID, currentYear, currentMonth, currentDay, currentHour, currentMinute,
             selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute, selectedAddressIndex;
@@ -114,7 +112,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         productNameTV = (TextView) findViewById(R.id.productName);
         priceDetailsTV = (TextView) findViewById(R.id.price_details);
         totalCostTV = (TextView) findViewById(R.id.totalCost);
-        spinnerInterval = (Spinner) findViewById(R.id.spinner_interval);
+        spinnerInterval = (Spinner) findViewById(R.id.spinner_floor);
         increaseByOne = (Button) findViewById(R.id.btn_qty_increase);
         decreaseByOne = (Button) findViewById(R.id.btn_qty_decrease);
         displayItemCount = (Button) findViewById(R.id.btn_order_or_qty);
@@ -135,7 +133,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         couponTextTV = (TextView) findViewById(R.id.applyCouponSubTextTV);
         grandTotalTV = (TextView) findViewById(R.id.grand_total_tv);
         billItemTotalTV = (TextView) findViewById(R.id.bill_item_total_tv);
-        newCanSwitch = (SwitchCompat) findViewById(R.id.switch_new_cans);
+        newCanSwitch = (SwitchCompat) findViewById(R.id.switch_has_lift);
         switchTV = (TextView) findViewById(R.id.switchTV);
         deliveryChargesTV = (TextView) findViewById(R.id.bill_delivery_charges_tv);
     }

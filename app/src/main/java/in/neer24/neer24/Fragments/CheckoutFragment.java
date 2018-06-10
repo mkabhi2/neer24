@@ -42,8 +42,9 @@ public class CheckoutFragment extends android.app.Fragment {
     static LinearLayout billOffersLL, couponLayout;
     static LinearLayout staticCouponLayout;
     static TextView billItemTotalTV;
-    static TextView billDeliveryChargesDetailTV, billDeliveryChargesTV;
-    public static double discountedAmount = 0, deliveryCharge = 0, toPay = 0, totalAmount=0;
+    public static int hasFloorCharge = 0;
+    static TextView billDeliveryChargesDetailTV, billDeliveryChargesTV, billFloorChargesDetailTV, billFloorChargesTV;
+    public static double discountedAmount = 0, deliveryCharge = 0, toPay = 0, totalAmount=0, floorCharge = 0;
     public static int freeCansAvailed = 0, isNightDelivery = 0;
     SharedPreferenceUtility sharedPreferenceUtility;
 
@@ -127,6 +128,8 @@ public class CheckoutFragment extends android.app.Fragment {
         billDeliveryChargesDetailTV = (TextView) footerView.findViewById(R.id.bill_delivery_charges_details_tv);
         billDeliveryChargesTV = (TextView) footerView.findViewById(R.id.bill_delivery_charges_tv);
         billOffersTV = (TextView) footerView.findViewById(R.id.bill_discount_tv);
+        billFloorChargesDetailTV = (TextView) footerView.findViewById(R.id.bill_floor_charges_details_tv);
+        billFloorChargesTV = (TextView) footerView.findViewById(R.id.bill_floor_charges_tv);
         billGrandTotalTV = (TextView) footerView.findViewById(R.id.grand_total_tv);
     }
 
@@ -196,6 +199,11 @@ public class CheckoutFragment extends android.app.Fragment {
                 deliveryCharge = 0;
             }
 
+            if(hasFloorCharge==1){
+                floorCharge = 5;
+                billDeliveryChargesTV.setText("\u20B9" + " " + "5");
+            }
+
             if(CheckoutActivity.isCouponApplied) {
 
                 billOffersLL.setVisibility(View.VISIBLE);
@@ -227,7 +235,7 @@ public class CheckoutFragment extends android.app.Fragment {
 
             billOffersTV.setText("- " + "\u20B9" + " " + String.valueOf(discountedAmount));
             totalAmount=totalCost + deliveryCharge;
-            toPay = totalCost - discountedAmount + deliveryCharge;
+            toPay = totalCost - discountedAmount + deliveryCharge + floorCharge;
             billGrandTotalTV.setText("\u20B9" + " " + String.valueOf(toPay));
             totalCheckoutFragmentTextView.setText("To Pay    :    " + "\u20B9" + " " + String.valueOf(toPay));
 

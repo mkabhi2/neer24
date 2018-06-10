@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,10 +21,12 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import in.neer24.neer24.Adapters.ChangeLocationAddressRVAdapter;
 import in.neer24.neer24.Adapters.UserAccountAddressRVAdapter;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
+import in.neer24.neer24.Fragments.CheckoutFragment;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
@@ -30,17 +36,20 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class AddAddressActivity extends AppCompatActivity {
+public class AddAddressActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     Button selectLocationBtn, saveButton;
     TextView locationNameTextView;
     View locationNameLineView;
-    int PLACE_PICKER_REQUEST = 1;
+    int PLACE_PICKER_REQUEST = 1, floor;
     SharedPreferenceUtility sharedPreferenceUtility;
-    private EditText addressNickName, landmark, houseAddress;
+    private EditText addressNickName, landmark, flatNumberET, societyNameET, houseNumberET;
     Toast toast;
     Toolbar toolbar;
     ProgressDialog dialog;
+    Spinner floorSpinner;
+    int hasLift;
+    SwitchCompat hasLiftSwitch;
 
     private int warehouseID, currentWarehouseID;
     private int customerAddressID;
@@ -66,17 +75,63 @@ public class AddAddressActivity extends AppCompatActivity {
 
         initialiseViewObjects();
         setUpClickListeners();
+        setUpSpinner();
     }
 
+    public void setUpSpinner(){
+
+        List<String> floorList = new ArrayList<String>();
+        floorList.add("None Selected");
+        floorList.add("Ground Floor");
+        floorList.add("1st Floor");
+        floorList.add("2nd Floor");
+        floorList.add("3rd Floor");
+
+        for(int i=4;i<21;i++){
+            floorList.add(i + "th Floor");
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item,floorList);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        floorSpinner.setAdapter(adapter);
+        floorSpinner.setOnItemSelectedListener(this);
+        floorSpinner.setSelection(0);
+        floor = -1;
+    }
+
+
+
     private void initialiseViewObjects() {
+
         selectLocationBtn = (Button) findViewById(R.id.selectLocationBtn);
         locationNameTextView = (TextView) findViewById(R.id.locationNameTV);
         locationNameLineView = (View) findViewById(R.id.locationNameLine);
         saveButton = (Button) findViewById(R.id.saveButton);
         addressNickName = (EditText) findViewById(R.id.labelET);
         landmark = (EditText) findViewById(R.id.landmarkET);
-        houseAddress = (EditText) findViewById(R.id.houseNoET);
+        flatNumberET = (EditText) findViewById(R.id.flatNoET);
+        societyNameET = (EditText) findViewById(R.id.societyNameET);
+        houseNumberET = (EditText) findViewById(R.id.houseNumberET);
+        flatNumberET = (EditText) findViewById(R.id.flatNoET);
+        floorSpinner = (Spinner) findViewById(R.id.spinner_floor);
+        hasLiftSwitch = (SwitchCompat) findViewById(R.id.switch_has_lift);
 
+
+    }
+
+    @Override
+    public void onClick(View v) {
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        floor = position - 1;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 
@@ -104,12 +159,23 @@ public class AddAddressActivity extends AppCompatActivity {
             }
         });
 
+        hasLiftSwitch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (hasLiftSwitch.isChecked()) {
+
+                    hasLift = 1;
+
+                } else {
+                    hasLift = 0;
+                }
+            }
+        });
+
     }
 
     private boolean checkFields() {
 
-        String a  = houseAddress.getText().toString();
-        String b  = houseAddress.getText().toString();
 
         if (toast != null) {
             toast.cancel();
@@ -121,8 +187,20 @@ public class AddAddressActivity extends AppCompatActivity {
             return false;
         }
 
-        if(houseAddress.getText().toString().contentEquals("")) {
-            toast = Toast.makeText(this, "Please enter your house No. / Flat No & Floor", Toast.LENGTH_SHORT);
+        if(houseNumberET.getText().toString().contentEquals("") && societyNameET.getText().toString().contentEquals("")) {
+            toast = Toast.makeText(this, "Please enter your building name, or building number or guiding instructions to reach your building", Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(floor==-1){
+            toast = Toast.makeText(this, "Please select your floor number", Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+
+        if(flatNumberET.getText().toString().contentEquals("")) {
+            toast = Toast.makeText(this, "Please enter your flat number, or guiding instructions to reach the required flat", Toast.LENGTH_SHORT);
             toast.show();
             return false;
         }
@@ -141,8 +219,8 @@ public class AddAddressActivity extends AppCompatActivity {
         dialog = ProgressDialog.show(AddAddressActivity.this, "",
                 "Saving. Please wait...", true);
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.43.202:8080")
-                .baseUrl("http://192.168.43.202:8080/")       //
+                //.baseUrl("http://18.220.28.118")
+                .baseUrl("http://18.220.28.118/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -166,7 +244,7 @@ public class AddAddressActivity extends AppCompatActivity {
             public void onFailure(Call<Integer> call, Throwable t) {
                 saveButton.requestFocus();
                 addressNickName.setEnabled(false);
-                houseAddress.setEnabled(false);
+                flatNumberET.setEnabled(false);
                 landmark.setEnabled(false);
                 selectLocationBtn.setEnabled(false);
                 saveButton.setEnabled(false);
@@ -191,7 +269,7 @@ public class AddAddressActivity extends AppCompatActivity {
     public void saveAddressToServer(){
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.43.202:8080/")       //
+                .baseUrl("http://18.220.28.118/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -218,7 +296,7 @@ public class AddAddressActivity extends AppCompatActivity {
             public void onFailure(Call<String> call, Throwable t) {
                 saveButton.requestFocus();
                 addressNickName.setEnabled(false);
-                houseAddress.setEnabled(false);
+                flatNumberET.setEnabled(false);
                 landmark.setEnabled(false);
                 selectLocationBtn.setEnabled(false);
                 saveButton.setEnabled(false);
@@ -240,6 +318,9 @@ public class AddAddressActivity extends AppCompatActivity {
 
         CustomerAddress newAddress = createObjectForCustomerAddress();
         newAddress.setCustomerAddressID(customerAddressID);
+        if(Integer.parseInt(newAddress.getFloorNumber())>2 && newAddress.getHasLift()==0){
+            CheckoutFragment.hasFloorCharge = 1;
+        }
         if(HomeScreenActivity.addressList!=null)
             HomeScreenActivity.addressList.add(newAddress);
         else {
@@ -268,7 +349,7 @@ public class AddAddressActivity extends AppCompatActivity {
     }
 
     public CustomerAddress createObjectForCustomerAddress() {
-        return new CustomerAddress(sharedPreferenceUtility.getCustomerID(), warehouseID, String.valueOf(latitude), String.valueOf(longitude), addressNickName.getText().toString(), mapAddress, landmark.getText().toString(), houseAddress.getText().toString());
+        return new CustomerAddress(sharedPreferenceUtility.getCustomerID(), warehouseID, String.valueOf(latitude), String.valueOf(longitude), addressNickName.getText().toString(), societyNameET.getText().toString(), houseNumberET.getText().toString(), Integer.toString(floor), flatNumberET.getText().toString(), hasLift, mapAddress, landmark.getText().toString());
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

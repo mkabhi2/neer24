@@ -69,7 +69,7 @@ public class CheckoutLVAdapter extends BaseAdapter {
         final TextView showAmountCheckoutListView = (TextView) view.findViewById(R.id.showAmountCheckoutListView);
         final ImageView photoIV = (ImageView) view.findViewById(R.id.iv_productImage);
         final TextView priceTV = (TextView) view.findViewById(R.id.tv_productPrice);
-        final SwitchCompat newCanSwitch = (SwitchCompat) view.findViewById(R.id.switch_new_cans);
+        final SwitchCompat newCanSwitch = (SwitchCompat) view.findViewById(R.id.switch_has_lift);
         final TextView switchTV = (TextView) view.findViewById(R.id.switchTV);
 
 

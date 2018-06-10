@@ -18,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,13 +34,7 @@ import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.Fragments.CheckoutFragment;
 import in.neer24.neer24.R;
-import in.neer24.neer24.Utilities.RetroFitNetworkClient;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CheckoutActivity extends AppCompatActivity {
 
@@ -56,12 +49,9 @@ public class CheckoutActivity extends AppCompatActivity {
     ArrayList<CustomerAddress> addressesInCurrentLocation;
     public static int selectedAddressID;
     int selectedAddressIndex;
+    int hasFloorCharge;
 
-    String returnedOrderID = "";
-    String isOrderDetailsInsertionSuccessFull;
     SharedPreferenceUtility sharedPreferenceUtility;
-
-    OrderTable orderTable = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,6 +178,9 @@ public class CheckoutActivity extends AppCompatActivity {
                 }
                 selectedAddressIndex = itemIndex;
                 selectedAddressID = addressesInCurrentLocation.get(itemIndex).getCustomerAddressID();
+                if(Integer.parseInt(addressesInCurrentLocation.get(itemIndex).getFloorNumber())>2 && addressesInCurrentLocation.get(itemIndex).getHasLift()==0){
+                    CheckoutFragment.hasFloorCharge = 1;
+                }
                 setAddressSelector();
 
             }
@@ -239,6 +232,9 @@ public class CheckoutActivity extends AppCompatActivity {
             case 1:
                 addressTitleTV.setText("Deliver to " + addressesInCurrentLocation.get(0).getAddressNickName());
                 selectedAddressID = addressesInCurrentLocation.get(0).getCustomerAddressID();
+                if(Integer.parseInt(addressesInCurrentLocation.get(0).getFloorNumber())>2 && addressesInCurrentLocation.get(0).getHasLift()==0){
+                    CheckoutFragment.hasFloorCharge = 1;
+                }
                 String savedAddress = addressesInCurrentLocation.get(0).getFullAddress();
                 int addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
                 addressDescTV.setText(savedAddress.substring(0, addressStripCount));
@@ -285,35 +281,6 @@ public class CheckoutActivity extends AppCompatActivity {
                 }
 
         }
-    }
-
-    public void updateWarehouseCansTable(int canID, int warehouseID) {
-        Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.43.202:8080/")
-                .baseUrl("http://192.168.43.202:8080/")       //
-                .addConverterFactory(GsonConverterFactory.create());
-        Retrofit retrofit = builder.build();
-
-        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-
-        Call<String> call = retroFitNetworkClient.updateWarehouseCanTable(canID, warehouseID);
-
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.body() != null) {
-                    returnedOrderID = response.body().toString();
-                    if (response.body().toString().contains("true")) {
-                        Toast.makeText(CheckoutActivity.this, " data updated", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(CheckoutActivity.this, "Error loading data", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     public OrderTable createOrderObject() {
@@ -384,7 +351,7 @@ public class CheckoutActivity extends AppCompatActivity {
     public OrderDetails[] createOrderDetailsObject(){
         HashMap<Can, Integer> cart = NormalCart.getCartList();
         OrderDetails orderDetailsArray[] = new OrderDetails[cart.size()];
-        int i = 0, totalCansOrdered = 0;
+        int i = 0;
 
         for (Can c : cart.keySet()) {
 

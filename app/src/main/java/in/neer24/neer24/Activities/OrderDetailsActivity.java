@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -18,11 +19,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import in.neer24.neer24.Adapters.OrderDetailsRVAdapter;
 import in.neer24.neer24.BuildConfig;
@@ -52,6 +59,10 @@ public class OrderDetailsActivity extends AppCompatActivity {
     LinearLayout couponLayout;
     ProgressDialog dialog;
     Button orderCancelButton;
+    private ProgressBar progressBarCircle;
+    private long timeCountInMilliSeconds = 7200000;
+    private CountDownTimer countDownTimer;
+    private TextView textViewTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,8 +109,25 @@ public class OrderDetailsActivity extends AppCompatActivity {
         grandTotalTV.setText("" + order.getAmountPaid());
         deliveryAddressTV = (TextView) findViewById(R.id.deliveryAddress);
         orderCancelButton = (Button) findViewById(R.id.orderCancelBtn);
+        progressBarCircle = (ProgressBar) findViewById(R.id.progressBarCircle);
+        textViewTime = (TextView) findViewById(R.id.textViewTime);
 
     }
+
+
+    private String hmsTimeFormatter(long milliSeconds) {
+
+        String hms = String.format("%02d:%02d:%02d",
+                TimeUnit.MILLISECONDS.toHours(milliSeconds),
+                TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
+                TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
+
+        return hms;
+
+
+    }
+
+
 
     public void setUpViewComponents() {
 
@@ -196,8 +224,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 "Loading. Please wait...", true);
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.43.202:8080")
-                .baseUrl("http://192.168.43.202:8080/")       //
+                //.baseUrl("http://18.220.28.118")
+                .baseUrl("http://18.220.28.118/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -255,8 +283,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://192.168.43.202:8080/")
-                .baseUrl("http://192.168.43.202:8080/")       //
+                //.baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118/")       //
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -412,11 +440,73 @@ public class OrderDetailsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(countDownTimer!=null)
+            countDownTimer.cancel();
+        startTimer();
         if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
 
             Intent intent  = new Intent();
             intent.setClass(OrderDetailsActivity.this, FirstActivity.class);
             startActivity(intent);
         }
+    }
+
+    private void startTimer() {
+        setTimerValues();
+        setProgressBarValues();
+        startCountDownTimer();
+
+    }
+
+    private void startCountDownTimer() {
+
+        countDownTimer = new CountDownTimer(timeCountInMilliSeconds, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+                textViewTime.setText(hmsTimeFormatter(millisUntilFinished));
+                progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                textViewTime.setText(hmsTimeFormatter(timeCountInMilliSeconds));
+                setProgressBarValues();
+            }
+
+        }.start();
+        countDownTimer.start();
+    }
+
+
+    private void setTimerValues() {
+
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String dateString = order.getOrderDate().toString().substring(0,16);
+        long diffMs = 0;
+        try {
+
+            Date date = formatter.parse(dateString);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            cal.add(Calendar.HOUR_OF_DAY, 2);
+            Date deliveryDate = cal.getTime();
+            Date Ddate=java.util.Calendar.getInstance().getTime();
+            diffMs = deliveryDate.getTime() - date.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        timeCountInMilliSeconds = diffMs;
+    }
+
+
+
+    private void setProgressBarValues() {
+
+        progressBarCircle.setMax((int) timeCountInMilliSeconds / 1000);
+        progressBarCircle.setProgress((int) timeCountInMilliSeconds / 1000);
     }
 }
