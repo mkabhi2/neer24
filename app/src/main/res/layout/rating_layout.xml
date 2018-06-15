@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="32dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -22,30 +23,71 @@
         android:layout_marginTop="10dp">
 
         <ImageView
+            android:id="@+id/one_star_empty"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/star_empty"
             android:layout_margin="10dp"/>
         <ImageView
+            android:id="@+id/one_star_full"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/favorite"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/two_star_empty"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/star_empty"
             android:layout_margin="10dp"/>
         <ImageView
+            android:id="@+id/two_star_full"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/favorite"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/three_star_empty"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/star_empty"
             android:layout_margin="10dp"/>
         <ImageView
+            android:id="@+id/three_star_full"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/favorite"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/four_star_empty"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/star_empty"
             android:layout_margin="10dp"/>
         <ImageView
+            android:id="@+id/four_star_full"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/favorite"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/five_star_empty"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:src="@drawable/star_empty"
             android:layout_margin="10dp"/>
+        <ImageView
+            android:id="@+id/five_star_full"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/favorite"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
+
 
     </LinearLayout>
 
@@ -60,13 +102,14 @@
 
         <EditText
             android:textSize="14sp"
-            android:id="@+id/flatNoET"
+            android:id="@+id/commentET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Leave a comment" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
+        android:id="@+id/ratingSubmitBtn"
         android:layout_gravity="center"
         android:layout_marginLeft="32dp"
         android:layout_marginRight="32dp"

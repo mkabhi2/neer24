@@ -90,7 +90,7 @@ public class CheckoutFragment extends android.app.Fragment {
     private void getFreeCansNum() {
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.43.202:8080/")       //
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -161,6 +161,7 @@ public class CheckoutFragment extends android.app.Fragment {
 
     public static void updateBill() {
 
+        int numOfCans = 0;
         HashMap<Can, Integer> cart = NormalCart.getCartList();
         double price;
         double totalCost = 0;
@@ -177,6 +178,7 @@ public class CheckoutFragment extends android.app.Fragment {
 
                 price = c.getPrice();
                 Integer quantity = cart.get(c);
+                numOfCans = numOfCans + quantity;
                 totalCost = totalCost + (price * quantity);
                 if (c.getUserWantsNewCan() == 1) {
                     totalCost = totalCost + (c.getNewCanPrice() * quantity);
@@ -200,8 +202,17 @@ public class CheckoutFragment extends android.app.Fragment {
             }
 
             if(hasFloorCharge==1){
-                floorCharge = 5;
-                billDeliveryChargesTV.setText("\u20B9" + " " + "5");
+
+                String floorChargeString = "Floor Charges\n" + "\u20B9" + " 5 x " + numOfCans + " cans(s)";
+                billFloorChargesDetailTV.setText(floorChargeString);
+                floorCharge = 5 * numOfCans;
+                billFloorChargesTV.setText("\u20B9" + " " + floorCharge);
+            }
+            else{
+                String floorChargeString = "Floor Charges";
+                billFloorChargesDetailTV.setText(floorChargeString);
+                floorCharge = 0;
+                billFloorChargesTV.setText("\u20B9" + " " + floorCharge);
             }
 
             if(CheckoutActivity.isCouponApplied) {
@@ -234,7 +245,7 @@ public class CheckoutFragment extends android.app.Fragment {
             }
 
             billOffersTV.setText("- " + "\u20B9" + " " + String.valueOf(discountedAmount));
-            totalAmount=totalCost + deliveryCharge;
+            totalAmount=totalCost + deliveryCharge + floorCharge;
             toPay = totalCost - discountedAmount + deliveryCharge + floorCharge;
             billGrandTotalTV.setText("\u20B9" + " " + String.valueOf(toPay));
             totalCheckoutFragmentTextView.setText("To Pay    :    " + "\u20B9" + " " + String.valueOf(toPay));

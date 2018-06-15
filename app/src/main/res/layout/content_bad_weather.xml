@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Activities.BadWeatherActivity"
+    tools:showIn="@layout/activity_bad_weather"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/bad_weather_3"/>
+
+    <TextView
+        android:textSize="20sp"
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="We are currently unserviceable"
+        android:textColor="@color/Black"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:textColor="@color/Black"
+        android:textSize="20sp"
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="due to"
+        android:layout_below="@+id/text1"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:textColor="@color/Black"
+        android:textSize="20sp"
+        android:id="@+id/text3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bad Weather !!!!"
+        android:layout_below="@+id/text2"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:textColor="@color/Black"
+        android:textSize="20sp"
+        android:id="@+id/text4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="We will be back soon"
+        android:layout_below="@+id/text3"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:textColor="@color/Black"
+        android:textSize="20sp"
+        android:id="@+id/text5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=":-)"
+        android:layout_below="@+id/text4"
+        android:textStyle="bold"/>
+
+</RelativeLayout>

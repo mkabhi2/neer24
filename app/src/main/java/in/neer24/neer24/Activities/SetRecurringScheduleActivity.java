@@ -49,7 +49,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
     Button btnDatePicker, btnTimePicker, increaseByOne, decreaseByOne, displayItemCount, selectAddressBtn, addAddressBtn;
     TextView endDateTV, deliveryTimeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV, addressTitleTV, addressDescTV,
-            addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, couponTextTV, grandTotalTV, switchTV, deliveryChargesTV;
+            addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, couponTextTV, grandTotalTV, switchTV, deliveryChargesTV, floorChargesTV, deliveryChargesDetailsTV, floorChargesDetailsTV;
     ImageView productImage, addressIconIV;
     public static Button proceedToPayButton;
     public static View addressView, billView;
@@ -60,6 +60,8 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
     int deliveryCharge=0, freeCans = 0;
     double toPay = 0, discount = 0;
     int numberOfDeliveries;
+    static int hasFloorCharge = 0;
+    int floorCharge = 0;
 
     boolean isDateSelected = false, isTimeSelected = false;
 
@@ -136,6 +138,10 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         newCanSwitch = (SwitchCompat) findViewById(R.id.switch_has_lift);
         switchTV = (TextView) findViewById(R.id.switchTV);
         deliveryChargesTV = (TextView) findViewById(R.id.bill_delivery_charges_tv);
+        floorChargesTV = (TextView) findViewById(R.id.bill_floor_charges_tv);
+        floorChargesDetailsTV = (TextView) findViewById(R.id.bill_floor_charges_details_tv);
+        deliveryChargesDetailsTV = (TextView) findViewById(R.id.bill_delivery_charges_details_tv);
+
     }
 
     void setUpViewObjects() {
@@ -369,12 +375,29 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
             }
 
             if(isNightDelivery()) {
-                deliveryChargesTV.setText(rupeeSymbol + " 20");
-                deliveryCharge = 20;
+                String deliveryChargeString = "Delivery Charges (11 PM - 6 AM)\n" + rupeeSymbol + " 20 x " + numberOfDeliveries + " time(s)";
+                deliveryChargesDetailsTV.setText(deliveryChargeString);
+                deliveryCharge = 20 * numberOfDeliveries;
+                deliveryChargesTV.setText(rupeeSymbol + " " + deliveryCharge);
             }
             else {
-                deliveryChargesTV.setText(rupeeSymbol + " 0");
+                String deliveryChargeString = "Delivery Charges";
+                deliveryChargesDetailsTV.setText(deliveryChargeString);
                 deliveryCharge = 0;
+                deliveryChargesTV.setText(rupeeSymbol + " " + deliveryCharge);
+            }
+
+
+            if(hasFloorCharge==1){
+
+                String floorChargeString = "Floor Charges\n" + rupeeSymbol + " 5 x " + numOfCans + " cans(s) x " + numberOfDeliveries + " time(s)";
+                floorChargesDetailsTV.setText(floorChargeString);
+                floorCharge = 5 * numOfCans * numberOfDeliveries;
+                floorChargesTV.setText(rupeeSymbol + " " + floorCharge);
+            }
+            else{
+                floorChargesTV.setText(rupeeSymbol + " 0");
+                floorCharge = 0;
             }
 
 
@@ -397,7 +420,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
             }
 
-            toPay = total - discount + deliveryCharge;
+            toPay = total - discount + deliveryCharge + floorCharge;
             grandTotalTV.setText(rupeeSymbol+ " " + toPay);
             proceedToPayButton.setText("Proceed To Pay " + rupeeSymbol + " " + toPay);
 
@@ -484,6 +507,14 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
             case 1 : addressTitleTV.setText("Deliver to " + addressesInCurrentLocation.get(0).getAddressNickName());
                 selectedAddressID = addressesInCurrentLocation.get(0).getCustomerAddressID();
+                if(Integer.parseInt(addressesInCurrentLocation.get(0).getFloorNumber())>2 && addressesInCurrentLocation.get(0).getHasLift()==0){
+                    hasFloorCharge = 1;
+                    updateOrderValue();
+                }
+                else{
+                    hasFloorCharge = 0;
+                    updateOrderValue();
+                }
                 String savedAddress = addressesInCurrentLocation.get(0).getFullAddress();
                 int addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
                 addressDescTV.setText(savedAddress.substring(0,addressStripCount));
@@ -673,12 +704,20 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                 if(itemIndex == addressesInCurrentLocation.size()) {
                     Intent intent = new Intent();
                     intent.setClass(SetRecurringScheduleActivity.this, AddAddressActivity.class);
-                    intent.putExtra("className", "CheckoutActivity");
+                    intent.putExtra("className", "RecurringActivity");
                     startActivity(intent);
                     return;
                 }
                 selectedAddressIndex = itemIndex;
                 selectedAddressID = addressesInCurrentLocation.get(itemIndex).getCustomerAddressID();
+                if(Integer.parseInt(addressesInCurrentLocation.get(itemIndex).getFloorNumber())>2 && addressesInCurrentLocation.get(itemIndex).getHasLift()==0){
+                    hasFloorCharge = 1;
+                    updateOrderValue();
+                }
+                else{
+                    hasFloorCharge = 0;
+                    updateOrderValue();
+                }
                 setAddressSelector();
 
             }
@@ -710,7 +749,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         Date dTime = new Date(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), selectedHour, selectedMinute);
         String deliveryTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(dTime);
 
-        double totalAmount = total + deliveryCharge;
+        double totalAmount = total + deliveryCharge + floorCharge;
         double discountedAmount = discount;
         double amountPaid = toPay;
         String paymentMode = null;
@@ -742,7 +781,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                 deliveryTime, totalAmount, discountedAmount, amountPaid, paymentMode, couponCode,
                 numberOfFreeCansAvailed, customerAddressID, isNormalDelivery, isNightDelivery,
                 isScheduleDelivery, isRecurringDelivery, customerUniqueID, isOrdered, isDispatched,
-                isDelivered, isCancelled, endDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered);
+                isDelivered, isCancelled, endDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered,hasFloorCharge);
 
         return order;
 
@@ -786,6 +825,14 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                 break;
         }
         return true;
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        selectedAddressID = 0;
+        hasFloorCharge = 0;
     }
 
 

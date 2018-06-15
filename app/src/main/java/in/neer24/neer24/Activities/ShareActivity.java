@@ -141,6 +141,10 @@ public class ShareActivity extends AppCompatActivity implements NavigationView.O
             Intent intent = new Intent();
             intent.setClass(this,HelpActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_disclaimer) {
+            Intent intent = new Intent();
+            intent.setClass(this, DisclaimerActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.share_drawer_layout);

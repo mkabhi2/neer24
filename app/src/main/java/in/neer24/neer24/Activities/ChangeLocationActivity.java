@@ -175,8 +175,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
     public void getWarehouseForLocation(double latitude, double longitude) {
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118")
-                .baseUrl("http://18.220.28.118/")       //
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -193,12 +192,20 @@ public class ChangeLocationActivity extends AppCompatActivity {
                 }
 
                 //Warehouse ID 0 means no warehouse found for current location
-                if (warehouseID != 0) {
+                if (warehouseID > 0) {
                     getCansListForWarehouse(warehouseID);
                     sharedPreferenceUtility.setWareHouseID(warehouseID);
                 }
                 else {
-                    launchNextActivity();
+                    if ( warehouseID == -1 ){
+                        dialog.cancel();
+                        Intent intent = new Intent(ChangeLocationActivity.this, BadWeatherActivity.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        launchNextActivity();
+                    }
+
                 }
             }
 
@@ -219,8 +226,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
 
     public void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 

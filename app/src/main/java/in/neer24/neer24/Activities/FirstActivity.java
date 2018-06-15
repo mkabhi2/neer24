@@ -104,7 +104,7 @@ public class FirstActivity extends AppCompatActivity {
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118/").client(okHttpClient)
+                .baseUrl("http://18.220.28.118:80/").client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
         Retrofit retrofit = builder.build();
@@ -146,6 +146,7 @@ public class FirstActivity extends AppCompatActivity {
             if (!checkPermissions()) {
                 requestPermissions();
             } else {
+                checkIfUpdateRequired();
                 getLastLocation();
             }
 
@@ -161,6 +162,8 @@ public class FirstActivity extends AppCompatActivity {
             snackbar.show();
         }
     }
+
+    private void checkIfUpdateRequired(){}
 
 
     private boolean isNetworkAvailable() {
@@ -309,8 +312,7 @@ public class FirstActivity extends AppCompatActivity {
     public void getWarehouseForLocation(double latitude, double longitude) {
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118")
-                .baseUrl("http://18.220.28.118/")       //
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -327,7 +329,7 @@ public class FirstActivity extends AppCompatActivity {
                 }
 
                 //Warehouse ID 0 means no warehouse found for current location
-                if (warehouseID != 0) {
+                if (warehouseID > 0) {
                     getCansListForWarehouse(warehouseID);
                     sharedPreferenceUtility.setWareHouseID(warehouseID);
                 }
@@ -355,9 +357,7 @@ public class FirstActivity extends AppCompatActivity {
 
     public void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
-                //HEY DUDE
-                //.baseUrl("http://18.220.28.118/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -415,10 +415,14 @@ public class FirstActivity extends AppCompatActivity {
                     Intent intent = new Intent(FirstActivity.this, ChangeLocationActivity.class);
                     startActivity(intent);
                 }
-                else {
+                if (warehouseID>0){
                     //take to home page
                     Intent intent = new Intent(FirstActivity.this, HomeScreenActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+                if ( warehouseID== -1 ){
+                    Intent intent = new Intent(FirstActivity.this, BadWeatherActivity.class);
                     startActivity(intent);
                 }
             } else {

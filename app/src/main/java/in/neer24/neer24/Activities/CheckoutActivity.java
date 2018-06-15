@@ -49,7 +49,6 @@ public class CheckoutActivity extends AppCompatActivity {
     ArrayList<CustomerAddress> addressesInCurrentLocation;
     public static int selectedAddressID;
     int selectedAddressIndex;
-    int hasFloorCharge;
 
     SharedPreferenceUtility sharedPreferenceUtility;
 
@@ -180,6 +179,11 @@ public class CheckoutActivity extends AppCompatActivity {
                 selectedAddressID = addressesInCurrentLocation.get(itemIndex).getCustomerAddressID();
                 if(Integer.parseInt(addressesInCurrentLocation.get(itemIndex).getFloorNumber())>2 && addressesInCurrentLocation.get(itemIndex).getHasLift()==0){
                     CheckoutFragment.hasFloorCharge = 1;
+                    CheckoutFragment.updateBill();
+                }
+                else{
+                    CheckoutFragment.hasFloorCharge = 0;
+                    CheckoutFragment.updateBill();
                 }
                 setAddressSelector();
 
@@ -234,6 +238,11 @@ public class CheckoutActivity extends AppCompatActivity {
                 selectedAddressID = addressesInCurrentLocation.get(0).getCustomerAddressID();
                 if(Integer.parseInt(addressesInCurrentLocation.get(0).getFloorNumber())>2 && addressesInCurrentLocation.get(0).getHasLift()==0){
                     CheckoutFragment.hasFloorCharge = 1;
+                    CheckoutFragment.updateBill();
+                }
+                else{
+                    CheckoutFragment.hasFloorCharge = 0;
+                    CheckoutFragment.updateBill();
                 }
                 String savedAddress = addressesInCurrentLocation.get(0).getFullAddress();
                 int addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
@@ -341,7 +350,7 @@ public class CheckoutActivity extends AppCompatActivity {
                             deliveryTime, totalAmount, discountedAmount, amountPaid, paymentMode, couponCode,
                             numberOfFreeCansAvailed, customerAddressID, isNormalDelivery, isNightDelivery,
                             isScheduleDelivery, isRecurringDelivery, customerUniqueID, isOrdered, isDispatched,
-                            isDelivered, isCancelled, endDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered);
+                            isDelivered, isCancelled, endDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered, CheckoutFragment.hasFloorCharge);
 
         //order.setOrderContents(orderDetailsArray);
         return order;
@@ -378,6 +387,7 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         selectedAddressID = 0;
+        CheckoutFragment.hasFloorCharge = 0;
     }
 
     @Override

@@ -45,9 +45,9 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
     Button btnDatePicker, btnTimePicker, btnCart, increaseByOne, decreaseByOne, displayItemCount, selectAddressBtn, addAddressBtn;
     TextView dateTV, timeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV, addressTitleTV, addressDescTV,
-            addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, grandTotalTV, switchTV, deliveryChargesTV, floorChargesTV;
+            addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, grandTotalTV, switchTV, deliveryChargesTV, floorChargesTV, floorChargesDetailsTV;
     int deliveryCharge=0;
-    int hasFloorCharge = 0;
+    static int hasFloorCharge = 0;
     int floorCharge = 0;
     ImageView productImage, addressIconIV;
     public static Button proceedToPayButton;
@@ -132,6 +132,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         switchTV = (TextView) findViewById(R.id.switchTV);
         deliveryChargesTV = (TextView) findViewById(R.id.bill_delivery_charges_tv);
         floorChargesTV = (TextView) findViewById(R.id.bill_floor_charges_tv);
+        floorChargesDetailsTV = (TextView) findViewById(R.id.bill_floor_charges_details_tv);
     }
 
     void setUpViewObjects(){
@@ -240,7 +241,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
-                intent.putExtra("className", "RecurringActivity");
+                intent.putExtra("className", "OneTimeScheduleActivity");
                 intent.setClass(SetOneTimeScheduleActivity.this, AddAddressActivity.class);
                 startActivity(intent);
             }
@@ -252,7 +253,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
                 if(addressesInCurrentLocation.size() == 1) {
                     Intent intent = new Intent();
-                    intent.putExtra("className", "RecurringActivity");
+                    intent.putExtra("className", "OneTimeScheduleActivity");
                     intent.setClass(SetOneTimeScheduleActivity.this, AddAddressActivity.class);
                     startActivity(intent);
                     return;
@@ -319,7 +320,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                 if(itemIndex == addressesInCurrentLocation.size()) {
                     Intent intent = new Intent();
                     intent.setClass(SetOneTimeScheduleActivity.this, AddAddressActivity.class);
-                    intent.putExtra("className", "CheckoutActivity");
+                    intent.putExtra("className", "OneTimeScheduleActivity");
                     startActivity(intent);
                     return;
                 }
@@ -327,6 +328,10 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                 selectedAddressID = addressesInCurrentLocation.get(itemIndex).getCustomerAddressID();
                 if(Integer.parseInt(addressesInCurrentLocation.get(itemIndex).getFloorNumber())>2 && addressesInCurrentLocation.get(itemIndex).getHasLift()==0){
                     hasFloorCharge = 1;
+                    updateOrderValue();
+                }
+                else{
+                    hasFloorCharge = 0;
                     updateOrderValue();
                 }
                 setAddressSelector();
@@ -555,6 +560,10 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                     hasFloorCharge = 1;
                     updateOrderValue();
                 }
+                else{
+                    hasFloorCharge = 0;
+                    updateOrderValue();
+                }
                 String savedAddress = addressesInCurrentLocation.get(0).getFullAddress();
                 int addressStripCount = (30 > savedAddress.length() ? savedAddress.length() : 30);
                 addressDescTV.setText(savedAddress.substring(0,addressStripCount));
@@ -627,7 +636,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
             billItemTotalTV.setText(rupeeSymbol + " " + total);
 
             if(isNightDelivery()) {
-                deliveryChargeText.setText("Off Time Delivery Charge");
+                deliveryChargeText.setText("Delivery ChargeS ( 11 PM - 6 AM)");
                 deliveryChargesTV.setText(rupeeSymbol + " 20");
                 deliveryCharge = 20;
             }
@@ -638,8 +647,17 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
             }
 
             if(hasFloorCharge==1){
-                floorChargesTV.setText(rupeeSymbol + " 5");
-                floorCharge = 5;
+
+                String floorChargeString = "Floor Charges\n" + rupeeSymbol + " 5 x " + numOfCans + " cans(s)";
+                floorChargesDetailsTV.setText(floorChargeString);
+                floorCharge = 5 * numOfCans;
+                floorChargesTV.setText(rupeeSymbol + " " + floorCharge);
+            }
+            else{
+                String floorChargeString = "Floor Charges";
+                floorChargesDetailsTV.setText(floorChargeString);
+                floorCharge = 0;
+                floorChargesTV.setText(rupeeSymbol + " " + floorCharge);
             }
 
             total = total + deliveryCharge + floorCharge;
@@ -714,7 +732,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                 deliveryTime, totalAmount, discountedAmount, amountPaid, paymentMode, couponCode,
                 numberOfFreeCansAvailed, customerAddressID, isNormalDelivery, isNightDelivery,
                 isScheduleDelivery, isRecurringDelivery, customerUniqueID, isOrdered, isDispatched,
-                isDelivered, isCancelled, endDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered);
+                isDelivered, isCancelled, endDate, deliveryLeft, recurringOrderFrequency, totalCansOrdered,hasFloorCharge);
 
         return order;
     }
@@ -757,6 +775,13 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        selectedAddressID = 0;
+        hasFloorCharge = 0;
     }
 
 

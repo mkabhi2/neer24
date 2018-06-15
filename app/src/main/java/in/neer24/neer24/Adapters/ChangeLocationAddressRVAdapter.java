@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.neer24.neer24.Activities.BadWeatherActivity;
 import in.neer24.neer24.Activities.ChangeLocationActivity;
 import in.neer24.neer24.Activities.HomeScreenActivity;
 import in.neer24.neer24.Activities.ScheduleDeliveryActivity;
@@ -105,7 +106,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
                 ChangeLocationActivity.dialog.show();
 
                 Retrofit.Builder builder1 = new Retrofit.Builder()
-                        .baseUrl("http://18.220.28.118/")
+                        .baseUrl("http://18.220.28.118:80/")
                         .addConverterFactory(GsonConverterFactory.create());
                 Retrofit retrofit1 = builder1.build();
 
@@ -120,7 +121,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
                             warehouseID = Integer.parseInt(response.body().toString());
                         }
 
-                        if (warehouseID != 0) {
+                        if (warehouseID > 0) {
 
                             sharedPreferenceUtility.setWareHouseID(warehouseID);
 
@@ -129,7 +130,7 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
                                     mContext, new GeocoderHandler());
 
                             Retrofit.Builder builder = new Retrofit.Builder()
-                                    .baseUrl("http://18.220.28.118/")
+                                    .baseUrl("http://18.220.28.118:80/")
                                     .addConverterFactory(GsonConverterFactory.create());
                             Retrofit retrofit = builder.build();
 
@@ -170,8 +171,15 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
                         }
                         else {
                             ChangeLocationActivity.dialog.cancel();
-                            Intent intent = new Intent(mContext, ChangeLocationActivity.class);
-                            mContext.startActivity(intent);
+                            if ( warehouseID == -1 ){
+                                Intent intent = new Intent(mContext, BadWeatherActivity.class);
+                                mContext.startActivity(intent);
+                            }
+                            else{
+                                Intent intent = new Intent(mContext, ChangeLocationActivity.class);
+                                mContext.startActivity(intent);
+                            }
+
                         }
                     }
 

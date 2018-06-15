@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 
 
-public class OrderTable implements Parcelable{
+public class  OrderTable implements Parcelable{
 
     private int orderID;
     private int customerID;
@@ -44,6 +44,8 @@ public class OrderTable implements Parcelable{
     private int recuringOrderFrequency;
     private int totalCansOrdered;
 
+    private int hasFloorCharge;
+
     OrderDetails orderContents[];
 
     public OrderTable() {
@@ -51,7 +53,7 @@ public class OrderTable implements Parcelable{
     }
 
 
-    public OrderTable(int customerID, int warehouseID, int deliveryBoyID, String orderPaymentID, String orderDate, String deliveryTime, double totalAmount, double discountedAmount, double amountPaid, String paymentMode, String couponCode, int numberOfFreeCansAvailed, int customerAddressID, int isNormalDelivery, int isNightDelivery, int isScheduleDelivery, int isRecurringDelivery, String customerUniqueID, int isOrdered, int isDispatched, int isDelivered, int isCancelled, String endDate, int deliveryLeft, int recuringOrderFrequency, int totalCansOrdered) {
+    public OrderTable(int customerID, int warehouseID, int deliveryBoyID, String orderPaymentID, String orderDate, String deliveryTime, double totalAmount, double discountedAmount, double amountPaid, String paymentMode, String couponCode, int numberOfFreeCansAvailed, int customerAddressID, int isNormalDelivery, int isNightDelivery, int isScheduleDelivery, int isRecurringDelivery, String customerUniqueID, int isOrdered, int isDispatched, int isDelivered, int isCancelled, String endDate, int deliveryLeft, int recuringOrderFrequency, int totalCansOrdered, int hasFloorCharge) {
         this.customerID = customerID;
         this.warehouseID = warehouseID;
         this.deliveryBoyID = deliveryBoyID;
@@ -78,6 +80,7 @@ public class OrderTable implements Parcelable{
         this.deliveryLeft = deliveryLeft;
         this.recuringOrderFrequency = recuringOrderFrequency;
         this.totalCansOrdered = totalCansOrdered;
+        this.hasFloorCharge = hasFloorCharge;
     }
 
     public static final Parcelable.Creator<OrderTable> CREATOR = new Parcelable.Creator<OrderTable>() {
@@ -120,9 +123,7 @@ public class OrderTable implements Parcelable{
         deliveryLeft = in.readInt();
         recuringOrderFrequency = in.readInt();
         totalCansOrdered = in.readInt();
-//        if(orderContents!=null){
-//            in.readTypedArray(orderContents, OrderDetails.CREATOR);
-//        }
+        hasFloorCharge = in.readInt();
 
     }
 
@@ -160,7 +161,7 @@ public class OrderTable implements Parcelable{
         parcel.writeInt(deliveryLeft);
         parcel.writeInt(recuringOrderFrequency);
         parcel.writeInt(totalCansOrdered);
-   //     parcel.writeTypedArray(orderContents, 0);
+        parcel.writeInt(hasFloorCharge);
     }
 
     public int getIsOrdered() {
@@ -385,5 +386,13 @@ public class OrderTable implements Parcelable{
 
     public void setOrderContents(OrderDetails[] orderContents) {
         this.orderContents = orderContents;
+    }
+
+    public int getHasFloorCharge() {
+        return hasFloorCharge;
+    }
+
+    public void setHasFloorCharge(int hasFloorCharge) {
+        this.hasFloorCharge = hasFloorCharge;
     }
 }

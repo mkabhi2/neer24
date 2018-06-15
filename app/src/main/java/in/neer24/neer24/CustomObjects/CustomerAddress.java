@@ -27,15 +27,27 @@ public class CustomerAddress implements Parcelable {
         this.latitude = latitude;
         this.longitude = longitude;
         this.addressNickName = addressNickName;
-        this.societyName = societyName;
-        this.buildingNumber = buildingNum;
+        if(societyName!=null){
+            this.societyName = societyName;
+            this.houseAddress = societyName + " Society";
+        }
+        else
+            this.societyName = "";
+        if(buildingNum!=null){
+            this.buildingNumber = buildingNum;
+            this.houseAddress = this.houseAddress + ", Building No. : " + buildingNum;
+        }
+        else{
+            this.buildingNumber = "";
+        }
+
         this.floorNumber = floorNum;
         this.flatNumber = flatNum;
         this.hasLift = hasLift;
         this.mapAddress = mapAddress;
         this.landmark = landmark;
-        this.houseAddress = societyName + ", " + buildingNumber + ", Floor : " + floorNumber + ", " + flatNumber;
-        this.fullAddress = houseAddress + mapAddress;
+        this.houseAddress = this.houseAddress + ", Floor : " + floorNumber + ", Flat : " + flatNumber;
+        this.fullAddress = houseAddress + " ," + mapAddress;
     }
 
     public int getCustomerID() {
@@ -55,7 +67,7 @@ public class CustomerAddress implements Parcelable {
     }
 
     public String getFullAddress() {
-        return houseAddress + mapAddress;
+        return houseAddress + " ," + mapAddress;
     }
 
     public void setFullAddress(String fullAddress) {

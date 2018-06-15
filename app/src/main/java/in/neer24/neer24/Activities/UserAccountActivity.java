@@ -210,14 +210,14 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             Toast.makeText(UserAccountActivity.this, "Logout Pressed", Toast.LENGTH_SHORT).show();
             String loggedInVia = sharedPreferenceUtility.getLoggediInVia();
-            if (loggedInVia.equals("facebook")) {
+            if (loggedInVia!=null && loggedInVia.equals("facebook")) {
                 sharedPreferenceUtility.setLoggedIn(false);
                 LoginManager.getInstance().logOut();
                 progressBarUserAccountActivity.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Intent intent = new Intent(UserAccountActivity.this, LoginActivity.class);
                 startActivity(intent);
-            } else if (loggedInVia.equals("gmail")) {
+            } else if (loggedInVia!=null && loggedInVia.equals("gmail")) {
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                         new ResultCallback<Status>() {
                             @Override
@@ -229,7 +229,7 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
                                 startActivity(i);
                             }
                         });
-            } else if (loggedInVia.equals("normal")) {
+            } else if (loggedInVia!=null && loggedInVia.equals("normal")) {
                 sharedPreferenceUtility.setLoggedIn(false);
                 progressBarUserAccountActivity.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);

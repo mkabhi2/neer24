@@ -96,8 +96,8 @@
         </activity>
         <activity
             android:name=".Activities.WelcomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:noHistory="true"/>
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.LoginActivity"
             android:launchMode="standard"
@@ -105,7 +105,6 @@
         <activity
             android:name=".Activities.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity android:name=".Activities.UserProfileActivity" />
         <activity
             android:name=".Activities.OrderDetailsActivity"
@@ -130,19 +129,12 @@
             android:label="@string/title_activity_user_account"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.ChangeLocationActivity"
-            android:label="Change Location"
-            android:parentActivityName=".Activities.HomeScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="in.neer24.neer24.Activities.HomeScreenActivity" />
-        </activity>
-        <activity android:name=".Activities.FacebookLoginSupportActivity" />
+            android:name=".Activities.FacebookLoginSupportActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.ChangePasswordActivity"
-            android:parentActivityName=".Activities.UserAccountActivity"
             android:label="Change Password"
+            android:parentActivityName=".Activities.UserAccountActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -159,8 +151,8 @@
         </activity>
         <activity
             android:name=".Activities.OTPActivity"
-            android:parentActivityName=".Activities.RegisterActivity"
             android:label="OTP"
+            android:parentActivityName=".Activities.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -168,8 +160,8 @@
         </activity>
         <activity
             android:name=".Activities.AddAddressActivity"
-            android:parentActivityName=".Activities.CheckoutActivity"
             android:label="Add New Address"
+            android:parentActivityName=".Activities.CheckoutActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -177,19 +169,43 @@
         </activity>
         <activity
             android:name=".Activities.PaymentModeActivity"
-            android:parentActivityName=".Activities.CheckoutActivity"
             android:label="Payment"
+            android:parentActivityName=".Activities.CheckoutActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.CheckoutActivity" />
         </activity>
 
-
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_M7F2GDnryqa8hs"
-            />
+            android:value="rzp_test_M7F2GDnryqa8hs" />
+
+        <activity
+            android:name=".Activities.HelpActivitySecondLevel"
+            android:label="@string/title_activity_help"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activities.HelpActivityThirdLevel"
+            android:label="@string/title_activity_help"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".Activities.ChangeLocationActivity"
+            android:label="Change Location"
+            android:parentActivityName=".Activities.HomeScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="in.neer24.neer24.Activities.HomeScreenActivity" />
+        </activity>
+
+        <activity
+            android:name=".Activities.BadWeatherActivity"
+            android:label="Bad Weather"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+
     </application>
 
 </manifest>

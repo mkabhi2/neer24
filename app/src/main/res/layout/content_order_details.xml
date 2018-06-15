@@ -33,29 +33,29 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                android:id="@+id/countDownTimerLayout"
+                android:background="@drawable/rect_black_border_yellow_bg"
+                android:padding="10dp">
 
-                <ProgressBar
-                    android:id="@+id/progressBarCircle"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/drawable_circle_dark_blue"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:progress="100"
-                    android:progressDrawable="@drawable/drawable_circle_yellow"
-                    android:rotation="-90" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:textColor="@color/Blue"
+                    android:textStyle="bold"
+                    android:text="Delivery Within :" />
 
                 <TextView
                     android:id="@+id/textViewTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="00:01:00"
-                    android:textColor="#ff0000"
-                    android:textSize="20sp" />
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/Blue"
+                    android:textStyle="bold"
+                    android:text="00 H : 00 M : 00 S" />
 
             </RelativeLayout>
 
@@ -68,7 +68,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/tv_border2"
-                android:layout_marginBottom="32dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
                 android:id="@+id/delivery_boy_contact">
 
                 <RelativeLayout
@@ -81,12 +82,11 @@
 
                     <ImageView
                         android:id="@+id/phoneImage"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:src="@drawable/telephone"
                         android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"/>
+                        android:layout_centerVertical="true" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -112,16 +112,48 @@
                 android:id="@+id/basicOrderDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/tv_border2"
+                android:background="@drawable/bill_effect_border"
                 android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_marginTop="16dp">
+                android:paddingBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="2dp">
+                    android:layout_marginBottom="4dp"
+                    android:padding="10dp"
+                    android:background="@drawable/rect_black_border_yellow_bg">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Order Status"
+                        android:textColor="@color/DarkBlue"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/orderStatus"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="Dispatched"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/Blue"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -130,6 +162,7 @@
                         android:text="Order ID"
                         android:textColor="@color/DarkBlue"
                         android:textStyle="bold"
+
                         />
 
                     <TextView
@@ -149,7 +182,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="2dp">
+                    android:layout_marginBottom="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -176,34 +211,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginBottom="2dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Order Status"
-                        android:textColor="@color/DarkBlue"
-                        android:textStyle="bold"/>
-
-                    <TextView
-                        android:id="@+id/orderStatus"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:text="Dispatched"
-                        android:textAlignment="viewEnd"
-                        android:textColor="@color/DarkGreen"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="2dp">
+                    android:layout_marginBottom="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -232,7 +242,9 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:id="@+id/recurrencesLeftLayout"
-                    android:layout_marginBottom="2dp">
+                    android:layout_marginBottom="4dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -258,7 +270,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp">
 
                     <TextView
                         android:layout_width="0dp"
@@ -287,16 +301,15 @@
                 android:id="@+id/orderContents"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:background="@drawable/tv_border2"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bill_effect_border"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/orderItemsHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/tv_border"
+                    android:background="@drawable/rect_black_border_blue_bg"
                     android:padding="10dp">
 
                     <TextView
@@ -330,13 +343,56 @@
                     android:id="@+id/orderItemsRV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layoutManager="LinearLayoutManager" />
+                    app:layoutManager="LinearLayoutManager"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"/>
+
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shadow"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginLeft="1dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_gravity="start"
+                        android:text="Floor Charge"
+                        android:textAlignment="viewStart"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_marginLeft="6dp"/>
+
+
+                    <TextView
+                        android:id="@+id/floorCharge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="end"
+                        android:text="Rs 0"
+                        android:textAlignment="viewEnd"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_marginRight="6dp"/>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shadow"
+                    android:padding="10dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginLeft="1dp">
 
                     <TextView
                         android:layout_marginLeft="6dp"
@@ -383,7 +439,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/shadow"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginLeft="1dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -420,7 +478,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/tv_border"
+                    android:background="@drawable/bill_effect_border_blue"
                     android:padding="10dp">
 
                     <TextView
@@ -502,17 +560,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:background="@drawable/tv_border2"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="DELIVERY ADDRESS"
                     android:textAlignment="center"
-                    android:padding="10dp"
                     android:textColor="@color/Blue"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:background="@drawable/rect_black_border_yellow_bg"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:layout_marginBottom="4dp"/>
 
                 <TextView
                     android:id="@+id/deliveryAddress"
@@ -520,9 +580,8 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/DarkBlue"
                     android:layout_gravity="center_horizontal"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:paddingBottom="10dp"/>
+                    android:textAlignment="center"
+                    android:padding="10dp"/>
             </LinearLayout>
 
 

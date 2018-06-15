@@ -100,6 +100,8 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                 selectCheckBoxPOD.setVisibility(View.VISIBLE);
                 selectCircleOP.setVisibility(View.VISIBLE);
                 selectCheckBoxOP.setVisibility(View.GONE);
+                payOnDeliveryLL.setBackgroundColor(getResources().getColor(R.color.Gold));
+                onlinePaymentLL.setBackground(getResources().getDrawable(R.drawable.home_screen_icons_shadow));
             }
         });
 
@@ -111,6 +113,8 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                 selectCheckBoxPOD.setVisibility(View.GONE);
                 selectCircleOP.setVisibility(View.GONE);
                 selectCheckBoxOP.setVisibility(View.VISIBLE);
+                onlinePaymentLL.setBackgroundColor(getResources().getColor(R.color.Gold));
+                payOnDeliveryLL.setBackground(getResources().getDrawable(R.drawable.home_screen_icons_shadow));
             }
         });
 
@@ -138,8 +142,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118/")
-                //.baseUrl("http://18.220.28.118/")
+          .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();

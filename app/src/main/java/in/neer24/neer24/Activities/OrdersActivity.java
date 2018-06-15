@@ -93,8 +93,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
                 .writeTimeout(15, TimeUnit.SECONDS)
                 .build();
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 

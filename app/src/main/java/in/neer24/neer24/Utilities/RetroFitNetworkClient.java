@@ -6,6 +6,7 @@ import java.util.List;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.Customer;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
+import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.CustomObjects.Offer;
 import in.neer24.neer24.CustomObjects.OrderDetails;
 import in.neer24.neer24.CustomObjects.OrderTable;
@@ -56,7 +57,7 @@ public interface RetroFitNetworkClient {
     Call<List<Can>> getCansListForLocation(@Query("latitude") String latitude, @Query("longitude") String longitude);
 
 
-    //http://192.168.43.202:8080//messenger/webapi/warehouse/specificwarehouse?latitude=12.948568&longitude=77.704373
+    //http://18.220.28.118:80//messenger/webapi/warehouse/specificwarehouse?latitude=12.948568&longitude=77.704373
     @GET("/neer/webapi/warehouse/specificwarehouse")
     Call<Integer> getWarehouseForLocation(@Query("latitude") String latitude, @Query("longitude") String longitude);
 
@@ -85,7 +86,7 @@ public interface RetroFitNetworkClient {
     Call<List<CustomerAddress>> getAllCustomerAddress(@Query("customerid") int customerid, @Query("customeruniqueid") String customerUniqueId);
 
     @GET("/neer/webapi/orderdetailstable/ordercompletedetails")
-    Call<List<OrderDetails>> getOrderDetailsForOrderID(@Query("orderid") int orderID);
+    Call<List<CustomerOrder>> getOrderDetailsForOrderID(@Query("orderid") int orderID);
 
 
     @GET("/neer/webapi/customers/updatepassword")
@@ -106,10 +107,13 @@ public interface RetroFitNetworkClient {
     @GET("/neer/webapi/customers/freecans")
     Call<Integer> getFreeCanNumForUser(@Query("emailid")String email);
 
-    @GET("/neer/webapi/offers/referralcode")
-    Call<String> increaseNumberOfFreeCansReferral(@Query("referralcode")String referralCode);
+    @GET("/neer/webapi/customers/referalcodesignup")
+    Call<String> increaseNumberOfFreeCansReferral(@Query("referalcode")String referalCode);
 
     @GET("/neer/webapi/deliveryboyapp/cancelorder/")
     Call<String> cancelOrder(@Query("orderid")int orderID);
+
+    @GET("/neer/webapi/customers/validatereferalcode")
+    Call<String> validateReferalCode(@Query("referalcode")String referralCode);
 
 }

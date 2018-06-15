@@ -50,6 +50,7 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
     Spinner floorSpinner;
     int hasLift;
     SwitchCompat hasLiftSwitch;
+    CustomerAddress customerAddress;
 
     private int warehouseID, currentWarehouseID;
     private int customerAddressID;
@@ -219,8 +220,7 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
         dialog = ProgressDialog.show(AddAddressActivity.this, "",
                 "Saving. Please wait...", true);
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118")
-                .baseUrl("http://18.220.28.118/")       //
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -269,12 +269,12 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
     public void saveAddressToServer(){
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118/")       //
+                .baseUrl("http://18.220.28.118:80/")
+
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        //Call<Integer> call = retroFitNetworkClient.getWarehouseForLocation("12.948568", "77.704373");
         Call<String> call = retroFitNetworkClient.addCustomerAddressToServer(createObjectForCustomerAddress());
         call.enqueue(new Callback<String>() {
             @Override
@@ -285,7 +285,6 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
                 }
                 else {
                     if(warehouseID == currentWarehouseID) {
-                        CheckoutActivity.selectedAddressID = Integer.parseInt(response.body());
                         customerAddressID = Integer.parseInt(response.body());
                     }
                     fetchCustomerAddress();
@@ -338,18 +337,59 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
         }
         dialog.cancel();
         Intent intent = new Intent();
-        if(callingClass.equals("CheckoutActivity"))
+        if(callingClass.equals("CheckoutActivity")) {
+            if(warehouseID == currentWarehouseID) {
+                CheckoutActivity.selectedAddressID = customerAddressID;
+                if(customerAddress.getHasLift()==1 && Integer.parseInt(customerAddress.getFloorNumber())>2){
+                    CheckoutFragment.hasFloorCharge = 1;
+                }
+                else{
+                    CheckoutFragment.hasFloorCharge = 0;
+                }
+            }
             intent.setClass(AddAddressActivity.this,CheckoutActivity.class);
-        if(callingClass.equals("RecurringActivity"))
+        }
+
+        if(callingClass.equals("RecurringActivity")) {
+            if(warehouseID == currentWarehouseID) {
+                SetRecurringScheduleActivity.selectedAddressID = customerAddressID;
+                if(customerAddress.getHasLift()==1 && Integer.parseInt(customerAddress.getFloorNumber())>2){
+                    SetRecurringScheduleActivity.hasFloorCharge = 1;
+                }
+                else{
+                    SetRecurringScheduleActivity.hasFloorCharge = 0;
+                }
+            }
+
             intent.setClass(AddAddressActivity.this,SetRecurringScheduleActivity.class);
-        if(callingClass.equals("UserAccountActivity"))
+        }
+
+        if(callingClass.equals("OneTimeScheduleActivity")) {
+            if(warehouseID == currentWarehouseID) {
+                SetOneTimeScheduleActivity.selectedAddressID = customerAddressID;
+                if(customerAddress.getHasLift()==1 && Integer.parseInt(customerAddress.getFloorNumber())>2){
+                    SetOneTimeScheduleActivity.hasFloorCharge = 1;
+                }
+                else{
+                    SetOneTimeScheduleActivity.hasFloorCharge = 0;
+                }
+            }
+
+            intent.setClass(AddAddressActivity.this,SetOneTimeScheduleActivity.class);
+        }
+
+        if(callingClass.equals("UserAccountActivity")) {
+
             intent.setClass(AddAddressActivity.this, UserAccountActivity.class);
+        }
+
         startActivity(intent);
 
     }
 
     public CustomerAddress createObjectForCustomerAddress() {
-        return new CustomerAddress(sharedPreferenceUtility.getCustomerID(), warehouseID, String.valueOf(latitude), String.valueOf(longitude), addressNickName.getText().toString(), societyNameET.getText().toString(), houseNumberET.getText().toString(), Integer.toString(floor), flatNumberET.getText().toString(), hasLift, mapAddress, landmark.getText().toString());
+        customerAddress =  new CustomerAddress(sharedPreferenceUtility.getCustomerID(), warehouseID, String.valueOf(latitude), String.valueOf(longitude), addressNickName.getText().toString(), societyNameET.getText().toString(), houseNumberET.getText().toString(), Integer.toString(floor), flatNumberET.getText().toString(), hasLift, mapAddress, landmark.getText().toString());
+        return  customerAddress;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

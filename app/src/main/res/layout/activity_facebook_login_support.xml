@@ -7,34 +7,41 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
+    android:background="@color/White"
     tools:context="in.neer24.neer24.Activities.FacebookLoginSupportActivity">
 
 
-    <TextView
-        android:id="@+id/displayMessageTextViewFacebookLoginSupportActivity"
+    <ImageView
         android:layout_width="wrap_content"
+        android:fitsSystemWindows="true"
+        android:scaleType="fitXY"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingLeft="16dp"
-        android:text="Please verify your mobile number for using Neer24"/>
+        android:src="@drawable/verify_number" />
 
     <EditText
         android:id="@+id/mobileNumberEditTextFacebookLoginSupportActivity"
         android:hint="Mobile Number"
         android:maxLines="1"
-        android:paddingTop="16dp"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
         android:inputType="number"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
+        android:textColor="@color/Black"
+        android:textColorHint="@color/Black"
+        android:backgroundTint="@color/app_color"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/verifyMobileButtonFacebookLoginSupportActivity"
         android:text="Verify"
-        android:paddingTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
+        android:textColor="@color/White"
+        android:background="@drawable/rounded_corners_signup_button"
         android:layout_height="wrap_content" />
 
 

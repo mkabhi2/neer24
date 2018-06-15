@@ -7,20 +7,21 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+
+import android.widget.ListView;
+
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import in.neer24.neer24.Adapters.HelpRVAdapter;
 import in.neer24.neer24.R;
+
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 
 public class HelpActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
 
 
     private TextView customerEmailTextViewNavigationHeader;
@@ -29,20 +30,9 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
     SharedPreferenceUtility sharedPreferenceUtility;
 
 
-
-    private TextView AboutAnIssueTextViewHelpActivity;
-    private TextView WaterCansTextViewHelpActivity;
-    private TextView OrdersTextViewHelpActivity;
-    private TextView PaymentsTextViewHelpActivity;
-    private TextView DeliveryTextViewHelpActivity;
-    private TextView RefundsTextViewHelpActivity;
-    private TextView ContactUsextViewHelpActivity;
-    private TextView PrivacyPolicyTextViewHelpActivity;
-    private TextView TermsAndConditionTextViewHelpActivity;
-
-    private ArrayList<String> helpTextViewContentsList;
-
-    RecyclerView recyclerView;
+    ListView listView;
+    TextView textView;
+    String[] listItem;
 
 
     @Override
@@ -52,54 +42,52 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
 
-        recyclerView = findViewById(R.id.help_rv);
 
-
-        helpTextViewContentsList=new ArrayList<String>();
-        helpTextViewContentsList.add("About an issue");
-        helpTextViewContentsList.add("Water Can");
-        helpTextViewContentsList.add("Orders");
-        helpTextViewContentsList.add("Payments");
-        helpTextViewContentsList.add("Delivery");
-        helpTextViewContentsList.add("Refunds");
-        helpTextViewContentsList.add("Contact Us");
-        helpTextViewContentsList.add("Privacy Policy");
-        helpTextViewContentsList.add("Terms and Conditions");
-        helpTextViewContentsList.add("Feedback or Suggestion");
-
-
-
-
-
-
-        sharedPreferenceUtility=new SharedPreferenceUtility(this);
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         View headerview = navigationView.getHeaderView(0);
-        customerNameTextViewNavigationHeader = (TextView)headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
-        customerEmailTextViewNavigationHeader=(TextView)headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
+        customerNameTextViewNavigationHeader = (TextView) headerview.findViewById(R.id.customerNameTextViewNavigationHeader);
+        customerEmailTextViewNavigationHeader = (TextView) headerview.findViewById(R.id.customerEmailTextViewNavigationHeader);
 
         customerNameTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerFirstName());
         customerEmailTextViewNavigationHeader.setText(sharedPreferenceUtility.getCustomerEmailID());
 
+
+        listView = (ListView) findViewById(R.id.listViewTopLevel);
+        textView = (TextView) findViewById(R.id.topLevelTextView);
+        listItem = new String[]{"Regarding an Issue", "Water Quality", "Orders", "Payments", "Delivery", "Refunds", "Policy", "Terms and Conditions", "Feedback & Suggestions", "Contact Us"};
+
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, listItem);
+        listView.setAdapter(adapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String value = adapter.getItem(position);
+                Intent intent = new Intent(HelpActivity.this, HelpActivitySecondLevel.class);
+                intent.putExtra("NAME", value);
+                startActivity(intent);
+                //Toast.makeText(getApplicationContext(), value, Toast.LENGTH_SHORT).show();
+            }
+        });
+
         headerview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HelpActivity.this,UserAccountActivity.class);
+                Intent intent = new Intent(HelpActivity.this, UserAccountActivity.class);
                 startActivity(intent);
             }
         });
         setSupportActionBar(toolbar);
         setUpNavigationDrawer(toolbar);
 
-        setUpRecyclerView(recyclerView);
+
     }
 
-    public void setUpRecyclerView(RecyclerView recyclerView){
 
-        recyclerView.setAdapter(new HelpRVAdapter(helpTextViewContentsList, this));
-        //recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
-    }
-    public void setUpNavigationDrawer(Toolbar toolbar){
+    public void setUpNavigationDrawer(Toolbar toolbar) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.help_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -118,68 +106,33 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_home) {
             Intent intent = new Intent();
-            intent.setClass(this,HomeScreenActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setClass(this, HomeScreenActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_orders) {
             Intent intent = new Intent();
-            intent.setClass(this,OrdersActivity.class);
+            intent.setClass(this, OrdersActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_schedule_delivery) {
             Intent intent = new Intent();
-            intent.setClass(this,ScheduleDeliveryActivity.class);
-            intent.putExtra("type","schedule");
-            startActivity(intent);
-
-        } else if (id == R.id.nav_recurring_delivery) {
-            Intent intent = new Intent();
-            intent.setClass(this,ScheduleDeliveryActivity.class);
-            intent.putExtra("type","recurring");
+            intent.setClass(this, ScheduleDeliveryActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_share) {
             Intent intent = new Intent();
-            intent.setClass(this,ShareActivity.class);
+            intent.setClass(this, ShareActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_disclaimer) {
             Intent intent = new Intent();
-            intent.setClass(this,DisclaimerActivity.class);
+            intent.setClass(this, DisclaimerActivity.class);
             startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.help_drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.help_drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-            final Intent intent = new Intent();
-            intent.setClass(HelpActivity.this, HomeScreenActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
-
-            Intent intent  = new Intent();
-            intent.setClass(HelpActivity.this, FirstActivity.class);
-            startActivity(intent);
-        }
     }
 
 

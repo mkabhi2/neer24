@@ -213,8 +213,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -384,8 +383,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -430,7 +428,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .build();
 
                 Retrofit.Builder builder = new Retrofit.Builder()
-                        .baseUrl("http://18.220.28.118/").client(okHttpClient)
+                        .baseUrl("http://18.220.28.118:80/").client(okHttpClient)
                         .addConverterFactory(GsonConverterFactory.create());
 
                 Retrofit retrofit = builder.build();
@@ -484,6 +482,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
 
         if (HomeScreenActivity.cansList == null || HomeScreenActivity.cansList.isEmpty()) {
+
             Intent intent = new Intent(LoginActivity.this, ChangeLocationActivity.class);
             startActivity(intent);
             finish();
@@ -507,8 +506,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -548,6 +546,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void showToastANdTakeUSerToRegisterPage(String email, String mobileNumber) {
+        sharedPreferenceUtility.setLoggedInViaTemporary("normal");
         Toast.makeText(LoginActivity.this, "Email id not registerd", Toast.LENGTH_SHORT).show();
         Intent registerActivityIntent = new Intent(LoginActivity.this, RegisterActivity.class);
         if (email != null) {
@@ -595,8 +594,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118/")
-                .baseUrl("http://18.220.28.118/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -620,11 +618,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (account != null) {
                         sharedPreferenceUtility.setCustomerEmailRegisterActivity(account.getEmail());
                         sharedPreferenceUtility.setCustomerFirstNameRegisterActivity(account.getDisplayName());
+                        sharedPreferenceUtility.setLoggedInViaTemporary("gmail");
                         Log.e(TAG, "display name: " + account.getDisplayName());
                     } else if (object != null) {
                         try {
                             sharedPreferenceUtility.setCustomerEmailRegisterActivity(object.getString("email"));
                             sharedPreferenceUtility.setCustomerFirstNameRegisterActivity(object.getString("name"));
+                            sharedPreferenceUtility.setLoggedInViaTemporary("facebook");
                         } catch (Exception e) {
 
                         }

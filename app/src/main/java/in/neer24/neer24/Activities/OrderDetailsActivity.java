@@ -1,7 +1,9 @@
 package in.neer24.neer24.Activities;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -18,8 +20,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +38,7 @@ import java.util.concurrent.TimeUnit;
 import in.neer24.neer24.Adapters.OrderDetailsRVAdapter;
 import in.neer24.neer24.BuildConfig;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
-import in.neer24.neer24.CustomObjects.OrderDetails;
+import in.neer24.neer24.CustomObjects.CustomerOrder;
 import in.neer24.neer24.CustomObjects.OrderTable;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RVItemDecoration;
@@ -50,19 +54,21 @@ public class OrderDetailsActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 35;
 
     TextView orderIDTV, orderDateTV, orderStatusTV, orderTypeTV, grandTotalTV, deliveryAddressTV, recurrencesLeftTV, paymentModeTV,
-            offTimeTV, deliveryChargeTV, discountTV, numFreeCansTV;
+            offTimeTV, deliveryChargeTV, discountTV, numFreeCansTV, floorChargeTV;
     RecyclerView orderItemsRV;
     OrderTable order;
-    ArrayList<OrderDetails> ordersDetailsList = new ArrayList<OrderDetails>();
+    ArrayList<CustomerOrder> ordersDetailsList = new ArrayList<CustomerOrder>();
     LinearLayout ratingLayout, deliveryBoyContact, recurrencesLeftLayout, callCustomerCare;
     String rupeeSymbol;
     LinearLayout couponLayout;
     ProgressDialog dialog;
-    Button orderCancelButton;
-    private ProgressBar progressBarCircle;
+    Button orderCancelButton, ratingSubmitButton;
     private long timeCountInMilliSeconds = 7200000;
     private CountDownTimer countDownTimer;
     private TextView textViewTime;
+    RelativeLayout countDownTimerLayout;
+    EditText ratingDetailsET;
+    ImageView eRat1, eRat2, eRat3, eRat4, eRat5, fRat1, fRat2, fRat3, fRat4, fRat5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +97,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         fetchOrderDetails();
 
         ratingLayout = (LinearLayout) findViewById(R.id.ratings_layout);
+        countDownTimerLayout = (RelativeLayout) findViewById(R.id.countDownTimerLayout);
         callCustomerCare = (LinearLayout) findViewById(R.id.callCustomerCare);
         deliveryBoyContact = (LinearLayout) findViewById(R.id.delivery_boy_contact);
         recurrencesLeftLayout = (LinearLayout) findViewById(R.id.recurrencesLeftLayout);
@@ -109,15 +116,27 @@ public class OrderDetailsActivity extends AppCompatActivity {
         grandTotalTV.setText("" + order.getAmountPaid());
         deliveryAddressTV = (TextView) findViewById(R.id.deliveryAddress);
         orderCancelButton = (Button) findViewById(R.id.orderCancelBtn);
-        progressBarCircle = (ProgressBar) findViewById(R.id.progressBarCircle);
         textViewTime = (TextView) findViewById(R.id.textViewTime);
+        floorChargeTV = (TextView) findViewById(R.id.floorCharge);
+        ratingSubmitButton = (Button) findViewById(R.id.ratingSubmitBtn);
+        ratingDetailsET = (EditText) findViewById(R.id.commentET);
+        eRat1 = (ImageView) findViewById(R.id.one_star_empty);
+        eRat2 = (ImageView) findViewById(R.id.two_star_empty);
+        eRat3 = (ImageView) findViewById(R.id.three_star_empty);
+        eRat4 = (ImageView) findViewById(R.id.four_star_empty);
+        eRat5 = (ImageView) findViewById(R.id.five_star_empty);
+        fRat1 = (ImageView) findViewById(R.id.one_star_full);
+        fRat2 = (ImageView) findViewById(R.id.two_star_full);
+        fRat3 = (ImageView) findViewById(R.id.three_star_full);
+        fRat4 = (ImageView) findViewById(R.id.four_star_full);
+        fRat5 = (ImageView) findViewById(R.id.five_star_full);
 
     }
 
 
     private String hmsTimeFormatter(long milliSeconds) {
 
-        String hms = String.format("%02d:%02d:%02d",
+        String hms = String.format("%02d H : %02d M : %02d S",
                 TimeUnit.MILLISECONDS.toHours(milliSeconds),
                 TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(milliSeconds)),
                 TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliSeconds)));
@@ -133,6 +152,9 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
         couponLayout.setVisibility(View.GONE);
         deliveryAddressTV.setVisibility(View.GONE);
+
+        int floorChargeAmount = 5 * order.getTotalCansOrdered();
+        int deliveryChargeAmount = 20;
 
         if(order.getIsDelivered()==1){
             ratingLayout.setVisibility(View.VISIBLE);
@@ -158,8 +180,10 @@ public class OrderDetailsActivity extends AppCompatActivity {
         if(order.getIsDelivered()==1){
             orderStatus = "DELIVERED";
             orderCancelButton.setVisibility(View.GONE);
+            countDownTimerLayout.setVisibility(View.GONE);
         }
         if(order.getIsCancelled()==1){
+            countDownTimerLayout.setVisibility(View.GONE);
             orderStatus = "CANCELLED";
             orderStatusTV.setTextColor(getResources().getColor(R.color.Red));
             orderCancelButton.setVisibility(View.GONE);
@@ -178,17 +202,31 @@ public class OrderDetailsActivity extends AppCompatActivity {
             orderTypeTV.setText("" + "Recurring Delivery");
             recurrencesLeftLayout.setVisibility(View.VISIBLE);
             recurrencesLeftTV.setText("" + order.getDeliveryLeft());
+            if(ordersDetailsList!=null && !ordersDetailsList.isEmpty()){
+                double canPriceAmount = ordersDetailsList.get(0).getCanPrice();
+                int numberOfDeliveries = (int)(order.getAmountPaid() - (canPriceAmount * order.getTotalCansOrdered()))/(floorChargeAmount + deliveryChargeAmount);
+                floorChargeAmount = floorChargeAmount * numberOfDeliveries;
+                deliveryChargeAmount = deliveryChargeAmount * numberOfDeliveries;
+            }
         }
 
         paymentModeTV.setText("" + order.getPaymentMode());
 
         if(order.getIsNightDelivery()==1){
             offTimeTV.setVisibility(View.VISIBLE);
-            deliveryChargeTV.setText(rupeeSymbol + " 20");
+            deliveryChargeTV.setText(rupeeSymbol + " " + deliveryChargeAmount);
         }
         else {
             offTimeTV.setVisibility(View.GONE);
             deliveryChargeTV.setText(rupeeSymbol + " 0");
+        }
+
+        if(order.getHasFloorCharge()==1){
+
+            floorChargeTV.setText(rupeeSymbol + " " + floorChargeAmount);
+        }
+        else{
+            floorChargeTV.setText(rupeeSymbol + " 0");
         }
 
         discountTV.setText("- " + rupeeSymbol + " " + (int)order.getDiscountedAmount());
@@ -224,31 +262,234 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 "Loading. Please wait...", true);
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118")
-                .baseUrl("http://18.220.28.118/")       //
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
         int orderID = order.getOrderID();
-        Call<List<OrderDetails>> call = retroFitNetworkClient.getOrderDetailsForOrderID(orderID);
+        Call<List<CustomerOrder>> call = retroFitNetworkClient.getOrderDetailsForOrderID(orderID);
 
-        call.enqueue(new Callback<List<OrderDetails>>() {
+        call.enqueue(new Callback<List<CustomerOrder>>() {
             @Override
-            public void onResponse(Call<List<OrderDetails>> call, Response<List<OrderDetails>> response) {
+            public void onResponse(Call<List<CustomerOrder>> call, Response<List<CustomerOrder>> response) {
 
-                ordersDetailsList = (ArrayList<OrderDetails>) response.body();
+                ordersDetailsList = (ArrayList<CustomerOrder>) response.body();
+                setUpViewComponents();
                 setUpRecyclerView();
                 dialog.cancel();
             }
 
             @Override
-            public void onFailure(Call<List<OrderDetails>> call, Throwable t) {
+            public void onFailure(Call<List<CustomerOrder>> call, Throwable t) {
                 Toast.makeText(OrderDetailsActivity.this, "Error loading data", Toast.LENGTH_SHORT).show();
                 dialog.cancel();
             }
 
         });
+    }
+
+    public void setUpRatingListeners(){
+        eRat1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eRat1.setVisibility(View.GONE);
+                fRat1.setVisibility(View.VISIBLE);
+
+                eRat2.setVisibility(View.VISIBLE);
+                fRat2.setVisibility(View.GONE);
+
+                eRat3.setVisibility(View.VISIBLE);
+                fRat3.setVisibility(View.GONE);
+
+                eRat4.setVisibility(View.VISIBLE);
+                fRat4.setVisibility(View.GONE);
+
+                eRat5.setVisibility(View.VISIBLE);
+                fRat5.setVisibility(View.GONE);
+            }
+        });
+
+        eRat2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eRat1.setVisibility(View.GONE);
+                fRat1.setVisibility(View.VISIBLE);
+
+                eRat2.setVisibility(View.GONE);
+                fRat2.setVisibility(View.VISIBLE);
+
+                eRat3.setVisibility(View.VISIBLE);
+                fRat3.setVisibility(View.GONE);
+
+                eRat4.setVisibility(View.VISIBLE);
+                fRat4.setVisibility(View.GONE);
+
+                eRat5.setVisibility(View.VISIBLE);
+                fRat5.setVisibility(View.GONE);
+            }
+        });
+
+        eRat3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eRat1.setVisibility(View.GONE);
+                fRat1.setVisibility(View.VISIBLE);
+
+                eRat2.setVisibility(View.GONE);
+                fRat2.setVisibility(View.VISIBLE);
+
+                eRat3.setVisibility(View.GONE);
+                fRat3.setVisibility(View.VISIBLE);
+
+                eRat4.setVisibility(View.VISIBLE);
+                fRat4.setVisibility(View.GONE);
+
+                eRat5.setVisibility(View.VISIBLE);
+                fRat5.setVisibility(View.GONE);
+            }
+        });
+
+        eRat4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eRat1.setVisibility(View.GONE);
+                fRat1.setVisibility(View.VISIBLE);
+
+                eRat2.setVisibility(View.GONE);
+                fRat2.setVisibility(View.VISIBLE);
+
+                eRat3.setVisibility(View.GONE);
+                fRat3.setVisibility(View.VISIBLE);
+
+                eRat4.setVisibility(View.GONE);
+                fRat4.setVisibility(View.VISIBLE);
+
+                eRat5.setVisibility(View.VISIBLE);
+                fRat5.setVisibility(View.GONE);
+            }
+        });
+
+        eRat5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eRat1.setVisibility(View.GONE);
+                fRat1.setVisibility(View.VISIBLE);
+
+                eRat2.setVisibility(View.GONE);
+                fRat2.setVisibility(View.VISIBLE);
+
+                eRat3.setVisibility(View.GONE);
+                fRat3.setVisibility(View.VISIBLE);
+
+                eRat4.setVisibility(View.GONE);
+                fRat4.setVisibility(View.VISIBLE);
+
+                eRat5.setVisibility(View.GONE);
+                fRat5.setVisibility(View.VISIBLE);
+            }
+        });
+
+        fRat1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eRat1.setVisibility(View.GONE);
+                fRat1.setVisibility(View.VISIBLE);
+
+                eRat2.setVisibility(View.VISIBLE);
+                fRat2.setVisibility(View.GONE);
+
+                eRat3.setVisibility(View.VISIBLE);
+                fRat3.setVisibility(View.GONE);
+
+                eRat4.setVisibility(View.VISIBLE);
+                fRat4.setVisibility(View.GONE);
+
+                eRat5.setVisibility(View.VISIBLE);
+                fRat5.setVisibility(View.GONE);
+            }
+        });
+
+        fRat2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eRat1.setVisibility(View.GONE);
+                fRat1.setVisibility(View.VISIBLE);
+
+                eRat2.setVisibility(View.GONE);
+                fRat2.setVisibility(View.VISIBLE);
+
+                eRat3.setVisibility(View.VISIBLE);
+                fRat3.setVisibility(View.GONE);
+
+                eRat4.setVisibility(View.VISIBLE);
+                fRat4.setVisibility(View.GONE);
+
+                eRat5.setVisibility(View.VISIBLE);
+                fRat5.setVisibility(View.GONE);
+            }
+        });
+
+        fRat3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eRat1.setVisibility(View.GONE);
+                fRat1.setVisibility(View.VISIBLE);
+
+                eRat2.setVisibility(View.GONE);
+                fRat2.setVisibility(View.VISIBLE);
+
+                eRat3.setVisibility(View.GONE);
+                fRat3.setVisibility(View.VISIBLE);
+
+                eRat4.setVisibility(View.VISIBLE);
+                fRat4.setVisibility(View.GONE);
+
+                eRat5.setVisibility(View.VISIBLE);
+                fRat5.setVisibility(View.GONE);
+            }
+        });
+
+        fRat4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eRat1.setVisibility(View.GONE);
+                fRat1.setVisibility(View.VISIBLE);
+
+                eRat2.setVisibility(View.GONE);
+                fRat2.setVisibility(View.VISIBLE);
+
+                eRat3.setVisibility(View.GONE);
+                fRat3.setVisibility(View.VISIBLE);
+
+                eRat4.setVisibility(View.GONE);
+                fRat4.setVisibility(View.VISIBLE);
+
+                eRat5.setVisibility(View.VISIBLE);
+                fRat5.setVisibility(View.GONE);
+            }
+        });
+
+        fRat5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eRat1.setVisibility(View.GONE);
+                fRat1.setVisibility(View.VISIBLE);
+
+                eRat2.setVisibility(View.GONE);
+                fRat2.setVisibility(View.VISIBLE);
+
+                eRat3.setVisibility(View.GONE);
+                fRat3.setVisibility(View.VISIBLE);
+
+                eRat4.setVisibility(View.GONE);
+                fRat4.setVisibility(View.VISIBLE);
+
+                eRat5.setVisibility(View.GONE);
+                fRat5.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
     public void setUpOnClickListeners() {
@@ -265,11 +506,45 @@ public class OrderDetailsActivity extends AppCompatActivity {
             }
         });
 
+        setUpRatingListeners();
+
+
         orderCancelButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
 
-                cancelOrder();
+                AlertDialog.Builder builder = new AlertDialog.Builder(OrderDetailsActivity.this);
+
+                builder.setTitle("Confirm");
+                builder.setMessage("Are you sure you want to cancel this order ?");
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        cancelOrder();
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+
+            }
+        });
+
+        //TODO
+        ratingSubmitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
@@ -283,8 +558,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118/")
-                .baseUrl("http://18.220.28.118/")       //
+                .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
 
@@ -453,7 +727,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     private void startTimer() {
         setTimerValues();
-        setProgressBarValues();
         startCountDownTimer();
 
     }
@@ -465,7 +738,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
 
                 textViewTime.setText(hmsTimeFormatter(millisUntilFinished));
-                progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
 
             }
 
@@ -473,7 +745,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
             public void onFinish() {
 
                 textViewTime.setText(hmsTimeFormatter(timeCountInMilliSeconds));
-                setProgressBarValues();
             }
 
         }.start();
@@ -493,20 +764,17 @@ public class OrderDetailsActivity extends AppCompatActivity {
             cal.setTime(date);
             cal.add(Calendar.HOUR_OF_DAY, 2);
             Date deliveryDate = cal.getTime();
-            Date Ddate=java.util.Calendar.getInstance().getTime();
-            diffMs = deliveryDate.getTime() - date.getTime();
+            Date currDate=java.util.Calendar.getInstance().getTime();
+            if(currDate.compareTo(deliveryDate)>=0 || order.getIsCancelled()==1){
+                diffMs = 0;
+            }
+            else{
+                diffMs = deliveryDate.getTime() - currDate.getTime();
+            }
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
         timeCountInMilliSeconds = diffMs;
-    }
-
-
-
-    private void setProgressBarValues() {
-
-        progressBarCircle.setMax((int) timeCountInMilliSeconds / 1000);
-        progressBarCircle.setProgress((int) timeCountInMilliSeconds / 1000);
     }
 }

@@ -42,6 +42,7 @@
         android:textColor="@color/app_color" />
 
     <TextView
+        android:id="@+id/mobileNumberTextViewOTPActivity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"

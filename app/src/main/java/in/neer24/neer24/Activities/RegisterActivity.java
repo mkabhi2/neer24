@@ -1,6 +1,5 @@
 package in.neer24.neer24.Activities;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -65,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     ProgressBar registerProgressBar;
     String emailID;
     String mobileNumber;
-    ProgressDialog dialog;
+    //ProgressDialog dialog;
 
     SharedPreferences sharedPref;
     SharedPreferences.Editor editor;
@@ -89,8 +88,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         //registerProgressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
 
         //registerProgressBar.setVisibility(View.VISIBLE);
-        dialog = ProgressDialog.show(RegisterActivity.this, "",
-                "Saving your details. Please wait...", true);
+       // dialog = ProgressDialog.show(RegisterActivity.this, "",
+         //       "Saving your details. Please wait...", true);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
@@ -160,13 +159,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         referalCodeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                                            @Override
                                                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                               referalCodeEditText.getText().clear();
                                                                if (isChecked) {
-                                                                   if (isCouponCodeValid) {
-                                                                       referralCodeErrorMessageTextView.setVisibility(View.GONE);
-                                                                   } else {
-                                                                       referralCodeErrorMessageTextView.setVisibility(View.VISIBLE);
-                                                                   }
+                                                                   isCouponCodeValid = false;
                                                                } else {
+                                                                   isCouponCodeValid = true;
                                                                    referralCodeErrorMessageTextView.setVisibility(View.GONE);
                                                                }
                                                            }
@@ -177,7 +174,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onStart() {
         super.onStart();
-        dialog.cancel();
+        registerProgressBar.setVisibility(View.GONE);
+       // dialog.cancel();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
     }
@@ -206,8 +204,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.signUpButton:
                 try {
-                    dialog = ProgressDialog.show(RegisterActivity.this, "",
-                            "Sending your details. Please wait...", true);
+//                    dialog = ProgressDialog.show(RegisterActivity.this, "",
+//                            "Sending your details. Please wait...", true);
                     getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     validateSignUpFields();
@@ -248,7 +246,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             saveEveryThingInSharePreferences(email, password, firstName, mobileNumber, referralCode);
             checkEmailAndMobileNumberIfALreadyRegistered(email, mobileNumber);
         } else {
-            dialog.cancel();
+          //  dialog.cancel();
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
             if (!isEmailValid)
@@ -279,8 +277,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-                //.baseUrl("http://18.220.28.118/")
-                .baseUrl("http://18.220.28.118/")      //
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
 
@@ -300,19 +297,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
+                registerProgressBar.setVisibility(View.GONE);
                 String res = response.body();
                 if (res.contains("true")) {
                     if (flag.equals("mobilenumber")) {
-                        dialog.cancel();
-                        Toast.makeText(RegisterActivity.this, "Email ID already registered", Toast.LENGTH_SHORT);
+                      //  dialog.cancel();
+                        Toast.makeText(RegisterActivity.this, "Email ID already registered", Toast.LENGTH_SHORT).show();
                     } else {
-                        dialog.cancel();
-                        Toast.makeText(RegisterActivity.this, "Mobile Number already registered", Toast.LENGTH_SHORT);
+                       // dialog.cancel();
+                        Toast.makeText(RegisterActivity.this, "Mobile Number already registered", Toast.LENGTH_SHORT).show();
                     }
-                    dialog.cancel();
+                    //dialog.cancel();
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 } else {
-                    dialog.cancel();
+                   // dialog.cancel();
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Intent intent = new Intent(RegisterActivity.this, OTPActivity.class);
                     startActivity(intent);
@@ -321,9 +319,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                dialog.cancel();
+              //  dialog.cancel();
+                registerProgressBar.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                Toast.makeText(RegisterActivity.this, "Email verifying Mobile Number Or EmailID", Toast.LENGTH_SHORT);
+                Toast.makeText(RegisterActivity.this, "Email verifying Mobile Number Or EmailID", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -341,7 +340,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
 
     public void doRestOfTaks(String result) {
-        dialog.cancel();
+        //dialog.cancel();
         if (result.contains("true")) {
 
             editor.putBoolean("isLoggedIn", true);
@@ -420,7 +419,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     break;
 
                 case R.id.referalCodeEditText:
-                    if (!UtilityClass.validateReferalCdde(referalCodeEditText.getText().toString())) {
+                    if (referalCodeCheckBox.isChecked() && !UtilityClass.validateEmail(referalCodeEditText.getText().toString())) {
                         referralCodeErrorMessageTextView.setVisibility(View.VISIBLE);
                         isCouponCodeValid = false;
                     } else {
