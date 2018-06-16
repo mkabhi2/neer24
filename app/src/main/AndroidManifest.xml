@@ -28,10 +28,12 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -44,11 +46,13 @@
         <activity
             android:name=".Activities.HomeScreenActivity"
             android:label="@string/title_activity_home_screen"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.FirstActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,29 +62,35 @@
         <activity
             android:name=".Activities.OrdersActivity"
             android:label="@string/title_activity_orders"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ScheduleDeliveryActivity"
             android:label="@string/title_activity_schedule_delivery"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.DisclaimerActivity"
             android:label="@string/title_activity_disclaimer"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ShareActivity"
             android:label="@string/title_activity_share"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Activities.TempActivity" />
         <activity
             android:name=".Activities.HelpActivity"
             android:label="@string/title_activity_help"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.SetOneTimeScheduleActivity"
             android:label="@string/title_activity_one_time_set_schedule"
             android:parentActivityName=".Activities.ScheduleDeliveryActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.ScheduleDeliveryActivity" />
@@ -89,7 +99,8 @@
             android:name=".Activities.SetRecurringScheduleActivity"
             android:label="@string/title_activity_set_recurring_schedule"
             android:parentActivityName=".Activities.ScheduleDeliveryActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.ScheduleDeliveryActivity" />
@@ -97,20 +108,24 @@
         <activity
             android:name=".Activities.WelcomeActivity"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.LoginActivity"
             android:launchMode="standard"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name=".Activities.UserProfileActivity" />
         <activity
             android:name=".Activities.OrderDetailsActivity"
             android:label="@string/title_activity_order_details"
             android:parentActivityName=".Activities.OrdersActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.OrdersActivity" />
@@ -119,7 +134,8 @@
             android:name=".Activities.CheckoutActivity"
             android:label="@string/title_activity_checkout"
             android:parentActivityName=".Activities.HomeScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.HomeScreenActivity" />
@@ -127,15 +143,18 @@
         <activity
             android:name=".Activities.UserAccountActivity"
             android:label="@string/title_activity_user_account"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.FacebookLoginSupportActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ChangePasswordActivity"
             android:label="Change Password"
             android:parentActivityName=".Activities.UserAccountActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.UserAccountActivity" />
@@ -144,7 +163,8 @@
             android:name=".Activities.CouponActivity"
             android:label="@string/title_activity_coupon"
             android:parentActivityName=".Activities.CheckoutActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.CheckoutActivity" />
@@ -153,7 +173,8 @@
             android:name=".Activities.OTPActivity"
             android:label="OTP"
             android:parentActivityName=".Activities.RegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.RegisterActivity" />
@@ -162,7 +183,8 @@
             android:name=".Activities.AddAddressActivity"
             android:label="Add New Address"
             android:parentActivityName=".Activities.CheckoutActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.CheckoutActivity" />
@@ -171,7 +193,8 @@
             android:name=".Activities.PaymentModeActivity"
             android:label="Payment"
             android:parentActivityName=".Activities.CheckoutActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.CheckoutActivity" />
@@ -184,17 +207,20 @@
         <activity
             android:name=".Activities.HelpActivitySecondLevel"
             android:label="@string/title_activity_help"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.HelpActivityThirdLevel"
             android:label="@string/title_activity_help"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".Activities.ChangeLocationActivity"
             android:label="Change Location"
             android:parentActivityName=".Activities.HomeScreenActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="in.neer24.neer24.Activities.HomeScreenActivity" />
@@ -203,7 +229,8 @@
         <activity
             android:name=".Activities.BadWeatherActivity"
             android:label="Bad Weather"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"></activity>
 
 
     </application>
