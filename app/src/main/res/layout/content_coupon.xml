@@ -9,12 +9,21 @@
     tools:showIn="@layout/activity_coupon"
     android:orientation="vertical">
 
-    <ImageView
+    <RelativeLayout
         android:id="@+id/noCouponsFoundIV"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/kinley"/>
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Uh Oh!\nYou have no coupons available\nfor your current order"
+            android:textStyle="bold"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:textSize="20sp"/>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/titleTV"

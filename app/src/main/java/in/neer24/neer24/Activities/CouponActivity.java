@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -18,7 +17,7 @@ import in.neer24.neer24.R;
 public class CouponActivity extends AppCompatActivity {
 
     RelativeLayout freeCanCouponRL;
-    ImageView noCouponsFoundIV;
+    RelativeLayout noCouponsFoundIV;
     TextView numFreeCansTV, titleTV;
     int numNeerCans = 0;
 
@@ -31,7 +30,7 @@ public class CouponActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         freeCanCouponRL = (RelativeLayout) findViewById(R.id.freeCanCouponRL);
 
-        noCouponsFoundIV = (ImageView) findViewById(R.id.noCouponsFoundIV);
+        noCouponsFoundIV = (RelativeLayout) findViewById(R.id.noCouponsFoundIV);
         numFreeCansTV = (TextView) findViewById(R.id.numFreeCansTV);
         titleTV = (TextView) findViewById(R.id.titleTV);
 
