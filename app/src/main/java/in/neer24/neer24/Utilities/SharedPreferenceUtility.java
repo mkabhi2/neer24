@@ -206,4 +206,9 @@ public class SharedPreferenceUtility {
     public String getLoggedInViaTemporary() {
         return sharedPreferences.getString("loggedinviatemp", null);
     }
+
+    public void clearAllData() {
+        editor.clear();
+        editor.commit();
+    }
 }

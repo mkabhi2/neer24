@@ -84,10 +84,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        //registerProgressBar = (ProgressBar) findViewById(R.id.registerProgressBar);
-        //registerProgressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
+        registerProgressBar = (ProgressBar) findViewById(R.id.registerProgressBar);
+        registerProgressBar.getIndeterminateDrawable().setColorFilter(Color.BLUE, android.graphics.PorterDuff.Mode.MULTIPLY);
 
-        //registerProgressBar.setVisibility(View.VISIBLE);
+        registerProgressBar.setVisibility(View.VISIBLE);
        // dialog = ProgressDialog.show(RegisterActivity.this, "",
          //       "Saving your details. Please wait...", true);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,

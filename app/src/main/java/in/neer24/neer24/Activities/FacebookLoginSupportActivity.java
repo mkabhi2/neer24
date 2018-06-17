@@ -1,12 +1,25 @@
 package in.neer24.neer24.Activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,6 +41,12 @@ public class FacebookLoginSupportActivity extends AppCompatActivity {
     EditText mobileNumberEditTextFacebookLoginSupportActivity;
     Button verifyMobileButtonFacebookLoginSupportActivity;
 
+    private GoogleApiClient mGoogleApiClient;
+    GoogleSignInOptions gso;
+    GoogleSignInClient mGoogleSignInClient;
+
+    ProgressBar progressBarFacebookLoginSupportActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +57,38 @@ public class FacebookLoginSupportActivity extends AppCompatActivity {
         verifyMobileButtonFacebookLoginSupportActivity = (Button) findViewById(R.id.verifyMobileButtonFacebookLoginSupportActivity);
 
 
+        progressBarFacebookLoginSupportActivity = (ProgressBar) findViewById(R.id.progressBarFacebookLoginSupportActivity);
+        progressBarFacebookLoginSupportActivity.setVisibility(View.GONE);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         verifyMobileButtonFacebookLoginSupportActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                InputMethodManager inputManager = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
+
+                progressBarFacebookLoginSupportActivity.setVisibility(View.VISIBLE);
+
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+
                 MobileNumber = mobileNumberEditTextFacebookLoginSupportActivity.getText().toString();
                 if (MobileNumber == null || !UtilityClass.validateMobile(MobileNumber)) {
+                    progressBarFacebookLoginSupportActivity.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Toast.makeText(FacebookLoginSupportActivity.this, "Please enter a valid mobile number", Toast.LENGTH_SHORT).show();
                 } else {
                     checkIfmobileNumberIsAlreadyRegisteredWithOtherAccount(MobileNumber);
@@ -73,8 +119,12 @@ public class FacebookLoginSupportActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.body().contains("true")) {
+                    progressBarFacebookLoginSupportActivity.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Toast.makeText(FacebookLoginSupportActivity.this, "Mobile Number Already Registered with other account", Toast.LENGTH_SHORT).show();
                 } else {
+                    progressBarFacebookLoginSupportActivity.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     sharedPreferenceUtility.setCustomerMobileNumberRegisterActivity(mobileNumber);
                     Intent intent = new Intent(FacebookLoginSupportActivity.this, OTPActivity.class);
                     startActivity(intent);
@@ -83,9 +133,32 @@ public class FacebookLoginSupportActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
+                progressBarFacebookLoginSupportActivity.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Toast.makeText(FacebookLoginSupportActivity.this, "Please try after sometime", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        String loggedInVia = sharedPreferenceUtility.getLoggedInViaTemporary();
+        if (loggedInVia != null) {
+            if (loggedInVia.equals("gmail")) {
+                mGoogleSignInClient.signOut()
+                        .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // ...
+                            }
+                        });
+            } else if (loggedInVia.equals("facebook")) {
+                LoginManager.getInstance().logOut();
+            }
+        }
+    }
+
 }
