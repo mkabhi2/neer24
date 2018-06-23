@@ -2,6 +2,7 @@ package in.neer24.neer24.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,10 +21,14 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 
@@ -51,6 +56,8 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
     private TextView customerNameTextViewNavigationHeader;
     private NavigationView navigationView;
 
+    GoogleSignInOptions gso;
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,11 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_user_account);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         changePasswordUserAcountActivity = (TextView) findViewById(R.id.changePasswordUserAcountActivity);
         addNewAddressUserAccountActivity = (TextView) findViewById(R.id.addNewAddressUserAccountActivity);
@@ -68,8 +80,8 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         headerView = navigationView.getHeaderView(0);
-        customerNameTextViewNavigationHeader = (TextView)headerView.findViewById(R.id.customerNameTextViewNavigationHeader);
-        customerEmailTextViewNavigationHeader=(TextView)headerView.findViewById(R.id.customerEmailTextViewNavigationHeader);
+        customerNameTextViewNavigationHeader = (TextView) headerView.findViewById(R.id.customerNameTextViewNavigationHeader);
+        customerEmailTextViewNavigationHeader = (TextView) headerView.findViewById(R.id.customerEmailTextViewNavigationHeader);
 
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
         recyclerView = (RecyclerView) findViewById(R.id.address_rv);
@@ -139,14 +151,14 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
 
         } else if (id == R.id.nav_schedule_delivery) {
             Intent intent = new Intent();
-            intent.setClass(this,ScheduleDeliveryActivity.class);
-            intent.putExtra("type","schedule");
+            intent.setClass(this, ScheduleDeliveryActivity.class);
+            intent.putExtra("type", "schedule");
             startActivity(intent);
 
         } else if (id == R.id.nav_recurring_delivery) {
             Intent intent = new Intent();
-            intent.setClass(this,ScheduleDeliveryActivity.class);
-            intent.putExtra("type","recurring");
+            intent.setClass(this, ScheduleDeliveryActivity.class);
+            intent.putExtra("type", "recurring");
             startActivity(intent);
 
         } else if (id == R.id.nav_share) {
@@ -186,17 +198,7 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    @Override
-    protected void onStart() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-        mGoogleApiClient.connect();
-        super.onStart();
-    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -210,26 +212,32 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             Toast.makeText(UserAccountActivity.this, "Logout Pressed", Toast.LENGTH_SHORT).show();
             String loggedInVia = sharedPreferenceUtility.getLoggediInVia();
-            if (loggedInVia!=null && loggedInVia.equals("facebook")) {
+            if (loggedInVia != null && loggedInVia.equals("facebook")) {
+                sharedPreferenceUtility.clearAllData();
                 sharedPreferenceUtility.setLoggedIn(false);
+
                 LoginManager.getInstance().logOut();
                 progressBarUserAccountActivity.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 Intent intent = new Intent(UserAccountActivity.this, LoginActivity.class);
                 startActivity(intent);
-            } else if (loggedInVia!=null && loggedInVia.equals("gmail")) {
-                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                        new ResultCallback<Status>() {
+            } else if (loggedInVia != null && loggedInVia.equals("gmail")) {
+                mGoogleSignInClient.signOut()
+                        .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                             @Override
-                            public void onResult(Status status) {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // ...
+                                sharedPreferenceUtility.clearAllData();
                                 sharedPreferenceUtility.setLoggedIn(false);
                                 progressBarUserAccountActivity.setVisibility(View.GONE);
                                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                                 Intent i = new Intent(UserAccountActivity.this, LoginActivity.class);
                                 startActivity(i);
                             }
                         });
-            } else if (loggedInVia!=null && loggedInVia.equals("normal")) {
+            } else if (loggedInVia != null && loggedInVia.equals("normal")) {
+                sharedPreferenceUtility.clearAllData();
                 sharedPreferenceUtility.setLoggedIn(false);
                 progressBarUserAccountActivity.setVisibility(View.GONE);
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -262,9 +270,9 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
-        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+        if (HomeScreenActivity.cansList == null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName == null || HomeScreenActivity.locationName.isEmpty()) {
 
-            Intent intent  = new Intent();
+            Intent intent = new Intent();
             intent.setClass(UserAccountActivity.this, FirstActivity.class);
             startActivity(intent);
         }

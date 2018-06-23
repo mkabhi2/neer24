@@ -23,6 +23,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -87,6 +88,8 @@ public class HomeScreenActivity extends AppCompatActivity
         setContentView(R.layout.activity_home_screen);
 
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         if (savedInstanceState != null) {
             // Restore value of members from saved state

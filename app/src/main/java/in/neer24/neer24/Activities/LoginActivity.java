@@ -122,8 +122,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+
         progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+
         progressBar.setVisibility(View.VISIBLE);
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
