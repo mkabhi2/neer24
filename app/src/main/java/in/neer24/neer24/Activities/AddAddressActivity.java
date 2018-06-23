@@ -38,71 +38,45 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddAddressActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    Button selectLocationBtn, saveButton;
-    TextView locationNameTextView;
-    View locationNameLineView;
-    int PLACE_PICKER_REQUEST = 1, floor;
-    SharedPreferenceUtility sharedPreferenceUtility;
-    private EditText addressNickName, landmark, flatNumberET, societyNameET, houseNumberET;
-    Toast toast;
-    Toolbar toolbar;
-    ProgressDialog dialog;
-    Spinner floorSpinner;
-    int hasLift;
-    SwitchCompat hasLiftSwitch;
-    CustomerAddress customerAddress;
+    private int PLACE_PICKER_REQUEST = 1;
 
-    private int warehouseID, currentWarehouseID;
-    private int customerAddressID;
+    private Button selectLocationBtn, saveButton;
+    private TextView locationNameTextView;
+    private View locationNameLineView;
+    private EditText addressNickName, landmark, flatNumberET, societyNameET, houseNumberET;
+    private Toast toast;
+    private Toolbar toolbar;
+    private ProgressDialog dialog;
+    private Spinner floorSpinner;
+    private SwitchCompat hasLiftSwitch;
+
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private CustomerAddress customerAddress;
+
+    private int floor, warehouseID, currentWarehouseID, hasLift, customerAddressID;
     private double latitude, longitude;
-    String mapAddress, callingClass;
+    private String mapAddress, callingClass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_address);
 
         Intent intent = getIntent();
         callingClass = intent.getStringExtra("className");
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         sharedPreferenceUtility=new SharedPreferenceUtility(this);
         currentWarehouseID = sharedPreferenceUtility.getWareHouseID();
-
 
         initialiseViewObjects();
         setUpClickListeners();
         setUpSpinner();
+
+        toolbar.setBackgroundColor(getResources().getColor(R.color.app_color));
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
-    public void setUpSpinner(){
-
-        List<String> floorList = new ArrayList<String>();
-        floorList.add("None Selected");
-        floorList.add("Ground Floor");
-        floorList.add("1st Floor");
-        floorList.add("2nd Floor");
-        floorList.add("3rd Floor");
-
-        for(int i=4;i<21;i++){
-            floorList.add(i + "th Floor");
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_spinner_item,floorList);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        floorSpinner.setAdapter(adapter);
-        floorSpinner.setOnItemSelectedListener(this);
-        floorSpinner.setSelection(0);
-        floor = -1;
-    }
-
-
 
     private void initialiseViewObjects() {
 
@@ -118,25 +92,12 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
         flatNumberET = (EditText) findViewById(R.id.flatNoET);
         floorSpinner = (Spinner) findViewById(R.id.spinner_floor);
         hasLiftSwitch = (SwitchCompat) findViewById(R.id.switch_has_lift);
-
-
-    }
-
-    @Override
-    public void onClick(View v) {
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        floor = position - 1;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
     }
 
     private void setUpClickListeners() {
+
         selectLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -174,6 +135,42 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
         });
 
     }
+
+    public void setUpSpinner(){
+
+        List<String> floorList = new ArrayList<String>();
+        floorList.add("None Selected");
+        floorList.add("Ground Floor");
+        floorList.add("1st Floor");
+        floorList.add("2nd Floor");
+        floorList.add("3rd Floor");
+
+        for(int i=4;i<21;i++){
+            floorList.add(i + "th Floor");
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item,floorList);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        floorSpinner.setAdapter(adapter);
+        floorSpinner.setOnItemSelectedListener(this);
+        floorSpinner.setSelection(0);
+        floor = -1;
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        floor = position - 1;
+    }
+
+    @Override
+    public void onClick(View v) {}
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {}
+
 
     private boolean checkFields() {
 
@@ -215,13 +212,15 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
         return true;
     }
 
+
     private void getWarehouseIDForNewAddress() {
 
-        dialog = ProgressDialog.show(AddAddressActivity.this, "",
-                "Saving. Please wait...", true);
+        dialog = ProgressDialog.show(AddAddressActivity.this, "", "Saving. Please wait...", true);
+
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://18.220.28.118:80/")
-                .addConverterFactory(GsonConverterFactory.create());
+                                    .baseUrl("http://18.220.28.118:80/")
+                                    .addConverterFactory(GsonConverterFactory.create());
+
         Retrofit retrofit = builder.build();
 
         RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
@@ -237,8 +236,6 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
                     saveAddressToServer();
                 }
             }
-
-
 
             @Override
             public void onFailure(Call<Integer> call, Throwable t) {
@@ -259,11 +256,6 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
                 dialog.cancel();
             }
         });
-
-
-
-
-
     }
 
     public void saveAddressToServer(){
@@ -317,15 +309,18 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
 
         CustomerAddress newAddress = createObjectForCustomerAddress();
         newAddress.setCustomerAddressID(customerAddressID);
+
         if(Integer.parseInt(newAddress.getFloorNumber())>2 && newAddress.getHasLift()==0){
             CheckoutFragment.hasFloorCharge = 1;
         }
+
         if(HomeScreenActivity.addressList!=null)
             HomeScreenActivity.addressList.add(newAddress);
         else {
             HomeScreenActivity.addressList = new ArrayList<CustomerAddress>();
             HomeScreenActivity.addressList.add(newAddress);
         }
+
         if (UserAccountActivity.recyclerView != null) {
             UserAccountActivity.recyclerView.setAdapter(new UserAccountAddressRVAdapter(HomeScreenActivity.addressList,AddAddressActivity.this));
             UserAccountActivity.recyclerView.invalidate();
@@ -335,8 +330,11 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
             ChangeLocationActivity.addressRV.setAdapter(new ChangeLocationAddressRVAdapter(HomeScreenActivity.addressList,AddAddressActivity.this));
             ChangeLocationActivity.addressRV.invalidate();
         }
+
         dialog.cancel();
+
         Intent intent = new Intent();
+
         if(callingClass.equals("CheckoutActivity")) {
             if(warehouseID == currentWarehouseID) {
                 CheckoutActivity.selectedAddressID = customerAddressID;
@@ -387,12 +385,14 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+
     public CustomerAddress createObjectForCustomerAddress() {
         customerAddress =  new CustomerAddress(sharedPreferenceUtility.getCustomerID(), warehouseID, String.valueOf(latitude), String.valueOf(longitude), addressNickName.getText().toString(), societyNameET.getText().toString(), houseNumberET.getText().toString(), Integer.toString(floor), flatNumberET.getText().toString(), hasLift, mapAddress, landmark.getText().toString());
         return  customerAddress;
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(this, data);

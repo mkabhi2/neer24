@@ -37,6 +37,7 @@ import in.neer24.neer24.Adapters.ChangeLocationAddressRVAdapter;
 import in.neer24.neer24.Adapters.HomeRVAdapter;
 import in.neer24.neer24.Adapters.UserAccountAddressRVAdapter;
 import in.neer24.neer24.BuildConfig;
+import in.neer24.neer24.CustomObjects.ApplicationVersion;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.R;
@@ -80,6 +81,8 @@ public class FirstActivity extends AppCompatActivity {
         progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.Black), PorterDuff.Mode.MULTIPLY);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        getApplicationVersion();
 
         if (sharedPreferenceUtility.loggedIn()) {
             getCustomerAddress();
@@ -138,6 +141,44 @@ public class FirstActivity extends AppCompatActivity {
 
     }
 
+    private void getApplicationVersion(){
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
+
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.4:8080/")
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
+
+
+        Retrofit retrofit = builder.build();
+
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<ApplicationVersion> call = retroFitNetworkClient.getLatestVersion();
+
+        call.enqueue(new Callback<ApplicationVersion>() {
+            @Override
+            public void onResponse(Call<ApplicationVersion> call, Response<ApplicationVersion> response) {
+                ApplicationVersion applicationVersion = response.body();
+                if(applicationVersion!=null){
+                    HomeScreenActivity.applicationVersion = applicationVersion;
+                }
+                launchNextActivity();
+            }
+
+            @Override
+            public void onFailure(Call<ApplicationVersion> call, Throwable t) {
+                System.out.print("Hello");
+                launchNextActivity();
+            }
+        });
+
+
+
+    }
 
     public void doTheOperations() {
 
@@ -334,7 +375,7 @@ public class FirstActivity extends AppCompatActivity {
                     sharedPreferenceUtility.setWareHouseID(warehouseID);
                 }
                 else {
-                    launchNextActivity();
+                    getApplicationVersion();
                 }
             }
 
@@ -380,7 +421,7 @@ public class FirstActivity extends AppCompatActivity {
                     ScheduleDeliveryActivity.recyclerView.setAdapter(new HomeRVAdapter(ScheduleDeliveryActivity.allCans, FirstActivity.this));
                     ScheduleDeliveryActivity.recyclerView.invalidate();
                 }
-                launchNextActivity();
+                getApplicationVersion();
             }
 
             @Override

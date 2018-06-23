@@ -1,7 +1,10 @@
 package in.neer24.neer24.Activities;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,6 +36,7 @@ import java.util.concurrent.TimeUnit;
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 import in.neer24.neer24.Adapters.CustomPagerAdapter;
 import in.neer24.neer24.Adapters.HomeRVAdapter;
+import in.neer24.neer24.CustomObjects.ApplicationVersion;
 import in.neer24.neer24.CustomObjects.Can;
 import in.neer24.neer24.CustomObjects.CustomerAddress;
 import in.neer24.neer24.CustomObjects.NormalCart;
@@ -52,6 +56,7 @@ public class HomeScreenActivity extends AppCompatActivity
 
     public static ArrayList<CustomerAddress> addressList = new ArrayList<CustomerAddress>();
     public static ArrayList<Can> cansList = new ArrayList<Can>();
+    public static ApplicationVersion applicationVersion;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 35;
 
     AutoScrollViewPager viewPager;
@@ -73,6 +78,7 @@ public class HomeScreenActivity extends AppCompatActivity
     private LinearLayout scheduleOrderBtnLL, recurringOrderBtnLL, bulkOrderBtnLL;
 
     boolean isNew = true;
+    int verCode=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +98,7 @@ public class HomeScreenActivity extends AppCompatActivity
             getCustomerAddress();
         }
 
+        showUpdateDialog();
         initialiseViewObjects();
         setViewObjects();
         setClickListeners();
@@ -109,6 +116,41 @@ public class HomeScreenActivity extends AppCompatActivity
             validateReferalCodeFromServer(referalCode);
         }
 
+    }
+
+    private void showUpdateDialog() {
+        try {
+            PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+            verCode = pInfo.versionCode;
+            System.out.print("hELLO");
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if(applicationVersion!=null && verCode<applicationVersion.getApplicationVersion() && applicationVersion.getIsCompulsory()==1){
+            AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
+
+            builder.setTitle("Please Update");
+            builder.setMessage("Please update Neer24");
+
+            builder.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface dialog, int which) {
+
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+
+                    //Copy App URL from Google Play Store.
+                    intent.setData(Uri.parse("https://play.google.com/store/apps/details?id=in.neer24.neer24"));
+
+                    startActivity(intent);
+                }
+            });
+
+            builder.setCancelable(false);
+
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
 
@@ -529,11 +571,13 @@ public class HomeScreenActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        showUpdateDialog();
         if (cansList == null || cansList.isEmpty() || locationName == null || locationName.isEmpty()) {
 
             Intent intent = new Intent();
             intent.setClass(HomeScreenActivity.this, FirstActivity.class);
             startActivity(intent);
         }
+
     }
 }

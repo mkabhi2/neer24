@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -42,7 +41,6 @@ public class UserAccountAddressRVAdapter extends RecyclerView.Adapter<UserAccoun
 
             name = (TextView) itemView.findViewById(R.id.rvAddressTextView);
             nickName = (TextView) itemView.findViewById(R.id.addressNickName);
-            image = (ImageView) itemView.findViewById(R.id.rvAddressImageView);
 
         }
     }
@@ -67,17 +65,8 @@ public class UserAccountAddressRVAdapter extends RecyclerView.Adapter<UserAccoun
 
         TextView nameTV = holder.name;
         TextView nickNameTV = holder.nickName;
-        ImageView imageView = holder.image;
         nameTV.setText(customerAddress.getFullAddress());
         nickNameTV.setText(customerAddress.getAddressNickName());
-
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "Recycle Click" + position, Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 

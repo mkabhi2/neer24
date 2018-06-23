@@ -48,14 +48,6 @@ public class CouponActivity extends AppCompatActivity {
             }
         }
 
-
-        /*if(numFreeCans < 1 || numNeerCans < 1) {
-
-            freeCanCouponRL.setVisibility(View.GONE);
-            noCouponsFoundIV.setVisibility(View.VISIBLE);
-            titleTV.setVisibility(View.GONE);
-        }*///TODO
-
         if(CheckoutFragment.numOfFreeCans < 1 || numNeerCans == 0) {
 
             freeCanCouponRL.setVisibility(View.GONE);

@@ -28,16 +28,6 @@
         android:lineSpacingExtra="5dp"
         android:text="Home- Flat No 3-/40, Muniyapa Buiding, ANand Nagar, 1st Main, Opposite Kala Mandir, Marathahalli, Aswath Nagar(Marathahalli) Banaglore"
         android:singleLine="false"
-        android:maxLines="7"
-        android:layout_toLeftOf="@+id/rvAddressImageView"/>
-
-    <ImageView
-        android:id="@+id/rvAddressImageView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/delete_button" />
+        android:maxLines="7" />
 
 </RelativeLayout>

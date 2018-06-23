@@ -69,6 +69,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
     RelativeLayout countDownTimerLayout;
     EditText ratingDetailsET;
     ImageView eRat1, eRat2, eRat3, eRat4, eRat5, fRat1, fRat2, fRat3, fRat4, fRat5;
+    int rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -293,6 +294,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         eRat1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rating = 1;
                 eRat1.setVisibility(View.GONE);
                 fRat1.setVisibility(View.VISIBLE);
 
@@ -313,6 +315,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         eRat2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rating = 2;
                 eRat1.setVisibility(View.GONE);
                 fRat1.setVisibility(View.VISIBLE);
 
@@ -333,6 +336,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         eRat3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rating = 3;
                 eRat1.setVisibility(View.GONE);
                 fRat1.setVisibility(View.VISIBLE);
 
@@ -353,6 +357,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         eRat4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rating=4;
                 eRat1.setVisibility(View.GONE);
                 fRat1.setVisibility(View.VISIBLE);
 
@@ -373,6 +378,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         eRat5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rating = 5;
                 eRat1.setVisibility(View.GONE);
                 fRat1.setVisibility(View.VISIBLE);
 
@@ -393,6 +399,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         fRat1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rating=1;
                 eRat1.setVisibility(View.GONE);
                 fRat1.setVisibility(View.VISIBLE);
 
@@ -413,6 +420,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         fRat2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rating=2;
                 eRat1.setVisibility(View.GONE);
                 fRat1.setVisibility(View.VISIBLE);
 
@@ -433,6 +441,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         fRat3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rating=3;
                 eRat1.setVisibility(View.GONE);
                 fRat1.setVisibility(View.VISIBLE);
 
@@ -453,6 +462,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         fRat4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rating=4;
                 eRat1.setVisibility(View.GONE);
                 fRat1.setVisibility(View.VISIBLE);
 
@@ -473,6 +483,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         fRat5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rating=5;
                 eRat1.setVisibility(View.GONE);
                 fRat1.setVisibility(View.VISIBLE);
 
@@ -534,6 +545,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
+                builder.setCancelable(false);
 
                 AlertDialog alert = builder.create();
                 alert.show();
@@ -546,6 +558,43 @@ public class OrderDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                dialog = ProgressDialog.show(OrderDetailsActivity.this, "",
+                        "Sharing your feedback. Please wait...", true);
+
+                Retrofit.Builder builder = new Retrofit.Builder()
+                        .baseUrl("http://192.168.0.4:8080/")
+                        .addConverterFactory(GsonConverterFactory.create());
+                Retrofit retrofit = builder.build();
+
+                RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+                //Call<Integer> call = retroFitNetworkClient.rateDeliveryBoy(order.getDeliveryBoyID(), rating);
+                Call<String> call = retroFitNetworkClient.rateDeliveryBoy(4, rating);
+
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+
+                        if (response.body() != null) {
+                            if(response.body().toString().contains("true")){
+                                dialog.cancel();
+                                Toast.makeText(OrderDetailsActivity.this, " Thank you for your feedback.", Toast.LENGTH_LONG).show();
+
+                            }
+                            else{
+                                dialog.cancel();
+                                Toast.makeText(OrderDetailsActivity.this, " Failed to share feedback. Please try again.", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        dialog.cancel();
+                        Toast.makeText(OrderDetailsActivity.this, " Failed to share feedback. Please try again.", Toast.LENGTH_LONG).show();
+
+                    }
+                });
             }
         });
     }
