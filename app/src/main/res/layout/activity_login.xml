@@ -52,7 +52,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/rounded_corners"
                 android:ems="10"
-                android:hint="Email"
+                android:hint="Enter your Mobile Number/Email"
                 android:maxLines="1"
                 android:inputType="textEmailAddress"
                 android:textAlignment="center"

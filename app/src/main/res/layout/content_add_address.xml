@@ -67,39 +67,22 @@
                 android:layout_marginRight="18dp"
                 android:visibility="gone"/>
 
-
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/societyNameLayout"
+                android:id="@+id/flatNoLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="18dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_below="@+id/locationNameLine">
 
                 <EditText
                     android:textSize="14sp"
-                    android:id="@+id/societyNameET"
+                    android:id="@+id/flatNoET"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Society Name / Building Name / Guiding Details" />
-            </android.support.design.widget.TextInputLayout>
+                    android:hint="Flat/Room Number" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/HouseNumberLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_below="@+id/societyNameLayout">
-
-                <EditText
-                    android:textSize="14sp"
-                    android:id="@+id/houseNumberET"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Building Number / Guiding Details" />
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -111,7 +94,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginLeft="18dp"
                 android:layout_marginRight="16dp"
-                android:layout_below="@+id/HouseNumberLayout">
+                android:layout_below="@+id/flatNoLayout">
 
                 <TextView
                     android:layout_width="0dp"
@@ -134,23 +117,44 @@
 
             </LinearLayout>
 
-
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/flatNoLayout"
+                android:id="@+id/HouseNumberLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_below="@+id/floor_spinner">
 
                 <EditText
                     android:textSize="14sp"
-                    android:id="@+id/flatNoET"
+                    android:id="@+id/houseNumberET"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Flat Number / Guiding Details" />
+                    android:hint="Building/House Number" />
+
+
             </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/societyNameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_below="@+id/HouseNumberLayout">
+
+                <EditText
+                    android:textSize="14sp"
+                    android:id="@+id/societyNameET"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Society/Building Name" />
+
+            </android.support.design.widget.TextInputLayout>
+
 
 
 
@@ -161,16 +165,14 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:layout_below="@+id/flatNoLayout"
-                >
+                android:layout_below="@+id/societyNameLayout">
 
                 <EditText
                     android:textSize="14sp"
                     android:id="@+id/landmarkET"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="Landmark"
-                    />
+                    android:hint="Landmark" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -237,9 +239,6 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="22dp"
                 android:layout_below="@+id/switchView" />
-
-
-
 
 
         </RelativeLayout>

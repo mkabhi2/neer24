@@ -12,12 +12,40 @@
 
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:scaleType="fitXY"
-        android:layout_height="wrap_content"
+        android:visibility="gone"
         android:src="@drawable/verify_number" />
 
+    <TextView
+        android:gravity="center_horizontal|bottom"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:background="#00B2EE"
+        android:textColor="@color/White"
+        android:text="Verify Your Number"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:paddingBottom="10dp"/>
+
+    <TextView
+        android:gravity="center_horizontal|top"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:background="#00B2EE"
+        android:textColor="@color/White"
+        android:text="Please enter your mobile number to receive a verification code"
+        android:layout_width="match_parent"
+        android:layout_height="110dp" />
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/mobile_icon"
+        android:layout_gravity="center"
+        android:layout_marginTop="-40dp"
+        android:layout_marginBottom="20dp"/>
     <EditText
         android:id="@+id/mobileNumberEditTextFacebookLoginSupportActivity"
         android:hint="Mobile Number"
@@ -44,11 +72,11 @@
         android:background="@drawable/rounded_corners_signup_button"
         android:layout_height="wrap_content" />
 
+
     <ProgressBar
         android:layout_gravity="center"
         android:id="@+id/progressBarFacebookLoginSupportActivity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 
 </LinearLayout>
