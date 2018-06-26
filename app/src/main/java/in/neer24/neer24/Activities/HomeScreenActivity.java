@@ -411,7 +411,7 @@ public class HomeScreenActivity extends AppCompatActivity
     }
 
     public void setUpRecyclerView(RecyclerView recyclerView) {
-
+        
         recyclerView.setAdapter(new HomeRVAdapter(cansList, this));
         recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
     }
