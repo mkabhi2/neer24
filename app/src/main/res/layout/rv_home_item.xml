@@ -23,7 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_toRightOf="@id/iv_productImage">
+        android:layout_toRightOf="@id/iv_productImage"
+        android:layout_toLeftOf="@+id/allButtonLayout">
         <TextView
             android:id="@+id/tv_productName"
             android:text="Bottle"
@@ -33,16 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:textStyle="bold"/>
-
-        <!--
-        <TextView
-            android:id="@+id/tv_productVolume_and_quality"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="20L Can"
-            android:textSize="13sp"
-            android:layout_marginTop="5dp" />
-           -->
 
         <TextView
             android:id="@+id/tv_productQuality"
@@ -63,12 +54,12 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/allButtonLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:paddingLeft="20dp">
+        android:layout_centerVertical="true">
 
 
         <Button

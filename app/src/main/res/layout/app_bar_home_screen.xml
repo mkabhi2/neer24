@@ -63,8 +63,7 @@
                     android:paddingBottom="5dp"
                     android:weightSum="3">
 
-                    <LinearLayout
-                        android:id="@+id/scheduleOrderBtnLL"
+                    <LinearLayout android:id="@+id/scheduleOrderBtnLL"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:orientation="vertical"
@@ -86,30 +85,7 @@
                             android:textStyle="bold"/>
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/recurringOrderBtnLL"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:weightSum="2"
-                        android:layout_gravity="center"
-                        android:layout_height="match_parent">
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1.4"
-                            android:src="@drawable/recuring_order_image"/>
-                        <TextView
-                            android:textColor="@color/app_color"
-                            android:text="Recuring Order"
-                            android:textAlignment="center"
-                            android:layout_width="match_parent"
-                            android:layout_weight="0.6"
-                            android:layout_height="0dp"
-                            android:textStyle="bold"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/bulkOrderBtnLL"
+                    <LinearLayout android:id="@+id/bulkOrderBtnLL"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:orientation="vertical"
@@ -130,6 +106,29 @@
                             android:layout_height="0dp"
                             android:textStyle="bold"/>
                     </LinearLayout>
+
+                    <LinearLayout android:id="@+id/recurringOrderBtnLL"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:weightSum="2"
+                        android:layout_gravity="center"
+                        android:layout_height="match_parent">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1.4"
+                            android:src="@drawable/recuring_order_image"/>
+                        <TextView
+                            android:textColor="@color/app_color"
+                            android:text="Recuring Order"
+                            android:textAlignment="center"
+                            android:layout_width="match_parent"
+                            android:layout_weight="0.6"
+                            android:layout_height="0dp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
                 </LinearLayout>
             </FrameLayout>
 

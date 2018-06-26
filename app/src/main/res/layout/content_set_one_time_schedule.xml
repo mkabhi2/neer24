@@ -38,16 +38,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
 
                     <LinearLayout
+                        android:id="@+id/imageContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="32dp"
                         android:orientation="vertical">
 
                         <ImageView
@@ -77,10 +78,12 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_toRightOf="@+id/imageContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -127,7 +130,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
+                            android:layout_gravity="center_horizontal"
                             android:text="Number of cans required "
                             android:textColor="#000"
                             android:textSize="15sp"
@@ -136,9 +139,9 @@
                     </LinearLayout>
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:id="@+id/switchView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -160,7 +163,38 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"/>
-                </LinearLayout>
+                </LinearLayout>-->
+
+                <RelativeLayout
+                    android:id="@+id/switchView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/switchTV"
+                        android:layout_height="wrap_content"
+                        android:text="I don't have a neer24 can to replace  "
+                        android:textColor="@color/DarkBlue"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/switch_has_lift"
+                        android:layout_marginRight="2dp"/>
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch_has_lift"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
+
 
 
                 <LinearLayout
@@ -177,7 +211,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:layout_marginRight="8dp">
 
                         <TextView
                             android:id="@+id/in_date"
@@ -310,7 +345,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="We will deliver your  can within a time period of  +/- 30 minutes from your selected delivery time."
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp"/>
                 </LinearLayout>
 
             </LinearLayout>

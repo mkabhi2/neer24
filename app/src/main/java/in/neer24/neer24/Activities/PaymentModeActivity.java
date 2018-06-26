@@ -8,8 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -50,6 +52,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
     ProgressDialog dialog;
     Toolbar toolbar;
     String parentClassName;
+    HorizontalScrollView codHSV, onlineHSV;
 
 
     @Override
@@ -87,6 +90,8 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         selectCheckBoxPOD = (ImageView) findViewById(R.id.selectCheckBoxPOD);
         selectCircleOP = (ImageView) findViewById(R.id.selectCircleOP);
         selectCirclePOD = (ImageView) findViewById(R.id.selectCirclePOD);
+        codHSV = (HorizontalScrollView) findViewById(R.id.codHSV);
+        onlineHSV = (HorizontalScrollView) findViewById(R.id.onlineHSV);
 
     }
 
@@ -129,6 +134,28 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                 } else if (modeOfPayment.equals("ONLINEPAYMENT")) {
                     startPayment();
                 }
+            }
+        });
+        /*codHSV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                payOnDeliveryLL.performClick();
+            }
+        });*/
+
+        codHSV.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                payOnDeliveryLL.performClick();
+                return false;
+            }
+        });
+
+        onlineHSV.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                onlinePaymentLL.performClick();
+                return false;
             }
         });
     }

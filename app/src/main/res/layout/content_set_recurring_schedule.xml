@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -136,10 +136,113 @@
                     </LinearLayout>
 
 
-                </LinearLayout>
+                </LinearLayout>-->
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/imageContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/productImage"
+                            android:layout_width="105dp"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center"
+                            android:paddingBottom="5dp"
+                            android:src="@drawable/bisleri" />
+
+                        <TextView
+                            android:id="@+id/productName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Bisleri"
+                            android:textColor="#000" />
+
+                        <TextView
+                            android:id="@+id/productPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Rs. 70 / can"
+                            android:textColor="#000" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_toRightOf="@+id/imageContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="5dp">
 
 
-                <LinearLayout
+                            <Button
+                                android:id="@+id/btn_qty_decrease"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="10dp"
+                                android:background="@drawable/rv_home_item_round_corner_button_add"
+                                android:text="-"
+                                android:textSize="17sp"
+                                android:textColor="@color/White"/>
+
+                            <Button
+                                android:id="@+id/btn_order_or_qty"
+                                android:layout_width="50dp"
+                                android:layout_height="37dp"
+                                android:layout_marginRight="10dp"
+                                android:background="@drawable/rv_home_item_round_corner_button"
+                                android:text="ADD"
+                                android:textColor="@color/White" />
+
+                            <Button
+                                android:id="@+id/btn_qty_increase"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/rv_home_item_round_corner_button_add"
+                                android:text="+"
+                                android:textSize="17sp"
+                                android:textColor="@color/White"/>
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Number of cans required "
+                            android:textColor="#000"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+                </RelativeLayout>
+
+
+                <!--<LinearLayout
                     android:id="@+id/switchView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -161,16 +264,48 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"/>
-                </LinearLayout>
+                </LinearLayout>-->
+
+                <RelativeLayout
+                    android:id="@+id/switchView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/switchTV"
+                        android:layout_height="wrap_content"
+                        android:text="I don't have a neer24 can to replace  "
+                        android:textColor="@color/DarkBlue"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/switch_has_lift"
+                        android:layout_marginRight="2dp"/>
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch_has_lift"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
 
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/floor_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal"
-                    android:layout_marginTop="25dp">
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -178,31 +313,37 @@
                         android:text="Select frequency of Delivery "
                         android:textColor="#000"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/spinner_floor"/>
 
                     <Spinner
                         android:id="@+id/spinner_floor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="32dp"
+                        android:layout_marginLeft="5dp"
                         android:background="@drawable/rounded_borders_app_color"
-                        android:padding="5dp"/>
-                </LinearLayout>
+                        android:padding="5dp"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
 
 
-                <LinearLayout
+                <RelativeLayout
                     android:id="@+id/dateAndTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="32dp"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginRight="8dp">
 
                         <TextView
                             android:id="@+id/in_time"
@@ -232,7 +373,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:layout_alignParentRight="true">
 
                         <TextView
                             android:id="@+id/in_date"
@@ -258,7 +400,7 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_marginTop="42dp"
@@ -387,7 +529,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="End date signifies the date at which you want to end recurrence delivery order"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_marginBottom="32dp"/>
                 </LinearLayout>
 
             </LinearLayout>
