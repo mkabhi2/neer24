@@ -164,12 +164,12 @@
     <color name="app_color_light_blue">#E1F5FE</color>
 
     <array name="array_dot_active">
-        <item>@color/dot_light_screen1</item>
-        <item>@color/dot_light_screen1</item>
-        <item>@color/dot_light_screen1</item>
-        <item>@color/dot_light_screen1</item>
-        <item>@color/dot_light_screen1</item>
-        <item>@color/dot_light_screen1</item>
+        <item>@color/DarkBlue</item>
+        <item>@color/DarkBlue</item>
+        <item>@color/DarkBlue</item>
+        <item>@color/DarkBlue</item>
+        <item>@color/DarkBlue</item>
+        <item>@color/DarkBlue</item>
     </array>
 
     <array name="array_dot_inactive">

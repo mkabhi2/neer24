@@ -96,6 +96,30 @@ public class FirstActivity extends AppCompatActivity {
         doTheOperations();
     }
 
+    public void doTheOperations() {
+
+        if (isNetworkAvailable()) {
+
+            if (!checkPermissions()) {
+                requestPermissions();
+            } else {
+
+                getLastLocation();
+            }
+
+        } else {
+            snackbar = Snackbar
+                    .make(relativeLayout, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            doTheOperations();
+                        }
+                    });
+            snackbar.show();
+        }
+    }
+
     public void getCustomerAddress() {
 
         int customerID = sharedPreferenceUtility.getCustomerID();
@@ -166,45 +190,16 @@ public class FirstActivity extends AppCompatActivity {
                 if(applicationVersion!=null){
                     HomeScreenActivity.applicationVersion = applicationVersion;
                 }
-                launchNextActivity();
             }
 
             @Override
             public void onFailure(Call<ApplicationVersion> call, Throwable t) {
-                System.out.print("Hello");
-                launchNextActivity();
             }
         });
 
 
 
     }
-
-    public void doTheOperations() {
-
-        if (isNetworkAvailable()) {
-
-            if (!checkPermissions()) {
-                requestPermissions();
-            } else {
-                checkIfUpdateRequired();
-                getLastLocation();
-            }
-
-        } else {
-            snackbar = Snackbar
-                    .make(relativeLayout, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            doTheOperations();
-                        }
-                    });
-            snackbar.show();
-        }
-    }
-
-    private void checkIfUpdateRequired(){}
 
 
     private boolean isNetworkAvailable() {
@@ -375,7 +370,7 @@ public class FirstActivity extends AppCompatActivity {
                     sharedPreferenceUtility.setWareHouseID(warehouseID);
                 }
                 else {
-                    getApplicationVersion();
+                    launchNextActivity();
                 }
             }
 
@@ -421,7 +416,7 @@ public class FirstActivity extends AppCompatActivity {
                     ScheduleDeliveryActivity.recyclerView.setAdapter(new HomeRVAdapter(ScheduleDeliveryActivity.allCans, FirstActivity.this));
                     ScheduleDeliveryActivity.recyclerView.invalidate();
                 }
-                getApplicationVersion();
+                launchNextActivity();
             }
 
             @Override

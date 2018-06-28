@@ -54,8 +54,8 @@
 
 
     <string name="slide_2_title">Simple.Beautiful.Reliable</string>
-    <string name="slide_2_desc">Rock-solid water can delivery service built to delight</string>
-    <string name="slide_2_details">With assured delivery within 45 minutes</string>
+    <string name="slide_2_desc">Rock-solid delivery service</string>
+    <string name="slide_2_details">Built to delight, with assured delivery within 90 minutes</string>
 
     <string name="slide_3_title">Brands You Love</string>
     <string name="slide_3_desc">Find the purified water brand you love on Neer24</string>
@@ -66,12 +66,13 @@
     <string name="slide_4_details">Tested by us beforehand for you</string>
 
     <string name="slide_5_title">Schedule delivery</string>
-    <string name="slide_5_desc">Schedule your water can delivery beforehand</string>
-    <string name="slide_5_details">Specify date and time when you need your delivery</string>
+    <string name="slide_5_desc">No Time ???</string>
+    <string name="slide_5_details">Schedule your delivery, and forget the stress.</string>
 
     <string name="slide_6_title">Recurring Delivery</string>
-    <string name="slide_6_desc">Know the water quality of each individual product</string>
+    <string name="slide_6_desc">Set a timetable for continuous water can deliveries, hassle free and without any interruption</string>
     <string name="slide_6_details" />
+
     <string name="title_activity_coupon">Apply Coupons</string>
     <string name="title_activity_bad_weather">BadWeatherActivity</string>
 
