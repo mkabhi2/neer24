@@ -32,16 +32,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CheckoutFragment extends android.app.Fragment {
 
-    ListView checkoutListView;
-    TextView noItemsInCart;
+    private ListView checkoutListView;
+    private TextView noItemsInCart;
     private static TextView totalCheckoutFragmentTextView;
-    static View view, footerView;
-    static TextView applyCouponTV, applyCouponSubTextTV;
-    static ImageView couponApplyArrowIV, couponCancelIconIV;
-    static TextView  billOffersTV, billGrandTotalTV;
-    static LinearLayout billOffersLL, couponLayout;
-    static LinearLayout staticCouponLayout;
-    static TextView billItemTotalTV;
+    public static View view, footerView;
+    public static TextView applyCouponTV, applyCouponSubTextTV;
+    public static ImageView couponApplyArrowIV, couponCancelIconIV;
+    public static TextView  billOffersTV, billGrandTotalTV;
+    public static LinearLayout billOffersLL, couponLayout;
+    public static LinearLayout staticCouponLayout;
+    public static TextView billItemTotalTV;
     public static int hasFloorCharge = 0;
     static TextView billDeliveryChargesDetailTV, billDeliveryChargesTV, billFloorChargesDetailTV, billFloorChargesTV;
     public static double discountedAmount = 0, deliveryCharge = 0, toPay = 0, totalAmount=0, floorCharge = 0;

@@ -53,29 +53,29 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ChangeLocationActivity extends AppCompatActivity {
 
-    private static final String TAG = ChangeLocationActivity.class.getSimpleName();
+    private final String TAG = ChangeLocationActivity.class.getSimpleName();
 
     public static RecyclerView addressRV;
-    private static String currentLongitude;
-    private static String currentLatitude;
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-
-    SharedPreferenceUtility sharedPreferenceUtility;
-    private FusedLocationProviderClient mFusedLocationClient;
-    protected Location mLastLocation;
-    LatLng latLng;
-
-    RelativeLayout placePickerRL, currentLocationRL;
-    LinearLayout comingSoonTV;
-    private Toolbar toolbar;
-    private LinearLayout linearLayout;
     public static ProgressDialog dialog;
 
-    int PLACE_PICKER_REQUEST = 1;
-    int warehouseID = 0;
-    private Boolean exit = false;
+    private String currentLongitude;
+    private String currentLatitude;
+    private final int FINE_LOCATION_PERMISSIONS_REQUEST_CODE = 34;
 
-    public ArrayList<Can> cansList = new ArrayList<Can>();
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private Location mLastLocation;
+    private LatLng latLng;
+
+    private RelativeLayout placePickerRL, currentLocationRL;
+    private LinearLayout comingSoonTV;
+    private Toolbar toolbar;
+    private LinearLayout linearLayout;
+
+    private int PLACE_PICKER_REQUEST = 1;
+    private int warehouseID = 0;
+
+    private ArrayList<Can> cansList = new ArrayList<Can>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +152,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
     }
 
 
-    public void setUpRecyclerView(RecyclerView recyclerView){
+    private void setUpRecyclerView(RecyclerView recyclerView){
 
         recyclerView.setAdapter(new ChangeLocationAddressRVAdapter(HomeScreenActivity.addressList, this));
         recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
@@ -172,7 +172,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
         }
     }
 
-    public void getWarehouseForLocation(double latitude, double longitude) {
+    private void getWarehouseForLocation(double latitude, double longitude) {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://18.220.28.118:80/")
@@ -224,7 +224,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
         });
     }
 
-    public void getCansListForWarehouse(int wid) {
+    private void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
@@ -289,7 +289,7 @@ public class ChangeLocationActivity extends AppCompatActivity {
         }
     }
 
-    public void doTheOperations() {
+    private void doTheOperations() {
 
         if (isNetworkAvailable()) {
 
@@ -350,14 +350,14 @@ public class ChangeLocationActivity extends AppCompatActivity {
     private void startLocationPermissionRequest() {
         ActivityCompat.requestPermissions(ChangeLocationActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_PERMISSIONS_REQUEST_CODE);
+                FINE_LOCATION_PERMISSIONS_REQUEST_CODE);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         Log.i(TAG, "onRequestPermissionResult");
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+        if (requestCode == FINE_LOCATION_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length <= 0) {
 
                 // If user interaction was interrupted, the permission request is cancelled and you

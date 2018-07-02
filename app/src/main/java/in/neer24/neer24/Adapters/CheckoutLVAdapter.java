@@ -25,8 +25,8 @@ import in.neer24.neer24.R;
 
 public class CheckoutLVAdapter extends BaseAdapter {
 
-    Context context;
-    TextView noItemsInCart;
+    private Context context;
+    private TextView noItemsInCart;
 
     public CheckoutLVAdapter(Context context, TextView noItemsInCart) {
         this.context = context;

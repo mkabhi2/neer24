@@ -53,17 +53,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FirstActivity extends AppCompatActivity {
 
-    private static final String TAG = FirstActivity.class.getSimpleName();
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
+    private final String FIRST_ACTIVITY_TAG = FirstActivity.class.getSimpleName();
+    private final int FINE_LOCATION_PERMISSIONS_REQUEST_CODE = 34;
 
-    SharedPreferenceUtility sharedPreferenceUtility;
-    private static String currentLongitude;
-    private static String currentLatitude;
-    int warehouseID;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private String currentLongitude;
+    private String currentLatitude;
+    private int warehouseID;
 
     private ProgressBar progressBar;
-    Snackbar snackbar, retroCallFailSnackbar;
-    private RelativeLayout relativeLayout;
+    private Snackbar snackbar, retroCallFailSnackbar;
+    private RelativeLayout totalLayout;
 
     private FusedLocationProviderClient mFusedLocationClient;
     protected Location mLastLocation;
@@ -75,10 +75,8 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
 
-        sharedPreferenceUtility = new SharedPreferenceUtility(this);
-        relativeLayout = (RelativeLayout) findViewById(R.id.main_activity_container);
-        progressBar = (ProgressBar) findViewById(R.id.firstActivityProgressBar);
-        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.Black), PorterDuff.Mode.MULTIPLY);
+        initialiseViewObjects();
+        setUpViewObjects();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -89,38 +87,50 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        doTheOperations();
+    private void initialiseViewObjects(){
+        sharedPreferenceUtility = new SharedPreferenceUtility(this);
+        totalLayout = (RelativeLayout) findViewById(R.id.main_activity_container);
+        progressBar = (ProgressBar) findViewById(R.id.firstActivityProgressBar);
     }
 
-    public void doTheOperations() {
+    private void setUpViewObjects(){
+        progressBar.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.Black), PorterDuff.Mode.MULTIPLY);
+    }
 
-        if (isNetworkAvailable()) {
+    private void getApplicationVersion(){
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
+                .build();
 
-            if (!checkPermissions()) {
-                requestPermissions();
-            } else {
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl("http://192.168.0.4:8080/")
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create());
 
-                getLastLocation();
+
+        Retrofit retrofit = builder.build();
+
+        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
+        Call<ApplicationVersion> call = retroFitNetworkClient.getLatestVersion();
+
+        call.enqueue(new Callback<ApplicationVersion>() {
+            @Override
+            public void onResponse(Call<ApplicationVersion> call, Response<ApplicationVersion> response) {
+                ApplicationVersion applicationVersion = response.body();
+                if(applicationVersion!=null){
+                    HomeScreenActivity.applicationVersion = applicationVersion;
+                }
             }
 
-        } else {
-            snackbar = Snackbar
-                    .make(relativeLayout, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("RETRY", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            doTheOperations();
-                        }
-                    });
-            snackbar.show();
-        }
+            @Override
+            public void onFailure(Call<ApplicationVersion> call, Throwable t) {
+            }
+        });
     }
 
-    public void getCustomerAddress() {
+    private void getCustomerAddress() {
 
         int customerID = sharedPreferenceUtility.getCustomerID();
 
@@ -165,42 +175,36 @@ public class FirstActivity extends AppCompatActivity {
 
     }
 
-    private void getApplicationVersion(){
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(15, TimeUnit.SECONDS)
-                .build();
 
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.4:8080/")
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create());
-
-
-        Retrofit retrofit = builder.build();
-
-        RetroFitNetworkClient retroFitNetworkClient = retrofit.create(RetroFitNetworkClient.class);
-        Call<ApplicationVersion> call = retroFitNetworkClient.getLatestVersion();
-
-        call.enqueue(new Callback<ApplicationVersion>() {
-            @Override
-            public void onResponse(Call<ApplicationVersion> call, Response<ApplicationVersion> response) {
-                ApplicationVersion applicationVersion = response.body();
-                if(applicationVersion!=null){
-                    HomeScreenActivity.applicationVersion = applicationVersion;
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApplicationVersion> call, Throwable t) {
-            }
-        });
-
-
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        doTheOperations();
     }
 
+    private void doTheOperations() {
+
+        if (isNetworkAvailable()) {
+
+            if (!checkPermissions()) {
+                requestPermissions();
+            } else {
+
+                getLastLocation();
+            }
+
+        } else {
+            snackbar = Snackbar
+                    .make(totalLayout, "No Internet Connection", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("RETRY", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            doTheOperations();
+                        }
+                    });
+            snackbar.show();
+        }
+    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -239,30 +243,19 @@ public class FirstActivity extends AppCompatActivity {
     private void startLocationPermissionRequest() {
         ActivityCompat.requestPermissions(FirstActivity.this,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                REQUEST_PERMISSIONS_REQUEST_CODE);
+                FINE_LOCATION_PERMISSIONS_REQUEST_CODE);
     }
-
-   /* @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_PERMISSIONS_REQUEST_CODE: getLastLocation();
-
-            // other 'case' lines to check for other
-            // permissions this app might request.
-        }
-    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        Log.i(TAG, "onRequestPermissionResult");
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
+        Log.i(FIRST_ACTIVITY_TAG, "onRequestPermissionResult");
+        if (requestCode == FINE_LOCATION_PERMISSIONS_REQUEST_CODE) {
             if (grantResults.length <= 0) {
                 // If user interaction was interrupted, the permission request is cancelled and you
                 // receive empty arrays.
                 progressBar.setVisibility(View.INVISIBLE);
-                Log.i(TAG, "User interaction was cancelled.");
+                Log.i(FIRST_ACTIVITY_TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
                 getLastLocation();
@@ -331,8 +324,8 @@ public class FirstActivity extends AppCompatActivity {
                         } else {
 
                             progressBar.setVisibility(View.GONE);
-                            Log.w(TAG, "getLastLocation:exception", task.getException());
-                            Snackbar.make(relativeLayout, "Failed to detect location.", Snackbar.LENGTH_INDEFINITE)
+                            Log.w(FIRST_ACTIVITY_TAG, "getLastLocation:exception", task.getException());
+                            Snackbar.make(totalLayout, "Failed to detect location.", Snackbar.LENGTH_INDEFINITE)
                                     .setAction("RETRY", new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
@@ -345,7 +338,7 @@ public class FirstActivity extends AppCompatActivity {
                 });
     }
 
-    public void getWarehouseForLocation(double latitude, double longitude) {
+    private void getWarehouseForLocation(double latitude, double longitude) {
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://18.220.28.118:80/")
@@ -379,7 +372,7 @@ public class FirstActivity extends AppCompatActivity {
 
                 progressBar.setVisibility(View.GONE);
                 retroCallFailSnackbar = Snackbar
-                        .make(relativeLayout, "Failed to load data. No Internet Connection.", Snackbar.LENGTH_INDEFINITE)
+                        .make(totalLayout, "Failed to load data. No Internet Connection.", Snackbar.LENGTH_INDEFINITE)
                         .setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -391,7 +384,7 @@ public class FirstActivity extends AppCompatActivity {
         });
     }
 
-    public void getCansListForWarehouse(int wid) {
+    private void getCansListForWarehouse(int wid) {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://18.220.28.118:80/")
                 .addConverterFactory(GsonConverterFactory.create());
@@ -422,7 +415,7 @@ public class FirstActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Can>> call, Throwable t) {
                 retroCallFailSnackbar = Snackbar
-                        .make(relativeLayout, "Failed to load data. No Internet Connection.", Snackbar.LENGTH_INDEFINITE)
+                        .make(totalLayout, "Failed to load data. No Internet Connection.", Snackbar.LENGTH_INDEFINITE)
                         .setAction("RETRY", new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {

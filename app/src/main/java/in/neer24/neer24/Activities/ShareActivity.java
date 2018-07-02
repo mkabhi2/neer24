@@ -28,8 +28,8 @@ public class ShareActivity extends AppCompatActivity implements NavigationView.O
     private TextView customerEmailTextViewNavigationHeader;
     private TextView customerNameTextViewNavigationHeader, couponCodeTV;
     private NavigationView navigationView;
-    SharedPreferenceUtility sharedPreferenceUtility;
-    Toast toast;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private Toast toast;
 
 
 

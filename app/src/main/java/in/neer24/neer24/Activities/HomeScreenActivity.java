@@ -58,11 +58,12 @@ public class HomeScreenActivity extends AppCompatActivity
     public static ArrayList<CustomerAddress> addressList = new ArrayList<CustomerAddress>();
     public static ArrayList<Can> cansList = new ArrayList<Can>();
     public static ApplicationVersion applicationVersion;
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 35;
 
-    AutoScrollViewPager viewPager;
-    CustomPagerAdapter pagerAdapter;
-    SharedPreferenceUtility sharedPreferenceUtility;
+    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 35;
+
+    private AutoScrollViewPager viewPager;
+    private CustomPagerAdapter pagerAdapter;
+    private SharedPreferenceUtility sharedPreferenceUtility;
 
     public static RecyclerView recyclerView;
     private static Button checkoutButton;

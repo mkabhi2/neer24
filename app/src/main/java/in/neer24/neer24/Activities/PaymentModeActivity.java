@@ -40,19 +40,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PaymentModeActivity extends AppCompatActivity implements PaymentResultListener {
 
-    SharedPreferenceUtility sharedPreferenceUtility;
-    Button proceedButton;
-    OrderTable orderTable = null;
-    //String orderType = "";
-    OrderTable order;
-    OrderDetails orderDetails[];
-    String modeOfPayment = "";
-    LinearLayout payOnDeliveryLL, onlinePaymentLL;
-    ImageView selectCirclePOD, selectCheckBoxPOD, selectCircleOP, selectCheckBoxOP;
-    ProgressDialog dialog;
-    Toolbar toolbar;
-    String parentClassName;
-    HorizontalScrollView codHSV, onlineHSV;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private Button proceedButton;
+    private OrderTable order;
+    private OrderDetails orderDetails[];
+    private String modeOfPayment = "";
+    private LinearLayout payOnDeliveryLL, onlinePaymentLL;
+    private ImageView selectCirclePOD, selectCheckBoxPOD, selectCircleOP, selectCheckBoxOP;
+    private ProgressDialog dialog;
+    private Toolbar toolbar;
+    private String parentClassName;
+    private HorizontalScrollView codHSV, onlineHSV;
 
 
     @Override
@@ -82,7 +80,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
 
     }
 
-    public void initialiseViewObjects() {
+    private void initialiseViewObjects() {
         proceedButton = (Button) findViewById(R.id.proccedButton);
         payOnDeliveryLL = (LinearLayout) findViewById(R.id.payOnDeliveryLL);
         onlinePaymentLL = (LinearLayout) findViewById(R.id.onlinePaymentLL);
@@ -95,7 +93,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
 
     }
 
-    public void setUpOnClickListeners() {
+    private void setUpOnClickListeners() {
 
         payOnDeliveryLL.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,12 +134,6 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                 }
             }
         });
-        /*codHSV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                payOnDeliveryLL.performClick();
-            }
-        });*/
 
         codHSV.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -160,7 +152,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         });
     }
 
-    public void insertDataIntoOrderTable(final OrderTable orderTable) {
+    private void insertDataIntoOrderTable(final OrderTable orderTable) {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
@@ -209,7 +201,6 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         });
     }
 
-
     private void startPayment() {
         Checkout checkout = new Checkout();
         checkout.setImage(R.drawable.logo);
@@ -232,7 +223,6 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
             Log.e("error", "Error in starting Razorpay Checkout", e);
         }
     }
-
 
     @Override
     public void onPaymentSuccess(String s) {

@@ -136,7 +136,7 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    public void setUpSpinner(){
+    private void setUpSpinner(){
 
         List<String> floorList = new ArrayList<String>();
         floorList.add("None Selected");
@@ -258,7 +258,7 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
-    public void saveAddressToServer(){
+    private void saveAddressToServer(){
 
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl("http://18.220.28.118:80/")
@@ -305,7 +305,7 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    public void fetchCustomerAddress() {
+    private void fetchCustomerAddress() {
 
         CustomerAddress newAddress = createObjectForCustomerAddress();
         newAddress.setCustomerAddressID(customerAddressID);
@@ -386,7 +386,7 @@ public class AddAddressActivity extends AppCompatActivity implements View.OnClic
     }
 
 
-    public CustomerAddress createObjectForCustomerAddress() {
+    private CustomerAddress createObjectForCustomerAddress() {
         customerAddress =  new CustomerAddress(sharedPreferenceUtility.getCustomerID(), warehouseID, String.valueOf(latitude), String.valueOf(longitude), addressNickName.getText().toString(), societyNameET.getText().toString(), houseNumberET.getText().toString(), Integer.toString(floor), flatNumberET.getText().toString(), hasLift, mapAddress, landmark.getText().toString());
         return  customerAddress;
     }

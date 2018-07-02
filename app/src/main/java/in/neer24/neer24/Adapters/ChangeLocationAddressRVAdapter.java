@@ -41,10 +41,10 @@ public class ChangeLocationAddressRVAdapter extends RecyclerView.Adapter<ChangeL
 
     private final List<CustomerAddress> addressList;
     private final Context mContext;
-    int warehouseID;
-    SharedPreferenceUtility sharedPreferenceUtility;
-    Snackbar snackbar, retroCallFailSnackbar;
-    View addressView;
+    private int warehouseID;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private Snackbar retroCallFailSnackbar;
+    private View addressView;
 
 
     public ChangeLocationAddressRVAdapter(List<CustomerAddress> addressList, Context context) {

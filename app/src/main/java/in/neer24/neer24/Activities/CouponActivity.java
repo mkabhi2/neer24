@@ -16,10 +16,10 @@ import in.neer24.neer24.R;
 
 public class CouponActivity extends AppCompatActivity {
 
-    RelativeLayout freeCanCouponRL;
-    RelativeLayout noCouponsFoundIV;
-    TextView numFreeCansTV, titleTV;
-    int numNeerCans = 0;
+    private RelativeLayout freeCanCouponRL;
+    private RelativeLayout noCouponsFoundIV;
+    private TextView numFreeCansTV, titleTV;
+    private int numNeerCans = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

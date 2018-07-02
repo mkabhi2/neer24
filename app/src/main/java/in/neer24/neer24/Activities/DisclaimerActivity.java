@@ -21,7 +21,8 @@ public class DisclaimerActivity extends AppCompatActivity implements NavigationV
     private TextView customerEmailTextViewNavigationHeader;
     private TextView customerNameTextViewNavigationHeader;
     private NavigationView navigationView;
-    SharedPreferenceUtility sharedPreferenceUtility;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class DisclaimerActivity extends AppCompatActivity implements NavigationV
         setUpNavigationDrawer(toolbar);
     }
 
-    public void setUpNavigationDrawer(Toolbar toolbar){
+    private void setUpNavigationDrawer(Toolbar toolbar){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.disclaimer_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

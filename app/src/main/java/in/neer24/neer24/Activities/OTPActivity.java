@@ -36,16 +36,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class OTPActivity extends AppCompatActivity {
 
 
-    Pinview pinViewOTPActivity;
-    Button resendOTPButton;
-    Button verifyOTPButton;
-    SharedPreferenceUtility sharedPreferenceUtility;
-    SmsVerifyCatcher smsVerifyCatcher;
-    String enteredOTP;
-    String generatedOTP;
-    Toolbar toolbar;
-    ProgressDialog dialog;
-    TextView mobileNumberTextViewOTPActivity;
+    private Pinview pinViewOTPActivity;
+    private Button resendOTPButton;
+    private Button verifyOTPButton;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private SmsVerifyCatcher smsVerifyCatcher;
+    private String enteredOTP;
+    private String generatedOTP;
+    private Toolbar toolbar;
+    private ProgressDialog dialog;
+    private TextView mobileNumberTextViewOTPActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -181,8 +181,7 @@ public class OTPActivity extends AppCompatActivity {
         });
     }
 
-
-    public void verifyWithSentOTP(String otp) {
+    private void verifyWithSentOTP(String otp) {
         if (generatedOTP.equals(otp)) {
             registerUserSuccesFully();
         } else {
@@ -192,8 +191,7 @@ public class OTPActivity extends AppCompatActivity {
         }
     }
 
-
-    public void registerUserSuccesFully() {
+    private void registerUserSuccesFully() {
 
         final Customer customer = createCustomerObject();
 
@@ -241,7 +239,7 @@ public class OTPActivity extends AppCompatActivity {
 
     }
 
-    public void takeUserToHomeScreen() {
+    private void takeUserToHomeScreen() {
 
         dialog.cancel();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -265,7 +263,7 @@ public class OTPActivity extends AppCompatActivity {
 
     }
 
-    public void saveAlltheInfromationTosharedPreferences(Customer customer) {
+    private void saveAlltheInfromationTosharedPreferences(Customer customer) {
         sharedPreferenceUtility.setLoggedIn(true);
         sharedPreferenceUtility.setCustomerID(customer.getCustomerID());
         sharedPreferenceUtility.setCustomerEmailID(customer.getCustomerEmail());
@@ -297,7 +295,7 @@ public class OTPActivity extends AppCompatActivity {
         smsVerifyCatcher.onStop();
     }
 
-    public void requestOTPFromServer(final String mobileNumber, final String emailID) {
+    private  void requestOTPFromServer(final String mobileNumber, final String emailID) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -333,7 +331,6 @@ public class OTPActivity extends AppCompatActivity {
         });
 
     }
-
 
     /**
      * need for Android 6 real time permissions

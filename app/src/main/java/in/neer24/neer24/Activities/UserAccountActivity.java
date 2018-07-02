@@ -20,44 +20,37 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import java.util.ArrayList;
-
 import in.neer24.neer24.Adapters.UserAccountAddressRVAdapter;
-import in.neer24.neer24.CustomObjects.Customer;
 import in.neer24.neer24.R;
 import in.neer24.neer24.Utilities.RVItemDecoration;
 import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 
 public class UserAccountActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-    public static ArrayList<Customer> addressList = new ArrayList<Customer>();
     public static RecyclerView recyclerView;
+
     private TextView changePasswordUserAcountActivity;
     private TextView addNewAddressUserAccountActivity;
     private TextView nameUserAccountActivity;
     private TextView emailUserAccountActivity;
     private TextView mobileNumberUserAccountActivity;
-    SharedPreferenceUtility sharedPreferenceUtility;
+    private SharedPreferenceUtility sharedPreferenceUtility;
+
     private ProgressBar progressBarUserAccountActivity;
-    private GoogleApiClient mGoogleApiClient;
 
     private View headerView;
     private TextView customerEmailTextViewNavigationHeader;
     private TextView customerNameTextViewNavigationHeader;
     private NavigationView navigationView;
 
-    GoogleSignInOptions gso;
-    GoogleSignInClient mGoogleSignInClient;
+    private GoogleSignInOptions gso;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,16 +98,16 @@ public class UserAccountActivity extends AppCompatActivity implements View.OnCli
         fetchAllAddressForUser();
     }
 
-    public void fetchAllAddressForUser() {
+    private void fetchAllAddressForUser() {
         setUpRecyclerView(recyclerView);
     }
 
-    public void setUpRecyclerView(RecyclerView recyclerView) {
+    private void setUpRecyclerView(RecyclerView recyclerView) {
         recyclerView.setAdapter(new UserAccountAddressRVAdapter(HomeScreenActivity.getAddressList(), this));
         recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
     }
 
-    public void setUpNavigationDrawer(Toolbar toolbar) {
+    private void setUpNavigationDrawer(Toolbar toolbar) {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.user_account_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

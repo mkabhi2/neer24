@@ -26,7 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import org.joda.time.LocalTime;
 
@@ -47,37 +46,41 @@ import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 
 public class SetRecurringScheduleActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    Button btnDatePicker, btnTimePicker, increaseByOne, decreaseByOne, displayItemCount, selectAddressBtn, addAddressBtn;
-    TextView endDateTV, deliveryTimeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV, addressTitleTV, addressDescTV,
+    private Button btnDatePicker, btnTimePicker, increaseByOne, decreaseByOne, displayItemCount, selectAddressBtn, addAddressBtn;
+    private TextView endDateTV, deliveryTimeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV, addressTitleTV, addressDescTV,
             addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, couponTextTV, grandTotalTV, switchTV, deliveryChargesTV, floorChargesTV, deliveryChargesDetailsTV, floorChargesDetailsTV;
     ImageView productImage, addressIconIV;
-    public static Button proceedToPayButton;
-    public static View addressView, billView;
-    Spinner spinnerInterval;
-    LinearLayout billOffersLL;
-    RelativeLayout couponLayout;
-    SwitchCompat newCanSwitch;
-    int deliveryCharge=0, freeCans = 0;
-    double toPay = 0, discount = 0;
-    int numberOfDeliveries;
-    static int hasFloorCharge = 0;
-    int floorCharge = 0;
+    private Button proceedToPayButton;
+    private View addressView, billView;
+    private Spinner spinnerInterval;
+    private LinearLayout billOffersLL;
+    private RelativeLayout couponLayout;
+    private SwitchCompat newCanSwitch;
+    private int deliveryCharge=0, freeCans = 0;
+    private double toPay = 0, discount = 0;
+    private int numberOfDeliveries;
 
-    boolean isDateSelected = false, isTimeSelected = false;
+    public static int hasFloorCharge = 0;
+
+    private int floorCharge = 0;
+
+    private boolean isDateSelected = false, isTimeSelected = false;
 
 
-    Can can;
-    Toast toast;
+    private Can can;
 
-    static int numOfCans = 1, recurrenceInterval, selectedAddressID, currentYear, currentMonth, currentDay, currentHour, currentMinute,
-            selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute, selectedAddressIndex;
-    String rupeeSymbol;
-    double total;
+    static int selectedAddressID;
 
-    String monthName[] = {"Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","Nov","Dec"};
-    ArrayList<CustomerAddress> addressesInCurrentLocation;
+    private int numOfCans = 1, recurrenceInterval, currentYear, currentMonth, currentDay, currentHour, currentMinute,
+            selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute;
 
-    SharedPreferenceUtility sharedPreferenceUtility;
+    private String rupeeSymbol;
+    private double total;
+
+    private String monthName[] = {"Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","Nov","Dec"};
+    private ArrayList<CustomerAddress> addressesInCurrentLocation;
+
+    private SharedPreferenceUtility sharedPreferenceUtility;
 
 
 
@@ -104,7 +107,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    void instantiateViewObjects(){
+    private void instantiateViewObjects(){
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         btnTimePicker=(Button)findViewById(R.id.btn_time);
         endDateTV =(TextView) findViewById(R.id.in_date);
@@ -144,7 +147,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
     }
 
-    void setUpViewObjects() {
+    private void setUpViewObjects() {
 
         if(can.getIsReplacable()==0) {
             switchTV.setVisibility(View.GONE);
@@ -191,7 +194,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
     }
 
-    public void setUpSpinner(){
+    private void setUpSpinner(){
 
         List<String> intervalList = new ArrayList<String>();
         intervalList.add("Everyday");
@@ -338,7 +341,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         }
     }
 
-    public boolean isNightDelivery() {
+    private boolean isNightDelivery() {
 
         LocalTime now = new LocalTime(selectedHour, selectedMinute);
 
@@ -356,7 +359,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         return (isBeforeSix && isAfterTwelve) || (isBeforeTwelve && isAfter11PM) || is12AM;
     }
 
-    void updateOrderValue(){
+    private void updateOrderValue(){
 
         if(isDateSelected && isTimeSelected) {
 
@@ -434,7 +437,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         }
     }
 
-    public int calculateDeliveryCount() {
+    private int calculateDeliveryCount() {
 
         Calendar cal1 = Calendar.getInstance(); // creates calendar
         cal1.setTime(new Date());
@@ -475,7 +478,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
         return i;
     }
 
-    void setAddressSelector() {
+    private void setAddressSelector() {
 
         int warehouseID = sharedPreferenceUtility.getWareHouseID();
 
@@ -708,7 +711,6 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
                     startActivity(intent);
                     return;
                 }
-                selectedAddressIndex = itemIndex;
                 selectedAddressID = addressesInCurrentLocation.get(itemIndex).getCustomerAddressID();
                 if(Integer.parseInt(addressesInCurrentLocation.get(itemIndex).getFloorNumber())>2 && addressesInCurrentLocation.get(itemIndex).getHasLift()==0){
                     hasFloorCharge = 1;
@@ -732,7 +734,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
     }
 
-    public OrderTable createOrderObject() {
+    private OrderTable createOrderObject() {
 
         int customerID = sharedPreferenceUtility.getCustomerID();
         int warehouseID = sharedPreferenceUtility.getWareHouseID();
@@ -787,7 +789,7 @@ public class SetRecurringScheduleActivity extends AppCompatActivity implements V
 
     }
 
-    public OrderDetails[] createOrderContents() {
+    private OrderDetails[] createOrderContents() {
         OrderDetails orderDetails[] = new OrderDetails[1];
         orderDetails[0] = new OrderDetails(can.getCanID(), can.getUserWantsNewCan(), 0,0, numOfCans);
         return  orderDetails;

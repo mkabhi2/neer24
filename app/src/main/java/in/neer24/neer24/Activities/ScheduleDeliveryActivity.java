@@ -27,8 +27,8 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
 
     public static RecyclerView recyclerView;
     public static ArrayList<Can> allCans = new ArrayList<Can>();
-    boolean isNew = true;
-    static String scheduleType;
+    private boolean isNew = true;
+    private String scheduleType;
     private View headerView;
     private TextView customerEmailTextViewNavigationHeader;
     private TextView customerNameTextViewNavigationHeader;
@@ -80,7 +80,7 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
         setUpNavigationDrawer(toolbar);
     }
 
-    public void setUpRecyclerView(final RecyclerView recyclerView){
+    private void setUpRecyclerView(final RecyclerView recyclerView){
 
         recyclerView.setAdapter(new ScheduleRVAdapter(allCans, this));
         recyclerView.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 16));
@@ -104,7 +104,7 @@ public class ScheduleDeliveryActivity extends AppCompatActivity implements Navig
         );
     }
 
-    public void setUpNavigationDrawer(Toolbar toolbar){
+    private void setUpNavigationDrawer(Toolbar toolbar){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.schedule_delivery_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

@@ -38,19 +38,21 @@ import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 
 public class CheckoutActivity extends AppCompatActivity {
 
-    private TextView cartSummaryTextView;
     public static Button proceedToPayButton;
     public static View addressView;
+    public static boolean isCouponApplied;
+    public static int selectedAddressID;
+
+    private TextView cartSummaryTextView;
     private ImageView addressIconIV;
     private TextView addressTitleTV, addressDescTV, addressChangeTV;
     private Button selectAddressBtn, addAddressBtn;
     private Toolbar toolbar;
-    public static boolean isCouponApplied;
-    ArrayList<CustomerAddress> addressesInCurrentLocation;
-    public static int selectedAddressID;
-    int selectedAddressIndex;
 
-    SharedPreferenceUtility sharedPreferenceUtility;
+    private ArrayList<CustomerAddress> addressesInCurrentLocation;
+    private int selectedAddressIndex;
+
+    private SharedPreferenceUtility sharedPreferenceUtility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,7 +203,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
 
 
-    void setAddressSelector() {
+    private void setAddressSelector() {
 
         int warehouseID = sharedPreferenceUtility.getWareHouseID();
 
@@ -292,7 +294,7 @@ public class CheckoutActivity extends AppCompatActivity {
         }
     }
 
-    public OrderTable createOrderObject() {
+    private OrderTable createOrderObject() {
 
         HashMap<Can, Integer> cart = NormalCart.getCartList();
 
@@ -357,7 +359,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     }
 
-    public OrderDetails[] createOrderDetailsObject(){
+    private OrderDetails[] createOrderDetailsObject(){
         HashMap<Can, Integer> cart = NormalCart.getCartList();
         OrderDetails orderDetailsArray[] = new OrderDetails[cart.size()];
         int i = 0;

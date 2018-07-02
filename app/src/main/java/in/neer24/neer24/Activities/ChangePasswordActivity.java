@@ -28,13 +28,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ChangePasswordActivity extends AppCompatActivity {
 
 
-    EditText oldPasswordChangePasswordActivity;
-    EditText newPasswordChangePasswordActivity;
-    Button updatePasswordChangePasswordActivity;
-    SharedPreferenceUtility sharedPreferenceUtility;
+    private EditText oldPasswordChangePasswordActivity;
+    private EditText newPasswordChangePasswordActivity;
+    private Button updatePasswordChangePasswordActivity;
+    private SharedPreferenceUtility sharedPreferenceUtility;
     private Toolbar toolbar;
-    ProgressDialog dialog;
-    Toast toast;
+    private ProgressDialog dialog;
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +106,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     }
 
-    public void updatePasswordOnServer(String oldPassword, String newPassword) {
+    private void updatePasswordOnServer(String oldPassword, String newPassword) {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)

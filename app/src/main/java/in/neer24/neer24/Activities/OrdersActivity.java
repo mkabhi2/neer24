@@ -37,13 +37,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OrdersActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private TextView customerEmailTextViewNavigationHeader;
     private TextView customerNameTextViewNavigationHeader;
     private LinearLayout noOrdersFoundTV;
     private NavigationView navigationView;
-    SharedPreferenceUtility sharedPreferenceUtility;
-    static ArrayList<OrderTable> ordersList = new ArrayList<OrderTable>();
+    private SharedPreferenceUtility sharedPreferenceUtility;
+    private ArrayList<OrderTable> ordersList = new ArrayList<OrderTable>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
 
     }
 
-    public void fetchCustomerOrders(){
+    private void fetchCustomerOrders(){
 
         final ProgressBar progressBar;
         progressBar = (ProgressBar) findViewById(R.id.ordersActivityProgressBar);
@@ -121,7 +121,7 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
 
     }
 
-    public void setUpRecyclerView(RecyclerView recyclerView){
+    private void setUpRecyclerView(RecyclerView recyclerView){
 
         if(ordersList!=null && !ordersList.isEmpty()){
             recyclerView.setAdapter(new OrdersRVAdapter(ordersList, this));
@@ -143,7 +143,8 @@ public class OrdersActivity extends AppCompatActivity implements NavigationView.
             noOrdersFoundTV.setVisibility(View.VISIBLE);
         }
     }
-    public void setUpNavigationDrawer(Toolbar toolbar){
+
+    private void setUpNavigationDrawer(Toolbar toolbar){
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.order_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

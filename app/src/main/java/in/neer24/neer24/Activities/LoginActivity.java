@@ -72,8 +72,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
 
-    private static final String TAG = LoginActivity.class.getSimpleName();
-    private static final int RC_SIGN_IN = 007;
+    private final String TAG = LoginActivity.class.getSimpleName();
+    private final int RC_SIGN_IN = 007;
 
     private GoogleApiClient mGoogleApiClient;
     private SignInButton btnSignIn;
@@ -86,26 +86,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private EditText passwordEditText;
     private EditText emailEditText;
-    private EditText welcomeMessageEditText;
     private Button showPasswordButton;
 
     private CallbackManager callbackManager;
     private Button facebookButton;
     private LoginButton facebookLoginButton;
 
-    private boolean checkUserExistanceFlag = false;
     private ProgressBar progressBar;
     private LinearLayout gmailButton;
 
-    private static final String EMAIL = "email";
+    private String email = "";
+    private String mobileNumber = "";
 
-    String email = "";
-    String mobileNumber = "";
+    private SharedPreferenceUtility sharedPreferenceUtility;
 
-    SharedPreferenceUtility sharedPreferenceUtility;
-
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
+    private SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,14 +125,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        editor = sharedPref.edit();
 
         loginActivityRL = (RelativeLayout) findViewById(R.id.loginActivityRL);
         nextButton = (Button) findViewById(R.id.nextButton);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         showPasswordButton = (Button) findViewById(R.id.loginShowPasswordButton);
-        welcomeMessageEditText = (EditText) findViewById(R.id.welocmeMessageEditText);
         forgotPasswordTextViewLoginActivity = (TextView) findViewById(R.id.forgotPasswordTextViewLoginActivity);
 
         facebookLoginButton = (LoginButton) findViewById(R.id.facebookLoginButton);
@@ -208,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-    public void sendEmailWithNewPassword() {
+    private void sendEmailWithNewPassword() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -372,11 +365,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
-    boolean isEmailValid(CharSequence email) {
+    private boolean isEmailValid(CharSequence email) {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-    public void authenticateUserAndLogin(String email, String password, String mobileNumber, String flag) {
+    private void authenticateUserAndLogin(String email, String password, String mobileNumber, String flag) {
         Customer customer = null;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -408,14 +401,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onResponse(Call<Customer> call, Response<Customer> response) {
                 Customer customer = (Customer) response.body();
-                if (customer.getOutputValue().equals("false")) {
+                if (customer !=null && customer.getOutputValue().equals("false")) {
                     progressBar.setVisibility(View.GONE);
                     getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Toast.makeText(LoginActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
 
                 } else {
 
-                    saveUserInforamtionInSharedPreferences(customer, "normal");
+                    saveUserInformationInSharedPreferences(customer, "normal");
                     getCustomerAddress();
                 }
 
@@ -471,7 +464,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    public void saveUserInforamtionInSharedPreferences(Customer customer, String loggedInVia) {
+    private void saveUserInformationInSharedPreferences(Customer customer, String loggedInVia) {
         sharedPreferenceUtility.setLoggedIn(true);
         sharedPreferenceUtility.setLoggediInVia(loggedInVia);
         sharedPreferenceUtility.setCustomerID(customer.getCustomerID());
@@ -482,7 +475,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         progressBar.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-        Toast.makeText(LoginActivity.this, "Login Successfull", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
 
         if (HomeScreenActivity.cansList == null || HomeScreenActivity.cansList.isEmpty()) {
 
@@ -497,11 +490,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public Customer createCustomerObject(String email, String mobileNumber, String password) {
+    private Customer createCustomerObject(String email, String mobileNumber, String password) {
         return new Customer(email, mobileNumber, password);
     }
 
-    public void takeUserToLoginOrRegisterPage(final String email, final String mobileNumber, final String flag) {
+    private void takeUserToLoginOrRegisterPage(final String email, final String mobileNumber, final String flag) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -548,7 +541,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    public void showToastANdTakeUSerToRegisterPage(String email, String mobileNumber) {
+    private void showToastANdTakeUSerToRegisterPage(String email, String mobileNumber) {
         sharedPreferenceUtility.setLoggedInViaTemporary("normal");
         Toast.makeText(LoginActivity.this, "Email id not registerd", Toast.LENGTH_SHORT).show();
         Intent registerActivityIntent = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -589,7 +582,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public boolean hasUserLoggedInUsingSocailNetworking(String email, final GoogleSignInAccount account, final JSONObject object) {
+    private boolean hasUserLoggedInUsingSocailNetworking(String email, final GoogleSignInAccount account, final JSONObject object) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -613,9 +606,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Customer customer = response.body();
                 if (customer.getOutputValue().equals("true")) {
                     if (object != null) {
-                        saveUserInforamtionInSharedPreferences(customer, "facebook");
+                        saveUserInformationInSharedPreferences(customer, "facebook");
                     } else if (account != null) {
-                        saveUserInforamtionInSharedPreferences(customer, "gmail");
+                        saveUserInformationInSharedPreferences(customer, "gmail");
                     }
                 } else {
                     if (account != null) {

@@ -3,8 +3,6 @@ package in.neer24.neer24.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -19,9 +17,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,8 +38,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ScrollView register_activity_scroll_view;
-
     private TextView firstNameErrorMessageTextView;
     private TextView mobileNumberErrorMessageTextView;
     private TextView emailErrorMessageTextView;
@@ -55,22 +49,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private EditText mobileEditText;
     private EditText emailEditText;
     private EditText passwordEditText;
-    private LinearLayout registerActivityRL;
-    private CheckBox referalCodeCheckBox;
-    private EditText referalCodeEditText;
+    private CheckBox referralCodeCheckBox;
+    private EditText referralCodeEditText;
     private TextInputLayout referralCodeInputLayout;
-    Button showPasswordButton;
+    private Button showPasswordButton;
     private Button signUpButton;
-    ProgressBar registerProgressBar;
-    String emailID;
-    String mobileNumber;
-    //ProgressDialog dialog;
+    private ProgressBar registerProgressBar;
+    private String emailID;
+    private String mobileNumber;
 
-    SharedPreferences sharedPref;
-    SharedPreferences.Editor editor;
-    SharedPreferenceUtility sharedPreferenceUtility;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
+    private SharedPreferenceUtility sharedPreferenceUtility;
 
-    String flag = "";
+    private String flag = "";
 
     private boolean isEmailValid = false;
     private boolean isFirstNameValid = false;
@@ -98,8 +90,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         editor = sharedPref.edit();
 
 
-        register_activity_scroll_view = (ScrollView) findViewById(R.id.register_activity_scroll_view);
-
         firstNameErrorMessageTextView = (TextView) findViewById(R.id.firstNameErrorMessageTextView);
         mobileNumberErrorMessageTextView = (TextView) findViewById(R.id.mobileNumberErrorMessageTextView);
         emailErrorMessageTextView = (TextView) findViewById(R.id.emailErrorMessageTextView);
@@ -107,26 +97,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         referralCodeErrorMessageTextView = (TextView) findViewById(R.id.referralCodeErrorMessageTextView);
 
 
-        registerActivityRL = (LinearLayout) findViewById(R.id.register_activity_relative_layout);
         firstNameEditText = (EditText) findViewById(R.id.registerFirstNameEditText);
         mobileEditText = (EditText) findViewById(R.id.registerMobileEditText);
         emailEditText = (EditText) findViewById(R.id.registerEmailEditText);
         passwordEditText = (EditText) findViewById(R.id.registerPassworddEditText);
         showPasswordButton = (Button) findViewById(R.id.registerShowPasswordButton);
         signUpButton = (Button) findViewById(R.id.signUpButton);
-        referalCodeCheckBox = (CheckBox) findViewById(R.id.referalCodeCheckBox);
-        referalCodeEditText = (EditText) findViewById(R.id.referalCodeEditText);
+        referralCodeCheckBox = (CheckBox) findViewById(R.id.referalCodeCheckBox);
+        referralCodeEditText = (EditText) findViewById(R.id.referalCodeEditText);
         referralCodeInputLayout = (TextInputLayout) findViewById(R.id.referralCodeInputLayout);
         sharedPreferenceUtility = new SharedPreferenceUtility(this);
 
-        Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.nav_bg);
-//        register_activity_scroll_view.setBackground(new BitmapDrawable(getResources(), blurredBitmap));
 
         firstNameEditText.addTextChangedListener(new GenericTextWatcher(firstNameEditText));
         mobileEditText.addTextChangedListener(new GenericTextWatcher(mobileEditText));
         emailEditText.addTextChangedListener(new GenericTextWatcher(emailEditText));
         passwordEditText.addTextChangedListener(new GenericTextWatcher(passwordEditText));
-        referalCodeEditText.addTextChangedListener(new GenericTextWatcher(referalCodeEditText));
+        referralCodeEditText.addTextChangedListener(new GenericTextWatcher(referralCodeEditText));
 
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -134,7 +121,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         showPasswordButton.setOnClickListener(this);
         signUpButton.setOnClickListener(this);
-        referalCodeCheckBox.setOnClickListener(this);
+        referralCodeCheckBox.setOnClickListener(this);
 
         passwordEditText.setTransformationMethod(new AsteriskTransformationMethod());
 
@@ -156,10 +143,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
 
 
-        referalCodeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        referralCodeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                                            @Override
                                                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                                               referalCodeEditText.getText().clear();
+                                                               referralCodeEditText.getText().clear();
                                                                if (isChecked) {
                                                                    isCouponCodeValid = false;
                                                                } else {
@@ -175,7 +162,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     protected void onStart() {
         super.onStart();
         registerProgressBar.setVisibility(View.GONE);
-       // dialog.cancel();
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
     }
@@ -215,7 +201,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.referalCodeCheckBox:
-                if (referalCodeCheckBox.isChecked()) {
+                if (referralCodeCheckBox.isChecked()) {
                     referralCodeInputLayout.setVisibility(View.VISIBLE);
                 } else {
                     referralCodeInputLayout.setVisibility(View.GONE);
@@ -231,7 +217,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    public void validateSignUpFields() throws ExecutionException, InterruptedException {
+    private void validateSignUpFields() throws ExecutionException, InterruptedException {
 
         String email = emailEditText.getText().toString();
         String password = passwordEditText.getText().toString();
@@ -240,7 +226,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String referralCode = "";
 
         if (referralCodeInputLayout.getVisibility() == View.VISIBLE)
-            referralCode = referalCodeEditText.getText().toString();
+            referralCode = referralCodeEditText.getText().toString();
 
         if (isEmailValid && isMobileNumberValid && isCouponCodeValid && isFirstNameValid && isPasswordValid && (mobileNumber.startsWith("9") || mobileNumber.startsWith("8") || mobileNumber.startsWith("7"))) {
             saveEveryThingInSharePreferences(email, password, firstName, mobileNumber, referralCode);
@@ -269,7 +255,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    public void checkEmailAndMobileNumberIfALreadyRegistered(final String emailID, final String mobileNumber) {
+    private void checkEmailAndMobileNumberIfALreadyRegistered(final String emailID, final String mobileNumber) {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -329,36 +315,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
-    public void saveEveryThingInSharePreferences(String emailID, String password, String firstName, String mobileNumber, String referralCode) {
+    private void saveEveryThingInSharePreferences(String emailID, String password, String firstName, String mobileNumber, String referralCode) {
         sharedPreferenceUtility.setCustomerFirstNameRegisterActivity(firstName);
         sharedPreferenceUtility.setCustomerEmailRegisterActivity(emailID);
         sharedPreferenceUtility.setCustomerMobileNumberRegisterActivity(mobileNumber);
         sharedPreferenceUtility.setCustomerPasswordRegisterActivity(password);
         sharedPreferenceUtility.setCustomerReferralCodeRegisterActivity(referralCode);
 
-    }
-
-
-    public void doRestOfTaks(String result) {
-        //dialog.cancel();
-        if (result.contains("true")) {
-
-            editor.putBoolean("isLoggedIn", true);
-            editor.commit();
-
-            if (HomeScreenActivity.cansList.isEmpty()) {
-                Intent intent = new Intent(RegisterActivity.this, ChangeLocationActivity.class);
-                startActivity(intent);
-            } else {
-                Intent intent = new Intent(RegisterActivity.this, HomeScreenActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-            }
-
-            Toast.makeText(RegisterActivity.this, "Succesfully registerd", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(RegisterActivity.this, "Please Fill mandatory fields", Toast.LENGTH_SHORT).show();
-        }
     }
 
 
@@ -419,7 +382,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     break;
 
                 case R.id.referalCodeEditText:
-                    if (referalCodeCheckBox.isChecked() && !UtilityClass.validateEmail(referalCodeEditText.getText().toString())) {
+                    if (referralCodeCheckBox.isChecked() && !UtilityClass.validateEmail(referralCodeEditText.getText().toString())) {
                         referralCodeErrorMessageTextView.setVisibility(View.VISIBLE);
                         isCouponCodeValid = false;
                     } else {

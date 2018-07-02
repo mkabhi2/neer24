@@ -43,35 +43,36 @@ import in.neer24.neer24.Utilities.SharedPreferenceUtility;
 
 public class SetOneTimeScheduleActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    Button btnDatePicker, btnTimePicker, btnCart, increaseByOne, decreaseByOne, displayItemCount, selectAddressBtn, addAddressBtn;
-    TextView dateTV, timeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV, addressTitleTV, addressDescTV,
+    private Button btnDatePicker, btnTimePicker, btnCart, increaseByOne, decreaseByOne, displayItemCount, selectAddressBtn, addAddressBtn;
+    private TextView dateTV, timeTV, productPriceTV, productNameTV, priceDetailsTV, totalCostTV, addressTitleTV, addressDescTV,
             addressChangeTV, itemTotalTV, billItemTotalTV, billDiscountTV, grandTotalTV, switchTV, deliveryChargesTV, floorChargesTV, floorChargesDetailsTV;
-    int deliveryCharge=0;
+    private int deliveryCharge=0;
     static int hasFloorCharge = 0;
-    int floorCharge = 0;
-    ImageView productImage, addressIconIV;
-    public static Button proceedToPayButton;
-    public static View addressView, billView;
-    LinearLayout billOffersLL;
-    SwitchCompat newCanSwitch;
-    TextView deliveryChargeText;
-    double toPay = 0;
+    private int floorCharge = 0;
+    private ImageView productImage, addressIconIV;
+    private Button proceedToPayButton;
+    private View addressView, billView;
+    private LinearLayout billOffersLL;
+    private SwitchCompat newCanSwitch;
+    private TextView deliveryChargeText;
+    private double toPay = 0;
 
-    Date date;
-    Can can;
-    Toast checkoutToast, timeTVToast;
+    private Date date;
+    private Can can;
+    private Toast checkoutToast, timeTVToast;
 
-    static int numOfCans = 1, selectedAddressID, currentYear, currentMonth, currentDay, currentHour, currentMinute,
-            selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute, selectedAddressIndex;
-    String rupeeSymbol;
-    double total;
+    private int numOfCans=1, currentYear, currentMonth, currentDay, currentHour, currentMinute, selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute;
 
-    boolean isDateSelected = false, isTimeSelected = false;
+    public static int selectedAddressID;
+    private String rupeeSymbol;
+    private double total;
 
-    String monthName[] = {"Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","Nov","Dec"};
-    ArrayList<CustomerAddress> addressesInCurrentLocation;
+    private boolean isDateSelected = false, isTimeSelected = false;
 
-    SharedPreferenceUtility sharedPreferenceUtility;
+    private String monthName[] = {"Jan","Feb","Mar","Apr","May","June","July","Aug","Sep","Oct","Nov","Dec"};
+    private ArrayList<CustomerAddress> addressesInCurrentLocation;
+
+    private SharedPreferenceUtility sharedPreferenceUtility;
 
 
     @Override
@@ -98,7 +99,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    void instantiateViewObjects(){
+    private void instantiateViewObjects(){
         deliveryChargeText = (TextView) findViewById(R.id.bill_delivery_charges_details_tv);
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         btnTimePicker=(Button)findViewById(R.id.btn_time);
@@ -135,7 +136,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         floorChargesDetailsTV = (TextView) findViewById(R.id.bill_floor_charges_details_tv);
     }
 
-    void setUpViewObjects(){
+    private void setUpViewObjects(){
 
         if(can.getIsReplacable()==0) {
             switchTV.setVisibility(View.GONE);
@@ -179,7 +180,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
     }
 
-    void setUpOnClickListeners() {
+    private void setUpOnClickListeners() {
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
@@ -324,7 +325,6 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
                     startActivity(intent);
                     return;
                 }
-                selectedAddressIndex = itemIndex;
                 selectedAddressID = addressesInCurrentLocation.get(itemIndex).getCustomerAddressID();
                 if(Integer.parseInt(addressesInCurrentLocation.get(itemIndex).getFloorNumber())>2 && addressesInCurrentLocation.get(itemIndex).getHasLift()==0){
                     hasFloorCharge = 1;
@@ -347,7 +347,6 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
 
 
     }
-
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 
@@ -523,7 +522,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         }
     }
 
-    void setAddressSelector() {
+    private void setAddressSelector() {
 
         int warehouseID = sharedPreferenceUtility.getWareHouseID();
 
@@ -612,7 +611,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         }
     }
 
-    void updateOrderValue(){
+    private void updateOrderValue(){
 
         if( isTimeSelected && isDateSelected ) {
 
@@ -674,7 +673,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         }
     }
 
-    public boolean isNightDelivery() {
+    private boolean isNightDelivery() {
 
         LocalTime now = new LocalTime(selectedHour, selectedMinute);
 
@@ -692,7 +691,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         return (isBeforeSix && isAfterTwelve) || (isBeforeTwelve && isAfter11PM) || is12AM;
     }
 
-    public OrderTable createOrderObject() {
+    private OrderTable createOrderObject() {
 
 
         int customerID = sharedPreferenceUtility.getCustomerID();
@@ -737,7 +736,7 @@ public class SetOneTimeScheduleActivity extends AppCompatActivity implements Vie
         return order;
     }
 
-    public OrderDetails[] createOrderContents() {
+    private OrderDetails[] createOrderContents() {
         OrderDetails orderDetails[] = new OrderDetails[1];
         orderDetails[0] = new OrderDetails(can.getCanID(), can.getUserWantsNewCan(), 0,0, numOfCans);
         return  orderDetails;

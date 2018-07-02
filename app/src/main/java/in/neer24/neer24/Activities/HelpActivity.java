@@ -27,7 +27,7 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
     private TextView customerEmailTextViewNavigationHeader;
     private TextView customerNameTextViewNavigationHeader;
     private NavigationView navigationView;
-    SharedPreferenceUtility sharedPreferenceUtility;
+    private SharedPreferenceUtility sharedPreferenceUtility;
 
 
     ListView listView;

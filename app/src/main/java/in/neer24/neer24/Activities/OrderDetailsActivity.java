@@ -51,25 +51,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class OrderDetailsActivity extends AppCompatActivity {
 
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 35;
+    private final int REQUEST_PERMISSIONS_REQUEST_CODE = 35;
 
-    TextView orderIDTV, orderDateTV, orderStatusTV, orderTypeTV, grandTotalTV, deliveryAddressTV, recurrencesLeftTV, paymentModeTV,
+    private TextView orderIDTV, orderDateTV, orderStatusTV, orderTypeTV, grandTotalTV, deliveryAddressTV, recurrencesLeftTV, paymentModeTV,
             offTimeTV, deliveryChargeTV, discountTV, numFreeCansTV, floorChargeTV;
-    RecyclerView orderItemsRV;
-    OrderTable order;
-    ArrayList<CustomerOrder> ordersDetailsList = new ArrayList<CustomerOrder>();
-    LinearLayout ratingLayout, deliveryBoyContact, recurrencesLeftLayout, callCustomerCare;
-    String rupeeSymbol;
-    LinearLayout couponLayout;
-    ProgressDialog dialog;
-    Button orderCancelButton, ratingSubmitButton;
+    private RecyclerView orderItemsRV;
+    private OrderTable order;
+    private ArrayList<CustomerOrder> ordersDetailsList = new ArrayList<CustomerOrder>();
+    private LinearLayout ratingLayout, deliveryBoyContact, recurrencesLeftLayout, callCustomerCare;
+    private String rupeeSymbol;
+    private LinearLayout couponLayout;
+    private ProgressDialog dialog;
+    private Button orderCancelButton, ratingSubmitButton;
     private long timeCountInMilliSeconds = 7200000;
     private CountDownTimer countDownTimer;
     private TextView textViewTime;
-    RelativeLayout countDownTimerLayout;
-    EditText ratingDetailsET;
-    ImageView eRat1, eRat2, eRat3, eRat4, eRat5, fRat1, fRat2, fRat3, fRat4, fRat5;
-    int rating;
+    private RelativeLayout countDownTimerLayout;
+    private EditText ratingDetailsET;
+    private ImageView eRat1, eRat2, eRat3, eRat4, eRat5, fRat1, fRat2, fRat3, fRat4, fRat5;
+    private int rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +78,8 @@ public class OrderDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order_details);
 
         Bundle bundle = getIntent().getExtras();
-        order = bundle.getParcelable("order");
+        if(bundle!=null)
+            order = bundle.getParcelable("order");
 
         rupeeSymbol = getResources().getString(R.string.Rs);
 
@@ -92,7 +93,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    public void initialiseViewComponents(){
+    private void initialiseViewComponents(){
 
         orderItemsRV = (RecyclerView) findViewById(R.id.orderItemsRV);
         fetchOrderDetails();
@@ -134,7 +135,6 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     }
 
-
     private String hmsTimeFormatter(long milliSeconds) {
 
         String hms = String.format("%02d H : %02d M : %02d S",
@@ -147,9 +147,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     }
 
-
-
-    public void setUpViewComponents() {
+    private void setUpViewComponents() {
 
         couponLayout.setVisibility(View.GONE);
         deliveryAddressTV.setVisibility(View.GONE);
@@ -256,7 +254,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     }
 
-    public void fetchOrderDetails(){
+    private void fetchOrderDetails(){
 
 
         dialog = ProgressDialog.show(OrderDetailsActivity.this, "",
@@ -290,7 +288,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
         });
     }
 
-    public void setUpRatingListeners(){
+    private void setUpRatingListeners(){
         eRat1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -503,7 +501,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
 
     }
 
-    public void setUpOnClickListeners() {
+    private void setUpOnClickListeners() {
         callCustomerCare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -711,16 +709,16 @@ public class OrderDetailsActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             // Request permission
-                            stratPhonePermissionRequest();
+                            startPhonePermissionRequest();
                         }
                     });
         } else {
 
-            stratPhonePermissionRequest();
+            startPhonePermissionRequest();
         }
     }
 
-    private void stratPhonePermissionRequest() {
+    private void startPhonePermissionRequest() {
         ActivityCompat.requestPermissions(OrderDetailsActivity.this,
                 new String[]{Manifest.permission.CALL_PHONE},
                 REQUEST_PERMISSIONS_REQUEST_CODE);
@@ -734,7 +732,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
                 .setAction(getString(actionStringId), listener).show();
     }
 
-    public void setUpRecyclerView(){
+    private void setUpRecyclerView(){
 
         orderItemsRV.setAdapter(new OrderDetailsRVAdapter(ordersDetailsList, this));
         orderItemsRV.addItemDecoration(new RVItemDecoration(this, LinearLayoutManager.VERTICAL, 500));
@@ -804,7 +802,7 @@ public class OrderDetailsActivity extends AppCompatActivity {
     private void setTimerValues() {
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String dateString = order.getOrderDate().toString().substring(0,16);
+        String dateString = order.getOrderDate().substring(0,16);
         long diffMs = 0;
         try {
 
