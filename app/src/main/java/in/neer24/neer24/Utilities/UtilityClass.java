@@ -74,7 +74,7 @@ public class UtilityClass {
         return password.length()>3;
     }
 
-    public static boolean validateReferalCdde(String referralCode) {
-        return referralCode.length()==6;
+    public static boolean validateReferalCdde(String referralCode,String emailid) {
+        return !referralCode.equals(emailid);
     }
 }

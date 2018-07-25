@@ -192,11 +192,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 try {
 //                    dialog = ProgressDialog.show(RegisterActivity.this, "",
 //                            "Sending your details. Please wait...", true);
+                    registerProgressBar.setVisibility(View.VISIBLE);
                     getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                             WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     validateSignUpFields();
                 } catch (Exception e) {
-
+                    registerProgressBar.setVisibility(View.GONE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 }
                 break;
 
@@ -226,10 +228,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String referralCode = "";
 
         if (referralCodeInputLayout.getVisibility() == View.VISIBLE)
-            referralCode = referralCodeEditText.getText().toString();
+            referralCode = referralCodeEditText.getText().toString().trim();
 
         if (isEmailValid && isMobileNumberValid && isCouponCodeValid && isFirstNameValid && isPasswordValid && (mobileNumber.startsWith("9") || mobileNumber.startsWith("8") || mobileNumber.startsWith("7"))) {
-            saveEveryThingInSharePreferences(email, password, firstName, mobileNumber, referralCode);
+            saveEveryThingInSharePreferences(email.trim(), password, firstName, mobileNumber, referralCode);
             checkEmailAndMobileNumberIfALreadyRegistered(email, mobileNumber);
         } else {
           //  dialog.cancel();
@@ -250,9 +252,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             if (!isCouponCodeValid)
                 referralCodeErrorMessageTextView.setVisibility(View.VISIBLE);
 
-
+            registerProgressBar.setVisibility(View.GONE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
+
+
     }
+
 
 
     private void checkEmailAndMobileNumberIfALreadyRegistered(final String emailID, final String mobileNumber) {
@@ -284,6 +290,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 registerProgressBar.setVisibility(View.GONE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                 String res = response.body();
                 if (res.contains("true")) {
                     if (flag.equals("mobilenumber")) {
@@ -294,10 +301,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         Toast.makeText(RegisterActivity.this, "Mobile Number already registered", Toast.LENGTH_SHORT).show();
                     }
                     //dialog.cancel();
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
                 } else {
                    // dialog.cancel();
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                     Intent intent = new Intent(RegisterActivity.this, OTPActivity.class);
                     startActivity(intent);
                 }
@@ -342,7 +348,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             String text = editable.toString();
             switch (view.getId()) {
                 case R.id.registerEmailEditText:
-                    if (!UtilityClass.validateEmail(emailEditText.getText().toString())) {
+                    if (!UtilityClass.validateEmail(emailEditText.getText().toString().trim())) {
                         emailErrorMessageTextView.setVisibility(View.VISIBLE);
                         isEmailValid = false;
                     } else {
@@ -382,7 +388,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     break;
 
                 case R.id.referalCodeEditText:
-                    if (referralCodeCheckBox.isChecked() && !UtilityClass.validateEmail(referralCodeEditText.getText().toString())) {
+                    if (referralCodeCheckBox.isChecked() && (!UtilityClass.validateEmail(referralCodeEditText.getText().toString().trim()) || !UtilityClass.validateReferalCdde(referralCodeEditText.getText().toString().trim(),emailEditText.getText().toString().trim()))) {
                         referralCodeErrorMessageTextView.setVisibility(View.VISIBLE);
                         isCouponCodeValid = false;
                     } else {

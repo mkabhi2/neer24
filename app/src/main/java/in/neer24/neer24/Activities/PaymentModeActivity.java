@@ -130,6 +130,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                             "Placing order. Please wait...", true);
                     insertDataIntoOrderTable(order);
                 } else if (modeOfPayment.equals("ONLINEPAYMENT")) {
+                    order.setPaymentMode("ONLINEPAYMENT");
                     startPayment();
                 }
             }
@@ -152,6 +153,8 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         });
     }
 
+    int count = 1;
+
     private void insertDataIntoOrderTable(final OrderTable orderTable) {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -161,7 +164,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
                 .build();
 
         Retrofit.Builder builder = new Retrofit.Builder()
-          .baseUrl("http://18.220.28.118:80/")
+                .baseUrl("http://18.220.28.118:80/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create());
         Retrofit retrofit = builder.build();
@@ -185,10 +188,16 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
 
                         intent.setClass(PaymentModeActivity.this, OrderDetailsActivity.class);
                         startActivity(intent);
-                    }
-                    else {
-                        Toast.makeText(PaymentModeActivity.this, "Unable to Place order at this time", Toast.LENGTH_SHORT).show();
-                        dialog.cancel();
+                    } else {
+                        if (count > 20) {
+                            count=1;
+                            Toast.makeText(PaymentModeActivity.this, "Unable to Place order at this time", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                        } else {
+                            count += 1;
+                            insertDataIntoOrderTable(orderTable);
+                        }
+
                     }
                 }
             }
@@ -230,6 +239,7 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         //TODO UPDATE ORDER OBJECT
         dialog = ProgressDialog.show(PaymentModeActivity.this, "",
                 "Placing order. Please wait...", true);
+        order.setOrderPaymentID(s);
         insertDataIntoOrderTable(order);
     }
 
@@ -245,20 +255,18 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
         super.onBackPressed();
         final Intent intent = new Intent();
 
-        if(parentClassName.equals("CheckoutActivity")) {
+        if (parentClassName.equals("CheckoutActivity")) {
             intent.setClass(PaymentModeActivity.this, CheckoutActivity.class);
-        }
-        else {
-            for(Can can : HomeScreenActivity.cansList) {
-                if(can.getCanID() == orderDetails[0].getCanID()){
+        } else {
+            for (Can can : HomeScreenActivity.cansList) {
+                if (can.getCanID() == orderDetails[0].getCanID()) {
                     intent.putExtra("item", can);
                     break;
                 }
             }
-            if(parentClassName.equals("SetOneTimeScheduleActivity")){
+            if (parentClassName.equals("SetOneTimeScheduleActivity")) {
                 intent.setClass(PaymentModeActivity.this, SetOneTimeScheduleActivity.class);
-            }
-            else {
+            } else {
                 intent.setClass(PaymentModeActivity.this, SetRecurringScheduleActivity.class);
             }
         }
@@ -280,9 +288,9 @@ public class PaymentModeActivity extends AppCompatActivity implements PaymentRes
     @Override
     protected void onResume() {
         super.onResume();
-        if(HomeScreenActivity.cansList==null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName==null || HomeScreenActivity.locationName.isEmpty()){
+        if (HomeScreenActivity.cansList == null || HomeScreenActivity.cansList.isEmpty() || HomeScreenActivity.locationName == null || HomeScreenActivity.locationName.isEmpty()) {
 
-            Intent intent  = new Intent();
+            Intent intent = new Intent();
             intent.setClass(PaymentModeActivity.this, FirstActivity.class);
             startActivity(intent);
         }
