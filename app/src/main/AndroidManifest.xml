@@ -202,7 +202,7 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="rzp_test_M7F2GDnryqa8hs" />
+            android:value="rzp_live_fgqlu6uU17ifgs" />
 
         <activity
             android:name=".Activities.HelpActivitySecondLevel"

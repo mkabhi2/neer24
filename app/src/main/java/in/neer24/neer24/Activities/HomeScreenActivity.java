@@ -126,7 +126,6 @@ public class HomeScreenActivity extends AppCompatActivity
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
             verCode = pInfo.versionCode;
-            System.out.print("hELLO");
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
